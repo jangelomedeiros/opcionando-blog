@@ -1,0 +1,66 @@
+---
+import Logo from './Logo.astro';
+import { SITE_TITLE, LINKS } from '../consts';
+const path = Astro.url.pathname;
+const ativo = (href: string) => (href === '/' ? path === '/' : path.startsWith(href));
+---
+<header class="topo">
+  <div class="container-larga barra">
+    <a href="/" class="marca" aria-label={`${SITE_TITLE}, página inicial`}>
+      <Logo size={38} />
+      <span>{SITE_TITLE}</span>
+    </a>
+    <nav>
+      <a href="/" class={ativo('/') ? 'ativo' : ''}>Artigos</a>
+      <a href="/pilares" class={ativo('/pilares') ? 'ativo' : ''}>Pilares</a>
+      <a href="/sobre" class={ativo('/sobre') ? 'ativo' : ''}>Sobre</a>
+      <a href={LINKS.youtube} class="botao-yt" target="_blank" rel="noopener">YouTube</a>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .topo {
+    background: var(--petroleo);
+    color: var(--creme);
+    border-bottom: 4px solid var(--coral);
+  }
+  .barra {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    flex-wrap: wrap;
+  }
+  .marca {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--creme);
+    text-decoration: none;
+    font-family: var(--font-titulo);
+    font-weight: 800;
+    font-size: 1.55rem;
+    letter-spacing: -0.01em;
+  }
+  .marca:hover { color: var(--creme); }
+  nav { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
+  nav a {
+    color: var(--creme);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.95rem;
+    padding: 6px 12px;
+    border-radius: 999px;
+  }
+  nav a:hover { background: rgba(255,255,255,0.1); color: var(--creme); }
+  nav a.ativo { background: rgba(255,255,255,0.16); }
+  .botao-yt { background: var(--coral); font-weight: 600 !important; }
+  .botao-yt:hover { background: #ff7d63 !important; }
+  @media (max-width: 520px) {
+    .barra { justify-content: center; }
+    nav a { padding: 6px 10px; font-size: 0.9rem; }
+  }
+</style>

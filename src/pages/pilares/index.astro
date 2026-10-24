@@ -1,0 +1,37 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getPosts, slugify } from '../../lib/posts';
+
+const posts = await getPosts();
+const contagem = new Map<string, number>();
+for (const p of posts) if (p.data.pilar) contagem.set(p.data.pilar, (contagem.get(p.data.pilar) ?? 0) + 1);
+const pilares = [...contagem.entries()].sort((a, b) => a[0].localeCompare(b[0], 'pt-BR'));
+---
+<Base title="Pilares" description="Os pilares de conteúdo do Opcionando: navegue pelos artigos por tema.">
+  <section class="container" style="padding-top:2.6rem">
+    <h1>Pilares do conteúdo</h1>
+    <p>Cada artigo pertence a um pilar. Escolha por onde começar.</p>
+    <ul class="grade">
+      {pilares.map(([nome, n]) => (
+        <li>
+          <a href={`/pilares/${slugify(nome)}`}>
+            <span class="nome">{nome}</span>
+            <span class="n">{n} {n === 1 ? 'artigo' : 'artigos'}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+</Base>
+
+<style>
+  .grade { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
+  .grade a {
+    display: flex; flex-direction: column; gap: 4px; text-decoration: none;
+    background: var(--bg-card); border: 1px solid var(--borda); border-top: 5px solid var(--petroleo);
+    border-radius: var(--raio); padding: 1rem 1.1rem;
+  }
+  .grade a:hover { border-top-color: var(--coral); }
+  .nome { font-family: var(--font-titulo); font-size: 1.25rem; font-weight: 700; color: var(--destaque); }
+  .n { font-size: 0.85rem; color: var(--texto-suave); }
+</style>

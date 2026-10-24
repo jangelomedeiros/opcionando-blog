@@ -1,0 +1,112 @@
+---
+import { render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { getPosts, formatarData, tempoLeitura, slugify } from '../../lib/posts';
+import { LINKS } from '../../consts';
+
+export async function getStaticPaths() {
+  const posts = await getPosts();
+  return posts.map((post, i) => ({
+    params: { slug: post.id },
+    props: { post, anterior: posts[i + 1], proximo: posts[i - 1] },
+  }));
+}
+
+const { post, anterior, proximo } = Astro.props;
+const { Content } = await render(post);
+const { title, description, pubDate, updatedDate, pilar, tags, youtube } = post.data;
+const thumb = youtube ? `https://i.ytimg.com/vi/${youtube}/hqdefault.jpg` : undefined;
+---
+<Base title={title} description={description} image={thumb} type="article">
+  <article class="container post">
+    <header>
+      <div class="meta">
+        {pilar && <a class="pilar" href={`/pilares/${slugify(pilar)}`}>{pilar}</a>}
+        <time datetime={pubDate.toISOString()}>{formatarData(pubDate)}</time>
+        <span>· {tempoLeitura(post.body)}</span>
+      </div>
+      <h1>{title}</h1>
+      <p class="lead">{description}</p>
+      {updatedDate && <p class="atualizado">Atualizado em {formatarData(updatedDate)}</p>}
+    </header>
+
+    {youtube && (
+      <div class="video">
+        <iframe
+          src={`https://www.youtube-nocookie.com/embed/${youtube}`}
+          title={`Vídeo: ${title}`}
+          loading="lazy"
+          allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen
+        ></iframe>
+      </div>
+    )}
+
+    <div class="conteudo">
+      <Content />
+    </div>
+
+    {tags.length > 0 && (
+      <ul class="tags" aria-label="Tags">
+        {tags.map((t) => <li><a href={`/tags/${slugify(t)}`}>#{t}</a></li>)}
+      </ul>
+    )}
+
+    <aside class="cta">
+      <strong>Curtiu? Tem muito mais no canal.</strong>
+      <p>Os conceitos deste artigo aparecem na prática, com tela de corretora e simulação, nos vídeos do Opcionando.</p>
+      <a href={LINKS.youtube} target="_blank" rel="noopener">Ir para o canal →</a>
+    </aside>
+
+    <nav class="navegacao">
+      {anterior ? <a href={`/blog/${anterior.id}/`}><small>← Anterior</small>{anterior.data.title}</a> : <span />}
+      {proximo ? <a class="dir" href={`/blog/${proximo.id}/`}><small>Próximo →</small>{proximo.data.title}</a> : <span />}
+    </nav>
+  </article>
+</Base>
+
+<style>
+  .post { padding-top: 2.6rem; }
+  .meta { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; font-size: 0.85rem; color: var(--texto-suave); }
+  .pilar {
+    background: var(--petroleo); color: var(--creme); text-decoration: none; font-weight: 600;
+    padding: 2px 10px; border-radius: 999px; font-size: 0.75rem; text-transform: uppercase; letter-spacing: .04em;
+  }
+  .lead { font-size: 1.18rem; color: var(--texto-suave); margin-top: 0; }
+  .atualizado { font-size: 0.85rem; color: var(--texto-suave); font-style: italic; }
+  .video {
+    position: relative; aspect-ratio: 16 / 9; margin: 2rem 0;
+    border-radius: var(--raio); overflow: hidden; background: #000;
+    box-shadow: 0 10px 30px rgba(14,74,85,0.18);
+  }
+  .video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+  .conteudo :global(h2) { padding-top: 0.2em; border-top: 2px solid var(--borda); padding-top: 0.9em; }
+  .conteudo :global(li) { margin: 0.3em 0; }
+  .conteudo :global(strong) { color: var(--destaque); }
+  .tags { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; margin: 2.5rem 0 0; }
+  .tags a {
+    font-family: var(--font-mono); font-size: 0.8rem; text-decoration: none;
+    background: var(--coral-suave); color: var(--texto); padding: 4px 10px; border-radius: 999px;
+  }
+  .tags a:hover { background: var(--coral); color: #fff; }
+  .cta {
+    margin-top: 2.5rem; padding: 1.4rem 1.5rem; border-radius: var(--raio);
+    background: var(--petroleo); color: var(--creme);
+  }
+  .cta strong { font-family: var(--font-titulo); font-size: 1.25rem; }
+  .cta p { margin: 0.3rem 0 0.8rem; color: #d7e3e4; font-size: 0.98rem; }
+  .cta a {
+    display: inline-block; background: var(--coral); color: #fff; text-decoration: none;
+    font-weight: 600; padding: 8px 16px; border-radius: 999px;
+  }
+  .navegacao { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 2rem; }
+  .navegacao a {
+    display: flex; flex-direction: column; gap: 2px; text-decoration: none;
+    border: 1px solid var(--borda); border-radius: var(--raio); padding: 0.8rem 1rem;
+    background: var(--bg-card); font-weight: 600; font-size: 0.95rem; line-height: 1.35;
+  }
+  .navegacao a:hover { border-color: var(--coral); }
+  .navegacao small { color: var(--texto-suave); font-weight: 400; }
+  .navegacao .dir { text-align: right; }
+  @media (max-width: 560px) { .navegacao { grid-template-columns: 1fr; } .navegacao .dir { text-align: left; } }
+</style>

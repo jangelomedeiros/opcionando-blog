@@ -1,0 +1,48 @@
+---
+import type { Post } from '../lib/posts';
+import { formatarData, tempoLeitura, slugify } from '../lib/posts';
+interface Props { post: Post }
+const { post } = Astro.props;
+const { title, description, pubDate, pilar, youtube } = post.data;
+---
+<article class="card">
+  <div class="meta">
+    {pilar && <a class="pilar" href={`/pilares/${slugify(pilar)}`}>{pilar}</a>}
+    <time datetime={pubDate.toISOString()}>{formatarData(pubDate)}</time>
+    <span>· {tempoLeitura(post.body)}</span>
+    {youtube && <span class="video" title="Tem vídeo">▶ vídeo</span>}
+  </div>
+  <h2><a href={`/blog/${post.id}/`}>{title}</a></h2>
+  <p>{description}</p>
+</article>
+
+<style>
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--borda);
+    border-radius: var(--raio);
+    padding: 1.3rem 1.5rem;
+    transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+  }
+  .card:hover {
+    transform: translateY(-2px);
+    border-color: var(--coral);
+    box-shadow: 0 8px 24px rgba(14,74,85,0.10);
+  }
+  .meta {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 8px;
+    font-size: 0.82rem; color: var(--texto-suave);
+  }
+  .pilar {
+    background: var(--petroleo); color: var(--creme);
+    text-decoration: none; font-weight: 600;
+    padding: 2px 10px; border-radius: 999px; font-size: 0.75rem;
+    text-transform: uppercase; letter-spacing: 0.04em;
+  }
+  .pilar:hover { background: var(--coral); color: #fff; }
+  .video { color: var(--coral); font-weight: 600; }
+  h2 { margin: 0.45em 0 0.3em; font-size: 1.45rem; }
+  h2 a { text-decoration: none; color: var(--destaque); }
+  h2 a:hover { color: var(--coral); }
+  p { margin: 0; color: var(--texto-suave); font-size: 1rem; line-height: 1.6; }
+</style>

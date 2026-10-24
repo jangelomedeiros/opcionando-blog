@@ -1,0 +1,27 @@
+---
+import Base from '../layouts/Base.astro';
+import { LINKS } from '../consts';
+---
+<Base title="Sobre" description="Quem está por trás do Opcionando e qual é a proposta do canal e do blog.">
+  <section class="container" style="padding-top:2.6rem">
+    <h1>Sobre o Opcionando</h1>
+    <p>
+      O Opcionando nasceu para tirar o mercado de opções da caixa-preta. Aqui você encontra
+      conteúdo educacional, direto e com método, pensado para o investidor pessoa física que quer
+      entender <strong>o que</strong> está fazendo e <strong>por que</strong> está fazendo.
+    </p>
+    <h2>O que você encontra aqui</h2>
+    <ul>
+      <li>Fundamentos: calls, puts, prêmio, strike, vencimento e as gregas.</li>
+      <li>Estratégias explicadas com payoff, cenários e gestão de risco.</li>
+      <li>Critérios de decisão: quando entrar, quando ajustar, quando sair.</li>
+      <li>Versão escrita dos vídeos do canal, para consultar sempre que precisar.</li>
+    </ul>
+    <h2>Quem escreve</h2>
+    <p>
+      <!-- Edite este parágrafo com a sua apresentação -->
+      Ângelo, trader de opções e analista técnico, criador do canal Opcionando.
+    </p>
+    <p><a href={LINKS.youtube} target="_blank" rel="noopener">Conheça o canal no YouTube →</a></p>
+  </section>
+</Base>

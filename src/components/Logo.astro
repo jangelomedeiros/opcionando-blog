@@ -1,0 +1,12 @@
+---
+// Logo provisório: alavanca sobre um fulcro (pivô).
+// Para usar o logo oficial, troque este SVG pelo arquivo da marca.
+interface Props { size?: number }
+const { size = 36 } = Astro.props;
+---
+<svg width={size} height={size} viewBox="0 0 48 48" aria-hidden="true">
+  <rect width="48" height="48" rx="12" fill="var(--petroleo)" />
+  <line x1="9" y1="27" x2="39" y2="17" stroke="var(--creme)" stroke-width="3.2" stroke-linecap="round" />
+  <path d="M24 22 L31 36 H17 Z" fill="var(--coral)" />
+  <circle cx="39" cy="17" r="3.6" fill="var(--coral)" />
+</svg>

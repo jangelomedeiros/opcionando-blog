@@ -1,0 +1,24 @@
+---
+import Base from '../../layouts/Base.astro';
+import PostCard from '../../components/PostCard.astro';
+import { getPosts, slugify } from '../../lib/posts';
+
+export async function getStaticPaths() {
+  const posts = await getPosts();
+  const nomes = [...new Set(posts.map((p) => p.data.pilar).filter(Boolean))] as string[];
+  return nomes.map((nome) => ({
+    params: { pilar: slugify(nome) },
+    props: { nome, posts: posts.filter((p) => p.data.pilar === nome) },
+  }));
+}
+const { nome, posts } = Astro.props;
+---
+<Base title={`Pilar: ${nome}`} description={`Artigos do pilar ${nome} no blog Opcionando.`}>
+  <section class="container" style="padding-top:2.6rem">
+    <p style="margin:0"><a href="/pilares">← Todos os pilares</a></p>
+    <h1>{nome}</h1>
+    <div style="display:grid;gap:1.1rem">
+      {posts.map((post) => <PostCard post={post} />)}
+    </div>
+  </section>
+</Base>

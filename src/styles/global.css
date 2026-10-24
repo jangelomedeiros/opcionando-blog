@@ -1,0 +1,134 @@
+/* ==========================================================
+   Identidade Opcionando
+   Ajuste os HEX abaixo para os valores exatos do manual da marca.
+   ========================================================== */
+:root {
+  --petroleo: #0e4a55;
+  --petroleo-escuro: #08323a;
+  --coral: #f2694d;
+  --coral-suave: #fde3dc;
+  --giz: #f4f2ee;
+  --creme: #fbf6ec;
+  --grafite: #2a2d31;
+  --grafite-suave: #5b6168;
+  --borda: #e3ddd0;
+
+  --bg: var(--creme);
+  --bg-card: #ffffff;
+  --texto: var(--grafite);
+  --texto-suave: var(--grafite-suave);
+  --destaque: var(--petroleo);
+  --acento: var(--coral);
+
+  --font-titulo: 'Baloo 2', system-ui, sans-serif;
+  --font-texto: 'Work Sans', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  --largura: 720px;
+  --largura-larga: 1080px;
+  --raio: 14px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0b1f24;
+    --bg-card: #112a30;
+    --texto: #ece7dc;
+    --texto-suave: #a9b3b5;
+    --destaque: #7fc6d1;
+    --borda: #1f3d44;
+    --coral-suave: #3a2420;
+  }
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--texto);
+  font-family: var(--font-texto);
+  font-size: 18px;
+  line-height: 1.7;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-titulo);
+  color: var(--destaque);
+  line-height: 1.15;
+  margin: 1.6em 0 0.5em;
+}
+h1 { font-size: clamp(2rem, 5vw, 2.8rem); margin-top: 0.3em; }
+h2 { font-size: 1.7rem; }
+h3 { font-size: 1.3rem; }
+
+a { color: var(--destaque); text-decoration-color: var(--acento); text-underline-offset: 3px; }
+a:hover { color: var(--acento); }
+
+img { max-width: 100%; height: auto; border-radius: var(--raio); }
+
+code, kbd, pre { font-family: var(--font-mono); font-size: 0.88em; }
+:not(pre) > code {
+  background: var(--coral-suave);
+  color: var(--texto);
+  padding: 0.1em 0.4em;
+  border-radius: 6px;
+}
+pre {
+  padding: 1.1rem 1.2rem;
+  border-radius: var(--raio);
+  overflow-x: auto;
+  line-height: 1.5;
+}
+
+blockquote {
+  margin: 1.5em 0;
+  padding: 0.6em 1.2em;
+  border-left: 4px solid var(--acento);
+  background: var(--bg-card);
+  border-radius: 0 var(--raio) var(--raio) 0;
+  color: var(--texto-suave);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5em 0;
+  font-size: 0.92em;
+  display: block;
+  overflow-x: auto;
+}
+th, td { padding: 0.55em 0.8em; border-bottom: 1px solid var(--borda); text-align: left; vertical-align: top; min-width: 90px; }
+th { font-family: var(--font-titulo); color: var(--destaque); font-size: 1.05em; }
+td { font-variant-numeric: tabular-nums; }
+
+hr { border: none; border-top: 1px solid var(--borda); margin: 2.5em 0; }
+
+.container { max-width: var(--largura); margin: 0 auto; padding: 0 16px; }
+.container-larga { max-width: var(--largura-larga); margin: 0 auto; padding: 0 16px; }
+
+.ticker {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  color: var(--acento);
+}
+
+/* Caixa de destaque reutilizável nos posts: <div class="caixa">...</div> */
+.caixa {
+  background: var(--bg-card);
+  border: 1px solid var(--borda);
+  border-left: 5px solid var(--destaque);
+  border-radius: var(--raio);
+  padding: 1em 1.3em;
+  margin: 1.6em 0;
+}
+.caixa.alerta { border-left-color: var(--acento); }
+.caixa > :first-child { margin-top: 0; }
+.caixa > :last-child { margin-bottom: 0; }
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0,0,0,0); border: 0;
+}
