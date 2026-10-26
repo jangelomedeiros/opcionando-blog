@@ -4,6 +4,7 @@ import Base from '../../layouts/Base.astro';
 import GraficoCandles from '../../components/analise/GraficoCandles.astro';
 import PayoffEstrutura from '../../components/analise/PayoffEstrutura.astro';
 import AvisoAnalise from '../../components/analise/AvisoAnalise.astro';
+import PerfilVolume from '../../components/analise/PerfilVolume.astro';
 import { getAnalises, statusAtual, classeStatus, iconeCenario, dataBR } from '../../lib/analises';
 import { brl } from '../../lib/payoff';
 
@@ -21,8 +22,13 @@ const d = a.data;
 const st = statusAtual(a);
 
 // Dados do gráfico (opcionais)
-const arquivos = import.meta.glob<{ default: { d: string; o: number; h: number; l: number; c: number }[] }>('../../data/candles/*.json', { eager: true });
+const arquivos = import.meta.glob<{ default: any[] }>('../../data/candles/*.json', { eager: true });
 const candles = d.grafico ? arquivos[`../../data/candles/${d.grafico}.json`]?.default : undefined;
+const perfis = import.meta.glob<{ default: any }>('../../data/perfil/*.json', { eager: true });
+const perfil = d.perfil ? perfis[`../../data/perfil/${d.perfil}.json`]?.default : undefined;
+const tipoMapa = { resistencia: 'Resistência', suporte: 'Suporte', pivo: 'Pivô', vazio: 'Vazio de volume', preco: 'Preço' };
+const sinalTxt = { alta: '▲', baixa: '▼', neutro: '■' };
+let secao = 0;
 const niveis = [
   ...d.suportes.map((p) => ({ preco: p, tipo: 'suporte' as const })),
   ...d.resistencias.map((p) => ({ preco: p, tipo: 'resistencia' as const })),
@@ -59,16 +65,66 @@ const nomeTipo = { call: 'Call', put: 'Put', acao: 'Ação' };
       {d.volatilidade && <div><span>Volatilidade</span><b>{d.volatilidade}</b></div>}
     </div>
 
-    {candles && candles.length > 0 && <GraficoCandles candles={candles} niveis={niveis} ticker={d.ticker} />}
+    {candles && candles.length > 0 && <GraficoCandles candles={candles} niveis={niveis} ticker={d.ticker} range={d.range} />}
 
     <div class="niveis">
+      {d.range && <div class="rng"><span>Range</span><b>R$ {brl(d.range.inferior)} – {brl(d.range.superior)}</b></div>}
       {d.resistencias.length > 0 && <div class="res"><span>Resistências</span>{[...d.resistencias].sort((x, y) => y - x).map((p) => <b>R$ {brl(p)}</b>)}</div>}
       {d.suportes.length > 0 && <div class="sup"><span>Suportes</span>{[...d.suportes].sort((x, y) => y - x).map((p) => <b>R$ {brl(p)}</b>)}</div>}
     </div>
 
+    {d.indicadores.length > 0 && (
+      <section class="bloco">
+        <p class="eyebrow">{++secao} · Indicadores técnicos</p>
+        <div class="tabela-wrap"><table class="ind">
+          <thead><tr><th>Indicador</th><th>Diário</th><th>Semanal</th><th>Leitura</th></tr></thead>
+          <tbody>
+            {d.indicadores.map((i) => (
+              <tr>
+                <td><span class={`sinal ${i.sinal}`} aria-label={i.sinal}>{sinalTxt[i.sinal]}</span> <b>{i.nome}</b></td>
+                <td class="num">{i.diario}</td>
+                <td class="num">{i.semanal ?? '—'}</td>
+                <td>{i.leitura}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table></div>
+      </section>
+    )}
+
+    {d.eventos.length > 0 && (
+      <section class="bloco">
+        <p class="eyebrow">{++secao} · Relação preço × volume</p>
+        <ol class="eventos">
+          {d.eventos.map((e) => (
+            <li><span class="data">{e.data}</span><div><b>{e.evento}</b><p>{e.leitura}</p></div></li>
+          ))}
+        </ol>
+      </section>
+    )}
+
+    {(perfil || d.mapa.length > 0) && (
+      <section class="bloco">
+        <p class="eyebrow">{++secao} · Volume Profile e mapa de níveis</p>
+        <div class="vp-grid">
+          {perfil && <PerfilVolume perfil={perfil} ticker={d.ticker} range={d.range} />}
+          {d.mapa.length > 0 && (
+            <div class="tabela-wrap"><table class="mapa">
+              <thead><tr><th>R$</th><th>Tipo</th><th>Confluência</th></tr></thead>
+              <tbody>
+                {d.mapa.map((n) => (
+                  <tr class={n.tipo}><td class="num">{n.preco}</td><td><span class={`pill ${n.tipo}`}>{tipoMapa[n.tipo]}</span></td><td>{n.confluencia}</td></tr>
+                ))}
+              </tbody>
+            </table></div>
+          )}
+        </div>
+      </section>
+    )}
+
     <div class="corpo">
       <div class="texto conteudo">
-        <h2>Leitura técnica</h2>
+        <p class="eyebrow">{++secao} · Síntese, range e estrutura</p>
         <Content />
       </div>
 
@@ -150,10 +206,42 @@ const nomeTipo = { call: 'Call', put: 'Put', acao: 'Ação' };
   .niveis span { margin-right: 4px; }
   .niveis b { font-family: var(--font-mono); font-size: 0.88rem; padding: 2px 8px; border-radius: 6px; }
   .res b { background: #fbe0e0; color: #a83232; }
+  .rng b { background: rgba(14,74,85,0.1); color: var(--destaque); }
+  .bloco { margin: 2.2rem 0; }
+  .eyebrow {
+    font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 700; color: var(--coral);
+    margin: 0 0 0.7rem; padding-bottom: 0.4rem; border-bottom: 2px solid var(--borda);
+  }
+  .tabela-wrap { overflow-x: auto; border: 1px solid var(--borda); border-radius: var(--raio); background: var(--bg-card); }
+  .tabela-wrap table { display: table; width: 100%; margin: 0; font-size: 0.9rem; }
+  .tabela-wrap th { background: var(--giz); font-size: 0.78rem; }
+  @media (prefers-color-scheme: dark) { .tabela-wrap th { background: #0e262c; } }
+  .tabela-wrap td { white-space: normal; vertical-align: top; }
+  .num { font-family: var(--font-mono); white-space: nowrap !important; }
+  .ind { table-layout: fixed; min-width: 760px; }
+  .ind th:nth-child(1) { width: 17%; } .ind th:nth-child(2) { width: 25%; } .ind th:nth-child(3) { width: 22%; } .ind th:nth-child(4) { width: 36%; }
+  .ind td.num { white-space: normal !important; font-size: 0.84rem; line-height: 1.45; }
+  .mapa { min-width: 520px; }
+  .sinal { font-size: 0.8rem; }
+  .sinal.alta { color: #1f8a5b; } .sinal.baixa { color: #d64545; } .sinal.neutro { color: var(--texto-suave); }
+  .eventos { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
+  .eventos li { display: grid; grid-template-columns: 92px 1fr; gap: 12px; background: var(--bg-card); border: 1px solid var(--borda); border-left: 4px solid var(--petroleo); border-radius: 10px; padding: 0.6rem 0.8rem; }
+  .eventos .data { font-family: var(--font-mono); font-weight: 600; color: var(--coral); font-size: 0.88rem; }
+  .eventos b { color: var(--destaque); }
+  .eventos p { margin: 0.15rem 0 0; font-size: 0.92rem; line-height: 1.5; }
+  @media (max-width: 560px) { .eventos li { grid-template-columns: 1fr; gap: 2px; } }
+  .vp-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: 18px; align-items: start; }
+  @media (max-width: 900px) { .vp-grid { grid-template-columns: 1fr; } }
+  .mapa .pill { display: inline-block; font-size: 0.72rem; font-weight: 600; padding: 2px 8px; border-radius: 999px; white-space: nowrap; }
+  .pill.resistencia { background: #fbe0e0; color: #a83232; } .pill.suporte { background: #d9f2e6; color: #166b46; }
+  .pill.pivo { background: var(--giz); color: var(--texto); border: 1px solid var(--borda); } .pill.vazio { background: #fff4d6; color: #8a6400; }
+  .pill.preco { background: var(--petroleo); color: #fff; }
+  .mapa tr.preco td { background: rgba(14,74,85,0.08); font-weight: 600; }
   .sup b { background: #d9f2e6; color: #166b46; }
   .corpo { display: grid; grid-template-columns: minmax(0, 1fr) minmax(300px, 400px); gap: 28px; align-items: start; }
   @media (max-width: 900px) { .corpo { grid-template-columns: 1fr; } }
   .texto h2:first-child { margin-top: 0.6em; }
+  .texto .eyebrow + :global(h2) { border-top: none; padding-top: 0; margin-top: 0.6em; }
   .lateral { display: flex; flex-direction: column; gap: 14px; position: sticky; top: 12px; }
   @media (max-width: 900px) { .lateral { position: static; } }
   .lateral section { border-radius: var(--raio); padding: 1rem 1.1rem; }

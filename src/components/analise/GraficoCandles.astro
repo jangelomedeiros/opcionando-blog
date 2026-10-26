@@ -1,42 +1,73 @@
 ---
-// Gráfico de candles estático com suportes, resistências e níveis da estrutura.
-// Os dados ficam em src/data/candles/<nome>.json no formato:
-// [{ "d": "2026-10-01", "o": 60.1, "h": 61.2, "l": 59.8, "c": 60.9 }, ...]
+// Gráfico de candles com painel de volume, médias móveis, faixa do range de negociação,
+// suportes, resistências e strikes da estrutura.
+// Dados em src/data/candles/<nome>.json:
+// [{ "d": "2026-10-01", "o": 60.1, "h": 61.2, "l": 59.8, "c": 60.9, "v": 18.4, "m20": 61, "m50": 62, "m200": 70 }, ...]
+// v = volume em milhões; m20/m50/m200 = médias móveis simples (opcionais)
 import { brl } from '../../lib/payoff';
 
-interface Candle { d: string; o: number; h: number; l: number; c: number }
+interface Candle { d: string; o: number; h: number; l: number; c: number; v?: number; m20?: number | null; m50?: number | null; m200?: number | null }
 interface Nivel { preco: number; tipo: 'suporte' | 'resistencia' | 'strike'; rotulo?: string }
-interface Props { candles: Candle[]; niveis?: Nivel[]; ticker: string }
-const { candles, niveis = [], ticker } = Astro.props;
+interface Faixa { inferior: number; superior: number; rotulo?: string }
+interface Props { candles: Candle[]; niveis?: Nivel[]; ticker: string; range?: Faixa }
+const { candles, niveis = [], ticker, range } = Astro.props;
 
-const W = 860, H = 380, m = { l: 12, r: 70, t: 14, b: 30 };
+const temVol = candles.some((c) => typeof c.v === 'number');
+const W = 860, HP = 360, HV = temVol ? 90 : 0, GAP = temVol ? 14 : 0;
+const H = HP + GAP + HV + 28;
+const m = { l: 12, r: 70, t: 14 };
 const lows = candles.map((c) => c.l), highs = candles.map((c) => c.h);
-const precosNiveis = niveis.map((n) => n.preco);
-let ymin = Math.min(...lows, ...precosNiveis), ymax = Math.max(...highs, ...precosNiveis);
+const extras = [...niveis.map((n) => n.preco), ...(range ? [range.inferior, range.superior] : [])];
+const mediasVis = candles.flatMap((c) => [c.m20, c.m50, c.m200]).filter((x): x is number => typeof x === 'number');
+let ymin = Math.min(...lows, ...extras), ymax = Math.max(...highs, ...extras);
+// médias só ampliam a escala se estiverem perto do preço (até 25% além)
+for (const x of mediasVis) { if (x < ymin && x > ymin * 0.75) ymin = x; if (x > ymax && x < ymax * 1.25) ymax = x; }
 const pad = (ymax - ymin) * 0.06; ymin -= pad; ymax += pad;
 const n = candles.length;
 const passo = (W - m.l - m.r) / n;
 const X = (i: number) => m.l + passo * (i + 0.5);
-const Y = (v: number) => m.t + ((ymax - v) / (ymax - ymin)) * (H - m.t - m.b);
+const Y = (v: number) => m.t + ((ymax - v) / (ymax - ymin)) * (HP - m.t);
 const corpo = Math.max(1.5, passo * 0.62);
 
-// marcações do eixo X: início de cada mês
+// volume
+const vols = candles.map((c) => c.v ?? 0);
+const vmax = Math.max(...vols, 1);
+const v0 = HP + GAP; // topo do painel de volume
+const YV = (v: number) => v0 + HV - (v / vmax) * HV;
+const mediaVol = (i: number) => { const a = vols.slice(Math.max(0, i - 20), i); return a.length ? a.reduce((s, x) => s + x, 0) / a.length : vols[i]; };
+
+// médias
+const linhaMedia = (k: 'm20' | 'm50' | 'm200') => {
+  const pts = candles.map((c, i) => [i, c[k]] as const).filter(([, v]) => typeof v === 'number' && v! >= ymin && v! <= ymax);
+  if (pts.length < 2) return '';
+  return pts.map(([i, v], j) => `${j ? 'L' : 'M'}${X(i).toFixed(1)},${Y(v as number).toFixed(1)}`).join('');
+};
+const medias = (['m20', 'm50', 'm200'] as const).map((k) => ({ k, d: linhaMedia(k) })).filter((x) => x.d);
+
+// eixo X: início de cada mês
 const meses = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'];
 const marcasX = candles
   .map((c, i) => ({ i, mes: c.d.slice(5, 7), ano: c.d.slice(2, 4) }))
   .filter((c, i, arr) => i === 0 || c.mes !== arr[i - 1].mes)
   .map((c) => ({ x: X(c.i), rot: `${meses[+c.mes - 1]}/${c.ano}` }));
 
-// marcações do eixo Y
+// eixo Y
 const bruto = (ymax - ymin) / 6, mag = Math.pow(10, Math.floor(Math.log10(bruto)));
 const passoY = [1, 2, 2.5, 5, 10].map((f) => f * mag).find((p) => p >= bruto) ?? bruto;
 const marcasY: number[] = [];
 for (let v = Math.ceil(ymin / passoY) * passoY; v <= ymax; v += passoY) marcasY.push(v);
 
 const ultimo = candles[n - 1];
+// rótulos dos níveis sem sobreposição (separados por lado: esquerda = suporte/resistência, direita = strikes)
+const rotNiveis = niveis.map((nv) => ({ ...nv, py: Y(nv.preco) + (nv.tipo === 'strike' ? 14 : -5) }));
+for (const lado of [true, false]) {
+  const grupo = rotNiveis.filter((r) => (r.tipo === 'strike') === lado).sort((a, b) => a.py - b.py);
+  for (let i = 1; i < grupo.length; i++) if (grupo[i].py - grupo[i - 1].py < 14) grupo[i].py = grupo[i - 1].py + 14;
+}
+const nomeMedia = { m20: 'MMA 20', m50: 'MMA 50', m200: 'MMA 200' };
 ---
 <figure class="candles">
-  <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-label={`Gráfico de candles de ${ticker}`}>
+  <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-label={`Gráfico de candles de ${ticker} com volume`}>
     {marcasY.map((v) => (
       <g>
         <line x1={m.l} x2={W - m.r} y1={Y(v)} y2={Y(v)} class="grade" />
@@ -45,10 +76,19 @@ const ultimo = candles[n - 1];
     ))}
     {marcasX.map((mx) => <text x={mx.x} y={H - 8} class="rot" text-anchor="middle">{mx.rot}</text>)}
 
-    {niveis.map((nv) => (
+    {range && (
+      <g class="faixa">
+        <rect x={m.l} y={Y(range.superior)} width={W - m.l - m.r} height={Y(range.inferior) - Y(range.superior)} />
+        <text x={(W - m.r + m.l) / 2} y={Y(range.superior) + 14} text-anchor="middle">{range.rotulo ?? 'Range de negociação'}: {brl(range.inferior)} – {brl(range.superior)}</text>
+      </g>
+    )}
+
+    {medias.map((md) => <path d={md.d} class={`media ${md.k}`} />)}
+
+    {rotNiveis.map((nv) => (
       <g class={`nivel ${nv.tipo}`}>
         <line x1={m.l} x2={W - m.r} y1={Y(nv.preco)} y2={Y(nv.preco)} />
-        <text x={nv.tipo === 'strike' ? W - m.r - 4 : m.l + 4} y={Y(nv.preco) + (nv.tipo === 'strike' ? 14 : -5)} text-anchor={nv.tipo === 'strike' ? 'end' : 'start'}>{nv.rotulo ?? (nv.tipo === 'suporte' ? 'Suporte' : nv.tipo === 'resistencia' ? 'Resistência' : 'Strike')} {brl(nv.preco)}</text>
+        <text x={nv.tipo === 'strike' ? W - m.r - 4 : m.l + 4} y={nv.py} text-anchor={nv.tipo === 'strike' ? 'end' : 'start'}>{nv.rotulo ?? (nv.tipo === 'suporte' ? 'Suporte' : nv.tipo === 'resistencia' ? 'Resistência' : 'Strike')} {brl(nv.preco)}</text>
       </g>
     ))}
 
@@ -68,12 +108,29 @@ const ultimo = candles[n - 1];
       <rect x={W - m.r + 1} y={Y(ultimo.c) - 10} width={m.r - 2} height="20" rx="4" />
       <text x={W - m.r + 6} y={Y(ultimo.c) + 4}>{brl(ultimo.c)}</text>
     </g>
+
+    {temVol && (
+      <g class="volume">
+        <line x1={m.l} x2={W - m.r} y1={v0 + HV} y2={v0 + HV} class="grade" />
+        <text x={W - m.r + 6} y={v0 + 10} class="rot">{brl(vmax, 0)} mi</text>
+        <text x={m.l + 2} y={v0 + 10} class="rot-vol">Volume (milhões de ações)</text>
+        {candles.map((c, i) => {
+          const alta = i === 0 ? c.c >= c.o : c.c >= candles[i - 1].c;
+          const forte = (c.v ?? 0) > 2 * mediaVol(i);
+          return <rect x={X(i) - corpo / 2} y={YV(c.v ?? 0)} width={corpo} height={v0 + HV - YV(c.v ?? 0)}
+            class:list={['barra-vol', alta ? 'alta' : 'baixa', { forte }]} />;
+        })}
+      </g>
+    )}
   </svg>
   <figcaption>
+    {range && <span><i class="lg faixa-lg"></i>Range de negociação</span>}
+    {medias.map((md) => <span><i class={`lg ${md.k}`}></i>{nomeMedia[md.k]}</span>)}
     <span><i class="lg suporte"></i>Suporte</span>
     <span><i class="lg resistencia"></i>Resistência</span>
-    <span><i class="lg strike"></i>Strikes da estrutura</span>
-    <span class="fonte">{ticker} · gráfico diário · {candles[0].d.split('-').reverse().join('/')} a {ultimo.d.split('-').reverse().join('/')}</span>
+    <span><i class="lg strike"></i>Strikes</span>
+    {temVol && <span><i class="lg forte-lg"></i>Volume acima de 2× a média de 20</span>}
+    <span class="fonte">{ticker} · diário · {candles[0].d.split('-').reverse().join('/')} a {ultimo.d.split('-').reverse().join('/')}</span>
   </figcaption>
 </figure>
 
@@ -82,9 +139,15 @@ const ultimo = candles[n - 1];
   svg { width: 100%; height: auto; display: block; }
   .grade { stroke: var(--borda); stroke-width: 1; }
   .rot { fill: var(--texto-suave); font-family: var(--font-mono); font-size: 12px; }
+  .rot-vol { fill: var(--texto-suave); font-size: 11px; }
   .alta .pavio { stroke: #1f8a5b; } .alta .corpo { fill: #1f8a5b; }
   .baixa .pavio { stroke: #d64545; } .baixa .corpo { fill: #d64545; }
   .pavio { stroke-width: 1.2; }
+  .faixa rect { fill: rgba(14,74,85,0.08); stroke: rgba(14,74,85,0.35); stroke-dasharray: 3 3; }
+  .faixa text { fill: var(--destaque); font-size: 12px; font-weight: 700; paint-order: stroke; stroke: var(--bg-card); stroke-width: 4px; }
+  @media (prefers-color-scheme: dark) { .faixa rect { fill: rgba(127,198,209,0.08); stroke: rgba(127,198,209,0.4); } }
+  .media { fill: none; stroke-width: 1.6; }
+  .media.m20 { stroke: #e0a100; } .media.m50 { stroke: #6b5bd6; } .media.m200 { stroke: var(--grafite-suave); stroke-dasharray: 5 3; }
   .nivel line { stroke-width: 1.6; stroke-dasharray: 6 5; }
   .nivel text { font-size: 11.5px; font-weight: 600; paint-order: stroke; stroke: var(--bg-card); stroke-width: 4px; }
   .suporte line { stroke: #1f8a5b; } .suporte text { fill: #1f8a5b; }
@@ -93,8 +156,13 @@ const ultimo = candles[n - 1];
   .ultimo line { stroke: var(--petroleo); stroke-dasharray: 2 3; }
   .ultimo rect { fill: var(--petroleo); }
   .ultimo text { fill: #fff; font-family: var(--font-mono); font-size: 12px; font-weight: 600; }
+  .barra-vol.alta { fill: rgba(31,138,91,0.45); } .barra-vol.baixa { fill: rgba(214,69,69,0.45); }
+  .barra-vol.forte.alta { fill: #1f8a5b; } .barra-vol.forte.baixa { fill: #d64545; }
   figcaption { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 0.8rem; color: var(--texto-suave); padding: 0.4rem 0.4rem 0; }
   .lg { display: inline-block; width: 18px; border-top: 2px dashed; vertical-align: middle; margin-right: 5px; }
   .lg.suporte { border-color: #1f8a5b; } .lg.resistencia { border-color: #d64545; } .lg.strike { border-color: var(--coral); border-top-style: dotted; }
+  .lg.m20 { border-color: #e0a100; border-top-style: solid; } .lg.m50 { border-color: #6b5bd6; border-top-style: solid; } .lg.m200 { border-color: var(--grafite-suave); }
+  .lg.faixa-lg { height: 10px; border: 1px dashed rgba(14,74,85,0.5); background: rgba(14,74,85,0.1); }
+  .lg.forte-lg { height: 10px; width: 8px; border: none; background: #d64545; }
   .fonte { margin-left: auto; font-family: var(--font-mono); }
 </style>

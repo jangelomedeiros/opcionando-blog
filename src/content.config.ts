@@ -77,6 +77,29 @@ const analises = defineCollection({
     resistencias: z.array(z.number()).default([]),
     volatilidade: z.string().optional(), // ex.: 'IV 32% (percentil 70 em 1 ano)'
     grafico: z.string().optional(), // nome do arquivo em src/data/candles/ (sem .json)
+    perfil: z.string().optional(), // nome do arquivo em src/data/perfil/ (Volume Profile, sem .json)
+    // Range de negociação estabelecido (desenhado no gráfico e no perfil)
+    range: z.object({ inferior: z.number(), superior: z.number(), rotulo: z.string().optional() }).optional(),
+    // Painel de indicadores: leitura diária e semanal
+    indicadores: z.array(z.object({
+      nome: z.string(),
+      diario: z.string(),
+      semanal: z.string().optional(),
+      sinal: z.enum(['alta', 'baixa', 'neutro']).default('neutro'),
+      leitura: z.string(),
+    })).default([]),
+    // Relação preço × volume: pregões-chave
+    eventos: z.array(z.object({
+      data: z.string(),
+      evento: z.string(),
+      leitura: z.string(),
+    })).default([]),
+    // Mapa de níveis com confluências (do mais alto para o mais baixo)
+    mapa: z.array(z.object({
+      preco: z.string(),
+      tipo: z.enum(['resistencia', 'suporte', 'pivo', 'vazio', 'preco']),
+      confluencia: z.string(),
+    })).default([]),
     estrutura: z.object({
       nome: z.string(),
       racional: z.string(), // por que essa estrutura combina com o cenário
