@@ -1,0 +1,207 @@
+---
+title: 'Opções: como ganhar dinheiro com isso'
+description: 'Primeiro, explicado como se você tivesse 5 anos, com mangas e bicicletas. Depois, a versão técnica: direção, tempo e volatilidade, com simuladores para você testar.'
+pubDate: 2026-10-26
+pilar: 'Fundamentos'
+tags: ['iniciantes', 'call', 'put', 'theta', 'alavancagem']
+---
+
+import Quadrinho from '../../components/artigo/Quadrinho.astro';
+import QuatroLados from '../../components/artigo/QuatroLados.astro';
+import Alavancagem from '../../components/artigo/Alavancagem.astro';
+import ThetaDerrete from '../../components/artigo/ThetaDerrete.astro';
+import CemCenarios from '../../components/artigo/CemCenarios.astro';
+import MapaDecisao from '../../components/artigo/MapaDecisao.astro';
+
+**Resposta curta:** existem quatro jeitos de ganhar dinheiro com opções.
+**Resposta honesta:** em todos eles, cada real que alguém ganha sai do bolso de quem estava do outro lado.
+Então a pergunta certa não é "como ganhar", e sim **"por que eu ganharia e não o outro lado?"**
+
+Este artigo tem duas partes. Leia a primeira mesmo que você já saiba o que é uma opção: a intuição é o que
+segura a parte técnica de pé.
+
+<div class="mapa-artigo">
+  <a href="#parte-1"><span>🧒</span><b>Parte 1</b>Explicado para uma criança de 5 anos</a>
+  <a href="#parte-2"><span>🎓</span><b>Parte 2</b>A versão técnica, com simuladores</a>
+</div>
+
+<h2 id="parte-1">🧒 Parte 1: explicado para uma criança de 5 anos</h2>
+
+### A história do vale-manga
+
+<Quadrinho
+  titulo="A feira do Seu Zé"
+  quadros={[
+    { cena: '🧑‍🌾🥭', fala: 'Hoje é R$ 10!', texto: 'Seu Zé vende manga a R$ 10. Mas ninguém sabe quanto vai custar no mês que vem.' },
+    { cena: '🧒🎟️', fala: 'Te dou R$ 1 por um vale!', texto: 'Joãozinho paga R$ 1 por um vale: pode comprar uma manga por R$ 10 daqui a um mês, se quiser.' },
+    { cena: '☀️🥭📈', fala: 'Agora custa R$ 15!', texto: 'A manga subiu para R$ 15. Joãozinho usa o vale, paga R$ 10 e ganha R$ 4 (R$ 5 de diferença menos o R$ 1 do vale).' },
+    { cena: '🌧️🥭📉', fala: 'Caiu para R$ 8…', texto: 'Se a manga tivesse caído para R$ 8, ele jogaria o vale fora. Perderia só R$ 1, e o Seu Zé ficaria com ele.' },
+  ]}
+/>
+
+**Esse vale é uma opção de compra, a call.** O R$ 1 é o **prêmio**. Os R$ 10 combinados são o **strike**.
+O "daqui a um mês" é o **vencimento**.
+
+Repare: o Joãozinho nunca perde mais que R$ 1. E o Seu Zé ganha esse R$ 1 **sempre que a manga não sobe muito**.
+
+### A história do seguro da bicicleta
+
+<Quadrinho
+  titulo="A bicicleta da Maria"
+  quadros={[
+    { cena: '👧🚲', fala: 'Minha bike vale R$ 500', texto: 'Maria tem uma bicicleta de R$ 500 e tem medo de que ela perca valor.' },
+    { cena: '👧🤝🧔', fala: 'Te pago R$ 20…', texto: 'Ela paga R$ 20 ao vizinho por um vale: ele se compromete a comprar a bike por R$ 450, se ela quiser.' },
+    { cena: '🚲💥📉', fala: 'Agora só vale R$ 300!', texto: 'A bike desvalorizou. Maria usa o vale e vende por R$ 450. Escapou de uma perda grande.' },
+    { cena: '🚲✨', fala: 'Ufa, ainda vale R$ 500', texto: 'Se nada acontecesse, ela jogaria o vale fora. Os R$ 20 ficam com o vizinho, como num seguro.' },
+  ]}
+/>
+
+**Esse vale é uma opção de venda, a put.** Funciona como um seguro: quem compra se protege, quem vende recebe
+para correr o risco.
+
+### Os 4 jeitos de ganhar dinheiro (versão criança)
+
+<div class="quatro-jeitos">
+  <div><span>🎟️📈</span><b>1. Ser o Joãozinho</b>Comprar o vale de compra e torcer para o preço <strong>subir muito</strong>.</div>
+  <div><span>🛡️📉</span><b>2. Ser a Maria</b>Comprar o vale de venda para ganhar (ou se proteger) se o preço <strong>cair</strong>.</div>
+  <div><span>🧑‍🌾💰</span><b>3. Ser o Seu Zé</b>Vender vales e ficar com o dinheiro deles na <strong>maioria das vezes</strong>, em que nada de mais acontece.</div>
+  <div><span>🧩🔒</span><b>4. Combinar vales</b>Comprar um e vender outro para ganhar menos, mas <strong>saber exatamente</strong> o máximo que pode perder.</div>
+</div>
+
+<div class="caixa alerta">
+
+**A regra de ouro, mesmo para crianças:** o vale não cria dinheiro. Quando o Joãozinho ganha R$ 4, o Seu Zé
+deixa de ganhar esses R$ 4. Quem ganha no longo prazo é quem **cobra o preço certo pelo vale** e **não aposta
+mais do que pode perder**.
+
+</div>
+
+---
+
+<h2 id="parte-2">🎓 Parte 2: a versão técnica</h2>
+
+### De onde vem o dinheiro: o que forma o prêmio
+
+O preço de uma opção, o **prêmio**, tem duas partes:
+
+<div class="barra-premio" role="img" aria-label="Prêmio de R$ 2,50 dividido em R$ 2,00 de valor intrínseco e R$ 0,50 de valor extrínseco">
+  <div class="int" style="flex: 4"><b>Valor intrínseco</b><span>R$ 2,00</span><small>quanto a opção vale se exercida agora</small></div>
+  <div class="ext" style="flex: 1.6"><b>Extrínseco</b><span>R$ 0,50</span><small>tempo + incerteza</small></div>
+</div>
+<p class="legenda-fig">Exemplo: ação a R$ 42,00, call de strike R$ 40,00 negociada a R$ 2,50.</p>
+
+E ele se move por três forças. Cada uma é uma forma diferente de ganhar (ou perder) dinheiro:
+
+| Força | Grega | O que move o prêmio | Quem se beneficia |
+|---|---|---|---|
+| 📈 **Direção** | Delta | A ação subir ou cair | Quem acertou o lado do movimento |
+| ⏳ **Tempo** | Theta | Cada dia que passa | Quem **vendeu** a opção |
+| 🌪️ **Volatilidade** | Vega | O mercado ficar mais ou menos nervoso | Quem comprou antes da volatilidade subir |
+
+Antes de olhar cada força, veja os quatro lados de uma operação ao mesmo tempo:
+
+<QuatroLados />
+
+Mexa no controle e repare em duas coisas. Primeiro, **os quatro lados somam zero**: o que um ganha, o outro
+perde. Segundo, existe uma faixa larga no meio em que **as duas opções terminam sem valor** e os vendedores
+ficam com o prêmio.
+
+### Fonte 1: direção (delta) e o poder da alavancagem
+
+Quem compra opção para ganhar com a direção está, na prática, comprando **alavancagem**: com pouco capital,
+controla o movimento de muitas ações. Compare o mesmo R$ 1.000 nas duas formas:
+
+<Alavancagem />
+
+Arraste para +15% e depois para +4%. Com +15%, as calls rendem várias vezes mais que as ações. Com +4%, a
+ação andou a seu favor, você **acertou a direção**, e mesmo assim perdeu tudo nas calls. Na opção comprada,
+não basta acertar o lado: é preciso acertar **o tamanho e o prazo** do movimento.
+
+<div class="caixa">
+
+**Na prática:** a compra de opção faz sentido quando você espera um movimento **forte e rápido**, ou quando
+quer **proteção** (a put da Maria). Para quem está começando, o tamanho da posição importa mais que a
+escolha do strike: aplique em compra de opção apenas o que você aceita perder por inteiro.
+
+</div>
+
+### Fonte 2: tempo (theta), o lucro de quem vende
+
+Todo dia, o valor extrínseco derrete um pouco. Esse derretimento é o **theta**, e ele não para no fim de semana.
+O detalhe que pouca gente percebe: o derretimento **acelera** perto do vencimento.
+
+<ThetaDerrete />
+
+Esse é o "salário" do vendedor de opções, o Seu Zé da história. Estruturas como a
+[venda coberta de call](/estrategias/venda-coberta/) e a [venda de put coberta](/estrategias/venda-de-put-coberta/)
+vivem disso: você vende o tempo e recebe por ele.
+
+<div class="caixa alerta">
+
+**O preço desse salário:** o vendedor ganha um valor limitado e assume o risco do movimento grande. Um único
+mês ruim pode apagar o prêmio de muitos meses bons. Por isso, vender opção **descoberta** é a forma mais
+rápida de um iniciante quebrar. Venda só com cobertura: ações em carteira ou caixa reservado.
+
+</div>
+
+### Fonte 3: volatilidade (vega), o "medo" embutido no preço
+
+Quanto mais o mercado espera que a ação balance, mais caro fica o prêmio, **mesmo que a ação não saia do
+lugar**. Para uma opção no dinheiro, ação a R$ 38,00 e 30 dias até o vencimento:
+
+| Volatilidade implícita | Clima do mercado | Prêmio aproximado |
+|---:|---|---:|
+| 20% ao ano | 😌 calmo | R$ 0,87 |
+| 30% ao ano | 🙂 normal | R$ 1,31 |
+| 45% ao ano | 😰 nervoso | R$ 1,96 |
+
+<p class="legenda-fig">Aproximação para opção no dinheiro: prêmio ≈ 0,4 × volatilidade × preço × √(dias/365).</p>
+
+Daí vem a regra prática: **comprar opção quando o mercado está calmo e vender quando está nervoso** tende a
+ser melhor negócio que o contrário, porque o preço do "seguro" acompanha o medo.
+
+### Frequência não é lucro
+
+A pergunta que separa quem estuda de quem aposta: **quantas vezes eu ganho, e quanto ganho cada vez?**
+Com o exemplo da call de strike R$ 40,00 a R$ 0,80 (ação a R$ 38,00, 30 dias):
+
+<CemCenarios
+  ganhaComprador={22}
+  legenda="Estimativa de modelo (distribuição lognormal, volatilidade de 35% ao ano, 30 dias, sem tendência): cerca de 22% de chance de a ação terminar acima de R$ 40,80, o ponto de equilíbrio do comprador. É uma ilustração do raciocínio, não uma estatística histórica."
+/>
+
+O vendedor vence em cerca de 78 de 100 vezes, mas ganha no máximo R$ 80 em cada uma. O comprador vence em
+cerca de 22, e algumas dessas vitórias podem valer R$ 500 ou mais. **Se o prêmio está bem precificado, os dois
+lados se equilibram no longo prazo.** A vantagem real vem de três lugares:
+
+1. **Preço:** vender quando o prêmio está caro e comprar quando está barato (volatilidade implícita x realizada).
+2. **Gestão de risco:** saber a perda máxima antes de entrar e dimensionar a posição para sobreviver aos meses ruins.
+3. **Método:** regras de entrada, ajuste e saída definidas antes, e não no calor do pregão.
+
+<MapaDecisao />
+
+### Os 5 erros que fazem perder dinheiro com opções
+
+<div class="erros">
+  <div><b>01</b><span><strong>Comprar opção barata demais.</strong> Opção muito fora do dinheiro é barata porque quase nunca chega lá.</span></div>
+  <div><b>02</b><span><strong>Vender sem cobertura.</strong> Ganho pequeno e limitado, perda grande e sem teto.</span></div>
+  <div><b>03</b><span><strong>Ignorar o tempo.</strong> Acertar a direção depois do vencimento não paga nada.</span></div>
+  <div><b>04</b><span><strong>Posição grande demais.</strong> Uma operação não pode decidir o seu ano.</span></div>
+  <div><b>05</b><span><strong>Não ter plano de saída.</strong> Decida antes onde sai no lucro e onde sai no prejuízo.</span></div>
+</div>
+
+### Resumo em uma tabela
+
+| Jeito de ganhar | Você lucra com | Ganho | Perda | Para quem |
+|---|---|---|---|---|
+| Comprar call | Alta forte e rápida | Grande | Limitada ao prêmio | Quem aceita perder o prêmio inteiro |
+| Comprar put | Queda forte ou proteção | Grande | Limitada ao prêmio | Quem quer seguro para a carteira |
+| Vender com cobertura | Tempo passando | Limitado | Concentrada na queda da ação | Quem tem ações ou caixa e quer renda |
+| Travas e combinações | Cenário específico | Limitado | Limitada | Quem quer risco definido desde o início |
+
+<div class="cta-artigo">
+  <b>Próximo passo</b>
+  <p>Comece pela trilha, em ordem, e teste cada ideia na calculadora antes de levar para a corretora.</p>
+  <a class="botao" href="/comece-aqui">Começar a trilha</a>
+  <a class="botao secundario" href="/ferramentas/calculadora-de-payoff">Abrir a calculadora</a>
+</div>

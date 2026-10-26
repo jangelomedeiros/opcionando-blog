@@ -1,0 +1,94 @@
+---
+// Derretimento do valor extrínseco de uma opção no dinheiro (aproximação 0,4·σ·S·√T).
+const S = 38, SIGMA = 0.35, DIAS = 60;
+const premio = (d: number) => 0.4 * SIGMA * S * Math.sqrt(d / 365);
+const W = 640, H = 260, m = { l: 48, r: 16, t: 16, b: 36 };
+const X = (d: number) => m.l + ((DIAS - d) / DIAS) * (W - m.l - m.r);
+const PMAX = premio(DIAS) * 1.1;
+const Y = (v: number) => m.t + (1 - v / PMAX) * (H - m.t - m.b);
+const pts = Array.from({ length: 121 }, (_, i) => DIAS - (DIAS * i) / 120);
+const linha = pts.map((d, i) => `${i ? 'L' : 'M'}${X(d).toFixed(1)},${Y(premio(d)).toFixed(1)}`).join('');
+const area = linha + `L${X(0)},${Y(0)}L${X(DIAS)},${Y(0)}Z`;
+const yt = [0, 0.5, 1, 1.5, 2];
+const xt = [60, 45, 30, 15, 7, 0];
+---
+<div class="theta" data-s={S} data-sig={SIGMA} data-dias={DIAS} data-w={W} data-h={H} data-ml={m.l} data-mr={m.r} data-mt={m.t} data-mb={m.b} data-pmax={PMAX}>
+  <strong class="tit">🍦 O sorvete que derrete: o valor da opção com o passar do tempo</strong>
+  <p class="sub">Opção no dinheiro, ação a R$ 38,00, volatilidade de 35% ao ano. Arraste para avançar os dias.</p>
+  <div class="vis">
+    <div class="sorvete" aria-hidden="true"><span data-sorvete>🍦</span></div>
+    <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-label="Curva do valor da opção até o vencimento">
+      {yt.map((v) => <g><line x1={m.l} x2={W - m.r} y1={Y(v)} y2={Y(v)} class="grade" /><text x={m.l - 6} y={Y(v) + 4} text-anchor="end" class="rot">{v.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</text></g>)}
+      {xt.map((d) => <text x={X(d)} y={H - m.b + 18} text-anchor="middle" class="rot">{d}</text>)}
+      <text x={(W + m.l) / 2} y={H - 4} text-anchor="middle" class="eixo">dias até o vencimento</text>
+      <rect x={X(14)} y={m.t} width={X(0) - X(14)} height={H - m.t - m.b} class="zona" />
+      <text x={X(7)} y={m.t + 16} text-anchor="middle" class="rot-zona">derrete rápido</text>
+      <path d={area} class="area" />
+      <path d={linha} class="linha" />
+      <line data-cursor x1={X(DIAS)} x2={X(DIAS)} y1={m.t} y2={H - m.b} class="cursor" />
+      <circle data-ponto cx={X(DIAS)} cy={Y(premio(DIAS))} r="7" class="ponto" />
+    </svg>
+  </div>
+  <input type="range" min="0" max={DIAS} step="1" value={DIAS} aria-label="Dias até o vencimento" style="direction: rtl" />
+  <div class="kpis">
+    <div><span>Faltam</span><b data-dias>60 dias</b></div>
+    <div><span>Valor da opção</span><b data-premio>R$ 0,00</b></div>
+    <div><span>Perde por dia, agora</span><b data-dia>R$ 0,00</b></div>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('.theta').forEach((el) => {
+    const d = el.dataset;
+    const S = +d.s!, sig = +d.sig!, DIAS = +d.dias!, W = +d.w!, H = +d.h!;
+    const m = { l: +d.ml!, r: +d.mr!, t: +d.mt!, b: +d.mb! }, PMAX = +d.pmax!;
+    const premio = (x: number) => 0.4 * sig * S * Math.sqrt(Math.max(x, 0) / 365);
+    const X = (x: number) => m.l + ((DIAS - x) / DIAS) * (W - m.l - m.r);
+    const Y = (v: number) => m.t + (1 - v / PMAX) * (H - m.t - m.b);
+    const brl = (v: number) => 'R$ ' + v.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    const range = el.querySelector('input')!;
+    const cur = el.querySelector('[data-cursor]')!, pt = el.querySelector('[data-ponto]')!;
+    const sorv = el.querySelector<HTMLElement>('[data-sorvete]')!;
+    const upd = () => {
+      const x = +range.value, v = premio(x), perda = x > 0 ? premio(x) - premio(x - 1) : 0;
+      cur.setAttribute('x1', String(X(x))); cur.setAttribute('x2', String(X(x)));
+      pt.setAttribute('cx', String(X(x))); pt.setAttribute('cy', String(Y(v)));
+      el.querySelector('[data-dias]')!.textContent = x === 0 ? 'vencimento!' : `${x} ${x === 1 ? 'dia' : 'dias'}`;
+      el.querySelector('[data-premio]')!.textContent = brl(v);
+      el.querySelector('[data-dia]')!.textContent = brl(perda);
+      const f = v / premio(DIAS);
+      sorv.style.transform = `scale(${0.25 + 0.75 * f})`;
+      sorv.style.opacity = String(0.25 + 0.75 * f);
+      sorv.textContent = x === 0 ? '💧' : '🍦';
+    };
+    range.addEventListener('input', upd);
+    upd();
+  });
+</script>
+
+<style>
+  .theta { margin: 2rem 0; padding: 1.2rem; border-radius: var(--raio); background: var(--bg-card); border: 2px solid var(--borda); }
+  .tit { font-family: var(--font-titulo); font-size: 1.2rem; color: var(--destaque); }
+  .sub { margin: 0.2rem 0 0.6rem; font-size: 0.85rem; color: var(--texto-suave); }
+  .vis { display: grid; grid-template-columns: 70px 1fr; align-items: center; gap: 6px; }
+  .sorvete { text-align: center; font-size: 3.2rem; height: 90px; display: grid; place-items: center; }
+  .sorvete span { display: inline-block; transition: transform .15s, opacity .15s; transform-origin: bottom center; }
+  svg { width: 100%; height: auto; display: block; }
+  .grade { stroke: var(--borda); }
+  .rot { fill: var(--texto-suave); font-family: var(--font-mono); font-size: 12px; }
+  .eixo { fill: var(--texto-suave); font-size: 13px; }
+  .zona { fill: rgba(242,105,77,0.10); }
+  .rot-zona { fill: var(--coral); font-size: 12px; font-weight: 600; }
+  .area { fill: rgba(14,74,85,0.12); }
+  .linha { fill: none; stroke: var(--petroleo); stroke-width: 3; }
+  @media (prefers-color-scheme: dark) { .linha { stroke: #7fc6d1; } .area { fill: rgba(127,198,209,0.12); } }
+  .cursor { stroke: var(--coral); stroke-dasharray: 4 4; }
+  .ponto { fill: var(--coral); stroke: var(--bg-card); stroke-width: 3; }
+  input[type=range] { width: 100%; accent-color: var(--coral); height: 28px; margin-top: 0.4rem; }
+  .kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 0.5rem; }
+  .kpis div { background: var(--giz); border-radius: 10px; padding: 0.5rem 0.6rem; text-align: center; }
+  @media (prefers-color-scheme: dark) { .kpis div { background: #0e262c; } }
+  .kpis span { display: block; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--texto-suave); font-weight: 600; }
+  .kpis b { font-family: var(--font-mono); color: var(--destaque); font-size: 1rem; }
+  @media (max-width: 520px) { .vis { grid-template-columns: 1fr; } .sorvete { height: 60px; font-size: 2.6rem; } }
+</style>

@@ -191,3 +191,57 @@ a.card-link:hover {
 .conteudo h2 { border-top: 2px solid var(--borda); padding-top: 0.9em; }
 .conteudo li { margin: 0.3em 0; }
 .conteudo strong { color: var(--destaque); }
+
+/* ==========================================================
+   Blocos visuais para artigos (usar em .mdx)
+   ========================================================== */
+.mapa-artigo { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 1.6rem 0 2rem; }
+.mapa-artigo a {
+  display: flex; flex-direction: column; gap: 2px; text-decoration: none; color: var(--texto);
+  background: var(--bg-card); border: 2px solid var(--borda); border-radius: var(--raio); padding: 1rem 1.1rem;
+  font-size: 0.95rem; line-height: 1.4; transition: border-color .15s, transform .15s;
+}
+.mapa-artigo a:hover { border-color: var(--coral); transform: translateY(-2px); color: var(--texto); }
+.mapa-artigo span { font-size: 2rem; }
+.mapa-artigo b { font-family: var(--font-titulo); color: var(--coral); font-size: 1.1rem; }
+@media (max-width: 520px) { .mapa-artigo { grid-template-columns: 1fr; } }
+h2[id], h3[id] { scroll-margin-top: 1rem; }
+
+.quatro-jeitos { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin: 1.4rem 0; }
+.quatro-jeitos > div {
+  display: block; background: var(--bg-card);
+  border: 1px solid var(--borda); border-top: 5px solid var(--coral); border-radius: var(--raio);
+  padding: 1rem 1.1rem; font-size: 0.95rem; line-height: 1.5;
+}
+.quatro-jeitos > div:nth-child(2n) { border-top-color: var(--petroleo); }
+.quatro-jeitos span { display: block; font-size: 2rem; }
+.quatro-jeitos b { display: block; margin-bottom: 0.2rem; font-family: var(--font-titulo); color: var(--destaque); font-size: 1.15rem; }
+
+.barra-premio { display: flex; border-radius: var(--raio); overflow: hidden; margin: 1.2rem 0 0.4rem; min-height: 96px; }
+.barra-premio > div { display: flex; flex-direction: column; justify-content: center; padding: 0.7rem 0.9rem; color: #fff; line-height: 1.3; min-width: 0; }
+.barra-premio .int { background: var(--petroleo); }
+.barra-premio .ext { background: var(--coral); }
+.barra-premio b { font-family: var(--font-titulo); font-size: 1rem; }
+.barra-premio span { font-family: var(--font-mono); font-size: 1.3rem; font-weight: 600; }
+.barra-premio small { font-size: 0.75rem; opacity: 0.9; }
+.legenda-fig { font-size: 0.82rem; color: var(--texto-suave); margin-top: 0.3rem; }
+
+.erros { display: grid; gap: 8px; margin: 1.2rem 0; }
+.erros > div {
+  display: grid; grid-template-columns: 52px 1fr; gap: 12px; align-items: center;
+  background: var(--bg-card); border: 1px solid var(--borda); border-radius: 12px; padding: 0.7rem 0.9rem;
+}
+.erros b {
+  font-family: var(--font-mono); font-size: 1.3rem; color: #fff; background: #d64545;
+  border-radius: 10px; height: 44px; display: grid; place-items: center;
+}
+.erros span { font-size: 0.96rem; line-height: 1.5; }
+
+.cta-artigo {
+  margin-top: 2.5rem; padding: 1.4rem 1.5rem; border-radius: var(--raio);
+  background: var(--petroleo); color: var(--creme);
+}
+.cta-artigo b { font-family: var(--font-titulo); font-size: 1.3rem; display: block; }
+.cta-artigo p { color: #d7e3e4; margin: 0.3rem 0 1rem; }
+.cta-artigo .botao { margin: 0 8px 8px 0; }
+.cta-artigo .botao.secundario { color: var(--creme); border-color: var(--creme); }

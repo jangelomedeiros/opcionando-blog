@@ -20,6 +20,7 @@ import Base from '../../layouts/Base.astro';
         <option value="venda-coberta">Venda coberta de call</option>
         <option value="venda-de-put-coberta">Venda de put coberta</option>
         <option value="compra-de-call">Compra de call</option>
+        <option value="compra-de-put">Compra de put</option>
         <option value="put-de-protecao">Put de proteção</option>
         <option value="trava-de-alta-com-call">Trava de alta com call</option>
         <option value="trava-de-baixa-com-put">Trava de baixa com put</option>
@@ -73,6 +74,8 @@ import Base from '../../layouts/Base.astro';
       { tipo: 'put', op: 'venda', preco: 36, premio: 0.7, qtd: 100 } ] },
     'compra-de-call': { spot: 38, pernas: [
       { tipo: 'call', op: 'compra', preco: 40, premio: 0.8, qtd: 100 } ] },
+    'compra-de-put': { spot: 38, pernas: [
+      { tipo: 'put', op: 'compra', preco: 36, premio: 0.7, qtd: 100 } ] },
     'put-de-protecao': { spot: 38, pernas: [
       { tipo: 'acao', op: 'compra', preco: 38, premio: 0, qtd: 100 },
       { tipo: 'put', op: 'compra', preco: 36, premio: 0.7, qtd: 100 } ] },

@@ -1,0 +1,94 @@
+---
+// Compara R$ 1.000 em ações x R$ 1.000 em calls, no vencimento.
+const S0 = 38, K = 40, P = 0.8, CAPITAL = 1000;
+---
+<div class="alav" data-s0={S0} data-k={K} data-p={P} data-cap={CAPITAL}>
+  <strong class="tit">⚖️ R$ 1.000 em ações ou R$ 1.000 em calls?</strong>
+  <p class="sub">Ação a R$ 38,00. Call de strike R$ 40,00 a R$ 0,80. Mova a variação da ação até o vencimento.</p>
+  <div class="controle">
+    <span>−20%</span>
+    <input type="range" min="-20" max="25" step="1" value="0" aria-label="Variação da ação até o vencimento" />
+    <span>+25%</span>
+  </div>
+  <div class="var">A ação variou <b data-var>0%</b> e terminou a <b data-preco>R$ 38,00</b></div>
+  <div class="colunas">
+    <div class="col acao">
+      <span class="rot">🧱 Comprou ações</span>
+      <span class="qtd">≈ 26 ações</span>
+      <div class="tubo"><i data-h="acao"></i><span class="base"></span></div>
+      <span class="final" data-final="acao"></span>
+      <span class="ret" data-ret="acao"></span>
+    </div>
+    <div class="col call">
+      <span class="rot">🚀 Comprou calls</span>
+      <span class="qtd">1.250 calls</span>
+      <div class="tubo"><i data-h="call"></i><span class="base"></span></div>
+      <span class="final" data-final="call"></span>
+      <span class="ret" data-ret="call"></span>
+    </div>
+  </div>
+  <p class="moral" data-moral></p>
+</div>
+
+<script>
+  const brl = (v: number) => 'R$ ' + v.toLocaleString('pt-BR', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+  document.querySelectorAll<HTMLElement>('.alav').forEach((el) => {
+    const s0 = +el.dataset.s0!, k = +el.dataset.k!, p = +el.dataset.p!, cap = +el.dataset.cap!;
+    const nAcoes = cap / s0, nCalls = cap / p;
+    const range = el.querySelector('input')!;
+    const TOPO = 8000; // escala visual
+    const upd = () => {
+      const v = +range.value;
+      const S = s0 * (1 + v / 100);
+      const fa = nAcoes * S, fc = Math.max(S - k, 0) * nCalls;
+      el.querySelector('[data-var]')!.textContent = (v > 0 ? '+' : '') + v + '%';
+      el.querySelector('[data-preco]')!.textContent = 'R$ ' + S.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      const set = (id: string, final: number) => {
+        const r = Math.round((final / cap - 1) * 1000) / 10;
+        el.querySelector(`[data-final="${id}"]`)!.textContent = brl(final);
+        const re = el.querySelector<HTMLElement>(`[data-ret="${id}"]`)!;
+        re.textContent = (r > 0 ? '+' : r < 0 ? '−' : '') + Math.abs(r).toLocaleString('pt-BR', { maximumFractionDigits: 0 }) + '%';
+        re.className = 'ret ' + (r > 0.5 ? 'pos' : r < -0.5 ? 'neg' : '');
+        const h = el.querySelector<HTMLElement>(`[data-h="${id}"]`)!;
+        h.style.height = Math.max(Math.min(final / TOPO, 1) * 100, 0.8) + '%';
+        h.className = r < -0.5 ? 'neg' : 'pos';
+      };
+      set('acao', fa); set('call', fc);
+      let m = '';
+      if (S <= k) m = '😬 A ação não passou do strike de R$ 40,00: <b>as calls viraram pó</b> e o capital foi todo embora. Quem comprou ações ainda tem as ações.';
+      else if (S < k + p) m = '😐 Passou do strike, mas não do ponto de equilíbrio (R$ 40,80): as calls ainda dão prejuízo.';
+      else m = '🤑 Alta forte: as calls multiplicam o capital muito mais que as ações. Isso é <b>alavancagem</b>, e ela corta para os dois lados.';
+      el.querySelector('[data-moral]')!.innerHTML = m;
+    };
+    range.addEventListener('input', upd);
+    upd();
+  });
+</script>
+
+<style>
+  .alav { margin: 2rem 0; padding: 1.2rem; border-radius: var(--raio); background: var(--bg-card); border: 2px solid var(--borda); }
+  .tit { font-family: var(--font-titulo); font-size: 1.2rem; color: var(--destaque); }
+  .sub { margin: 0.2rem 0 0; font-size: 0.85rem; color: var(--texto-suave); }
+  .controle { display: flex; align-items: center; gap: 10px; margin-top: 1rem; font-family: var(--font-mono); font-size: 0.82rem; }
+  input[type=range] { flex: 1; accent-color: var(--coral); height: 28px; min-width: 0; }
+  .var { text-align: center; margin: 0.3rem 0 1rem; }
+  .var b { font-family: var(--font-mono); color: var(--coral); }
+  .colunas { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .col { display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center; }
+  .rot { font-weight: 600; }
+  .qtd { font-size: 0.8rem; color: var(--texto-suave); }
+  .tubo {
+    position: relative; width: 70px; height: 190px; border-radius: 10px 10px 6px 6px;
+    background: var(--giz); border: 2px solid var(--borda); display: flex; align-items: flex-end; overflow: hidden; margin: 6px 0;
+  }
+  @media (prefers-color-scheme: dark) { .tubo { background: #0e262c; } }
+  .tubo i { display: block; width: 100%; transition: height .2s; background: var(--petroleo); }
+  .tubo i.pos { background: linear-gradient(to top, var(--petroleo), #2fae73); }
+  .tubo i.neg { background: #e06060; }
+  .base { position: absolute; left: 0; right: 0; bottom: calc(1000 / 8000 * 100%); border-top: 2px dashed var(--coral); }
+  .final { font-family: var(--font-mono); font-weight: 600; font-size: 1.1rem; }
+  .ret { font-family: var(--font-mono); font-weight: 700; font-size: 1.3rem; }
+  .ret.pos { color: #1f8a5b; }
+  .ret.neg { color: #d64545; }
+  .moral { margin: 1rem 0 0; font-size: 0.95rem; line-height: 1.55; background: var(--coral-suave); padding: 0.7rem 0.9rem; border-radius: 10px; }
+</style>

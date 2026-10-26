@@ -1,0 +1,43 @@
+---
+// Grade de 100 pontos para visualizar frequência: quantos "futuros" favorecem cada lado.
+interface Props { ganhaComprador: number; legenda: string }
+const { ganhaComprador, legenda } = Astro.props;
+const pontos = Array.from({ length: 100 }, (_, i) => i < ganhaComprador);
+---
+<figure class="cem">
+  <figcaption>🎲 Se esta operação acontecesse 100 vezes…</figcaption>
+  <div class="grade" aria-hidden="true">
+    {pontos.map((c, i) => <span class={c ? 'c' : 'v'} style={`animation-delay:${(i % 10) * 40 + Math.floor(i / 10) * 40}ms`} />)}
+  </div>
+  <div class="placar">
+    <div class="lado comp"><b>{ganhaComprador}×</b><span>🙋‍♂️ quem <strong>comprou</strong> a call termina no lucro</span><small>Ganha raramente, mas cada vitória pode ser grande.</small></div>
+    <div class="lado vend"><b>{100 - ganhaComprador}×</b><span>🧑‍💼 quem <strong>vendeu</strong> a call termina no lucro</span><small>Ganha com frequência, mas pouco de cada vez, e as derrotas podem ser grandes.</small></div>
+  </div>
+  <p class="nota">{legenda}</p>
+</figure>
+
+<style>
+  .cem { margin: 2rem 0; padding: 1.2rem; border-radius: var(--raio); background: var(--bg-card); border: 2px solid var(--borda); }
+  figcaption { font-family: var(--font-titulo); font-weight: 700; font-size: 1.2rem; color: var(--destaque); }
+  .grade { display: grid; grid-template-columns: repeat(20, 1fr); gap: 5px; margin: 1rem 0; max-width: 520px; }
+  .grade span {
+    aspect-ratio: 1; border-radius: 50%; animation: surge .4s ease both;
+  }
+  .grade .c { background: var(--coral); }
+  .grade .v { background: var(--petroleo); }
+  @media (prefers-color-scheme: dark) { .grade .v { background: #7fc6d1; } }
+  @keyframes surge { from { transform: scale(0); } to { transform: scale(1); } }
+  @media (prefers-reduced-motion: reduce) { .grade span { animation: none; } }
+  .placar { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  @media (max-width: 520px) { .placar { grid-template-columns: 1fr; } }
+  .lado { border-radius: 12px; padding: 0.7rem 0.9rem; display: flex; flex-direction: column; gap: 2px; }
+  .comp { background: var(--coral-suave); border-left: 5px solid var(--coral); }
+  .vend { background: var(--giz); border-left: 5px solid var(--petroleo); }
+  @media (prefers-color-scheme: dark) { .vend { background: #0e262c; } }
+  .lado b { font-family: var(--font-mono); font-size: 1.6rem; }
+  .comp b { color: var(--coral); }
+  .vend b { color: var(--destaque); }
+  .lado span { font-size: 0.95rem; }
+  .lado small { color: var(--texto-suave); font-size: 0.82rem; line-height: 1.45; }
+  .nota { font-size: 0.78rem; color: var(--texto-suave); margin: 0.8rem 0 0; line-height: 1.5; }
+</style>

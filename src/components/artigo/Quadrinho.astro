@@ -1,0 +1,54 @@
+---
+// Tirinha em quadros: cada quadro tem uma "cena" (emojis grandes) e uma legenda.
+interface Quadro { cena: string; texto: string; fala?: string }
+interface Props { titulo?: string; quadros: Quadro[] }
+const { titulo, quadros } = Astro.props;
+---
+<figure class="tirinha">
+  {titulo && <figcaption>{titulo}</figcaption>}
+  <ol>
+    {quadros.map((q, i) => (
+      <li>
+        <span class="n">{i + 1}</span>
+        <div class="cena" aria-hidden="true">{q.cena}</div>
+        {q.fala && <div class="fala">{q.fala}</div>}
+        <p>{q.texto}</p>
+      </li>
+    ))}
+  </ol>
+</figure>
+
+<style>
+  .tirinha { margin: 2rem 0; }
+  figcaption {
+    font-family: var(--font-titulo); font-weight: 700; color: var(--destaque);
+    font-size: 1.15rem; margin-bottom: 0.7rem;
+  }
+  ol {
+    list-style: none; padding: 0; margin: 0; display: grid; gap: 12px;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  }
+  li {
+    position: relative; background: var(--bg-card); border: 2.5px solid var(--grafite);
+    border-radius: 14px; padding: 1rem 0.8rem 0.9rem; text-align: center;
+    box-shadow: 4px 4px 0 var(--coral);
+  }
+  @media (prefers-color-scheme: dark) { li { border-color: var(--texto-suave); } }
+  .n {
+    position: absolute; top: -12px; left: -12px; width: 28px; height: 28px; border-radius: 50%;
+    background: var(--petroleo); color: var(--creme); display: grid; place-items: center;
+    font-family: var(--font-mono); font-weight: 600; font-size: 0.85rem;
+  }
+  .cena { font-size: 2.6rem; line-height: 1.15; letter-spacing: 0.05em; }
+  .fala {
+    position: relative; display: inline-block; margin: 0.6rem 0 0.2rem; padding: 0.35rem 0.7rem;
+    background: var(--giz); border: 1.5px solid var(--grafite); border-radius: 12px;
+    font-size: 0.85rem; font-weight: 600; line-height: 1.35; color: var(--grafite);
+  }
+  .fala::before {
+    content: ''; position: absolute; top: -7px; left: 50%; transform: translateX(-50%) rotate(45deg);
+    width: 10px; height: 10px; background: var(--giz);
+    border-left: 1.5px solid var(--grafite); border-top: 1.5px solid var(--grafite);
+  }
+  p { margin: 0.5rem 0 0; font-size: 0.92rem; line-height: 1.5; }
+</style>

@@ -1,0 +1,73 @@
+---
+// Mapa visão de mercado x pagar/receber prêmio → estratégia
+const colunas = [
+  { id: 'alta', rot: '📈 Espero alta' },
+  { id: 'lateral', rot: '➡️ Espero lateralidade' },
+  { id: 'queda', rot: '📉 Espero queda' },
+];
+const linhas = [
+  {
+    rot: '💸 Pago prêmio', sub: 'risco limitado ao que pagou',
+    celulas: [
+      { nome: 'Compra de call', href: '/ferramentas/calculadora-de-payoff?preset=compra-de-call' },
+      { nome: 'Borboleta', href: '/ferramentas/calculadora-de-payoff?preset=borboleta' },
+      { nome: 'Compra de put', href: '/ferramentas/calculadora-de-payoff?preset=compra-de-put' },
+    ],
+  },
+  {
+    rot: '💰 Recebo prêmio', sub: 'o prêmio entra na hora; o ganho é limitado',
+    celulas: [
+      { nome: 'Venda de put coberta', href: '/estrategias/venda-de-put-coberta/' },
+      { nome: 'Venda coberta de call', href: '/estrategias/venda-coberta/' },
+      { nome: 'Trava de baixa com call', href: '' },
+    ],
+  },
+];
+---
+<figure class="mapa">
+  <figcaption>🧭 Mapa rápido: qual estrutura combina com a sua visão?</figcaption>
+  <div class="tabela" role="table">
+    <div class="canto" role="columnheader"></div>
+    {colunas.map((c) => <div class={`cab ${c.id}`} role="columnheader">{c.rot}</div>)}
+    {linhas.map((l) => (
+      <>
+        <div class="lin" role="rowheader"><b>{l.rot}</b><small>{l.sub}</small></div>
+        {l.celulas.map((c, i) => (
+          c.href
+            ? <a class={`cel ${colunas[i].id}`} href={c.href} role="cell"><span class="m">{colunas[i].rot}</span>{c.nome} <span aria-hidden="true">→</span></a>
+            : <div class={`cel ${colunas[i].id} breve`} role="cell"><span class="m">{colunas[i].rot}</span>{c.nome}<small>ficha em breve</small></div>
+        ))}
+      </>
+    ))}
+  </div>
+  <p class="nota">Toque em uma estrutura para abrir a ficha ou testá-la na calculadora de payoff.</p>
+</figure>
+
+<style>
+  .mapa { margin: 2rem 0; }
+  figcaption { font-family: var(--font-titulo); font-weight: 700; font-size: 1.2rem; color: var(--destaque); margin-bottom: 0.7rem; }
+  .tabela { display: grid; grid-template-columns: 1.1fr 1fr 1fr 1fr; gap: 8px; }
+  .cab { font-weight: 700; font-size: 0.9rem; text-align: center; padding: 0.5rem; border-radius: 10px; color: #fff; }
+  .cab.alta { background: #1f8a5b; }
+  .cab.lateral { background: var(--grafite-suave); }
+  .cab.queda { background: #d64545; }
+  .lin { display: flex; flex-direction: column; justify-content: center; padding: 0.4rem 0.6rem; background: var(--petroleo); color: var(--creme); border-radius: 10px; }
+  .lin small { font-size: 0.75rem; color: #cfe0e2; line-height: 1.3; }
+  .cel {
+    display: flex; flex-direction: column; justify-content: center; gap: 2px; text-decoration: none;
+    background: var(--bg-card); border: 2px solid var(--borda); border-radius: 10px;
+    padding: 0.7rem; font-weight: 600; font-size: 0.95rem; color: var(--destaque); min-height: 74px;
+    transition: border-color .15s, transform .15s;
+  }
+  a.cel:hover { border-color: var(--coral); transform: translateY(-2px); color: var(--coral); }
+  .cel.breve { color: var(--texto-suave); }
+  .cel small { font-weight: 400; font-size: 0.75rem; }
+  .m { display: none; font-size: 0.72rem; font-weight: 600; color: var(--texto-suave); }
+  .nota { font-size: 0.8rem; color: var(--texto-suave); margin-top: 0.5rem; }
+  @media (max-width: 620px) {
+    .tabela { grid-template-columns: 1fr; }
+    .canto, .cab { display: none; }
+    .lin { margin-top: 0.6rem; }
+    .m { display: block; }
+  }
+</style>

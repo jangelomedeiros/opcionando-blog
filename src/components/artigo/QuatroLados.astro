@@ -1,0 +1,90 @@
+---
+// Simulador: os 4 lados de uma opção (compra/venda de call/put), lote de 100.
+const CALL = { k: 40, p: 0.8 };
+const PUT = { k: 36, p: 0.7 };
+---
+<div class="quatro" data-ck={CALL.k} data-cp={CALL.p} data-pk={PUT.k} data-pp={PUT.p}>
+  <div class="topo">
+    <strong>🎮 Simulador: arraste o preço da ação no vencimento</strong>
+    <p>Ação hoje a R$ 38,00 · Call de strike R$ {CALL.k},00 a R$ 0,80 · Put de strike R$ {PUT.k},00 a R$ 0,70 · 100 opções</p>
+  </div>
+  <div class="controle">
+    <span>📉 R$ 30</span>
+    <input type="range" min="30" max="46" step="0.1" value="38" aria-label="Preço da ação no vencimento" />
+    <span>R$ 46 📈</span>
+  </div>
+  <div class="preco">Ação no vencimento: <b data-s>R$ 38,00</b></div>
+  <div class="cards">
+    <div class="card" data-lado="cc"><span class="ico">🙋‍♂️📈</span><span class="nome">Comprou a <b>call</b></span><span class="valor"></span><span class="barra"><i></i></span></div>
+    <div class="card" data-lado="vc"><span class="ico">🧑‍💼💰</span><span class="nome">Vendeu a <b>call</b></span><span class="valor"></span><span class="barra"><i></i></span></div>
+    <div class="card" data-lado="cp"><span class="ico">🙋‍♀️📉</span><span class="nome">Comprou a <b>put</b></span><span class="valor"></span><span class="barra"><i></i></span></div>
+    <div class="card" data-lado="vp"><span class="ico">👩‍💼💰</span><span class="nome">Vendeu a <b>put</b></span><span class="valor"></span><span class="barra"><i></i></span></div>
+  </div>
+  <p class="veredito" data-veredito></p>
+</div>
+
+<script>
+  const fmt = (v: number) => (v < 0 ? '−R$ ' : v > 0 ? '+R$ ' : 'R$ ') + Math.abs(v).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  document.querySelectorAll<HTMLElement>('.quatro').forEach((el) => {
+    const ck = +el.dataset.ck!, cp = +el.dataset.cp!, pk = +el.dataset.pk!, pp = +el.dataset.pp!;
+    const range = el.querySelector('input')!;
+    const MAX = 700; // escala da barra
+    const upd = () => {
+      const S = +range.value;
+      const cc = (Math.max(S - ck, 0) - cp) * 100;
+      const cpp = (Math.max(pk - S, 0) - pp) * 100;
+      const vals: Record<string, number> = { cc, vc: -cc, cp: cpp, vp: -cpp };
+      el.querySelector('[data-s]')!.textContent = 'R$ ' + S.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
+      el.querySelectorAll<HTMLElement>('.card').forEach((c) => {
+        const v = vals[c.dataset.lado!];
+        c.querySelector('.valor')!.textContent = fmt(Math.round(v * 100) / 100);
+        c.classList.toggle('ganha', v > 0.001);
+        c.classList.toggle('perde', v < -0.001);
+        const i = c.querySelector<HTMLElement>('.barra i')!;
+        const w = Math.min(Math.abs(v) / MAX, 1) * 50;
+        i.style.width = w + '%';
+        i.style.left = v >= 0 ? '50%' : 50 - w + '%';
+      });
+      let txt = '';
+      if (S > ck + cp) txt = '🚀 A ação subiu forte: quem <b>comprou a call</b> lucra, e quanto mais sobe, mais ganha. Quem vendeu a call perde o mesmo valor.';
+      else if (S < pk - pp) txt = '🪂 A ação caiu forte: quem <b>comprou a put</b> lucra. Quem vendeu a put é obrigado a comprar a ação acima do preço de mercado.';
+      else txt = '😴 A ação ficou "no meio do caminho": as duas opções perdem valor e <b>quem vendeu fica com o prêmio</b>. É o cenário mais comum para opções fora do dinheiro.';
+      el.querySelector('[data-veredito]')!.innerHTML = txt;
+    };
+    range.addEventListener('input', upd);
+    upd();
+  });
+</script>
+
+<style>
+  .quatro {
+    margin: 2rem 0; padding: 1.2rem; border-radius: var(--raio);
+    background: var(--petroleo); color: var(--creme);
+  }
+  .topo strong { font-family: var(--font-titulo); font-size: 1.2rem; color: var(--creme); }
+  .topo p { margin: 0.2rem 0 0; font-size: 0.85rem; color: #cfe0e2; }
+  .controle { display: flex; align-items: center; gap: 10px; margin-top: 1rem; font-size: 0.85rem; white-space: nowrap; }
+  input[type=range] { flex: 1; accent-color: var(--coral); height: 28px; min-width: 0; }
+  .preco { text-align: center; font-size: 1rem; margin: 0.3rem 0 0.9rem; }
+  .preco b { font-family: var(--font-mono); font-size: 1.35rem; color: var(--coral); }
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; }
+  .card {
+    background: var(--bg-card); color: var(--texto); border-radius: 12px; padding: 0.7rem;
+    display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center;
+    border: 3px solid transparent; transition: border-color .2s, transform .2s;
+  }
+  .card.ganha { border-color: #2fae73; transform: translateY(-2px); }
+  .card.perde { border-color: #e06060; }
+  .ico { font-size: 1.6rem; }
+  .nome { font-size: 0.88rem; }
+  .nome b { color: var(--destaque); }
+  .valor { font-family: var(--font-mono); font-weight: 600; font-size: 1.05rem; }
+  .ganha .valor { color: #1f8a5b; }
+  .perde .valor { color: #d64545; }
+  .barra { position: relative; width: 100%; height: 8px; background: var(--borda); border-radius: 4px; overflow: hidden; }
+  .barra::after { content: ''; position: absolute; left: 50%; top: 0; bottom: 0; width: 2px; background: var(--texto-suave); }
+  .barra i { position: absolute; top: 0; bottom: 0; background: #2fae73; transition: width .15s, left .15s; }
+  .perde .barra i { background: #e06060; }
+  .veredito { margin: 1rem 0 0; font-size: 0.95rem; line-height: 1.55; background: rgba(255,255,255,0.08); padding: 0.7rem 0.9rem; border-radius: 10px; }
+  .veredito :global(b) { color: var(--coral); }
+</style>
