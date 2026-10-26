@@ -52,4 +52,44 @@ const estrategias = defineCollection({
   }),
 });
 
-export const collections = { blog, trilha, estrategias };
+// Análises técnicas de ativos com a estrutura de opções que melhor se encaixa no cenário
+const perna = z.object({
+  tipo: z.enum(['call', 'put', 'acao']),
+  op: z.enum(['compra', 'venda']),
+  strike: z.number(), // strike da opção, ou preço da ação
+  premio: z.number().default(0), // prêmio de referência (0 para ação)
+  qtd: z.number().default(100),
+  codigo: z.string().optional(), // ex.: VALEK620
+});
+
+const analises = defineCollection({
+  loader: glob({ base: './src/content/analises', pattern: '**/*.{md,mdx}' }),
+  schema: z.object({
+    ticker: z.string(), // ex.: VALE3
+    empresa: z.string(),
+    title: z.string(),
+    description: z.string(),
+    data: z.coerce.date(), // data da análise
+    precoReferencia: z.number(), // fechamento usado na análise
+    cenario: z.enum(['Alta', 'Baixa', 'Lateral', 'Lateral para alta', 'Lateral para baixa', 'Indefinido']),
+    timeframe: z.string().default('Diário'),
+    suportes: z.array(z.number()).default([]),
+    resistencias: z.array(z.number()).default([]),
+    volatilidade: z.string().optional(), // ex.: 'IV 32% (percentil 70 em 1 ano)'
+    grafico: z.string().optional(), // nome do arquivo em src/data/candles/ (sem .json)
+    estrutura: z.object({
+      nome: z.string(),
+      racional: z.string(), // por que essa estrutura combina com o cenário
+      vencimento: z.string().optional(),
+      pernas: z.array(perna),
+    }),
+    invalidacao: z.string(), // o que faz o cenário deixar de valer
+    validade: z.coerce.date(), // até quando o estudo é acompanhado
+    status: z.enum(['Em acompanhamento', 'Encerrada', 'Invalidada']).default('Em acompanhamento'),
+    resultado: z.string().optional(), // preencher ao encerrar
+    youtube: z.string().optional(),
+    draft: z.boolean().default(false),
+  }),
+});
+
+export const collections = { blog, trilha, estrategias, analises };

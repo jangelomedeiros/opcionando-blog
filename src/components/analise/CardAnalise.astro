@@ -1,0 +1,39 @@
+---
+import { type Analise, statusAtual, classeStatus, iconeCenario, dataBR } from '../../lib/analises';
+import { brl } from '../../lib/payoff';
+interface Props { a: Analise }
+const { a } = Astro.props;
+const d = a.data;
+const st = statusAtual(a);
+---
+<a class="card-analise" href={`/analises/${a.id}/`} data-ticker={d.ticker} data-status={classeStatus(st)}>
+  <div class="topo">
+    <span class="ticker">{d.ticker}</span>
+    <span class={`status ${classeStatus(st)}`}>{st}</span>
+  </div>
+  <span class="titulo">{d.title}</span>
+  <span class="resumo">{d.description}</span>
+  <div class="rodape">
+    <span>{iconeCenario(d.cenario)} {d.cenario}</span>
+    <span>🧩 {d.estrutura.nome}</span>
+    <span>📅 {dataBR(d.data)} · ref. R$ {brl(d.precoReferencia)}</span>
+  </div>
+</a>
+
+<style>
+  .card-analise {
+    display: flex; flex-direction: column; gap: 6px; height: 100%; text-decoration: none; color: var(--texto);
+    background: var(--bg-card); border: 1px solid var(--borda); border-radius: var(--raio); padding: 1rem 1.15rem;
+    transition: transform .15s, border-color .15s, box-shadow .15s;
+  }
+  .card-analise:hover { transform: translateY(-2px); border-color: var(--coral); color: var(--texto); box-shadow: 0 8px 24px rgba(14,74,85,0.10); }
+  .topo { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+  .ticker { font-family: var(--font-mono); font-weight: 700; font-size: 1.15rem; color: #fff; background: var(--petroleo); padding: 2px 10px; border-radius: 8px; }
+  .status { font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; padding: 3px 9px; border-radius: 999px; }
+  .status.ativa { background: #d9f2e6; color: #166b46; }
+  .status.encerrada { background: var(--borda); color: var(--texto-suave); }
+  .status.invalidada { background: #fbe0e0; color: #a83232; }
+  .titulo { font-family: var(--font-titulo); font-weight: 700; font-size: 1.2rem; color: var(--destaque); line-height: 1.25; }
+  .resumo { font-size: 0.93rem; color: var(--texto-suave); line-height: 1.5; }
+  .rodape { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 0.8rem; color: var(--texto-suave); margin-top: auto; padding-top: 0.4rem; }
+</style>

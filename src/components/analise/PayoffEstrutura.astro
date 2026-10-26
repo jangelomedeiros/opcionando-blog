@@ -1,0 +1,61 @@
+---
+// Mini gráfico de payoff (no vencimento) da estrutura de uma análise + números-chave.
+import { resultado, analisar, linkCalculadora, brl, moeda, type PernaPayoff } from '../../lib/payoff';
+
+interface Props { pernas: PernaPayoff[]; spot: number }
+const { pernas, spot } = Astro.props;
+const a = analisar(pernas);
+
+const refs = [spot, ...pernas.map((p) => p.strike)];
+const lo = Math.max(0, Math.min(...refs) * 0.85), hi = Math.max(...refs) * 1.15;
+const N = 200;
+const xs = Array.from({ length: N + 1 }, (_, i) => lo + ((hi - lo) * i) / N);
+const ys = xs.map((s) => resultado(pernas, s));
+let ymin = Math.min(0, ...ys), ymax = Math.max(0, ...ys);
+const pad = (ymax - ymin) * 0.12 || 10; ymin -= pad; ymax += pad;
+const W = 520, H = 220, m = { l: 10, r: 10, t: 12, b: 26 };
+const X = (v: number) => m.l + ((v - lo) / (hi - lo)) * (W - m.l - m.r);
+const Y = (v: number) => m.t + ((ymax - v) / (ymax - ymin)) * (H - m.t - m.b);
+const linha = xs.map((x, i) => `${i ? 'L' : 'M'}${X(x).toFixed(1)},${Y(ys[i]).toFixed(1)}`).join('');
+const area = (f: (y: number) => number) =>
+  `M${X(xs[0])},${Y(0)}` + xs.map((x, i) => `L${X(x).toFixed(1)},${Y(f(ys[i])).toFixed(1)}`).join('') + `L${X(xs[N])},${Y(0)}Z`;
+---
+<div class="payoff">
+  <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-label="Gráfico de payoff da estrutura no vencimento">
+    <path d={area((y) => Math.max(y, 0))} class="pos" />
+    <path d={area((y) => Math.min(y, 0))} class="neg" />
+    <line x1={m.l} x2={W - m.r} y1={Y(0)} y2={Y(0)} class="zero" />
+    <line x1={X(spot)} x2={X(spot)} y1={m.t} y2={H - m.b} class="spot" />
+    <text x={X(spot) + 5} y={m.t + 10} class="rot-spot">ref.: {brl(spot)}</text>
+    <path d={linha} class="linha" />
+    {a.be.filter((b) => b >= lo && b <= hi).map((b) => <circle cx={X(b)} cy={Y(0)} r="4.5" class="be" />)}
+    <text x={m.l} y={H - 6} class="rot">{brl(lo)}</text>
+    <text x={W - m.r} y={H - 6} class="rot" text-anchor="end">{brl(hi)}</text>
+  </svg>
+  <dl>
+    <div><dt>Montagem</dt><dd>{a.fluxo >= 0 ? `Crédito de ${moeda(a.fluxo)}` : `Débito de ${moeda(-a.fluxo)}`}</dd></div>
+    <div><dt>Ganho máximo</dt><dd class="g">{a.ganhoIlimitado ? 'Ilimitado' : moeda(a.max)}</dd></div>
+    <div><dt>Perda máxima</dt><dd class="p">{a.perdaIlimitada ? 'Ilimitada' : moeda(a.min)}</dd></div>
+    <div><dt>Equilíbrio</dt><dd>{a.be.length ? a.be.map((b) => 'R$ ' + brl(b)).join(' · ') : '—'}</dd></div>
+  </dl>
+  <a class="botao" href={linkCalculadora(pernas, spot)}>Simular com outros números →</a>
+</div>
+
+<style>
+  .payoff { background: var(--bg-card); border: 1px solid var(--borda); border-radius: var(--raio); padding: 0.8rem; }
+  svg { width: 100%; height: auto; display: block; }
+  .pos { fill: rgba(31,138,91,0.16); } .neg { fill: rgba(214,69,69,0.14); }
+  .zero { stroke: var(--texto-suave); stroke-width: 1.2; }
+  .spot { stroke: var(--coral); stroke-dasharray: 4 4; }
+  .rot-spot { fill: var(--coral); font-size: 11px; font-weight: 600; }
+  .rot { fill: var(--texto-suave); font-family: var(--font-mono); font-size: 11px; }
+  .linha { fill: none; stroke: var(--petroleo); stroke-width: 2.5; }
+  @media (prefers-color-scheme: dark) { .linha { stroke: #7fc6d1; } }
+  .be { fill: var(--bg-card); stroke: var(--coral); stroke-width: 2.5; }
+  dl { margin: 0.6rem 0 0.8rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 8px; }
+  dl div { background: var(--giz); border-radius: 10px; padding: 0.45rem 0.6rem; }
+  @media (prefers-color-scheme: dark) { dl div { background: #0e262c; } }
+  dt { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--texto-suave); font-weight: 600; }
+  dd { margin: 0; font-family: var(--font-mono); font-weight: 600; font-size: 0.92rem; color: var(--destaque); }
+  dd.g { color: #1f8a5b; } dd.p { color: #d64545; }
+</style>

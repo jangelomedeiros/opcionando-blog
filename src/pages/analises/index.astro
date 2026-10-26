@@ -1,0 +1,113 @@
+---
+import Base from '../../layouts/Base.astro';
+import CardAnalise from '../../components/analise/CardAnalise.astro';
+import AvisoAnalise from '../../components/analise/AvisoAnalise.astro';
+import { getAnalises } from '../../lib/analises';
+
+const analises = await getAnalises();
+const tickers = [...new Set(analises.map((a) => a.data.ticker))].sort();
+---
+<Base title="Análise técnica dos ativos" description="Estudos técnicos dos principais papéis com opções da bolsa brasileira e a estrutura de opções que faz mais sentido para cada cenário.">
+  <section class="container-larga pagina">
+    <p class="sobretitulo">Estudos de caso</p>
+    <h1>Análise técnica dos ativos</h1>
+    <p class="intro">
+      O gráfico diz em que cenário o papel está. A estrutura de opções é a ferramenta para esse cenário.
+      Aqui você acompanha os dois juntos: leitura técnica, níveis que importam, a estrutura que faz sentido
+      {" "}<em>naquele momento</em> e, depois, o que de fato aconteceu.
+    </p>
+
+    <AvisoAnalise />
+
+    <div class="como">
+      <div><span>1</span><b>Cenário</b>Tendência, suportes e resistências no gráfico.</div>
+      <div><span>2</span><b>Volatilidade</b>Prêmios caros favorecem vender; baratos, comprar.</div>
+      <div><span>3</span><b>Estrutura</b>A montagem que combina com cenário e volatilidade.</div>
+      <div><span>4</span><b>Invalidação</b>O preço que mostra que a leitura estava errada.</div>
+      <div><span>5</span><b>Resultado</b>Ao final, o estudo é encerrado com o que aconteceu.</div>
+    </div>
+
+    {analises.length === 0 ? (
+      <div class="vazio">
+        <span aria-hidden="true">📊</span>
+        <h2>Os primeiros estudos estão a caminho</h2>
+        <p>Em breve, as análises dos papéis com maior liquidez em opções vão aparecer aqui, cada uma com o gráfico, os níveis e a estrutura estudada.</p>
+      </div>
+    ) : (
+      <>
+        <div class="filtros" role="group" aria-label="Filtrar análises">
+          <div class="grupo">
+            <button type="button" class="ativo" data-f-status="todas">Todas</button>
+            <button type="button" data-f-status="ativa">Em acompanhamento</button>
+            <button type="button" data-f-status="encerrada">Encerradas</button>
+          </div>
+          <div class="grupo tickers">
+            <button type="button" class="ativo" data-f-ticker="todos">Todos os ativos</button>
+            {tickers.map((t) => <button type="button" data-f-ticker={t}>{t}</button>)}
+          </div>
+        </div>
+        <ul class="grade-cards lista" id="lista-analises">
+          {analises.map((a) => <li><CardAnalise a={a} /></li>)}
+        </ul>
+        <p id="sem-analise" hidden>Nenhuma análise com esses filtros.</p>
+      </>
+    )}
+  </section>
+</Base>
+
+<script>
+  let fStatus = 'todas', fTicker = 'todos';
+  const aplicar = () => {
+    let algum = false;
+    document.querySelectorAll<HTMLElement>('#lista-analises > li').forEach((li) => {
+      const c = li.querySelector<HTMLElement>('.card-analise')!;
+      const st = c.dataset.status!;
+      const okS = fStatus === 'todas' || (fStatus === 'ativa' ? st === 'ativa' : st !== 'ativa');
+      const okT = fTicker === 'todos' || c.dataset.ticker === fTicker;
+      li.hidden = !(okS && okT);
+      if (!li.hidden) algum = true;
+    });
+    const v = document.getElementById('sem-analise'); if (v) v.hidden = algum;
+  };
+  document.querySelectorAll<HTMLButtonElement>('[data-f-status]').forEach((b) => b.addEventListener('click', () => {
+    fStatus = b.dataset.fStatus!;
+    document.querySelectorAll('[data-f-status]').forEach((x) => x.classList.toggle('ativo', x === b));
+    aplicar();
+  }));
+  document.querySelectorAll<HTMLButtonElement>('[data-f-ticker]').forEach((b) => b.addEventListener('click', () => {
+    fTicker = b.dataset.fTicker!;
+    document.querySelectorAll('[data-f-ticker]').forEach((x) => x.classList.toggle('ativo', x === b));
+    aplicar();
+  }));
+</script>
+
+<style>
+  .como { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; margin: 1.6rem 0; }
+  .como > div {
+    background: var(--bg-card); border: 1px solid var(--borda); border-radius: 12px; padding: 0.8rem 0.9rem;
+    font-size: 0.88rem; color: var(--texto-suave); line-height: 1.45;
+  }
+  .como span {
+    display: inline-grid; place-items: center; width: 26px; height: 26px; border-radius: 50%;
+    background: var(--coral); color: #fff; font-family: var(--font-mono); font-weight: 600; font-size: 0.85rem; margin-bottom: 4px;
+  }
+  .como b { display: block; font-family: var(--font-titulo); color: var(--destaque); font-size: 1.05rem; }
+  .filtros { display: flex; flex-direction: column; gap: 8px; margin-top: 1.4rem; }
+  .grupo { display: flex; flex-wrap: wrap; gap: 6px; }
+  .filtros button {
+    font: inherit; font-size: 0.88rem; font-weight: 600; cursor: pointer;
+    padding: 6px 13px; border-radius: 999px; border: 1.5px solid var(--borda);
+    background: var(--bg-card); color: var(--destaque);
+  }
+  .tickers button { font-family: var(--font-mono); }
+  .filtros button:hover { border-color: var(--coral); }
+  .filtros button.ativo { background: var(--petroleo); border-color: var(--petroleo); color: var(--creme); }
+  .lista { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
+  .vazio {
+    text-align: center; padding: 2.5rem 1rem; margin-top: 1.6rem;
+    background: var(--bg-card); border: 2px dashed var(--borda); border-radius: var(--raio);
+  }
+  .vazio span { font-size: 3rem; }
+  .vazio h2 { margin: 0.4rem 0; border: none; padding: 0; }
+  .vazio p { color: var(--texto-suave); max-width: 520px; margin: 0 auto; }
+</style>

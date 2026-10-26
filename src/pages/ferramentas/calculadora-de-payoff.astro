@@ -362,8 +362,31 @@ import Base from '../../layouts/Base.astro';
   window.addEventListener('resize', () => { clearTimeout(tResize); tResize = window.setTimeout(atualizar, 150); });
 
   // ---------- Início ----------
+  // Também aceita uma estrutura completa pela URL:
+  // ?spot=38&pernas=compra:call:40:0.8:100,venda:call:42:0.5:100
+  function carregarDaUrl(): boolean {
+    const q = new URL(location.href).searchParams;
+    const raw = q.get('pernas');
+    if (!raw) return false;
+    const lidas: Perna[] = [];
+    for (const item of raw.split(',').slice(0, MAX_PERNAS)) {
+      const [op, tipo, preco, premio, qtd] = item.split(':');
+      if (!['compra', 'venda'].includes(op) || !['call', 'put', 'acao'].includes(tipo)) return false;
+      const p = { op, tipo, preco: +preco, premio: +premio || 0, qtd: Math.round(+qtd || 100) } as Perna;
+      if (!(p.preco > 0)) return false;
+      lidas.push(p);
+    }
+    if (!lidas.length) return false;
+    pernas = lidas;
+    const sp = +(q.get('spot') ?? '');
+    spot = sp > 0 ? sp : lidas[0].preco;
+    ($('spot') as HTMLInputElement).value = brl(spot);
+    renderPernas(); atualizar();
+    return true;
+  }
+
   const inicial = new URL(location.href).searchParams.get('preset');
-  carregarPreset(inicial && PRESETS[inicial] ? inicial : 'venda-coberta');
+  if (!carregarDaUrl()) carregarPreset(inicial && PRESETS[inicial] ? inicial : 'venda-coberta');
 </script>
 
 <style>

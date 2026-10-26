@@ -1,0 +1,25 @@
+---
+// Aviso específico das análises. Aparece no topo da aba e em toda análise.
+interface Props { compacto?: boolean }
+const { compacto = false } = Astro.props;
+---
+<aside class:list={['aviso-analise', { compacto }]} role="note">
+  <strong>⚠️ Estudo educacional, não é recomendação</strong>
+  <p>
+    Esta análise é um <b>estudo de caso</b> para ensinar como relacionar o cenário técnico de um ativo com a
+    estrutura de opções mais coerente para ele. <b>Não é recomendação de compra ou venda</b>, não considera o seu
+    perfil, objetivos ou patrimônio e pode ficar desatualizada a qualquer momento. Preços e prêmios são de referência
+    na data do estudo. Opções envolvem risco elevado.
+  </p>
+</aside>
+
+<style>
+  .aviso-analise {
+    margin: 1.4rem 0; padding: 0.9rem 1.1rem; border-radius: var(--raio);
+    background: var(--coral-suave); border: 1px solid rgba(242,105,77,0.45); border-left: 5px solid var(--coral);
+  }
+  strong { font-family: var(--font-titulo); color: var(--coral); font-size: 1.05rem; }
+  p { margin: 0.3rem 0 0; font-size: 0.9rem; line-height: 1.55; }
+  b { color: var(--texto); }
+  .compacto p { font-size: 0.82rem; }
+</style>

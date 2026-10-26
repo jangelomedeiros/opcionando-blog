@@ -1,0 +1,32 @@
+---
+import Base from '../../../layouts/Base.astro';
+import CardAnalise from '../../../components/analise/CardAnalise.astro';
+import AvisoAnalise from '../../../components/analise/AvisoAnalise.astro';
+import { getAnalises } from '../../../lib/analises';
+
+export async function getStaticPaths() {
+  const lista = await getAnalises();
+  const tickers = [...new Set(lista.map((a) => a.data.ticker))];
+  return tickers.map((t) => ({
+    params: { ticker: t.toLowerCase() },
+    props: { ticker: t, analises: lista.filter((a) => a.data.ticker === t) },
+  }));
+}
+const { ticker, analises } = Astro.props;
+const empresa = analises[0].data.empresa;
+---
+<Base title={`${ticker}: análises técnicas e estruturas com opções`} description={`Histórico de estudos técnicos de ${ticker} (${empresa}) com as estruturas de opções analisadas em cada cenário.`}>
+  <section class="container-larga pagina">
+    <p class="sobretitulo"><a href="/analises" style="color:var(--coral);text-decoration:none">Análise técnica dos ativos</a></p>
+    <h1><span class="ticker">{ticker}</span> {empresa}</h1>
+    <p class="intro">Todos os estudos de {ticker}, do mais recente ao mais antigo. Compare as leituras ao longo do tempo e veja o que se confirmou.</p>
+    <AvisoAnalise compacto />
+    <ul class="grade-cards">
+      {analises.map((a) => <li><CardAnalise a={a} /></li>)}
+    </ul>
+  </section>
+</Base>
+
+<style>
+  .ticker { font-family: var(--font-mono); color: #fff; background: var(--petroleo); padding: 0 12px; border-radius: 10px; font-size: 0.85em; }
+</style>

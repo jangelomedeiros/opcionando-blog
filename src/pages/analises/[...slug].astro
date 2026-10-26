@@ -1,0 +1,181 @@
+---
+import { render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import GraficoCandles from '../../components/analise/GraficoCandles.astro';
+import PayoffEstrutura from '../../components/analise/PayoffEstrutura.astro';
+import AvisoAnalise from '../../components/analise/AvisoAnalise.astro';
+import { getAnalises, statusAtual, classeStatus, iconeCenario, dataBR } from '../../lib/analises';
+import { brl } from '../../lib/payoff';
+
+export async function getStaticPaths() {
+  const lista = await getAnalises();
+  return lista.map((a) => ({
+    params: { slug: a.id },
+    props: { a, outras: lista.filter((x) => x.data.ticker === a.data.ticker && x.id !== a.id).slice(0, 3) },
+  }));
+}
+
+const { a, outras } = Astro.props;
+const { Content } = await render(a);
+const d = a.data;
+const st = statusAtual(a);
+
+// Dados do gráfico (opcionais)
+const arquivos = import.meta.glob<{ default: { d: string; o: number; h: number; l: number; c: number }[] }>('../../data/candles/*.json', { eager: true });
+const candles = d.grafico ? arquivos[`../../data/candles/${d.grafico}.json`]?.default : undefined;
+const niveis = [
+  ...d.suportes.map((p) => ({ preco: p, tipo: 'suporte' as const })),
+  ...d.resistencias.map((p) => ({ preco: p, tipo: 'resistencia' as const })),
+  ...d.estrutura.pernas.filter((p) => p.tipo !== 'acao').map((p) => ({
+    preco: p.strike, tipo: 'strike' as const,
+    rotulo: `${p.op === 'compra' ? 'Compra' : 'Venda'} ${p.tipo}${p.codigo ? ' ' + p.codigo : ''}`,
+  })),
+];
+const nomeTipo = { call: 'Call', put: 'Put', acao: 'Ação' };
+---
+<Base title={`${d.ticker}: ${d.title}`} description={d.description} type="article"
+  image={d.youtube ? `https://i.ytimg.com/vi/${d.youtube}/hqdefault.jpg` : undefined}>
+  <article class="container-larga pagina">
+    <p class="sobretitulo"><a href="/analises">Análise técnica dos ativos</a> · <a href={`/analises/ativo/${d.ticker.toLowerCase()}/`}>{d.ticker}</a></p>
+
+    <header class="cab">
+      <div>
+        <div class="linha-ticker">
+          <span class="ticker">{d.ticker}</span>
+          <span class="empresa">{d.empresa}</span>
+          <span class={`status ${classeStatus(st)}`}>{st}</span>
+        </div>
+        <h1>{d.title}</h1>
+        <p class="intro">{d.description}</p>
+      </div>
+    </header>
+
+    <div class="ficha">
+      <div><span>Data do estudo</span><b>{dataBR(d.data)}</b></div>
+      <div><span>Preço de referência</span><b>R$ {brl(d.precoReferencia)}</b></div>
+      <div><span>Cenário</span><b>{iconeCenario(d.cenario)} {d.cenario}</b></div>
+      <div><span>Tempo gráfico</span><b>{d.timeframe}</b></div>
+      <div><span>Acompanhamento até</span><b>{dataBR(d.validade)}</b></div>
+      {d.volatilidade && <div><span>Volatilidade</span><b>{d.volatilidade}</b></div>}
+    </div>
+
+    {candles && candles.length > 0 && <GraficoCandles candles={candles} niveis={niveis} ticker={d.ticker} />}
+
+    <div class="niveis">
+      {d.resistencias.length > 0 && <div class="res"><span>Resistências</span>{[...d.resistencias].sort((x, y) => y - x).map((p) => <b>R$ {brl(p)}</b>)}</div>}
+      {d.suportes.length > 0 && <div class="sup"><span>Suportes</span>{[...d.suportes].sort((x, y) => y - x).map((p) => <b>R$ {brl(p)}</b>)}</div>}
+    </div>
+
+    <div class="corpo">
+      <div class="texto conteudo">
+        <h2>Leitura técnica</h2>
+        <Content />
+      </div>
+
+      <aside class="lateral">
+        <section class="estrutura">
+          <p class="rot">🧩 A estrutura que faz sentido</p>
+          <h2>{d.estrutura.nome}</h2>
+          <p class="racional">{d.estrutura.racional}</p>
+          {d.estrutura.vencimento && <p class="venc">Vencimento: <b>{d.estrutura.vencimento}</b></p>}
+          <table>
+            <thead><tr><th>Perna</th><th>Strike</th><th>Prêmio</th><th>Qtd.</th></tr></thead>
+            <tbody>
+              {d.estrutura.pernas.map((p) => (
+                <tr>
+                  <td><span class={p.op}>{p.op === 'compra' ? 'Compra' : 'Venda'}</span> {nomeTipo[p.tipo]}{p.codigo && <small>{p.codigo}</small>}</td>
+                  <td>{brl(p.strike)}</td>
+                  <td>{p.tipo === 'acao' ? '—' : brl(p.premio)}</td>
+                  <td>{p.qtd}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <PayoffEstrutura pernas={d.estrutura.pernas} spot={d.precoReferencia} />
+        </section>
+
+        <section class="invalida">
+          <p class="rot">🚫 O que invalida o cenário</p>
+          <p>{d.invalidacao}</p>
+        </section>
+
+        {d.resultado && (
+          <section class="resultado">
+            <p class="rot">🏁 Resultado do estudo</p>
+            <p>{d.resultado}</p>
+          </section>
+        )}
+      </aside>
+    </div>
+
+    {d.youtube && (
+      <div class="video-embed">
+        <iframe src={`https://www.youtube-nocookie.com/embed/${d.youtube}`} title={`Vídeo: ${d.title}`} loading="lazy"
+          allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+      </div>
+    )}
+
+    <AvisoAnalise compacto />
+
+    {outras.length > 0 && (
+      <nav class="outras">
+        <h2>Outros estudos de {d.ticker}</h2>
+        <ul>{outras.map((o) => <li><a href={`/analises/${o.id}/`}>{dataBR(o.data.data)} · {o.data.title}</a></li>)}</ul>
+      </nav>
+    )}
+  </article>
+</Base>
+
+<style>
+  .sobretitulo a { color: var(--coral); text-decoration: none; }
+  .linha-ticker { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; margin-top: 0.6rem; }
+  .ticker { font-family: var(--font-mono); font-weight: 700; font-size: 1.5rem; color: #fff; background: var(--petroleo); padding: 2px 12px; border-radius: 10px; }
+  .empresa { color: var(--texto-suave); font-weight: 500; }
+  .status { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; padding: 3px 10px; border-radius: 999px; }
+  .status.ativa { background: #d9f2e6; color: #166b46; }
+  .status.encerrada { background: var(--borda); color: var(--texto-suave); }
+  .status.invalidada { background: #fbe0e0; color: #a83232; }
+  h1 { margin-top: 0.4em; }
+  .ficha {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1px;
+    background: var(--borda); border: 1px solid var(--borda); border-radius: var(--raio); overflow: hidden;
+  }
+  .ficha div { background: var(--bg-card); padding: 0.7rem 0.9rem; }
+  .ficha span, .rot, .niveis span {
+    display: block; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600; color: var(--texto-suave);
+  }
+  .ficha b { color: var(--destaque); font-size: 1rem; }
+  .niveis { display: flex; flex-wrap: wrap; gap: 10px 24px; margin-bottom: 1rem; }
+  .niveis div { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; }
+  .niveis span { margin-right: 4px; }
+  .niveis b { font-family: var(--font-mono); font-size: 0.88rem; padding: 2px 8px; border-radius: 6px; }
+  .res b { background: #fbe0e0; color: #a83232; }
+  .sup b { background: #d9f2e6; color: #166b46; }
+  .corpo { display: grid; grid-template-columns: minmax(0, 1fr) minmax(300px, 400px); gap: 28px; align-items: start; }
+  @media (max-width: 900px) { .corpo { grid-template-columns: 1fr; } }
+  .texto h2:first-child { margin-top: 0.6em; }
+  .lateral { display: flex; flex-direction: column; gap: 14px; position: sticky; top: 12px; }
+  @media (max-width: 900px) { .lateral { position: static; } }
+  .lateral section { border-radius: var(--raio); padding: 1rem 1.1rem; }
+  .estrutura { background: var(--petroleo); color: var(--creme); }
+  .estrutura .rot { color: #cfe0e2; }
+  .estrutura h2 { color: #fff; margin: 0.2em 0 0.3em; font-size: 1.5rem; border: none; padding: 0; }
+  .racional { font-size: 0.93rem; line-height: 1.55; color: #e3eced; margin: 0 0 0.6rem; }
+  .venc { font-size: 0.9rem; margin: 0 0 0.6rem; }
+  .estrutura table { display: table; width: 100%; font-size: 0.85rem; margin: 0.4rem 0 0.9rem; table-layout: fixed; }
+  .estrutura th, .estrutura td { padding: 0.45em 0.35em; min-width: 0; }
+  .estrutura th:first-child, .estrutura td:first-child { width: 38%; }
+  .estrutura th { color: #cfe0e2; font-size: 0.75rem; border-color: rgba(255,255,255,0.2); }
+  .estrutura td { border-color: rgba(255,255,255,0.15); white-space: normal; font-family: var(--font-mono); }
+  .lateral, .texto { min-width: 0; }
+  .estrutura td:first-child { font-family: var(--font-texto); }
+  .estrutura td small { display: block; font-family: var(--font-mono); color: #cfe0e2; font-size: 0.72rem; }
+  .estrutura td .compra { color: #7be0ad; font-weight: 600; }
+  .estrutura td .venda { color: #ffb4a6; font-weight: 600; }
+  .estrutura :global(.payoff) { color: var(--texto); }
+  .invalida { background: #fbe0e0; color: #6b1f1f; }
+  .invalida .rot { color: #a83232; }
+  .invalida p:last-child, .resultado p:last-child { margin: 0.3rem 0 0; font-size: 0.95rem; line-height: 1.5; }
+  .resultado { background: var(--bg-card); border: 2px solid var(--petroleo); }
+  .outras ul { padding-left: 1.2rem; }
+</style>
