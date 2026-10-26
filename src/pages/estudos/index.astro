@@ -1,0 +1,34 @@
+---
+import Base from '../../layouts/Base.astro';
+import { ESTUDOS_PLANEJADOS } from '../../data/planejamento';
+---
+<Base title="Estudos" description="Pesquisa própria do Opcionando com dados reais do mercado brasileiro de opções.">
+  <section class="container-larga pagina">
+    <p class="sobretitulo">Pesquisa própria</p>
+    <h1>Estudos</h1>
+    <p class="intro">
+      Opinião todo mundo tem. Aqui a pergunta é outra: o que os dados históricos do mercado brasileiro
+      mostram? Cada estudo traz a metodologia, o tamanho da amostra e as limitações, para você
+      julgar a conclusão por conta própria.
+    </p>
+    <ul class="grade-cards">
+      {ESTUDOS_PLANEJADOS.map((e) => (
+        <li>
+          <div class="card-link em-breve">
+            <span class="selo neutro">Em produção</span>
+            <span class="titulo">{e.title}</span>
+            <span class="resumo">{e.resumo}</span>
+          </div>
+        </li>
+      ))}
+    </ul>
+    <div class="caixa">
+      <strong>Como os estudos são feitos</strong>
+      <ul>
+        <li>Dados reais de cadeias de opções e cotações históricas de fechamento.</li>
+        <li>A conclusão só é publicada depois de testada com amostras maiores: amostra pequena engana.</li>
+        <li>Resultado passado não garante resultado futuro. O estudo mostra padrões, não promessas.</li>
+      </ul>
+    </div>
+  </section>
+</Base>

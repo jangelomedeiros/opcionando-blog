@@ -1,0 +1,65 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { formatarData, tempoLeitura } from '../../lib/posts';
+
+export async function getStaticPaths() {
+  const mods = (await getCollection('trilha', ({ data }) => import.meta.env.DEV || !data.draft))
+    .sort((a, b) => a.data.modulo - b.data.modulo);
+  return mods.map((m, i) => ({
+    params: { slug: m.id },
+    props: { mod: m, anterior: mods[i - 1], proximo: mods[i + 1] },
+  }));
+}
+
+const { mod, anterior, proximo } = Astro.props;
+const { Content } = await render(mod);
+const { title, description, modulo, objetivos, youtube, updatedDate } = mod.data;
+---
+<Base title={`Módulo ${modulo}: ${title}`} description={description} type="article">
+  <article class="container pagina">
+    <p class="sobretitulo"><a href="/comece-aqui">Comece Aqui</a> · Módulo {String(modulo).padStart(2, '0')}</p>
+    <h1>{title}</h1>
+    <p class="intro">{description}</p>
+    <p class="meta">{tempoLeitura(mod.body)}{updatedDate && <> · atualizado em {formatarData(updatedDate)}</>}</p>
+
+    {objetivos.length > 0 && (
+      <div class="caixa">
+        <strong>Ao final deste módulo, você vai:</strong>
+        <ul>{objetivos.map((o) => <li>{o}</li>)}</ul>
+      </div>
+    )}
+
+    {youtube && (
+      <div class="video-embed">
+        <iframe src={`https://www.youtube-nocookie.com/embed/${youtube}`} title={`Vídeo: ${title}`} loading="lazy"
+          allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+      </div>
+    )}
+
+    <div class="conteudo"><Content /></div>
+
+    <nav class="nav-trilha" aria-label="Navegação da trilha">
+      {anterior ? <a href={`/trilha/${anterior.id}/`}><small>← Módulo {anterior.data.modulo}</small>{anterior.data.title}</a> : <span />}
+      {proximo
+        ? <a class="dir" href={`/trilha/${proximo.id}/`}><small>Próximo: módulo {proximo.data.modulo} →</small>{proximo.data.title}</a>
+        : <a class="dir" href="/comece-aqui"><small>Próximo módulo em produção</small>Voltar para a trilha</a>}
+    </nav>
+  </article>
+</Base>
+
+<style>
+  .sobretitulo a { color: var(--coral); text-decoration: none; }
+  .meta { font-size: 0.85rem; color: var(--texto-suave); }
+  .caixa ul { margin: 0.4rem 0 0; }
+  .nav-trilha { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 3rem; }
+  .nav-trilha a {
+    display: flex; flex-direction: column; gap: 2px; text-decoration: none;
+    border: 1px solid var(--borda); border-radius: var(--raio); padding: 0.8rem 1rem;
+    background: var(--bg-card); font-weight: 600; font-size: 0.95rem; line-height: 1.35;
+  }
+  .nav-trilha a:hover { border-color: var(--coral); }
+  .nav-trilha small { color: var(--texto-suave); font-weight: 400; }
+  .nav-trilha .dir { text-align: right; }
+  @media (max-width: 560px) { .nav-trilha { grid-template-columns: 1fr; } .nav-trilha .dir { text-align: left; } }
+</style>

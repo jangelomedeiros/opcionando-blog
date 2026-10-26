@@ -1,0 +1,69 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import { TRILHA_PLANEJADA } from '../data/planejamento';
+
+const publicados = await getCollection('trilha', ({ data }) => import.meta.env.DEV || !data.draft);
+const porSlug = new Map(publicados.map((m) => [m.id, m]));
+
+// Junta o planejado com o publicado (o publicado manda no título e na descrição)
+const extras = publicados.filter((m) => !TRILHA_PLANEJADA.some((p) => p.slug === m.id));
+const modulos = [
+  ...TRILHA_PLANEJADA.map((p) => {
+    const m = porSlug.get(p.slug);
+    return { modulo: m?.data.modulo ?? p.modulo, slug: p.slug, title: m?.data.title ?? p.title, description: m?.data.description, pronto: !!m };
+  }),
+  ...extras.map((m) => ({ modulo: m.data.modulo, slug: m.id, title: m.data.title, description: m.data.description, pronto: true })),
+].sort((a, b) => a.modulo - b.modulo);
+
+const prontos = modulos.filter((m) => m.pronto).length;
+---
+<Base title="Comece Aqui" description="A trilha do Opcionando: aprenda opções do zero, em ordem, módulo por módulo.">
+  <section class="container pagina">
+    <p class="sobretitulo">Trilha de estudo</p>
+    <h1>Comece Aqui</h1>
+    <p class="intro">
+      Opções parecem difíceis porque costumam ser ensinadas fora de ordem. Aqui não: cada módulo
+      usa só o que você aprendeu nos anteriores. Siga a sequência e, no final, você vai saber ler
+      uma grade de opções, entender o preço de cada uma e montar uma operação com risco definido.
+    </p>
+    <p class="progresso"><strong>{prontos}</strong> de {modulos.length} módulos publicados. Os demais estão em produção.</p>
+
+    <ol class="trilha">
+      {modulos.map((m) => (
+        <li class={m.pronto ? 'pronto' : 'breve'}>
+          <span class="num">{String(m.modulo).padStart(2, '0')}</span>
+          <div>
+            {m.pronto
+              ? <a href={`/trilha/${m.slug}/`} class="titulo">{m.title}</a>
+              : <span class="titulo">{m.title}</span>}
+            {m.description && <p>{m.description}</p>}
+            {!m.pronto && <span class="selo neutro">Em breve</span>}
+          </div>
+        </li>
+      ))}
+    </ol>
+  </section>
+</Base>
+
+<style>
+  .progresso { font-size: 0.95rem; color: var(--texto-suave); }
+  .trilha { list-style: none; padding: 0; margin: 2rem 0 0; position: relative; }
+  .trilha::before {
+    content: ''; position: absolute; left: 23px; top: 10px; bottom: 10px;
+    width: 3px; background: var(--borda); border-radius: 2px;
+  }
+  .trilha li { display: grid; grid-template-columns: 48px 1fr; gap: 14px; padding: 0.7rem 0; position: relative; }
+  .num {
+    width: 48px; height: 48px; border-radius: 50%;
+    display: grid; place-items: center; z-index: 1;
+    font-family: var(--font-mono); font-weight: 600; font-size: 0.95rem;
+    background: var(--petroleo); color: var(--creme); border: 3px solid var(--bg);
+  }
+  .breve .num { background: var(--bg-card); color: var(--texto-suave); border-color: var(--borda); }
+  .titulo { font-family: var(--font-titulo); font-weight: 700; font-size: 1.25rem; line-height: 1.25; display: inline-block; margin-top: 0.55rem; }
+  a.titulo { text-decoration: none; color: var(--destaque); }
+  a.titulo:hover { color: var(--coral); }
+  .breve .titulo { color: var(--texto-suave); }
+  .trilha p { margin: 0.2rem 0 0.3rem; color: var(--texto-suave); font-size: 0.97rem; line-height: 1.55; }
+</style>

@@ -1,0 +1,50 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { ESTRATEGIAS_PLANEJADAS } from '../../data/planejamento';
+
+const publicadas = await getCollection('estrategias', ({ data }) => import.meta.env.DEV || !data.draft);
+const porSlug = new Map(publicadas.map((e) => [e.id, e]));
+const extras = publicadas.filter((e) => !ESTRATEGIAS_PLANEJADAS.some((p) => p.slug === e.id));
+const lista = [
+  ...ESTRATEGIAS_PLANEJADAS.map((p) => ({ slug: p.slug, title: p.title, e: porSlug.get(p.slug) })),
+  ...extras.map((e) => ({ slug: e.id, title: e.data.title, e })),
+].sort((a, b) => Number(!a.e) - Number(!b.e));
+---
+<Base title="Estratégias" description="Fichas das estratégias com opções: montagem, payoff, ganho e perda máximos, ponto de equilíbrio e quando usar cada uma.">
+  <section class="container-larga pagina">
+    <p class="sobretitulo">Biblioteca</p>
+    <h1>Estratégias</h1>
+    <p class="intro">
+      Toda estratégia aqui segue a mesma ficha: qual é a visão de mercado, como montar, quanto pode
+      ganhar, quanto pode perder e onde fica o ponto de equilíbrio. Cada uma abre direto na
+      calculadora de payoff para você testar com os seus números.
+    </p>
+    <ul class="grade-cards">
+      {lista.map(({ slug, title, e }) => (
+        <li>
+          {e ? (
+            <a class="card-link" href={`/estrategias/${slug}/`}>
+              <span class="selos">
+                <span class="selo">{e.data.visao}</span>
+                <span class="selo coral">{e.data.objetivo}</span>
+                <span class="selo neutro">{e.data.nivel}</span>
+              </span>
+              <span class="titulo">{e.data.title}</span>
+              <span class="resumo">{e.data.description}</span>
+            </a>
+          ) : (
+            <div class="card-link em-breve">
+              <span class="selo neutro">Em breve</span>
+              <span class="titulo">{title}</span>
+            </div>
+          )}
+        </li>
+      ))}
+    </ul>
+  </section>
+</Base>
+
+<style>
+  .selos { display: flex; gap: 6px; flex-wrap: wrap; }
+</style>

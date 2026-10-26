@@ -1,0 +1,445 @@
+---
+import Base from '../../layouts/Base.astro';
+---
+<Base
+  title="Calculadora de payoff de opções"
+  description="Calculadora gratuita de payoff de opções: monte calls, puts e ações, veja o gráfico de lucro e prejuízo no vencimento, o ponto de equilíbrio, o ganho e a perda máximos."
+>
+  <section class="container-larga pagina">
+    <p class="sobretitulo"><a href="/ferramentas">Ferramentas</a></p>
+    <h1>Calculadora de payoff</h1>
+    <p class="intro">
+      Monte a estrutura, perna por perna, e veja o resultado no <strong>vencimento</strong> para cada preço
+      possível da ação. Use vírgula ou ponto nos decimais. Tudo roda no seu navegador.
+    </p>
+
+    <div class="presets">
+      <label for="preset">Começar de um modelo:</label>
+      <select id="preset">
+        <option value="">Escolha uma estratégia…</option>
+        <option value="venda-coberta">Venda coberta de call</option>
+        <option value="venda-de-put-coberta">Venda de put coberta</option>
+        <option value="compra-de-call">Compra de call</option>
+        <option value="put-de-protecao">Put de proteção</option>
+        <option value="trava-de-alta-com-call">Trava de alta com call</option>
+        <option value="trava-de-baixa-com-put">Trava de baixa com put</option>
+        <option value="collar">Collar</option>
+        <option value="borboleta">Borboleta com calls</option>
+      </select>
+    </div>
+
+    <div class="painel">
+      <div class="entradas">
+        <label class="atual">
+          <span>Preço atual da ação (R$)</span>
+          <input id="spot" type="text" inputmode="decimal" value="38,00" />
+        </label>
+
+        <div id="pernas"></div>
+        <button id="add" type="button" class="add">+ Adicionar perna</button>
+      </div>
+
+      <div class="saidas">
+        <div class="resumo" id="resumo"></div>
+        <div class="grafico-wrap">
+          <svg id="grafico" viewBox="0 0 720 380" role="img" aria-label="Gráfico de payoff no vencimento"></svg>
+          <div id="dica" class="dica" hidden></div>
+        </div>
+        <p class="legenda">Eixo horizontal: preço da ação no vencimento. Eixo vertical: resultado da operação em R$. Passe o mouse (ou o dedo) sobre o gráfico.</p>
+      </div>
+    </div>
+
+    <h2>Cenários no vencimento</h2>
+    <div id="tabela"></div>
+
+    <div class="caixa alerta" style="margin-top:2rem">
+      <strong>Limites desta calculadora.</strong> O resultado é calculado <strong>no vencimento</strong>, quando a opção
+      vale só o valor intrínseco. Antes disso, o prêmio também depende de tempo e volatilidade, então o resultado de
+      encerrar antes pode ser diferente. Custos de corretagem, emolumentos e impostos não estão incluídos.
+    </div>
+  </section>
+</Base>
+
+<script>
+  type Tipo = 'call' | 'put' | 'acao';
+  type Op = 'compra' | 'venda';
+  interface Perna { tipo: Tipo; op: Op; preco: number; premio: number; qtd: number; }
+
+  const PRESETS: Record<string, { spot: number; pernas: Perna[] }> = {
+    'venda-coberta': { spot: 38, pernas: [
+      { tipo: 'acao', op: 'compra', preco: 38, premio: 0, qtd: 100 },
+      { tipo: 'call', op: 'venda', preco: 40, premio: 0.8, qtd: 100 } ] },
+    'venda-de-put-coberta': { spot: 38, pernas: [
+      { tipo: 'put', op: 'venda', preco: 36, premio: 0.7, qtd: 100 } ] },
+    'compra-de-call': { spot: 38, pernas: [
+      { tipo: 'call', op: 'compra', preco: 40, premio: 0.8, qtd: 100 } ] },
+    'put-de-protecao': { spot: 38, pernas: [
+      { tipo: 'acao', op: 'compra', preco: 38, premio: 0, qtd: 100 },
+      { tipo: 'put', op: 'compra', preco: 36, premio: 0.7, qtd: 100 } ] },
+    'trava-de-alta-com-call': { spot: 38, pernas: [
+      { tipo: 'call', op: 'compra', preco: 38, premio: 1.8, qtd: 100 },
+      { tipo: 'call', op: 'venda', preco: 42, premio: 0.5, qtd: 100 } ] },
+    'trava-de-baixa-com-put': { spot: 38, pernas: [
+      { tipo: 'put', op: 'compra', preco: 38, premio: 1.6, qtd: 100 },
+      { tipo: 'put', op: 'venda', preco: 34, premio: 0.4, qtd: 100 } ] },
+    'collar': { spot: 38, pernas: [
+      { tipo: 'acao', op: 'compra', preco: 38, premio: 0, qtd: 100 },
+      { tipo: 'put', op: 'compra', preco: 35, premio: 0.6, qtd: 100 },
+      { tipo: 'call', op: 'venda', preco: 41, premio: 0.6, qtd: 100 } ] },
+    'borboleta': { spot: 38, pernas: [
+      { tipo: 'call', op: 'compra', preco: 36, premio: 3.0, qtd: 100 },
+      { tipo: 'call', op: 'venda', preco: 38, premio: 1.7, qtd: 200 },
+      { tipo: 'call', op: 'compra', preco: 40, premio: 0.8, qtd: 100 } ] },
+  };
+
+  const MAX_PERNAS = 4;
+  const $ = (id: string) => document.getElementById(id)!;
+  const brl = (v: number, casas = 2) =>
+    v.toLocaleString('pt-BR', { minimumFractionDigits: casas, maximumFractionDigits: casas });
+  const moeda = (v: number) => (v < 0 ? '−R$ ' : 'R$ ') + brl(Math.abs(v));
+  const num = (s: string) => {
+    const v = parseFloat(String(s).trim().replace(/\./g, (m, i, str) => (str.includes(',') ? '' : m)).replace(',', '.'));
+    return Number.isFinite(v) ? v : NaN;
+  };
+
+  let pernas: Perna[] = [];
+  let spot = 38;
+
+  // ---------- Matemática do payoff ----------
+  function resultadoPerna(p: Perna, S: number): number {
+    const sinal = p.op === 'compra' ? 1 : -1;
+    if (p.tipo === 'acao') return sinal * (S - p.preco) * p.qtd;
+    const intrinseco = p.tipo === 'call' ? Math.max(S - p.preco, 0) : Math.max(p.preco - S, 0);
+    return sinal * (intrinseco - p.premio) * p.qtd;
+  }
+  const total = (S: number) => pernas.reduce((acc, p) => acc + resultadoPerna(p, S), 0);
+
+  // Inclinação do resultado quando a ação vai ao infinito (R$ por R$ 1 de alta)
+  function inclinacaoFinal(): number {
+    return pernas.reduce((acc, p) => {
+      const sinal = p.op === 'compra' ? 1 : -1;
+      if (p.tipo === 'acao' || p.tipo === 'call') return acc + sinal * p.qtd;
+      return acc;
+    }, 0);
+  }
+
+  function pontosCriticos(): number[] {
+    const ks = pernas.filter((p) => p.tipo !== 'acao').map((p) => p.preco);
+    return [...new Set([0, ...ks])].sort((a, b) => a - b);
+  }
+
+  function analisar() {
+    const crit = pontosCriticos();
+    const vals = crit.map(total);
+    const incl = inclinacaoFinal();
+    let max = Math.max(...vals), min = Math.min(...vals);
+    const ganhoIlimitado = incl > 1e-9;
+    const perdaIlimitada = incl < -1e-9;
+
+    // Pontos de equilíbrio: o payoff é linear entre pontos críticos
+    const be: number[] = [];
+    const add = (x: number) => { if (x >= 0 && !be.some((b) => Math.abs(b - x) < 1e-6)) be.push(x); };
+    for (let i = 0; i < crit.length - 1; i++) {
+      const [x0, x1, y0, y1] = [crit[i], crit[i + 1], vals[i], vals[i + 1]];
+      if (Math.abs(y0) < 1e-9) add(x0);
+      if ((y0 < 0 && y1 > 0) || (y0 > 0 && y1 < 0)) add(x0 + (x1 - x0) * (-y0 / (y1 - y0)));
+    }
+    const xl = crit[crit.length - 1], yl = vals[vals.length - 1];
+    if (Math.abs(yl) < 1e-9) add(xl);
+    if (Math.abs(incl) > 1e-9) { const x = xl - yl / incl; if (x > xl) add(x); }
+    be.sort((a, b) => a - b);
+
+    const fluxo = pernas.reduce((acc, p) => {
+      const sinal = p.op === 'compra' ? -1 : 1;
+      const valor = p.tipo === 'acao' ? p.preco : p.premio;
+      return acc + sinal * valor * p.qtd;
+    }, 0);
+    return { max, min, ganhoIlimitado, perdaIlimitada, be, fluxo };
+  }
+
+  // ---------- Formulário das pernas ----------
+  function renderPernas() {
+    const box = $('pernas');
+    box.innerHTML = '';
+    pernas.forEach((p, i) => {
+      const div = document.createElement('div');
+      div.className = 'perna';
+      div.innerHTML = `
+        <div class="perna-topo">
+          <strong>Perna ${i + 1}</strong>
+          <button type="button" class="remover" data-i="${i}" aria-label="Remover perna ${i + 1}">✕</button>
+        </div>
+        <div class="campos">
+          <label><span>Operação</span>
+            <select data-i="${i}" data-k="op">
+              <option value="compra" ${p.op === 'compra' ? 'selected' : ''}>Compra</option>
+              <option value="venda" ${p.op === 'venda' ? 'selected' : ''}>Venda</option>
+            </select></label>
+          <label><span>Ativo</span>
+            <select data-i="${i}" data-k="tipo">
+              <option value="call" ${p.tipo === 'call' ? 'selected' : ''}>Call</option>
+              <option value="put" ${p.tipo === 'put' ? 'selected' : ''}>Put</option>
+              <option value="acao" ${p.tipo === 'acao' ? 'selected' : ''}>Ação</option>
+            </select></label>
+          <label><span>${p.tipo === 'acao' ? 'Preço de compra/venda' : 'Strike'}</span>
+            <input type="text" inputmode="decimal" data-i="${i}" data-k="preco" value="${brl(p.preco)}" /></label>
+          <label class="${p.tipo === 'acao' ? 'oculto' : ''}"><span>Prêmio</span>
+            <input type="text" inputmode="decimal" data-i="${i}" data-k="premio" value="${brl(p.premio)}" /></label>
+          <label><span>Quantidade</span>
+            <input type="text" inputmode="numeric" data-i="${i}" data-k="qtd" value="${p.qtd}" /></label>
+        </div>`;
+      box.appendChild(div);
+    });
+    ($('add') as HTMLButtonElement).disabled = pernas.length >= MAX_PERNAS;
+  }
+
+  $('pernas').addEventListener('input', (ev) => {
+    const el = ev.target as HTMLInputElement | HTMLSelectElement;
+    const i = Number(el.dataset.i), k = el.dataset.k as keyof Perna;
+    if (!pernas[i] || !k) return;
+    if (k === 'op' || k === 'tipo') {
+      (pernas[i] as any)[k] = el.value;
+      if (k === 'tipo') { if (el.value === 'acao') pernas[i].premio = 0; renderPernas(); }
+    } else {
+      const v = num(el.value);
+      el.classList.toggle('invalido', !(v >= 0));
+      if (v >= 0) (pernas[i] as any)[k] = k === 'qtd' ? Math.round(v) : v;
+    }
+    atualizar();
+  });
+  $('pernas').addEventListener('change', (ev) => {
+    const el = ev.target as HTMLElement;
+    if (el.tagName === 'SELECT') return;
+  });
+  $('pernas').addEventListener('click', (ev) => {
+    const el = (ev.target as HTMLElement).closest('.remover') as HTMLElement | null;
+    if (!el) return;
+    pernas.splice(Number(el.dataset.i), 1);
+    renderPernas(); atualizar();
+  });
+  $('add').addEventListener('click', () => {
+    if (pernas.length >= MAX_PERNAS) return;
+    pernas.push({ tipo: 'call', op: 'compra', preco: Math.round(spot), premio: 1, qtd: 100 });
+    renderPernas(); atualizar();
+  });
+  $('spot').addEventListener('input', (ev) => {
+    const el = ev.target as HTMLInputElement;
+    const v = num(el.value);
+    el.classList.toggle('invalido', !(v > 0));
+    if (v > 0) { spot = v; atualizar(); }
+  });
+  ($('preset') as HTMLSelectElement).addEventListener('change', (ev) => {
+    const id = (ev.target as HTMLSelectElement).value;
+    if (id) carregarPreset(id);
+  });
+
+  function carregarPreset(id: string) {
+    const p = PRESETS[id];
+    if (!p) return;
+    pernas = p.pernas.map((x) => ({ ...x }));
+    spot = p.spot;
+    ($('spot') as HTMLInputElement).value = brl(spot);
+    ($('preset') as HTMLSelectElement).value = id;
+    renderPernas(); atualizar();
+    const url = new URL(location.href); url.searchParams.set('preset', id); history.replaceState(null, '', url);
+  }
+
+  // ---------- Saídas ----------
+  function faixa(): [number, number] {
+    const refs = [spot, ...pernas.map((p) => p.preco)].filter((v) => v > 0);
+    const lo = Math.min(...refs), hi = Math.max(...refs);
+    return [Math.max(0, lo * 0.75), hi * 1.25];
+  }
+
+  function atualizar() {
+    const resumo = $('resumo'), svg = $('grafico'), tabela = $('tabela');
+    if (pernas.length === 0) {
+      resumo.innerHTML = '<p class="vazio">Adicione uma perna ou escolha um modelo para começar.</p>';
+      svg.innerHTML = ''; tabela.innerHTML = ''; return;
+    }
+    const a = analisar();
+    const fluxoTxt = a.fluxo >= 0 ? `Crédito de ${moeda(a.fluxo)}` : `Débito de ${moeda(-a.fluxo)}`;
+    resumo.innerHTML = `
+      <div class="kpi"><span>Montagem</span><strong>${fluxoTxt}</strong></div>
+      <div class="kpi ganho"><span>Ganho máximo</span><strong>${a.ganhoIlimitado ? 'Ilimitado' : moeda(a.max)}</strong></div>
+      <div class="kpi perda"><span>Perda máxima</span><strong>${a.perdaIlimitada ? 'Ilimitada' : moeda(a.min)}</strong></div>
+      <div class="kpi"><span>Ponto(s) de equilíbrio</span><strong>${a.be.length ? a.be.map((b) => 'R$ ' + brl(b)).join(' · ') : '—'}</strong></div>`;
+    desenhar(svg as unknown as SVGSVGElement, a.be);
+    renderTabela(tabela, a.be);
+  }
+
+  function renderTabela(box: HTMLElement, be: number[]) {
+    const [lo, hi] = faixa();
+    const marcos = new Set<number>([spot, ...pernas.filter((p) => p.tipo !== 'acao').map((p) => p.preco), ...be]);
+    for (let k = 0; k <= 6; k++) marcos.add(lo + ((hi - lo) * k) / 6);
+    const lista = [...marcos].map((v) => Math.round(v * 100) / 100).filter((v, i, arr) => arr.indexOf(v) === i).sort((x, y) => x - y);
+    box.innerHTML = `<table><thead><tr><th>Ação no vencimento</th><th>Variação</th><th>Resultado</th></tr></thead><tbody>${
+      lista.map((S) => {
+        const r = total(S); const varp = ((S / spot - 1) * 100);
+        const cls = Math.abs(r) < 0.005 ? '' : r > 0 ? 'pos' : 'neg';
+        return `<tr><td>R$ ${brl(S)}</td><td>${varp >= 0 ? '+' : '−'}${brl(Math.abs(varp), 1)}%</td><td class="${cls}">${moeda(r)}</td></tr>`;
+      }).join('')}</tbody></table>`;
+  }
+
+  function desenhar(svg: SVGSVGElement, be: number[]) {
+    const W = Math.max(320, Math.round(svg.clientWidth || 720)), H = W < 560 ? 300 : 380, m = { l: 58, r: 14, t: 18, b: 42 };
+    svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+    const [lo, hi] = faixa();
+    const N = 360;
+    const xs = Array.from({ length: N + 1 }, (_, i) => lo + ((hi - lo) * i) / N);
+    const ys = xs.map(total);
+    let ymin = Math.min(0, ...ys), ymax = Math.max(0, ...ys);
+    const pad = (ymax - ymin) * 0.12 || 10; ymin -= pad; ymax += pad;
+    const X = (v: number) => m.l + ((v - lo) / (hi - lo)) * (W - m.l - m.r);
+    const Y = (v: number) => m.t + ((ymax - v) / (ymax - ymin)) * (H - m.t - m.b);
+
+    const ticks = (a: number, b: number, n: number) => {
+      const passo0 = (b - a) / n, mag = Math.pow(10, Math.floor(Math.log10(passo0)));
+      const passo = [1, 2, 2.5, 5, 10].map((f) => f * mag).find((p) => p >= passo0) ?? passo0;
+      const out: number[] = []; for (let v = Math.ceil(a / passo) * passo; v <= b + 1e-9; v += passo) out.push(v);
+      return out;
+    };
+
+    const linha = xs.map((x, i) => `${i ? 'L' : 'M'}${X(x).toFixed(1)},${Y(ys[i]).toFixed(1)}`).join('');
+    const area = (f: (y: number) => number) =>
+      `M${X(xs[0])},${Y(0)}` + xs.map((x, i) => `L${X(x).toFixed(1)},${Y(f(ys[i])).toFixed(1)}`).join('') + `L${X(xs[N])},${Y(0)}Z`;
+
+    let g = '';
+    ticks(ymin, ymax, W < 560 ? 5 : 6).forEach((v) => {
+      g += `<line x1="${m.l}" x2="${W - m.r}" y1="${Y(v)}" y2="${Y(v)}" class="grade"/>`;
+      g += `<text x="${m.l - 8}" y="${Y(v) + 4}" text-anchor="end" class="rot">${brl(v, Math.abs(v) >= 100 || v === 0 ? 0 : 2)}</text>`;
+    });
+    ticks(lo, hi, W < 560 ? 4 : 7).forEach((v) => {
+      g += `<line x1="${X(v)}" x2="${X(v)}" y1="${H - m.b}" y2="${H - m.b + 5}" class="eixo"/>`;
+      g += `<text x="${X(v)}" y="${H - m.b + 20}" text-anchor="middle" class="rot">${brl(v, v % 1 ? 2 : 0)}</text>`;
+    });
+    g += `<path d="${area((y) => Math.max(y, 0))}" class="area-pos"/>`;
+    g += `<path d="${area((y) => Math.min(y, 0))}" class="area-neg"/>`;
+    g += `<line x1="${m.l}" x2="${W - m.r}" y1="${Y(0)}" y2="${Y(0)}" class="zero"/>`;
+    if (spot >= lo && spot <= hi) {
+      g += `<line x1="${X(spot)}" x2="${X(spot)}" y1="${m.t}" y2="${H - m.b}" class="spot"/>`;
+      g += `<text x="${X(spot) + 6}" y="${m.t + 12}" class="rot-spot">hoje: ${brl(spot)}</text>`;
+    }
+    g += `<path d="${linha}" class="linha"/>`;
+    be.filter((b) => b >= lo && b <= hi).forEach((b) => {
+      g += `<circle cx="${X(b)}" cy="${Y(0)}" r="5" class="be"/>`;
+    });
+    g += `<text x="${(W + m.l) / 2}" y="${H - 4}" text-anchor="middle" class="titulo-eixo">Preço da ação no vencimento (R$)</text>`;
+    g += `<line id="cursor" x1="0" x2="0" y1="${m.t}" y2="${H - m.b}" class="cursor" visibility="hidden"/>`;
+    g += `<circle id="ponto" r="5" class="ponto" visibility="hidden"/>`;
+    svg.innerHTML = g;
+
+    const dica = $('dica');
+    const mover = (clientX: number) => {
+      const r = svg.getBoundingClientRect();
+      const px = ((clientX - r.left) / r.width) * W;
+      if (px < m.l || px > W - m.r) { esconder(); return; }
+      const S = lo + ((px - m.l) / (W - m.l - m.r)) * (hi - lo);
+      const v = total(S);
+      const cur = svg.querySelector('#cursor')!, pt = svg.querySelector('#ponto')!;
+      cur.setAttribute('x1', String(px)); cur.setAttribute('x2', String(px)); cur.setAttribute('visibility', 'visible');
+      pt.setAttribute('cx', String(px)); pt.setAttribute('cy', String(Y(v))); pt.setAttribute('visibility', 'visible');
+      dica.hidden = false;
+      dica.innerHTML = `Ação a <b>R$ ${brl(S)}</b><br>Resultado: <b class="${v >= 0 ? 'pos' : 'neg'}">${moeda(v)}</b>`;
+      const left = (px / W) * r.width;
+      dica.style.left = `${Math.min(Math.max(left, 70), r.width - 70)}px`;
+    };
+    const esconder = () => {
+      dica.hidden = true;
+      svg.querySelector('#cursor')?.setAttribute('visibility', 'hidden');
+      svg.querySelector('#ponto')?.setAttribute('visibility', 'hidden');
+    };
+    svg.onmousemove = (e) => mover(e.clientX);
+    svg.onmouseleave = esconder;
+    svg.ontouchmove = (e) => { mover(e.touches[0].clientX); };
+    svg.ontouchstart = (e) => { mover(e.touches[0].clientX); };
+  }
+
+  let tResize = 0;
+  window.addEventListener('resize', () => { clearTimeout(tResize); tResize = window.setTimeout(atualizar, 150); });
+
+  // ---------- Início ----------
+  const inicial = new URL(location.href).searchParams.get('preset');
+  carregarPreset(inicial && PRESETS[inicial] ? inicial : 'venda-coberta');
+</script>
+
+<style>
+  .sobretitulo a { color: var(--coral); text-decoration: none; }
+  .presets { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin: 1.2rem 0; }
+  .presets label { font-weight: 600; font-size: 0.95rem; }
+  select, input, :global(.perna select), :global(.perna input) {
+    font: inherit; font-size: 0.95rem; color: var(--texto); background: var(--bg-card);
+    border: 1.5px solid var(--borda); border-radius: 10px; padding: 0.5rem 0.65rem; width: 100%;
+  }
+  #preset { width: auto; min-width: 0; max-width: 100%; }
+  select:focus, input:focus, :global(.perna select:focus), :global(.perna input:focus) { outline: none; border-color: var(--coral); }
+  .painel > * { min-width: 0; }
+  :global(.campos label) { min-width: 0; }
+  :global(input.invalido) { border-color: #d64545 !important; background: #fdecec; }
+
+  .painel { display: grid; grid-template-columns: minmax(280px, 380px) 1fr; gap: 20px; align-items: start; }
+  @media (max-width: 860px) { .painel { grid-template-columns: 1fr; } }
+
+  .atual { display: block; margin-bottom: 12px; }
+  .atual span, :global(.campos label span) {
+    display: block; font-size: 0.75rem; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.05em; color: var(--texto-suave); margin-bottom: 3px;
+  }
+  :global(.perna) {
+    background: var(--bg-card); border: 1px solid var(--borda); border-left: 4px solid var(--petroleo);
+    border-radius: var(--raio); padding: 0.7rem 0.85rem 0.85rem; margin-bottom: 10px;
+  }
+  :global(.perna-topo) { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+  :global(.perna-topo strong) { font-family: var(--font-titulo); color: var(--destaque); }
+  :global(.remover) {
+    border: none; background: transparent; color: var(--texto-suave); cursor: pointer;
+    font-size: 1rem; padding: 2px 6px; border-radius: 6px;
+  }
+  :global(.remover:hover) { background: var(--coral-suave); color: var(--coral); }
+  :global(.campos) { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  :global(.campos .oculto) { visibility: hidden; }
+  .add {
+    width: 100%; font: inherit; font-weight: 600; cursor: pointer; padding: 0.6rem;
+    border: 2px dashed var(--borda); border-radius: var(--raio); background: transparent; color: var(--destaque);
+  }
+  .add:hover:not(:disabled) { border-color: var(--coral); color: var(--coral); }
+  .add:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  .resumo { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-bottom: 12px; }
+  :global(.kpi) { background: var(--bg-card); border: 1px solid var(--borda); border-radius: 12px; padding: 0.6rem 0.8rem; }
+  :global(.kpi span) { display: block; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--texto-suave); font-weight: 600; }
+  :global(.kpi strong) { font-family: var(--font-mono); font-size: 1rem; color: var(--destaque); }
+  :global(.kpi.ganho strong) { color: #1f8a5b; }
+  :global(.kpi.perda strong) { color: #d64545; }
+  :global(.vazio) { color: var(--texto-suave); }
+
+  .grafico-wrap { position: relative; background: var(--bg-card); border: 1px solid var(--borda); border-radius: var(--raio); padding: 6px; }
+  #grafico { width: 100%; height: auto; display: block; touch-action: pan-y; }
+  :global(#grafico .grade) { stroke: var(--borda); stroke-width: 1; }
+  :global(#grafico .eixo) { stroke: var(--texto-suave); }
+  :global(#grafico .zero) { stroke: var(--texto-suave); stroke-width: 1.5; }
+  :global(#grafico .rot) { fill: var(--texto-suave); font-family: var(--font-mono); font-size: 11px; }
+  :global(#grafico .titulo-eixo) { fill: var(--texto-suave); font-size: 12px; }
+  :global(#grafico .area-pos) { fill: rgba(31,138,91,0.16); }
+  :global(#grafico .area-neg) { fill: rgba(214,69,69,0.14); }
+  :global(#grafico .linha) { fill: none; stroke: var(--petroleo); stroke-width: 3; stroke-linejoin: round; }
+  :global(#grafico .spot) { stroke: var(--coral); stroke-width: 1.5; stroke-dasharray: 5 4; }
+  :global(#grafico .rot-spot) { fill: var(--coral); font-size: 12px; font-weight: 600; }
+  :global(#grafico .be) { fill: var(--bg-card); stroke: var(--coral); stroke-width: 2.5; }
+  :global(#grafico .cursor) { stroke: var(--texto-suave); stroke-dasharray: 2 3; }
+  :global(#grafico .ponto) { fill: var(--coral); }
+  @media (prefers-color-scheme: dark) { :global(#grafico .linha) { stroke: #7fc6d1; } }
+
+  .dica {
+    position: absolute; top: 10px; transform: translateX(-50%); pointer-events: none;
+    background: var(--grafite); color: #fff; font-size: 0.82rem; line-height: 1.4;
+    padding: 6px 10px; border-radius: 8px; white-space: nowrap;
+  }
+  :global(.dica .pos) { color: #7be0ad; }
+  :global(.dica .neg) { color: #ff9a8a; }
+  .legenda { font-size: 0.82rem; color: var(--texto-suave); margin-top: 0.5rem; }
+
+  :global(#tabela table) { display: table; max-width: 560px; }
+  :global(#tabela td.pos) { color: #1f8a5b; font-weight: 600; }
+  :global(#tabela td.neg) { color: #d64545; font-weight: 600; }
+</style>

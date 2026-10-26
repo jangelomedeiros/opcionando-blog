@@ -2,7 +2,16 @@
 import Logo from './Logo.astro';
 import { SITE_TITLE, LINKS } from '../consts';
 const path = Astro.url.pathname;
-const ativo = (href: string) => (href === '/' ? path === '/' : path.startsWith(href));
+const ativo = (href: string) => path.startsWith(href);
+
+const itens = [
+  { href: '/comece-aqui', label: 'Comece Aqui', match: ['/comece-aqui', '/trilha'] },
+  { href: '/estrategias', label: 'Estratégias', match: ['/estrategias'] },
+  { href: '/ferramentas', label: 'Ferramentas', match: ['/ferramentas'] },
+  { href: '/estudos', label: 'Estudos', match: ['/estudos'] },
+  { href: '/glossario', label: 'Glossário', match: ['/glossario'] },
+  { href: '/artigos', label: 'Artigos', match: ['/artigos', '/blog', '/pilares', '/tags'] },
+];
 ---
 <header class="topo">
   <div class="container-larga barra">
@@ -10,13 +19,13 @@ const ativo = (href: string) => (href === '/' ? path === '/' : path.startsWith(h
       <Logo size={38} />
       <span>{SITE_TITLE}</span>
     </a>
-    <nav>
-      <a href="/" class={ativo('/') ? 'ativo' : ''}>Artigos</a>
-      <a href="/pilares" class={ativo('/pilares') ? 'ativo' : ''}>Pilares</a>
-      <a href="/sobre" class={ativo('/sobre') ? 'ativo' : ''}>Sobre</a>
-      <a href={LINKS.youtube} class="botao-yt" target="_blank" rel="noopener">YouTube</a>
-    </nav>
+    <a href={LINKS.youtube} class="botao-yt" target="_blank" rel="noopener">YouTube</a>
   </div>
+  <nav class="container-larga menu" aria-label="Seções do site">
+    {itens.map((i) => (
+      <a href={i.href} class={i.match.some(ativo) ? 'ativo' : ''}>{i.label}</a>
+    ))}
+  </nav>
 </header>
 
 <style>
@@ -31,8 +40,7 @@ const ativo = (href: string) => (href === '/' ? path === '/' : path.startsWith(h
     justify-content: space-between;
     gap: 12px;
     padding-top: 12px;
-    padding-bottom: 12px;
-    flex-wrap: wrap;
+    padding-bottom: 6px;
   }
   .marca {
     display: flex;
@@ -46,21 +54,30 @@ const ativo = (href: string) => (href === '/' ? path === '/' : path.startsWith(h
     letter-spacing: -0.01em;
   }
   .marca:hover { color: var(--creme); }
-  nav { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
-  nav a {
+  .botao-yt {
+    background: var(--coral); color: #fff; text-decoration: none;
+    font-weight: 600; font-size: 0.9rem; padding: 6px 14px; border-radius: 999px;
+  }
+  .botao-yt:hover { background: #ff7d63; color: #fff; }
+  .menu {
+    display: flex; gap: 2px; padding-bottom: 8px;
+    overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch;
+  }
+  .menu::-webkit-scrollbar { display: none; }
+  .menu a {
+    flex: 0 0 auto;
     color: var(--creme);
     text-decoration: none;
     font-weight: 500;
     font-size: 0.95rem;
     padding: 6px 12px;
     border-radius: 999px;
+    white-space: nowrap;
   }
-  nav a:hover { background: rgba(255,255,255,0.1); color: var(--creme); }
-  nav a.ativo { background: rgba(255,255,255,0.16); }
-  .botao-yt { background: var(--coral); font-weight: 600 !important; }
-  .botao-yt:hover { background: #ff7d63 !important; }
+  .menu a:hover { background: rgba(255,255,255,0.1); color: var(--creme); }
+  .menu a.ativo { background: rgba(255,255,255,0.18); font-weight: 600; }
   @media (max-width: 520px) {
-    .barra { justify-content: center; }
-    nav a { padding: 6px 10px; font-size: 0.9rem; }
+    .marca { font-size: 1.35rem; }
+    .menu a { padding: 6px 10px; font-size: 0.9rem; }
   }
 </style>

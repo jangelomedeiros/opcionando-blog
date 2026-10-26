@@ -1,0 +1,32 @@
+---
+import Base from '../../layouts/Base.astro';
+import { FERRAMENTAS } from '../../data/planejamento';
+---
+<Base title="Ferramentas" description="Ferramentas interativas e gratuitas para estudar opções: calculadora de payoff, Black-Scholes, gregas e simulador de cadeia.">
+  <section class="container-larga pagina">
+    <p class="sobretitulo">Laboratório</p>
+    <h1>Ferramentas</h1>
+    <p class="intro">
+      Teste antes de operar. Todas as ferramentas rodam no seu navegador, são gratuitas e não pedem cadastro.
+    </p>
+    <ul class="grade-cards">
+      {FERRAMENTAS.map((f) => (
+        <li>
+          {f.pronta ? (
+            <a class="card-link" href={`/ferramentas/${f.slug}`}>
+              <span class="selo coral">Disponível</span>
+              <span class="titulo">{f.title}</span>
+              <span class="resumo">{f.resumo}</span>
+            </a>
+          ) : (
+            <div class="card-link em-breve">
+              <span class="selo neutro">Em breve</span>
+              <span class="titulo">{f.title}</span>
+              <span class="resumo">{f.resumo}</span>
+            </div>
+          )}
+        </li>
+      ))}
+    </ul>
+  </section>
+</Base>

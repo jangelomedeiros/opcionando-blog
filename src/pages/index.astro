@@ -4,25 +4,64 @@ import PostCard from '../components/PostCard.astro';
 import { getPosts } from '../lib/posts';
 import { SITE_TITLE, SITE_DESCRIPTION, LINKS } from '../consts';
 
-const posts = await getPosts();
+const posts = (await getPosts()).slice(0, 3);
+
+const secoes = [
+  { href: '/comece-aqui', titulo: 'Comece Aqui', texto: 'Uma trilha em ordem, do zero ao operador. Você sempre sabe qual é o próximo passo.', icone: '🎯' },
+  { href: '/estrategias', titulo: 'Estratégias', texto: 'Fichas padronizadas de cada estrutura: montagem, payoff, riscos e quando usar.', icone: '📘' },
+  { href: '/ferramentas', titulo: 'Ferramentas', texto: 'Calculadoras interativas para testar uma operação antes de enviar a ordem.', icone: '🧮' },
+  { href: '/estudos', titulo: 'Estudos', texto: 'Pesquisa própria com dados reais do mercado brasileiro de opções.', icone: '📊' },
+  { href: '/glossario', titulo: 'Glossário', texto: 'Cada termo do mercado de opções explicado em uma frase, com exemplo.', icone: '📖' },
+  { href: '/artigos', titulo: 'Artigos', texto: 'A versão escrita dos vídeos do canal, para consultar sempre que precisar.', icone: '🎬' },
+];
 ---
 <Base title={SITE_TITLE} description={SITE_DESCRIPTION}>
   <section class="hero">
-    <div class="container">
-      <p class="sobretitulo">Blog do canal</p>
-      <h1>Opções sem mistério, decisão com método.</h1>
+    <div class="container-larga">
+      <p class="sobretitulo">Educação em opções</p>
+      <h1>Opções sem mistério,<br />decisão com método.</h1>
       <p class="sub">{SITE_DESCRIPTION}</p>
       <div class="acoes">
-        <a class="btn primario" href={LINKS.youtube} target="_blank" rel="noopener">Assistir no YouTube</a>
-        <a class="btn" href="/rss.xml">Assinar via RSS</a>
+        <a class="botao" href="/comece-aqui">Começar a trilha</a>
+        <a class="botao secundario" href="/ferramentas/calculadora-de-payoff">Abrir a calculadora de payoff</a>
       </div>
     </div>
   </section>
 
-  <section class="container lista">
-    <h2 class="sr-only">Artigos</h2>
-    {posts.length === 0 && <p>Nenhum artigo publicado ainda.</p>}
-    {posts.map((post) => <PostCard post={post} />)}
+  <section class="container-larga">
+    <ul class="grade-cards secoes">
+      {secoes.map((s) => (
+        <li>
+          <a class="card-link" href={s.href}>
+            <span class="icone" aria-hidden="true">{s.icone}</span>
+            <span class="titulo">{s.titulo}</span>
+            <span class="resumo">{s.texto}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  {posts.length > 0 && (
+    <section class="container-larga recentes">
+      <div class="cabecalho">
+        <h2>Artigos recentes</h2>
+        <a href="/artigos">Ver todos →</a>
+      </div>
+      <div class="lista">
+        {posts.map((post) => <PostCard post={post} />)}
+      </div>
+    </section>
+  )}
+
+  <section class="container-larga">
+    <div class="faixa-yt">
+      <div>
+        <strong>Tem vídeo de tudo isso no canal.</strong>
+        <p>Teoria na tela, prática na corretora. Inscreva-se para acompanhar.</p>
+      </div>
+      <a class="botao" href={LINKS.youtube} target="_blank" rel="noopener">Ir para o YouTube</a>
+    </div>
   </section>
 </Base>
 
@@ -32,25 +71,25 @@ const posts = await getPosts();
       radial-gradient(circle at 85% 20%, rgba(242,105,77,0.18), transparent 45%),
       var(--giz);
     border-bottom: 1px solid var(--borda);
-    padding: 3.2rem 0 2.8rem;
+    padding: 3.4rem 0 3rem;
   }
   @media (prefers-color-scheme: dark) {
     .hero { background: radial-gradient(circle at 85% 20%, rgba(242,105,77,0.15), transparent 45%), #0e262c; }
   }
-  .sobretitulo {
-    margin: 0; color: var(--coral); font-weight: 600;
-    text-transform: uppercase; letter-spacing: 0.12em; font-size: 0.8rem;
+  .hero h1 { margin: 0.2em 0 0.35em; font-size: clamp(2.1rem, 6vw, 3.3rem); }
+  .sub { margin: 0; color: var(--texto-suave); font-size: 1.1rem; max-width: 640px; }
+  .acoes { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 1.6rem; }
+  .secoes { margin-top: 2.4rem; }
+  .icone { font-size: 1.6rem; line-height: 1; }
+  .recentes { margin-top: 2.4rem; }
+  .cabecalho { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+  .cabecalho h2 { margin: 0 0 0.6em; }
+  .lista { display: grid; gap: 1.1rem; }
+  .faixa-yt {
+    margin-top: 3rem; padding: 1.4rem 1.6rem; border-radius: var(--raio);
+    background: var(--petroleo); color: var(--creme);
+    display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
   }
-  .hero h1 { margin: 0.2em 0 0.35em; }
-  .sub { margin: 0; color: var(--texto-suave); font-size: 1.08rem; }
-  .acoes { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 1.5rem; }
-  .btn {
-    display: inline-block; text-decoration: none; font-weight: 600; font-size: 0.95rem;
-    padding: 10px 18px; border-radius: 999px;
-    border: 2px solid var(--destaque); color: var(--destaque);
-  }
-  .btn:hover { border-color: var(--coral); color: var(--coral); }
-  .btn.primario { background: var(--coral); border-color: var(--coral); color: #fff; }
-  .btn.primario:hover { background: #ff7d63; border-color: #ff7d63; color: #fff; }
-  .lista { display: grid; gap: 1.1rem; margin-top: 2.4rem; }
+  .faixa-yt strong { font-family: var(--font-titulo); font-size: 1.3rem; }
+  .faixa-yt p { margin: 0.2rem 0 0; color: #d7e3e4; }
 </style>

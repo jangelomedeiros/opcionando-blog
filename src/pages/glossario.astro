@@ -1,0 +1,94 @@
+---
+import Base from '../layouts/Base.astro';
+import { GLOSSARIO } from '../data/glossario';
+import { slugify } from '../lib/posts';
+
+const termos = [...GLOSSARIO].sort((a, b) => a.termo.localeCompare(b.termo, 'pt-BR'));
+const inicial = (t: string) => t.normalize('NFD').replace(/[̀-ͯ]/g, '')[0].toUpperCase();
+const letras = [...new Set(termos.map((t) => inicial(t.termo)))];
+---
+<Base title="Glossário de opções" description={`Glossário do mercado de opções com ${termos.length} termos explicados de forma direta: call, put, strike, prêmio, gregas, volatilidade e mais.`}>
+  <section class="container pagina">
+    <p class="sobretitulo">Referência</p>
+    <h1>Glossário</h1>
+    <p class="intro">Os termos do mercado de opções, explicados em uma frase e com exemplo quando ajuda.</p>
+
+    <label class="busca">
+      <span class="sr-only">Buscar termo</span>
+      <input id="busca-glossario" type="search" placeholder="Buscar termo… (ex.: theta, strike)" autocomplete="off" />
+    </label>
+
+    <nav class="letras" aria-label="Ir para a letra">
+      {letras.map((l) => <a href={`#letra-${l}`}>{l}</a>)}
+    </nav>
+
+    <p id="sem-resultado" hidden>Nenhum termo encontrado.</p>
+
+    <div class="lista">
+      {letras.map((l) => (
+        <section class="grupo" id={`letra-${l}`}>
+          <h2>{l}</h2>
+          <dl>
+            {termos.filter((t) => inicial(t.termo) === l).map((t) => (
+              <div class="termo" id={slugify(t.termo)} data-busca={[t.termo, ...(t.sinonimos ?? []), t.definicao].join(' ').toLowerCase()}>
+                <dt>
+                  {t.termo}
+                  {t.sinonimos && <span class="sin">também: {t.sinonimos.join(', ')}</span>}
+                </dt>
+                <dd>
+                  {t.definicao}
+                  {t.exemplo && <span class="ex"><strong>Exemplo:</strong> {t.exemplo}</span>}
+                  {t.link && <a class="mais" href={t.link}>Ver explicação completa →</a>}
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </section>
+      ))}
+    </div>
+  </section>
+</Base>
+
+<script>
+  const input = document.getElementById('busca-glossario') as HTMLInputElement | null;
+  const termos = Array.from(document.querySelectorAll<HTMLElement>('.termo'));
+  const grupos = Array.from(document.querySelectorAll<HTMLElement>('.grupo'));
+  const vazio = document.getElementById('sem-resultado');
+  const norm = (s: string) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+  input?.addEventListener('input', () => {
+    const q = norm(input.value.trim());
+    let algum = false;
+    termos.forEach((t) => {
+      const ok = !q || norm(t.dataset.busca ?? '').includes(q);
+      t.hidden = !ok;
+      if (ok) algum = true;
+    });
+    grupos.forEach((g) => { g.hidden = !g.querySelector('.termo:not([hidden])'); });
+    if (vazio) vazio.hidden = algum;
+  });
+</script>
+
+<style>
+  .busca input {
+    width: 100%; font: inherit; font-size: 1rem; padding: 0.75rem 1rem;
+    border: 2px solid var(--borda); border-radius: 999px; background: var(--bg-card); color: var(--texto);
+  }
+  .busca input:focus { outline: none; border-color: var(--coral); }
+  .letras { display: flex; flex-wrap: wrap; gap: 6px; margin: 1rem 0 0.5rem; }
+  .letras a {
+    font-family: var(--font-mono); font-weight: 600; text-decoration: none;
+    width: 34px; height: 34px; display: grid; place-items: center; border-radius: 8px;
+    background: var(--bg-card); border: 1px solid var(--borda); color: var(--destaque);
+  }
+  .letras a:hover { border-color: var(--coral); color: var(--coral); }
+  .grupo h2 { font-family: var(--font-mono); color: var(--coral); font-size: 1.4rem; border-bottom: 2px solid var(--borda); padding-bottom: 0.2em; scroll-margin-top: 1rem; }
+  dl { margin: 0; }
+  .termo { padding: 0.8rem 0; border-bottom: 1px solid var(--borda); scroll-margin-top: 1rem; }
+  .termo:target { background: var(--coral-suave); border-radius: 8px; padding-left: 0.6rem; }
+  dt { font-family: var(--font-titulo); font-weight: 700; font-size: 1.18rem; color: var(--destaque); }
+  .sin { display: block; font-family: var(--font-texto); font-weight: 400; font-size: 0.82rem; color: var(--texto-suave); font-style: italic; }
+  dd { margin: 0.25rem 0 0; line-height: 1.6; }
+  .ex { display: block; margin-top: 0.3rem; font-size: 0.95rem; color: var(--texto-suave); }
+  .ex strong { color: var(--texto-suave); }
+  .mais { display: inline-block; margin-top: 0.3rem; font-size: 0.92rem; font-weight: 600; }
+</style>

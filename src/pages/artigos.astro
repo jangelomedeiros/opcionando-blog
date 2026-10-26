@@ -1,0 +1,19 @@
+---
+import Base from '../layouts/Base.astro';
+import PostCard from '../components/PostCard.astro';
+import { getPosts } from '../lib/posts';
+
+const posts = await getPosts();
+---
+<Base title="Artigos" description="Todos os artigos do Opcionando: a versão escrita dos vídeos do canal e textos sobre o mercado de opções.">
+  <section class="container pagina">
+    <p class="sobretitulo">Artigos</p>
+    <h1>Do canal para o texto</h1>
+    <p class="intro">A versão escrita dos vídeos do canal, para ler no seu ritmo e consultar sempre que precisar.</p>
+    <p><a href="/pilares">Navegar por pilar →</a></p>
+    <div style="display:grid;gap:1.1rem;margin-top:1.6rem">
+      {posts.length === 0 && <p>Nenhum artigo publicado ainda.</p>}
+      {posts.map((post) => <PostCard post={post} />)}
+    </div>
+  </section>
+</Base>

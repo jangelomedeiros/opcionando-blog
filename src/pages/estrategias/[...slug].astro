@@ -1,0 +1,63 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+
+export async function getStaticPaths() {
+  const lista = await getCollection('estrategias', ({ data }) => import.meta.env.DEV || !data.draft);
+  return lista.map((e) => ({ params: { slug: e.id }, props: { e } }));
+}
+
+const { e } = Astro.props;
+const { Content } = await render(e);
+const d = e.data;
+---
+<Base title={d.title} description={d.description} type="article">
+  <article class="container pagina">
+    <p class="sobretitulo"><a href="/estrategias">Estratégias</a> · Ficha</p>
+    <h1>{d.title}</h1>
+    <p class="intro">{d.description}</p>
+
+    <div class="ficha">
+      <dl>
+        <div><dt>Visão de mercado</dt><dd>{d.visao}</dd></div>
+        <div><dt>Objetivo</dt><dd>{d.objetivo}</dd></div>
+        <div><dt>Nível</dt><dd>{d.nivel}</dd></div>
+        <div><dt>Ganho máximo</dt><dd>{d.ganhoMaximo}</dd></div>
+        <div><dt>Perda máxima</dt><dd>{d.perdaMaxima}</dd></div>
+        <div><dt>Ponto de equilíbrio</dt><dd>{d.breakeven}</dd></div>
+      </dl>
+      <div class="montagem">
+        <strong>Montagem</strong>
+        <ol>{d.montagem.map((m) => <li>{m}</li>)}</ol>
+        {d.preset && <a class="botao" href={`/ferramentas/calculadora-de-payoff?preset=${d.preset}`}>Testar na calculadora de payoff →</a>}
+      </div>
+    </div>
+
+    {d.youtube && (
+      <div class="video-embed">
+        <iframe src={`https://www.youtube-nocookie.com/embed/${d.youtube}`} title={`Vídeo: ${d.title}`} loading="lazy"
+          allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+      </div>
+    )}
+
+    <div class="conteudo"><Content /></div>
+
+    <p style="margin-top:3rem"><a href="/estrategias">← Todas as estratégias</a></p>
+  </article>
+</Base>
+
+<style>
+  .sobretitulo a { color: var(--coral); text-decoration: none; }
+  .ficha {
+    margin: 1.8rem 0; border: 1px solid var(--borda); border-radius: var(--raio);
+    background: var(--bg-card); overflow: hidden;
+  }
+  dl { margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+  dl div { padding: 0.8rem 1.1rem; border-bottom: 1px solid var(--borda); border-right: 1px solid var(--borda); }
+  dt { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--texto-suave); font-weight: 600; }
+  dd { margin: 0.15rem 0 0; font-weight: 600; color: var(--destaque); font-size: 1rem; line-height: 1.4; }
+  .montagem { padding: 1rem 1.2rem 1.3rem; background: var(--giz); }
+  @media (prefers-color-scheme: dark) { .montagem { background: #0e262c; } }
+  .montagem strong { font-family: var(--font-titulo); color: var(--destaque); font-size: 1.1rem; }
+  .montagem ol { margin: 0.4rem 0 1rem; }
+</style>
