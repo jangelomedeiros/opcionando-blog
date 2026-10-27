@@ -1,0 +1,61 @@
+---
+// Diagrama: as 4 fases do ciclo econômico, a Selic e os setores que lideram em cada uma.
+const fases = [
+  { n: 1, nome: 'Recuperação', selic: 'Selic começa a cair', setores: 'Varejo, construção, imobiliário, small caps, educação', ex: 'LREN3, CYRE3, SMAL11' },
+  { n: 2, nome: 'Expansão', selic: 'Selic baixa e estável', setores: 'Bens de capital, indústria, logística, tecnologia, bancos', ex: 'WEGE3, RAIL3, TOTS3' },
+  { n: 4, nome: 'Contração', selic: 'Selic alta, no topo', setores: 'Defensivas: energia, saneamento, seguros, telecom', ex: 'TAEE11, SBSP3, BBSE3' },
+  { n: 3, nome: 'Pico', selic: 'Selic começa a subir', setores: 'Commodities, petróleo, mineração, siderurgia', ex: 'PETR4, VALE3, GGBR4' },
+];
+---
+<figure class="ciclo">
+  <p class="titulo-fig">Cada fase do ciclo tem seus setores vencedores</p>
+  <div class="grade">
+    {fases.map((f) => (
+      <div class={`fase f${f.n}`}>
+        <span class="num">{f.n}</span>
+        <b>{f.nome}</b>
+        <span class="selic">{f.selic}</span>
+        <span class="set">{f.setores}</span>
+        <span class="ex">{f.ex}</span>
+      </div>
+    ))}
+    <span class="seta s12" aria-hidden="true">→</span>
+    <span class="seta s23" aria-hidden="true">↓</span>
+    <span class="seta s34" aria-hidden="true">←</span>
+    <span class="seta s41" aria-hidden="true">↑</span>
+  </div>
+  <figcaption class="legenda-fig">
+    O ciclo gira no sentido horário. Juros caindo acendem os cíclicos; juros subindo devolvem a liderança às defensivas.
+  </figcaption>
+</figure>
+
+<style>
+  .ciclo { margin: 1.6rem 0; }
+  .titulo-fig { font-family: var(--font-titulo); font-weight: 700; color: var(--destaque); font-size: 1.1rem; margin: 0 0 0.7rem; }
+  .grade { display: grid; grid-template-columns: 1fr 1fr; gap: 34px; position: relative; }
+  .fase {
+    display: flex; flex-direction: column; gap: 4px; padding: 0.8rem 0.9rem 0.8rem 0.9rem;
+    background: var(--bg-card); border: 1px solid var(--borda); border-radius: var(--raio);
+    border-top: 5px solid var(--petroleo); position: relative;
+  }
+  .f1 { border-top-color: var(--coral); }
+  .num {
+    position: absolute; top: 10px; right: 12px; font-family: var(--font-mono); font-weight: 600;
+    width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center;
+    background: var(--giz); color: var(--petroleo); font-size: 0.85rem;
+  }
+  .fase b { font-family: var(--font-titulo); font-size: 1.15rem; color: var(--destaque); }
+  .selic { font-weight: 600; color: var(--coral); font-size: 0.9rem; }
+  .set { font-size: 0.9rem; line-height: 1.45; }
+  .ex { font-family: var(--font-mono); font-size: 0.8rem; color: var(--texto-suave); }
+  .seta { position: absolute; font-size: 1.4rem; color: var(--coral); font-weight: 700; line-height: 1; }
+  .s12 { left: 50%; top: 25%; transform: translate(-50%, -50%); }
+  .s23 { left: 75%; top: 50%; transform: translate(-50%, -50%); }
+  .s34 { left: 50%; top: 75%; transform: translate(-50%, -50%); }
+  .s41 { left: 25%; top: 50%; transform: translate(-50%, -50%); }
+  @media (max-width: 560px) {
+    .grade { grid-template-columns: 1fr; gap: 10px; }
+    .seta { display: none; }
+    .f1 { order: 1; } .f2 { order: 2; } .f3 { order: 3; } .f4 { order: 4; }
+  }
+</style>

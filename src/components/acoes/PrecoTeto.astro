@@ -1,0 +1,78 @@
+---
+// Calculadora: preço justo de Graham, preço teto de Bazin e preço de entrada com margem de segurança.
+---
+<div class="calc-teto">
+  <div class="topo">
+    <strong>🧮 Calculadora: quanto pagar por uma ação?</strong>
+    <p>Preencha com os números da empresa (Status Invest, Investidor10 ou o RI dela). Já vem com o exemplo da PADR3.</p>
+  </div>
+  <div class="campos">
+    <label>Cotação atual (R$)<input type="number" step="0.01" min="0" data-k="preco" value="38" /></label>
+    <label>LPA: lucro por ação (R$)<input type="number" step="0.01" data-k="lpa" value="4" /></label>
+    <label>VPA: patrimônio por ação (R$)<input type="number" step="0.01" data-k="vpa" value="25" /></label>
+    <label>Dividendo médio 5 anos (R$)<input type="number" step="0.01" min="0" data-k="div" value="2.4" /></label>
+    <label>Yield mínimo, Bazin (%)<input type="number" step="0.5" min="1" data-k="yield" value="6" /></label>
+    <label>Margem de segurança (%)<input type="number" step="5" min="0" max="60" data-k="margem" value="20" /></label>
+  </div>
+  <div class="resultados">
+    <div><small>Preço justo (Graham)</small><b data-r="graham">–</b></div>
+    <div><small>Preço teto (Bazin)</small><b data-r="bazin">–</b></div>
+    <div class="forte"><small>Preço de entrada ideal</small><b data-r="entrada">–</b></div>
+  </div>
+  <p class="veredito" data-r="veredito"></p>
+</div>
+
+<script>
+  const brl = (v: number) => 'R$ ' + v.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  document.querySelectorAll<HTMLElement>('.calc-teto').forEach((el) => {
+    const get = (k: string) => parseFloat((el.querySelector<HTMLInputElement>(`[data-k="${k}"]`)!.value || '0').replace(',', '.'));
+    const out = (k: string) => el.querySelector<HTMLElement>(`[data-r="${k}"]`)!;
+    const upd = () => {
+      const preco = get('preco'), lpa = get('lpa'), vpa = get('vpa'), div = get('div');
+      const y = get('yield') / 100, m = get('margem') / 100;
+      const graham = lpa > 0 && vpa > 0 ? Math.sqrt(22.5 * lpa * vpa) : NaN;
+      const bazin = y > 0 && div > 0 ? div / y : NaN;
+      out('graham').textContent = isNaN(graham) ? 'não se aplica' : brl(graham);
+      out('bazin').textContent = isNaN(bazin) ? 'sem dividendo' : brl(bazin);
+      const base = [graham, bazin].filter((v) => !isNaN(v));
+      const justo = base.length ? Math.min(...base) : NaN; // usa o mais conservador
+      const entrada = justo * (1 - m);
+      out('entrada').textContent = isNaN(entrada) ? '–' : brl(entrada);
+      let txt = '';
+      if (isNaN(justo)) txt = 'Com lucro negativo e sem dividendos, nenhum dos dois métodos se aplica. Empresa sem lucro não tem preço justo por esses critérios.';
+      else if (preco <= entrada) txt = `🟢 A ${brl(preco)}, a ação está abaixo do preço de entrada: tem desconto e margem de segurança. Zona de compra.`;
+      else if (preco <= justo) txt = `🟡 A ${brl(preco)}, está abaixo do preço justo conservador (${brl(justo)}), mas sem a margem completa. Compra aceitável, em parcelas.`;
+      else txt = `🔴 A ${brl(preco)}, está acima do preço justo conservador (${brl(justo)}). Espere, ou procure outra empresa.`;
+      out('veredito').textContent = txt;
+    };
+    el.querySelectorAll('input').forEach((i) => i.addEventListener('input', upd));
+    upd();
+  });
+</script>
+
+<style>
+  .calc-teto {
+    margin: 1.6rem 0; padding: 1rem 1.1rem; background: var(--bg-card);
+    border: 1px solid var(--borda); border-top: 5px solid var(--coral); border-radius: var(--raio);
+  }
+  .topo p { margin: 0.2rem 0 0.8rem; font-size: 0.9rem; color: var(--texto-suave); }
+  .campos { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; }
+  .campos label { display: flex; flex-direction: column; justify-content: space-between; gap: 4px; font-size: 0.85rem; color: var(--texto-suave); }
+  .campos input {
+    font-family: var(--font-mono); font-size: 1rem; padding: 7px 10px; color: var(--texto);
+    background: var(--bg); border: 1px solid var(--borda); border-radius: 8px;
+  }
+  .campos input:focus { outline: 2px solid var(--coral); border-color: transparent; }
+  .resultados { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 1rem; }
+  .resultados > div {
+    display: flex; flex-direction: column; gap: 2px; padding: 0.7rem 0.8rem;
+    border: 1px solid var(--borda); border-radius: 10px;
+  }
+  .resultados small { font-size: 0.8rem; color: var(--texto-suave); }
+  .resultados b { font-family: var(--font-mono); font-size: 1.2rem; color: var(--destaque); }
+  .resultados .forte { background: var(--petroleo); border-color: var(--petroleo); }
+  .resultados .forte small { color: var(--creme); opacity: 0.85; }
+  .resultados .forte b { color: #fff; }
+  .veredito { margin: 0.9rem 0 0; font-size: 0.96rem; line-height: 1.5; }
+  @media (max-width: 560px) { .resultados { grid-template-columns: 1fr; } }
+</style>

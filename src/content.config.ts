@@ -32,6 +32,21 @@ const trilha = defineCollection({
   }),
 });
 
+// Seção "Ações": a base que sustenta as opções (fundamentos, preço justo, ciclos)
+const acoes = defineCollection({
+  loader: glob({ base: './src/content/acoes', pattern: '**/*.{md,mdx}' }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    ordem: z.number(), // posição na sequência da seção (1, 2, 3...)
+    pubDate: z.coerce.date(),
+    updatedDate: z.coerce.date().optional(),
+    tags: z.array(z.string()).default([]),
+    youtube: z.string().optional(),
+    draft: z.boolean().default(false),
+  }),
+});
+
 // Fichas de estratégia: estrutura padronizada
 const estrategias = defineCollection({
   loader: glob({ base: './src/content/estrategias', pattern: '**/*.{md,mdx}' }),
@@ -164,4 +179,4 @@ const analises = defineCollection({
   }),
 });
 
-export const collections = { blog, trilha, estrategias, analises };
+export const collections = { blog, trilha, acoes, estrategias, analises };

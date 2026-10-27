@@ -1,0 +1,68 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { formatarData, tempoLeitura } from '../../lib/posts';
+import { LINKS } from '../../consts';
+
+export async function getStaticPaths() {
+  const artigos = (await getCollection('acoes', ({ data }) => import.meta.env.DEV || !data.draft))
+    .sort((a, b) => a.data.ordem - b.data.ordem);
+  return artigos.map((a, i) => ({
+    params: { slug: a.id },
+    props: { artigo: a, anterior: artigos[i - 1], proximo: artigos[i + 1] },
+  }));
+}
+
+const { artigo, anterior, proximo } = Astro.props;
+const { Content } = await render(artigo);
+const { title, description, ordem, pubDate, updatedDate, youtube } = artigo.data;
+---
+<Base title={title} description={description} type="article">
+  <article class="container pagina">
+    <p class="sobretitulo"><a href="/acoes">Ações</a> · Parte {String(ordem).padStart(2, '0')}</p>
+    <h1>{title}</h1>
+    <p class="intro">{description}</p>
+    <p class="meta">
+      {formatarData(pubDate)} · {tempoLeitura(artigo.body)}
+      {updatedDate && <> · atualizado em {formatarData(updatedDate)}</>}
+    </p>
+
+    {youtube && (
+      <div class="video-embed">
+        <iframe src={`https://www.youtube-nocookie.com/embed/${youtube}`} title={`Vídeo: ${title}`} loading="lazy"
+          allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+      </div>
+    )}
+
+    <div class="conteudo"><Content /></div>
+
+    <aside class="caixa">
+      <strong>Próximo passo: as opções.</strong>
+      <p>Com a base de ações no lugar, a <a href="/comece-aqui">trilha Comece Aqui</a> mostra como usar opções
+      para gerar renda, proteger e alavancar essas mesmas ações. No <a href={LINKS.youtube} target="_blank" rel="noopener">canal</a>
+      tem tudo na prática.</p>
+    </aside>
+
+    <nav class="nav-serie" aria-label="Navegação da seção Ações">
+      {anterior ? <a href={`/acoes/${anterior.id}/`}><small>← Parte {anterior.data.ordem}</small>{anterior.data.title}</a> : <span />}
+      {proximo
+        ? <a class="dir" href={`/acoes/${proximo.id}/`}><small>Próxima: parte {proximo.data.ordem} →</small>{proximo.data.title}</a>
+        : <a class="dir" href="/acoes"><small>Próxima parte em produção</small>Voltar para Ações</a>}
+    </nav>
+  </article>
+</Base>
+
+<style>
+  .sobretitulo a { color: var(--coral); text-decoration: none; }
+  .meta { font-size: 0.85rem; color: var(--texto-suave); }
+  .nav-serie { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 2.5rem; }
+  .nav-serie a {
+    display: flex; flex-direction: column; gap: 2px; text-decoration: none;
+    border: 1px solid var(--borda); border-radius: var(--raio); padding: 0.8rem 1rem;
+    background: var(--bg-card); font-weight: 600; font-size: 0.95rem; line-height: 1.35;
+  }
+  .nav-serie a:hover { border-color: var(--coral); }
+  .nav-serie small { color: var(--texto-suave); font-weight: 400; }
+  .nav-serie .dir { text-align: right; }
+  @media (max-width: 560px) { .nav-serie { grid-template-columns: 1fr; } .nav-serie .dir { text-align: left; } }
+</style>

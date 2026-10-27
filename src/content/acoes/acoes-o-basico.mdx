@@ -1,0 +1,287 @@
+---
+title: 'Ações: o básico que você precisa saber!'
+description: 'Não dá para falar de opções sem falar de ações. O que é uma ação, como saber se ela é boa, quanto pagar por ela e como aproveitar os ciclos do mercado para ganhar dinheiro.'
+ordem: 1
+pubDate: 2026-10-27
+tags: ['ações', 'iniciantes', 'dividendos', 'preço justo', 'ciclos']
+---
+
+import Derivativo from '../../components/acoes/Derivativo.astro';
+import PrecoTeto from '../../components/acoes/PrecoTeto.astro';
+import CicloSetores from '../../components/acoes/CicloSetores.astro';
+
+## Por que começar pelas ações?
+
+**Não tem como falar de opções sem falar de ações.** Toda opção que você vai negociar aqui, seja uma call de
+<span class="ticker">PETR4</span> ou uma put de <span class="ticker">VALE3</span>, é um contrato **sobre** uma ação.
+A ação vem primeiro. A opção vem depois, pendurada nela.
+
+É por isso que opções são chamadas de **derivativos**: são ativos que **derivam** de outro ativo. O valor
+delas não nasce delas mesmas; nasce do preço do ativo de referência, que o mercado chama de **ativo-objeto**.
+O nome é literal: assim como "derivado do leite" é tudo o que vem do leite (queijo, manteiga, iogurte),
+derivativo é tudo o que vem de um ativo.
+
+<Derivativo />
+
+Na prática, isso significa duas coisas:
+
+1. **Quem entende a ação, entende metade da opção.** Se você sabe que PETR4 está barata, cara ou no meio de uma
+   tendência, já sabe para que lado quer a sua opção.
+2. **As melhores estratégias com opções usam ações boas.** Venda coberta, venda de put para comprar mais barato,
+   proteção de carteira: tudo isso começa com uma ação que você quer ter. Opção sobre ação ruim é aposta em cima de aposta.
+
+Então vamos construir essa base: o que é uma ação, o que faz uma ação ser boa, quanto pagar por ela e como o
+ciclo do mercado mexe com tudo isso.
+
+<div class="mapa-artigo">
+  <a href="#o-que-e"><span>🏭</span><b>1. O que é uma ação</b>Sócio de uma empresa</a>
+  <a href="#boa-acao"><span>⭐</span><b>2. Boa ação</b>Os 6 sinais</a>
+  <a href="#preco-justo"><span>🧮</span><b>3. Preço justo e teto</b>Com calculadora</a>
+  <a href="#indicadores"><span>📊</span><b>4. Indicadores</b>O que olhar no longo prazo</a>
+  <a href="#ciclo-setores"><span>🔄</span><b>5. Ciclo dos setores</b>Quem lidera em cada fase</a>
+  <a href="#aproveitar-ciclos"><span>🎯</span><b>6. Ciclos de mercado</b>Como lucrar com eles</a>
+</div>
+
+<h2 id="o-que-e">1. O que é uma ação</h2>
+
+Uma ação é **um pedaço de uma empresa**. Quem compra vira sócio e passa a ter direito a uma fatia do lucro dela.
+A ação não sobe e desce sozinha: ela sobe ou desce porque o mercado reavalia quanto aquele negócio vai lucrar no futuro.
+
+<div class="caixa">
+
+**A analogia da padaria.** Imagine uma padaria dividida em 1.000 partes iguais que lucra R$ 100 mil por ano.
+Cada parte tem direito a R$ 100 desse lucro. Se ela abre uma filial e passa a lucrar R$ 200 mil, cada parte
+passa a valer mais, porque gera o dobro de dinheiro. Na bolsa é igual, só que com empresas gigantes e milhões de partes.
+
+</div>
+
+### Os tipos de ação
+
+| Final do código | Tipo | O que significa | Exemplos |
+|---|---|---|---|
+| 3 | ON (ordinária) | Dá direito a voto nas assembleias | <span class="ticker">PETR3</span> <span class="ticker">VALE3</span> <span class="ticker">WEGE3</span> |
+| 4 | PN (preferencial) | Sem voto, mas com prioridade nos dividendos | <span class="ticker">PETR4</span> <span class="ticker">ITUB4</span> |
+| 11 | Unit | Pacote que junta ONs e PNs | <span class="ticker">TAEE11</span> <span class="ticker">SANB11</span> |
+
+Para quem vai operar opções, a regra é simples: **as opções são listadas na classe mais negociada**. Em Petrobras,
+o mercado de opções gira em torno de PETR4, não de PETR3. Por isso a liquidez da ação importa tanto.
+
+### As duas formas de ganhar dinheiro
+
+1. **Valorização (ganho de capital):** comprar a R$ 20 e vender a R$ 30. Vem do crescimento do lucro e de o mercado
+   passar a pagar mais por ele.
+2. **Proventos (renda):** a empresa distribui parte do lucro em **dividendos** ou **JCP** (juros sobre capital próprio).
+   Cai na sua conta sem você vender nada.
+
+Reinvestidos, os proventos compram mais ações, que pagam mais proventos. É o efeito bola de neve. E quem opera opções
+tem uma **terceira fonte**: vender opções sobre as ações que já tem e embolsar o prêmio. Chegamos lá no final.
+
+<h2 id="boa-acao">2. O que é uma boa ação</h2>
+
+**Boa ação é a de uma empresa boa comprada a um preço bom.** As duas coisas juntas. Empresa excelente comprada cara
+rende pouco por anos; empresa ruim comprada barata costuma continuar barata, e às vezes quebra.
+
+### Os 6 sinais de uma boa empresa
+
+1. **Lucro que cresce e se repete.** Procure de 5 a 10 anos de lucro positivo e crescente. Lucro que oscila entre
+   prejuízo e lucro gigante é sinal de negócio imprevisível.
+2. **Rentabilidade alta (ROE acima de 15%).** Mostra que a empresa transforma bem o dinheiro dos sócios em lucro.
+3. **Dívida sob controle.** Dívida líquida/EBITDA abaixo de 2x é confortável na maioria dos setores. Com Selic alta,
+   dívida pesada come o lucro.
+4. **Vantagem competitiva.** Marca forte, custo mais baixo, concessão, rede de distribuição, tecnologia. É o que impede
+   um concorrente de roubar o lucro.
+5. **Boa governança.** Novo Mercado, tag along de 100%, histórico de respeito ao acionista minoritário.
+6. **Dividendos consistentes.** Pagar proventos todo ano por uma década prova que o lucro é real, em caixa, e não só no papel.
+
+### Dividendos: o termômetro, não o objetivo
+
+O indicador é o **Dividend Yield (DY)**: dividendos pagos em 12 meses ÷ preço da ação. Ação a R$ 40 que pagou
+R$ 3,20 no ano tem DY de 8%. Com a Selic na casa dos dois dígitos, um DY recorrente de 6% a 8% já é um bom patamar.
+
+O investidor Luiz Barsi resumiu os setores que pagam de forma estável na sigla **BESST**: **B**ancos, **E**nergia elétrica,
+**S**aneamento, **S**eguros e **T**elecomunicações. Negócios regulados, com receita previsível e demanda que não some na crise.
+
+<div class="caixa alerta">
+
+**Cuidado com a armadilha do dividendo (dividend trap)**
+
+- **DY inflado por queda de preço:** se a ação caiu 50% porque o negócio piorou, o DY dobra na conta, mas o próximo dividendo vai cair junto com o lucro.
+- **Dividendo não recorrente:** a venda de um ativo gera um pagamento único gordo, que não se repete.
+- **Payout acima de 100%:** a empresa paga mais do que lucra. Não se sustenta.
+- **Estatal em ano político:** o dividendo depende da vontade do governo.
+
+Regra prática: olhe o **DY médio de 5 anos**, nunca só o dos últimos 12 meses.
+
+</div>
+
+<h2 id="preco-justo">3. Preço justo e preço teto</h2>
+
+**Preço justo** é quanto a empresa vale pelo dinheiro que gera. **Preço teto** é o máximo que você aceita pagar para
+ainda ter lucro com folga. Nenhum método dá a resposta exata: use dois ou três e trabalhe com a faixa entre eles.
+
+Vamos usar uma empresa fictícia, a **Padaria S.A.** (<span class="ticker">PADR3</span>): cotação de R$ 38,00, lucro por
+ação (LPA) de R$ 4,00, valor patrimonial por ação (VPA) de R$ 25,00 e dividendo médio de R$ 2,40 por ação.
+
+| Método | Fórmula | PADR3 | Serve para |
+|---|---|---:|---|
+| **Graham** | √(22,5 × LPA × VPA) | R$ 47,43 | Empresas lucrativas e maduras |
+| **Bazin** (preço teto) | Dividendo médio ÷ 6% | R$ 40,00 | Ações de renda, pagadoras de dividendos |
+| **P/L histórico** | LPA × P/L médio de 10 anos (10x) | R$ 40,00 | Comparar com o próprio passado e o setor |
+| **Gordon** | Dividendo ÷ (retorno exigido − crescimento) | R$ 26,67 | Pagadoras estáveis; muito sensível às premissas |
+
+A faixa central fica entre R$ 40 e R$ 47. Agora entra a **margem de segurança**: o desconto que você exige sobre o preço
+justo para se proteger dos seus próprios erros de estimativa. De 20% a 30% é o padrão. Com 20% sobre o preço justo
+conservador de R$ 40, o **preço de entrada ideal fica em R$ 32**.
+
+Teste com os números de qualquer empresa:
+
+<PrecoTeto />
+
+<div class="caixa">
+
+**Duas observações de quem opera opções**
+
+- **Use o dividendo líquido.** Desde 2026 o JCP é tributado em 17,5% na fonte. Em empresas que pagam muito JCP,
+  como bancos, R$ 1,00 de JCP vira R$ 0,825 no bolso. Coloque esse valor na conta do Bazin.
+- **O preço de entrada vira strike.** Se a sua conta diz que PADR3 é boa compra a R$ 32, você pode **vender uma put
+  com strike R$ 32** e ser pago para esperar o preço chegar. É a ponte entre esta seção e as opções.
+
+</div>
+
+**A lição prática: o lucro de uma ação se decide na compra.** Pagar barato deixa espaço para errar e ainda ganhar.
+
+<h2 id="indicadores">4. Indicadores para o médio e longo prazo</h2>
+
+Para segurar uma ação por anos, olhe quatro grupos: **preço** (está barata?), **rentabilidade** (é eficiente?),
+**saúde financeira** (aguenta crise?) e **crescimento** (vai lucrar mais?). Nenhum indicador isolado decide; o conjunto conta a história.
+
+| Grupo | Indicador | O que mede | Referência |
+|---|---|---|---|
+| Preço | **P/L** | Anos de lucro para "pagar" a ação | Abaixo de 10 barato; 10 a 15 justo; acima de 20 exige crescimento forte |
+| Preço | **P/VP** | Preço sobre o patrimônio | Abaixo de 1 pode ser barganha ou problema; bancos bons entre 1 e 2 |
+| Preço | **EV/EBITDA** | Valor da empresa (com dívida) sobre a geração de caixa | Abaixo de 6 é atrativo |
+| Preço | **Dividend Yield** | Dividendos de 12 meses ÷ preço | Acima de 6% para carteira de renda (média de 5 anos) |
+| Rentabilidade | **ROE** | Lucro ÷ patrimônio dos sócios | Acima de 15% bom; acima de 20% excelente |
+| Rentabilidade | **ROIC** | Lucro operacional ÷ todo o capital investido | Ideal acima de 12% |
+| Rentabilidade | **Margem líquida** | Quanto sobra de cada R$ 100 vendidos | Compare com o setor: varejo 3% a 5%; energia 20% ou mais |
+| Saúde | **Dívida líquida/EBITDA** | Anos de caixa para quitar a dívida | Abaixo de 2x confortável; acima de 3x alerta |
+| Saúde | **Payout** | % do lucro distribuído | 40% a 80% saudável; acima de 100% insustentável |
+| Crescimento | **CAGR de lucro (5 anos)** | Crescimento médio anual do lucro | Acima do IPCA já é bom; acima de 10% ao ano, ótimo |
+
+### Como ler os indicadores juntos
+
+- **ROE alto + dívida baixa:** retorno feito com dinheiro próprio. O perfil mais seguro.
+- **ROE alto + dívida alta:** retorno "alavancado". Funciona com juros baixos, sofre com Selic alta.
+- **P/L baixo + lucro caindo:** não é barato. É o mercado antecipando lucro menor (a "value trap").
+- **P/L alto + lucro crescendo 25% ao ano:** pode ser barato. O P/L cai rápido se o lucro dobrar em 3 anos.
+
+E compare **sempre dentro do setor**: P/L de 6 em banco é normal; em empresa de tecnologia seria raríssimo. Dívida de
+3,5x numa transmissora de energia, com receita garantida por contrato, é tranquila; no varejo seria perigosa.
+
+**Onde achar os números:** o site de Relações com Investidores (RI) da empresa é a fonte primária. Status Invest,
+Investidor10 e Fundamentus trazem os indicadores calculados, de graça.
+
+<h2 id="ciclo-setores">5. O ciclo dos setores</h2>
+
+A economia anda em ciclos de quatro fases, e **em cada fase um grupo diferente de setores lucra mais**. No Brasil,
+quem dita o ritmo é a **Selic**: juros caindo aceleram a economia; juros subindo freiam.
+
+<CicloSetores />
+
+### Por que os setores reagem assim
+
+- **Cíclicos (varejo, construção, consumo):** vendem a prazo e dependem de crédito barato. Juros caindo, parcelas menores,
+  mais vendas. São os primeiros a subir e os primeiros a cair.
+- **Defensivos (energia, saneamento, telecom):** você paga a conta de luz e de água em qualquer cenário. O lucro é estável,
+  muitas vezes corrigido pela inflação em contrato. Brilham quando o resto sofre.
+- **Commodities (petróleo, minério, aço):** dependem mais do ciclo **global** (China, dólar, preço internacional) do que do
+  brasileiro. Dólar alto ajuda, porque vendem em dólar e gastam em real.
+- **Bancos:** ganham em quase todas as fases, mas sofrem com inadimplência na contração.
+
+<div class="caixa alerta">
+
+**A bolsa antecipa a economia em 6 a 12 meses.** As ações de varejo começam a subir quando a economia ainda está ruim,
+assim que o mercado enxerga que a Selic vai cair. Quem espera a notícia boa chegar no jornal já perdeu boa parte da alta.
+
+</div>
+
+<h2 id="aproveitar-ciclos">6. Como aproveitar os ciclos de mercado</h2>
+
+**O dinheiro grande é feito comprando no pessimismo e reduzindo na euforia.** O preço sobe além do valor justo na ganância
+e cai abaixo dele no medo. Seu trabalho é usar o preço justo (seção 3) como **âncora** e o ciclo como **cronômetro**.
+
+| Fase do preço | Humor do mercado | O que fazer |
+|---|---|---|
+| Acumulação (lateral no fundo) | Desânimo: "bolsa não dá dinheiro" | Comprar em parcelas. É onde está a margem de segurança |
+| Alta | Otimismo crescente | Manter, deixar o lucro correr, aportar nas que ainda estão abaixo do preço justo |
+| Distribuição (lateral no topo) | Euforia: todo mundo falando de ação | Parar de comprar e realizar parte do que passou muito do preço justo |
+| Baixa | Medo, depois pânico | Deixar o caixa rendendo na renda fixa e preparar a lista de compras |
+
+### Sinais para saber em que fase estamos
+
+- **Selic e juros futuros (DI):** quando a curva começa a precificar cortes, o ciclo de alta da bolsa costuma estar nascendo.
+- **IPCA:** inflação desacelerando abre espaço para corte de juros.
+- **P/L do Ibovespa contra a média histórica:** bolsa abaixo da média é desconto geral.
+- **Fluxo estrangeiro na B3:** o capital de fora costuma puxar as grandes altas.
+- **Termômetro social:** quando todo grupo de WhatsApp só fala de ação, é euforia. Quando ninguém quer ouvir falar, é oportunidade.
+
+### 6 estratégias práticas
+
+1. **Núcleo + satélite.** De 60% a 70% da carteira em empresas perenes pagadoras de dividendos, sem girar. De 30% a 40%
+   em posições táticas nos setores que o ciclo favorece.
+2. **Rotação setorial.** Com a Selic no topo e o mercado começando a falar em corte, migre aos poucos das defensivas para
+   as cíclicas domésticas. No início de um ciclo de alta de juros, faça o caminho inverso.
+3. **O paradoxo das cíclicas.** Em siderurgia, mineração e petróleo, compre quando o P/L está **alto** (lucro deprimido no
+   fundo do ciclo) e venda quando está **baixo** (lucro no pico, que não se sustenta). É o contrário da intuição.
+4. **Compra no pânico, com lista pronta.** Crises derrubam boas empresas junto com as ruins. Tenha os preços teto definidos
+   antes; quando o preço chegar, execute.
+5. **Aportes mensais constantes.** O mesmo valor todo mês compra mais ações quando estão baratas e menos quando estão caras.
+6. **Rebalanceamento.** Uma ou duas vezes por ano, venda o que passou do peso planejado e compre o que ficou para trás.
+   Você realiza lucro na euforia e compra no desânimo, no automático.
+
+### Onde as opções entram
+
+Com a base de ações no lugar, as opções viram ferramenta, não aposta:
+
+- **Venda coberta (covered call):** sobre ações que você já tem, venda calls com strike **acima do seu preço justo**.
+  Recebe prêmio todo mês; se a ação disparar e você for exercido, vende num preço que já considerava caro.
+  Veja a [ficha da venda coberta](/estrategias/venda-coberta/).
+- **Venda de put coberta (cash-secured put):** venda puts com strike **no seu preço de entrada**. Recebe para esperar
+  a ação chegar onde você quer comprar. Veja a [ficha da venda de put](/estrategias/venda-de-put-coberta/).
+
+## Impostos: o que vale em 2026
+
+| Rendimento | Regra vigente |
+|---|---|
+| **Dividendos** | Isentos até R$ 50 mil por mês pagos por uma mesma empresa à mesma pessoa física. Acima disso, 10% retidos sobre o total do mês (Lei 15.270/2025) |
+| **JCP** | 17,5% retidos na fonte (era 15% até 2025) |
+| **Venda de ações** | 15% sobre o lucro; isento se o total **vendido** no mês for até R$ 20 mil |
+| **Day trade** | 20% sobre o lucro, sem isenção |
+| **Alta renda (IRPFM)** | Renda total acima de R$ 600 mil/ano paga uma alíquota mínima de até 10% |
+
+Para a grande maioria dos investidores, o dividendo segue isento. A mudança que pesa no bolso de todos é a do JCP.
+A Lei 15.270/2025 ainda é questionada no STF, então confira a regra antes de decisões grandes.
+
+## Checklist antes de comprar
+
+- [ ] Entendo como a empresa ganha dinheiro, em uma frase
+- [ ] Lucro positivo em pelo menos 4 dos últimos 5 anos
+- [ ] ROE acima de 15% (ou acima da média do setor)
+- [ ] Dívida líquida/EBITDA abaixo de 2x (ou adequada ao setor)
+- [ ] Pagou dividendos de forma recorrente nos últimos 5 anos
+- [ ] Governança aceitável (Novo Mercado ou tag along alto)
+- [ ] Preço atual abaixo do preço teto, com margem de segurança
+- [ ] Sei em que fase do ciclo o setor está
+- [ ] A posição não passa de 10% da carteira
+
+Falhou em dois ou mais itens? Passe para a próxima.
+
+## Resumo em 5 frases
+
+1. Ação é sociedade: você ganha quando a empresa lucra mais e distribui esse lucro.
+2. Opções são derivativos: derivam da ação. Quem entende a ação, entende metade da opção.
+3. Boa ação é empresa lucrativa, pouco endividada, com vantagem competitiva, comprada com margem de segurança.
+4. Os setores se revezam na liderança conforme a Selic, e a bolsa antecipa a economia.
+5. Compre no desânimo, reduza na euforia, aporte todo mês e use opções para turbinar o que já funciona.
+
+*PADR3 é uma empresa fictícia. Os demais tickers são exemplos didáticos de setores, não recomendação de compra.*

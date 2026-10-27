@@ -1,0 +1,57 @@
+---
+// Diagrama: a ação (ativo-objeto) e os contratos que derivam dela.
+---
+<figure class="deriv">
+  <div class="raiz">
+    <span class="ico">🏭</span>
+    <b>Ação</b>
+    <small>o ativo-objeto<br />ex.: <span class="ticker">PETR4</span> a R$ 38,00</small>
+  </div>
+  <div class="setas" aria-hidden="true">
+    <span></span><span></span><span></span>
+  </div>
+  <div class="filhos">
+    <div><b>Call</b><small>direito de <strong>comprar</strong> PETR4 a um preço combinado</small></div>
+    <div><b>Put</b><small>direito de <strong>vender</strong> PETR4 a um preço combinado</small></div>
+    <div><b>Termo e futuro</b><small>compra ou venda de PETR4 marcada para uma data</small></div>
+  </div>
+  <figcaption class="legenda-fig">
+    O derivativo não tem valor próprio: se PETR4 sobe ou cai, o preço da call e da put muda junto.
+    Sem a ação, o contrato não existe.
+  </figcaption>
+</figure>
+
+<style>
+  .deriv { margin: 1.6rem 0; }
+  .raiz {
+    display: flex; flex-direction: column; align-items: center; text-align: center; gap: 2px;
+    max-width: 280px; margin: 0 auto; padding: 0.9rem 1rem;
+    background: var(--petroleo); color: var(--creme); border-radius: var(--raio);
+  }
+  .raiz .ico { font-size: 1.8rem; }
+  .raiz b { font-family: var(--font-titulo); font-size: 1.35rem; }
+  .raiz small { font-size: 0.85rem; opacity: 0.9; line-height: 1.4; }
+  .raiz .ticker { color: #ffb4a3; }
+  .setas { display: grid; grid-template-columns: repeat(3, 1fr); height: 28px; position: relative; }
+  .setas span { position: relative; }
+  .setas span::before {
+    content: ''; position: absolute; left: 50%; top: 0; bottom: 6px; width: 2px; background: var(--coral);
+  }
+  .setas span::after {
+    content: ''; position: absolute; left: calc(50% - 5px); bottom: 0;
+    border-left: 6px solid transparent; border-right: 6px solid transparent; border-top: 8px solid var(--coral);
+  }
+  .filhos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .filhos > div {
+    display: flex; flex-direction: column; gap: 4px; padding: 0.7rem 0.8rem;
+    background: var(--bg-card); border: 1px solid var(--borda); border-top: 4px solid var(--coral);
+    border-radius: var(--raio);
+  }
+  .filhos b { font-family: var(--font-titulo); color: var(--destaque); font-size: 1.1rem; }
+  .filhos small { font-size: 0.88rem; line-height: 1.45; color: var(--texto-suave); }
+  @media (max-width: 560px) {
+    .setas { grid-template-columns: 1fr; }
+    .setas span:not(:first-child) { display: none; }
+    .filhos { grid-template-columns: 1fr; }
+  }
+</style>

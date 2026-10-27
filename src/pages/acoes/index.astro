@@ -1,0 +1,45 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+
+const artigos = (await getCollection('acoes', ({ data }) => import.meta.env.DEV || !data.draft))
+  .sort((a, b) => a.data.ordem - b.data.ordem);
+
+// Próximos temas da seção (aparecem como "Em breve" até serem publicados)
+const planejados = [
+  { title: 'Como ler um balanço sem ser contador', resumo: 'Receita, lucro, caixa e dívida: onde achar cada número no release de resultados.' },
+  { title: 'Preço médio, liquidez e volatilidade', resumo: 'O que muda na sua operação quando a ação é pouco negociada ou oscila demais.' },
+  { title: 'Montando a primeira carteira', resumo: 'Quantas ações, quais setores e quanto em cada uma.' },
+];
+---
+<Base title="Ações" description="A base de tudo: o que é uma ação, como saber se ela é boa, quanto pagar por ela e como aproveitar os ciclos do mercado.">
+  <section class="container-larga pagina">
+    <p class="sobretitulo">A base das opções</p>
+    <h1>Ações</h1>
+    <p class="intro">
+      Toda opção nasce de uma ação. Antes de falar em strike, prêmio ou volatilidade, você precisa
+      saber o que está por trás do contrato: a empresa, o lucro dela e o preço que vale a pena pagar.
+      É isso que esta seção ensina, sempre com um olho em como ganhar dinheiro.
+    </p>
+    <ul class="grade-cards">
+      {artigos.map((a) => (
+        <li>
+          <a class="card-link" href={`/acoes/${a.id}/`}>
+            <span class="selo">Parte {String(a.data.ordem).padStart(2, '0')}</span>
+            <span class="titulo">{a.data.title}</span>
+            <span class="resumo">{a.data.description}</span>
+          </a>
+        </li>
+      ))}
+      {planejados.map((p) => (
+        <li>
+          <div class="card-link em-breve">
+            <span class="selo neutro">Em breve</span>
+            <span class="titulo">{p.title}</span>
+            <span class="resumo">{p.resumo}</span>
+          </div>
+        </li>
+      ))}
+    </ul>
+  </section>
+</Base>
