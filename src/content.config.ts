@@ -100,6 +100,55 @@ const analises = defineCollection({
       tipo: z.enum(['resistencia', 'suporte', 'pivo', 'vazio', 'preco']),
       confluencia: z.string(),
     })).default([]),
+    // ---- Blocos do estudo completo (opcionais). Strings aceitam **negrito**.
+    // Cartões de veredito no topo: preço-teto, zona de acumulação, range de 6 meses, viés
+    veredito: z.array(z.object({
+      rotulo: z.string(),
+      valor: z.string(),
+      texto: z.string(),
+      destaque: z.boolean().default(false),
+      tom: z.enum(['alta', 'baixa', 'neutro']).optional(),
+    })).default([]),
+    indicadoresNota: z.string().optional(), // parágrafo de leitura abaixo da tabela de indicadores
+    fluxo: z.array(z.string()).default([]), // leitura de fluxo (preço × volume) em tópicos
+    perfilFaixas: z.array(z.object({ faixa: z.string(), pct: z.number() })).default([]), // % do volume por faixa
+    perfilNotas: z.array(z.string()).default([]), // leitura do Volume Profile em tópicos
+    macro: z.object({
+      titulo: z.string(),
+      fonte: z.string().optional(),
+      tabela: z.array(z.object({
+        ativo: z.string(), ultimo: z.string(), dia: z.string().optional(),
+        m1: z.string(), m3: z.string(), m6: z.string(), ano: z.string(),
+        efeito: z.string(), destaque: z.boolean().default(false),
+        inverte: z.boolean().default(false), // juros/câmbio: alta é ruim (cores invertidas)
+      })),
+      pontos: z.array(z.string()).default([]),
+    }).optional(),
+    micro: z.object({
+      titulo: z.string(),
+      fundamentos: z.array(z.object({ nome: z.string(), valor: z.string() })),
+      sustentacao: z.array(z.string()).default([]),
+      pressao: z.array(z.string()).default([]),
+      evento: z.string().optional(),
+    }).optional(),
+    plano: z.object({
+      titulo: z.string(),
+      texto: z.string(),
+      tranches: z.array(z.object({
+        nome: z.string(), nota: z.string().optional(), entrada: z.string(), gatilho: z.string(),
+        stop: z.string(), alvos: z.string(), rr: z.string(),
+      })),
+      nota: z.string().optional(),
+    }).optional(),
+    cenarios: z.object({
+      titulo: z.string(),
+      linhas: z.array(z.object({
+        cenario: z.enum(['Baixista', 'Base', 'Altista']), prob: z.string(), faixa: z.string(), premissas: z.string(),
+      })),
+      nota: z.string().optional(),
+    }).optional(),
+    gatilhos: z.object({ melhora: z.array(z.string()), piora: z.array(z.string()) }).optional(),
+    fontes: z.string().optional(), // nota de dados e ressalvas no rodapé
     estrutura: z.object({
       nome: z.string(),
       racional: z.string(), // por que essa estrutura combina com o cenário

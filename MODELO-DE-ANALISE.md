@@ -47,3 +47,27 @@ Relação entre cenário, volatilidade e a montagem escolhida.
 ## Plano de acompanhamento
 
 O que observar, quando ajustar, quando encerrar.
+
+## Blocos do estudo completo (opcionais)
+
+Além dos campos básicos, a análise aceita os blocos do estudo completo do canal. Todos são opcionais e
+aparecem na página na ordem: veredito (cartões no topo) → indicadores (+ `indicadoresNota`) → preço × volume
+(+ `fluxo`) → Volume Profile (+ `perfilFaixas`, `perfilNotas`) → `macro` → `micro` → síntese e estrutura →
+`plano` → `cenarios` → `gatilhos` → `fontes`. Textos aceitam `**negrito**`.
+Exemplo completo: `src/content/analises/bbdc4-2026-10-26.md`.
+
+```yaml
+veredito:
+  - { rotulo: 'Preço-teto de entrada', valor: 'R$ 15,40', destaque: true, texto: '...' }
+  - { rotulo: 'Viés', valor: 'Lateral / clímax', tom: 'neutro', texto: '...' }   # tom: alta | baixa | neutro
+macro:
+  titulo: '...'
+  tabela:
+    - { ativo: 'BR10Y', ultimo: '15,42%', m1: '+8,3%', m3: '+4,3%', m6: '+10,1%', ano: '+12,1%', efeito: '...', inverte: true }
+  pontos: ['**Juros.** ...']
+micro: { titulo: '...', fundamentos: [{ nome: '...', valor: '...' }], sustentacao: ['...'], pressao: ['...'], evento: '...' }
+plano: { titulo: '...', texto: '...', tranches: [{ nome, nota, entrada, gatilho, stop, alvos, rr }], nota: '...' }
+cenarios: { titulo: '...', linhas: [{ cenario: Baixista|Base|Altista, prob: '25%', faixa: '12,5 – 14,6', premissas: '...' }], nota: '...' }
+gatilhos: { melhora: ['...'], piora: ['...'] }
+fontes: '**Dados:** ...'
+```

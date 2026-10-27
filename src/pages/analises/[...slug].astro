@@ -5,7 +5,7 @@ import GraficoCandles from '../../components/analise/GraficoCandles.astro';
 import PayoffEstrutura from '../../components/analise/PayoffEstrutura.astro';
 import AvisoAnalise from '../../components/analise/AvisoAnalise.astro';
 import PerfilVolume from '../../components/analise/PerfilVolume.astro';
-import { getAnalises, statusAtual, classeStatus, iconeCenario, dataBR } from '../../lib/analises';
+import { getAnalises, statusAtual, classeStatus, iconeCenario, dataBR, negrito } from '../../lib/analises';
 import { brl } from '../../lib/payoff';
 
 export async function getStaticPaths() {
@@ -65,6 +65,18 @@ const nomeTipo = { call: 'Call', put: 'Put', acao: 'Ação' };
       {d.volatilidade && <div><span>Volatilidade</span><b>{d.volatilidade}</b></div>}
     </div>
 
+    {d.veredito.length > 0 && (
+      <div class="veredito">
+        {d.veredito.map((v) => (
+          <div class:list={['vcard', { chave: v.destaque }]}>
+            <span>{v.rotulo}</span>
+            <b class:list={[v.tom]}>{v.valor}</b>
+            <small set:html={negrito(v.texto)} />
+          </div>
+        ))}
+      </div>
+    )}
+
     {candles && candles.length > 0 && <GraficoCandles candles={candles} niveis={niveis} ticker={d.ticker} range={d.range} />}
 
     <div class="niveis">
@@ -89,6 +101,7 @@ const nomeTipo = { call: 'Call', put: 'Put', acao: 'Ação' };
             ))}
           </tbody>
         </table></div>
+        {d.indicadoresNota && <p class="nota-bloco" set:html={negrito(d.indicadoresNota)} />}
       </section>
     )}
 
@@ -100,6 +113,7 @@ const nomeTipo = { call: 'Call', put: 'Put', acao: 'Ação' };
             <li><span class="data">{e.data}</span><div><b>{e.evento}</b><p>{e.leitura}</p></div></li>
           ))}
         </ol>
+        {d.fluxo.length > 0 && <ul class="topicos">{d.fluxo.map((f) => <li set:html={negrito(f)} />)}</ul>}
       </section>
     )}
 
@@ -119,6 +133,61 @@ const nomeTipo = { call: 'Call', put: 'Put', acao: 'Ação' };
             </table></div>
           )}
         </div>
+        {(d.perfilFaixas.length > 0 || d.perfilNotas.length > 0) && (
+          <div class="vp-notas">
+            {d.perfilFaixas.length > 0 && (
+              <div class="faixas">
+                <p class="rot">Volume dos 20 meses por faixa</p>
+                {d.perfilFaixas.map((f) => {
+                  const max = Math.max(...d.perfilFaixas.map((x) => x.pct));
+                  return (
+                    <div class="faixa"><span class="num">{f.faixa}</span><i style={`width:${(f.pct / max) * 100}%`}></i><b class="num">{f.pct.toLocaleString('pt-BR', { maximumFractionDigits: 1 })}%</b></div>
+                  );
+                })}
+              </div>
+            )}
+            {d.perfilNotas.length > 0 && <ul class="topicos">{d.perfilNotas.map((f) => <li set:html={negrito(f)} />)}</ul>}
+          </div>
+        )}
+      </section>
+    )}
+
+    {d.macro && (
+      <section class="bloco">
+        <p class="eyebrow">{++secao} · Panorama macro</p>
+        <h2 class="tit-bloco">{d.macro.titulo}</h2>
+        <div class="tabela-wrap"><table class="macro">
+          <thead><tr><th>Ativo</th><th>Último</th><th>Dia</th><th>1M</th><th>3M</th><th>6M</th><th>Ano</th><th>Leitura</th></tr></thead>
+          <tbody>
+            {d.macro.tabela.map((m) => (
+              <tr class:list={{ destaque: m.destaque }}>
+                <td>{m.ativo}</td><td class="num">{m.ultimo}</td>
+                {[m.dia ?? '—', m.m1, m.m3, m.m6, m.ano].map((x) => <td class:list={['num', { neg: m.inverte ? x.startsWith('+') : x.startsWith('−'), pos: m.inverte ? x.startsWith('−') : x.startsWith('+') }]}>{x}</td>)}
+                <td>{m.efeito}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table></div>
+        {d.macro.fonte && <p class="nota-bloco">{d.macro.fonte}</p>}
+        {d.macro.pontos.length > 0 && <ul class="topicos">{d.macro.pontos.map((f) => <li set:html={negrito(f)} />)}</ul>}
+      </section>
+    )}
+
+    {d.micro && (
+      <section class="bloco">
+        <p class="eyebrow">{++secao} · Panorama micro</p>
+        <h2 class="tit-bloco">{d.micro.titulo}</h2>
+        <div class="micro-grid">
+          <div class="tabela-wrap"><table class="fund">
+            <thead><tr><th>Fundamento</th><th>Valor</th></tr></thead>
+            <tbody>{d.micro.fundamentos.map((f) => <tr><td>{f.nome}</td><td class="num" set:html={negrito(f.valor)} /></tr>)}</tbody>
+          </table></div>
+          <div>
+            {d.micro.sustentacao.length > 0 && <><h3 class="pos">Fatores de sustentação</h3><ul class="topicos">{d.micro.sustentacao.map((f) => <li set:html={negrito(f)} />)}</ul></>}
+            {d.micro.pressao.length > 0 && <><h3 class="neg">Fatores de pressão</h3><ul class="topicos">{d.micro.pressao.map((f) => <li set:html={negrito(f)} />)}</ul></>}
+          </div>
+        </div>
+        {d.micro.evento && <p class="callout" set:html={negrito(d.micro.evento)} />}
       </section>
     )}
 
@@ -163,6 +232,55 @@ const nomeTipo = { call: 'Call', put: 'Put', acao: 'Ação' };
         )}
       </aside>
     </div>
+
+    {d.plano && (
+      <section class="bloco">
+        <p class="eyebrow">{++secao} · Preço-teto e plano de entrada</p>
+        <h2 class="tit-bloco">{d.plano.titulo}</h2>
+        <p class="paragrafo" set:html={negrito(d.plano.texto)} />
+        <div class="tabela-wrap"><table class="plano">
+          <thead><tr><th>Tranche</th><th>Entrada</th><th>Gatilho</th><th>Stop</th><th>Alvos</th><th>R/R</th></tr></thead>
+          <tbody>
+            {d.plano.tranches.map((t) => (
+              <tr>
+                <td><b>{t.nome}</b>{t.nota && <small>{t.nota}</small>}</td>
+                <td class="num">{t.entrada}</td><td>{t.gatilho}</td><td class="num">{t.stop}</td>
+                <td class="num">{t.alvos}</td><td class="num">{t.rr}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table></div>
+        {d.plano.nota && <p class="nota-bloco" set:html={negrito(d.plano.nota)} />}
+      </section>
+    )}
+
+    {d.cenarios && (
+      <section class="bloco">
+        <p class="eyebrow">{++secao} · Range para os próximos 6 meses</p>
+        <h2 class="tit-bloco">{d.cenarios.titulo}</h2>
+        <div class="tabela-wrap"><table class="cen">
+          <thead><tr><th>Cenário</th><th>Prob.*</th><th>Faixa R$</th><th>Premissas</th></tr></thead>
+          <tbody>
+            {d.cenarios.linhas.map((c) => (
+              <tr><td><span class={`pill-cen ${c.cenario.toLowerCase()}`}>{c.cenario}</span></td><td class="num">{c.prob}</td><td class="num">{c.faixa}</td><td>{c.premissas}</td></tr>
+            ))}
+          </tbody>
+        </table></div>
+        {d.cenarios.nota && <p class="nota-bloco" set:html={negrito(d.cenarios.nota)} />}
+      </section>
+    )}
+
+    {d.gatilhos && (
+      <section class="bloco">
+        <p class="eyebrow">{++secao} · O que muda o estudo</p>
+        <div class="gatilhos">
+          <div><h3 class="pos">Melhora o quadro</h3><ul class="topicos">{d.gatilhos.melhora.map((f) => <li set:html={negrito(f)} />)}</ul></div>
+          <div><h3 class="neg">Piora o quadro</h3><ul class="topicos">{d.gatilhos.piora.map((f) => <li set:html={negrito(f)} />)}</ul></div>
+        </div>
+      </section>
+    )}
+
+    {d.fontes && <p class="fontes" set:html={negrito(d.fontes)} />}
 
     {d.youtube && (
       <div class="video-embed">
@@ -266,4 +384,38 @@ const nomeTipo = { call: 'Call', put: 'Put', acao: 'Ação' };
   .invalida p:last-child, .resultado p:last-child { margin: 0.3rem 0 0; font-size: 0.95rem; line-height: 1.5; }
   .resultado { background: var(--bg-card); border: 2px solid var(--petroleo); }
   .outras ul { padding-left: 1.2rem; }
+  .veredito { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin: 1rem 0 1.4rem; }
+  .vcard { background: var(--bg-card); border: 1px solid var(--borda); border-radius: var(--raio); padding: 0.8rem 1rem; display: grid; gap: 4px; align-content: start; }
+  .vcard.chave { border: 2px solid var(--coral); background: rgba(242,105,77,0.08); }
+  .vcard span { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600; color: var(--texto-suave); }
+  .vcard b { font-family: var(--font-mono); font-size: 1.35rem; color: var(--destaque); }
+  .vcard b.alta { color: #1f8a5b; } .vcard b.baixa { color: #d64545; } .vcard b.neutro { color: #b7791f; }
+  .vcard small { font-size: 0.84rem; line-height: 1.45; color: var(--texto-suave); }
+  .tit-bloco { margin: 0.2em 0 0.7em; border: none; padding: 0; font-size: 1.45rem; }
+  .nota-bloco { font-size: 0.9rem; color: var(--texto-suave); margin: 0.7rem 0 0; line-height: 1.55; max-width: 80ch; }
+  .paragrafo { max-width: 80ch; line-height: 1.6; }
+  .topicos { margin: 0.9rem 0 0; padding-left: 1.2rem; display: grid; gap: 6px; max-width: 82ch; }
+  .topicos li { line-height: 1.55; font-size: 0.95rem; }
+  .vp-notas { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: 18px; margin-top: 14px; align-items: start; }
+  @media (max-width: 900px) { .vp-notas { grid-template-columns: 1fr; } }
+  .faixas { background: var(--bg-card); border: 1px solid var(--borda); border-radius: var(--raio); padding: 0.8rem 1rem; }
+  .faixa { display: grid; grid-template-columns: 74px 1fr 48px; align-items: center; gap: 8px; font-size: 0.85rem; margin: 4px 0; }
+  .faixa i { display: block; height: 10px; border-radius: 3px; background: var(--petroleo); opacity: 0.7; }
+  .faixa b { text-align: right; color: var(--texto); }
+  .vp-notas .topicos { margin-top: 0; }
+  .macro { min-width: 780px; } .macro tr.destaque td { background: rgba(242,105,77,0.08); font-weight: 600; }
+  td.neg, .neg { color: #c0392b; } td.pos, .pos { color: #1f8a5b; }
+  .micro-grid { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: 20px; align-items: start; }
+  @media (max-width: 900px) { .micro-grid { grid-template-columns: 1fr; } }
+  .micro-grid h3 { margin: 0 0 0.2em; font-size: 1.05rem; } .micro-grid h3 + .topicos { margin-top: 0.3rem; margin-bottom: 1rem; }
+  .fund td.num { white-space: normal !important; }
+  .callout { border-left: 4px solid var(--coral); background: var(--bg-card); padding: 0.8rem 1rem; border-radius: 0 10px 10px 0; margin: 1rem 0 0; line-height: 1.55; }
+  .plano { min-width: 780px; } .plano td small { display: block; font-size: 0.78rem; color: var(--texto-suave); }
+  .cen { min-width: 640px; }
+  .pill-cen { display: inline-block; font-size: 0.75rem; font-weight: 700; padding: 2px 9px; border-radius: 999px; }
+  .pill-cen.baixista { background: #fbe0e0; color: #a83232; } .pill-cen.base { background: var(--giz); color: #8a6400; border: 1px solid var(--borda); } .pill-cen.altista { background: #d9f2e6; color: #166b46; }
+  .gatilhos { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  @media (max-width: 760px) { .gatilhos { grid-template-columns: 1fr; } }
+  .gatilhos h3 { margin: 0; font-size: 1.05rem; } .gatilhos .topicos { margin-top: 0.4rem; }
+  .fontes { font-size: 0.82rem; color: var(--texto-suave); border-top: 1px solid var(--borda); padding-top: 0.9rem; margin-top: 2rem; line-height: 1.55; }
 </style>

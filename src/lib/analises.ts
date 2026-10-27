@@ -24,3 +24,9 @@ export const iconeCenario = (c: string) => {
 
 export const dataBR = (d: Date) =>
   d.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric', timeZone: 'UTC' });
+
+/** Escapa HTML e converte **negrito** em <b>. Para textos curtos dos blocos do estudo. */
+export function negrito(s: string): string {
+  const esc = s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  return esc.replace(/\*\*(.+?)\*\*/g, '<b>$1</b>');
+}
