@@ -39,6 +39,12 @@ export const ESTUDOS_PLANEJADOS = [
 
 export const FERRAMENTAS = [
   {
+    slug: 'laboratorio',
+    title: 'Laboratório de estruturas',
+    resumo: '62 estruturas com opções: montagem teórica, payoff, POP e como montar hoje com os valores reais de mercado.',
+    pronta: true,
+  },
+  {
     slug: 'calculadora-de-payoff',
     title: 'Calculadora de payoff',
     resumo: 'Monte qualquer estrutura com até 4 pernas e veja o gráfico de lucro e prejuízo no vencimento, o ponto de equilíbrio e o risco máximo.',
