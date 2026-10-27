@@ -1,0 +1,90 @@
+---
+import { grafico, rs, br, pct, dmy, dmyy, qfmt, moneyness, analisar, teoria, type Estrutura, type Hoje, type Analise } from '../../lib/laboratorio';
+import Metricas from './Metricas.astro';
+interface Props { est: Estrutura; h: Hoje; at: Analise }
+const { est, h, at } = Astro.props;
+const origem: Record<string, string> = { ultimo: 'último negócio', 'último': 'último negócio', mid: 'meio do book', teorico: 'teórico', 'teórico': 'teórico' };
+const ar = h.analise;
+const deltaCx = ar ? ar.cash - at.cash : 0;
+const multi = h.pernas ? new Set(h.pernas.filter((l) => l.t !== 'S').map((l) => l.d)).size > 1 : false;
+const lin = (nome: string, f: (a: Analise) => string) => ({ nome, t: f(at), r: ar ? f(ar) : '' });
+const linhas = ar ? [
+  lin('Caixa das opções', (a) => (a.cash > 0.004 ? 'crédito ' : a.cash < -0.004 ? 'débito ' : '') + rs(Math.abs(a.cash))),
+  lin('Ganho máximo', (a) => (a.gain === null ? 'ilimitado' : rs(a.gain))),
+  lin('Perda máxima', (a) => (a.loss === null ? 'ilimitada' : rs(a.loss))),
+  lin('Break-even(s)', (a) => a.be.map((b) => br(b)).join(' · ') || '—'),
+  lin('Prob. de lucro*', (a) => pct(a.prob)),
+] : [];
+---
+<section class="sec hoje" id="hoje">
+  <h2><span class="n">3</span>Como essa estrutura seria montada hoje com os valores reais de mercado?</h2>
+  {h.tem && ar && h.pernas ? (
+    <>
+      <div class="hoje-head">
+        <span class={`selo-idade ${(h.idade ?? 0) <= 3 ? 'atual' : 'velho'}`} data-data={h.data}>
+          {(h.idade ?? 0) <= 3 ? `preços de ${dmyy(h.data!)}` : `preços de ${dmyy(h.data!)} · há ${h.idade} dias · atualize`}
+        </span>
+        <span class="hoje-spot">{h.ativo} a <b>{rs(h.spot!)}</b></span>
+      </div>
+      <div class="duo">
+        <div class="fig">
+          <Fragment set:html={grafico(ar, h.spot!, { comp: h.comp })} />
+          <div class="cap"><span><i class="k1"></i>payoff</span>{h.comp && <span><i class="k2"></i>{est.comp_label || 'posição original'}</span>}<span><i class="k3"></i>preço atual do ativo</span></div>
+        </div>
+        <div class="side">
+          <table class="cmp">
+            <thead><tr><th></th><th>Teoria<small>exemplo de 02/10</small></th><th>Hoje<small>{dmyy(h.data!)}</small></th></tr></thead>
+            <tbody>{linhas.map((l) => <tr><th>{l.nome}</th><td>{l.t}</td><td>{l.r}</td></tr>)}</tbody>
+          </table>
+          <p class="delta">Em relação ao exemplo teórico, o caixa das opções mudou <b class={deltaCx >= 0 ? 'pos' : 'neg'}>{rs(deltaCx, 2, true)}</b> por ação.</p>
+        </div>
+      </div>
+      <Metricas a={ar} />
+      {h.chk && h.chk.length > 0 && <div class="pills">{h.chk.map(([n, t]) => <span class={`pill l${n}`}>{t}</span>)}</div>}
+      <div class="twrap">
+        <table class="legs real">
+          <thead><tr><th>Lado</th><th>Qtd.</th><th>Código</th><th>Tipo</th><th>Strike</th><th>Venc.</th><th>Preço</th><th>VI</th><th>Neg.</th><th>Origem</th></tr></thead>
+          <tbody>
+            {h.pernas.map((l) => (
+              <tr>
+                <td class={l.q > 0 ? 'buy' : 'sell'}>{l.q > 0 ? 'Comprar' : 'Vender'}</td>
+                <td>{qfmt(l.q)}</td>
+                <td class="tk">{l.tk}</td>
+                <td>{l.t === 'S' ? 'Ação' : l.t === 'C' ? 'CALL' : 'PUT'}</td>
+                <td>{l.t === 'S' ? '—' : <>{rs(l.k!)}<small>{moneyness(l, h.spot!)}</small></>}</td>
+                <td>{l.t === 'S' ? '—' : <>{dmy(l.exp!)}<small>{l.d} du</small></>}</td>
+                <td>{rs(l.px)}</td>
+                <td>{l.t === 'S' || !l.iv ? '—' : pct(l.iv, 1)}</td>
+                <td>{l.n ?? '—'}</td>
+                <td>{l.t === 'S' ? '—' : <span class={`orig ${l.origem === 'teorico' || l.origem === 'teórico' ? 'teo' : ''}`}>{origem[l.origem ?? ''] ?? l.origem}</span>}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      {multi && <p class="nota">Estrutura com vencimentos diferentes: a curva mostra o resultado no primeiro vencimento ({ar.d0} du); as pernas mais longas são avaliadas por Black-Scholes com a VI de hoje congelada e carry zero.</p>}
+      {h.fonte && <p class="nota">{h.fonte}.</p>}
+    </>
+  ) : (
+    <>
+      <p class="lede">Ainda sem preços reais carregados para esta estrutura. Preencha as linhas dela em <code>src/data/laboratorio/mercado.csv</code>: no próximo deploy o laboratório monta o payoff, os break-evens, a probabilidade de lucro e as checagens do POP com os valores de mercado.</p>
+      <div class="twrap">
+        <table class="legs">
+          <thead><tr><th>Lado</th><th>Qtd.</th><th>Instrumento</th><th>Strike alvo</th><th>Prazo alvo</th><th>Código da série</th><th>Preço</th></tr></thead>
+          <tbody>
+            {est.pernas.map((l) => (
+              <tr>
+                <td class={l.q > 0 ? 'buy' : 'sell'}>{l.q > 0 ? 'Comprar' : 'Vender'}</td>
+                <td>{qfmt(l.q)}</td>
+                <td>{l.t === 'S' ? 'Ação' : l.t === 'C' ? 'CALL' : 'PUT'}</td>
+                <td>{l.t === 'S' ? '—' : '≈ ' + moneyness(l, est.ref.spot)}</td>
+                <td>{l.t === 'S' ? '—' : `${l.d} du aprox.`}</td>
+                <td class="blank">a preencher</td><td class="blank">a preencher</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </>
+  )}
+</section>

@@ -1,0 +1,5139 @@
+[
+ {
+  "id": "covered-call",
+  "nome": "Venda coberta — benchmark",
+  "familia": "Base",
+  "pop": "covered-call",
+  "racional": "Transforma a ação em uma posição com teto de venda conhecido e prêmio recebido. Serve como referência para comparar o Booster de CALL.",
+  "esperado": "Abaixo do strike, acompanha a ação com amortecimento do prêmio. Acima de R$ 25,04, o ganho fica travado; preço efetivo de saída = strike + prêmio.",
+  "notas": [],
+  "modo": "expiry",
+  "comp_label": null,
+  "pernas": [
+   {
+    "t": "S",
+    "q": 1,
+    "k": null,
+    "d": 0,
+    "px": 23.72,
+    "iv": null,
+    "exp": null
+   },
+   {
+    "t": "C",
+    "q": -1,
+    "k": 25.04,
+    "d": 31,
+    "px": 1.49,
+    "iv": 0.5556,
+    "exp": "2026-11-19"
+   }
+  ],
+  "comparacao": null,
+  "ref": {
+   "data": "2026-10-02",
+   "spot": 23.72,
+   "caixa": 1.49
+  },
+  "lab_stats": {
+   "prob": 0.5925,
+   "be": [
+    22.23
+   ],
+   "best": 2.81,
+   "worst": -6.23,
+   "sig": 0.5556,
+   "d0": 31,
+   "openUp": null,
+   "slopeDown": 1.0
+  }
+ },
+ {
+  "id": "cash-put",
+  "nome": "PUT garantida em caixa — benchmark",
+  "familia": "Base",
+  "pop": "put-venda",
+  "racional": "Receber prêmio para assumir a obrigação de comprar BBAS3 em um preço previamente aceito.",
+  "esperado": "Lucro máximo é o prêmio se BBAS3 terminar acima do strike. Abaixo do strike, a posição passa a se comportar como compra econômica do papel pelo strike menos o prêmio.",
+  "notas": [],
+  "modo": "expiry",
+  "comp_label": null,
+  "pernas": [
+   {
+    "t": "P",
+    "q": -1,
+    "k": 22.54,
+    "d": 31,
+    "px": 1.19,
+    "iv": 0.5779,
+    "exp": "2026-11-19"
+   }
+  ],
+  "comparacao": null,
+  "ref": {
+   "data": "2026-10-02",
+   "spot": 23.72,
+   "caixa": 1.19
+  },
+  "lab_stats": {
+   "prob": 0.6617,
+   "be": [
+    21.35
+   ],
+   "best": 1.19,
+   "worst": -5.35,
+   "sig": 0.5779,
+   "d0": 31,
+   "openUp": null,
+   "slopeDown": 1.0
+  }
+ },
+ {
+  "id": "booster-call",
+  "nome": "Booster CALL integrado à ação",
+  "familia": "Booster",
+  "pop": "booster-call",
+  "racional": "Substitui uma covered call simples por uma razão 1×2 integrada à ação. Pela equivalência cardinal, +C23,54 −2C24,54 aponta para uma entrega sintética próxima de C25,54.",
+  "esperado": "Entre R$ 23,54 e R$ 25,54 existe a zona de oportunidade. A partir do miolo, o teto econômico é atingido antes de o papel chegar ao strike cardinal.",
+  "notas": [],
+  "modo": "expiry",
+  "comp_label": null,
+  "pernas": [
+   {
+    "t": "S",
+    "q": 1,
+    "k": null,
+    "d": 0,
+    "px": 23.72,
+    "iv": null,
+    "exp": null
+   },
+   {
+    "t": "C",
+    "q": 1,
+    "k": 23.54,
+    "d": 31,
+    "px": 2.16,
+    "iv": 0.5635,
+    "exp": "2026-11-19"
+   },
+   {
+    "t": "C",
+    "q": -2,
+    "k": 24.54,
+    "d": 31,
+    "px": 1.7,
+    "iv": 0.5571,
+    "exp": "2026-11-19"
+   }
+  ],
+  "comparacao": null,
+  "ref": {
+   "data": "2026-10-02",
+   "spot": 23.72,
+   "caixa": 1.24
+  },
+  "lab_stats": {
+   "prob": 0.5691,
+   "be": [
+    22.48
+   ],
+   "best": 3.06,
+   "worst": -6.48,
+   "sig": 0.5592,
+   "d0": 31,
+   "openUp": null,
+   "slopeDown": 1.0
+  }
+ },
+ {
+  "id": "booster-put",
+  "nome": "Booster reverso de PUT",
+  "familia": "Booster",
+  "pop": "booster-put",
+  "racional": "Ferramenta integrada ao caixa: compra uma PUT de strike superior e vende duas PUTs no strike inferior. A equivalência cardinal aponta para uma obrigação de compra próxima de R$ 22,54.",
+  "esperado": "Se o papel cair, a estrutura desloca a assunção econômica para baixo; no miolo, a combinação produz ganho adicional em relação à PUT vendida isoladamente.",
+  "notas": [
+   "Exige caixa/garantia compatível com eventual exercício; o gráfico mostra apenas o P/L das opções."
+  ],
+  "modo": "expiry",
+  "comp_label": null,
+  "pernas": [
+   {
+    "t": "P",
+    "q": 1,
+    "k": 24.54,
+    "d": 31,
+    "px": 2.13,
+    "iv": 0.5748,
+    "exp": "2026-11-19"
+   },
+   {
+    "t": "P",
+    "q": -2,
+    "k": 23.54,
+    "d": 31,
+    "px": 1.63,
+    "iv": 0.5734,
+    "exp": "2026-11-19"
+   }
+  ],
+  "comparacao": null,
+  "ref": {
+   "data": "2026-10-02",
+   "spot": 23.72,
+   "caixa": 1.13
+  },
+  "lab_stats": {
+   "prob": 0.6584,
+   "be": [
+    21.41
+   ],
+   "best": 2.09,
+   "worst": -5.41,
+   "sig": 0.5739,
+   "d0": 31,
+   "openUp": null,
+   "slopeDown": 1.0
+  }
+ },
+ {
+  "id": "b1",
+  "nome": "Módulo B1 — Boosters contrapostos ATM",
+  "familia": "Módulos",
+  "pop": "b1",
+  "racional": "Concentra duas razões 1×2 no miolo, uma em CALL e outra em PUT. O objetivo é maximizar o ganho quando o ativo permanece próximo do strike central.",
+  "esperado": "O melhor resultado ocorre na região do miolo. Fora das assunções superior/inferior, a estrutura perde eficiência e passa a carregar risco direcional de cauda.",
+  "notas": [],
+  "modo": "expiry",
+  "comp_label": null,
+  "pernas": [
+   {
+    "t": "C",
+    "q": 1,
+    "k": 22.79,
+    "d": 8,
+    "px": 1.82,
+    "iv": 0.6549,
+    "exp": "2026-10-16"
+   },
+   {
+    "t": "C",
+    "q": -2,
+    "k": 23.79,
+    "d": 8,
+    "px": 1.23,
+    "iv": 0.6594,
+    "exp": "2026-10-16"
+   },
+   {
+    "t": "P",
+    "q": 1,
+    "k": 24.79,
+    "d": 8,
+    "px": 1.71,
+    "iv": 0.6622,
+    "exp": "2026-10-16"
+   },
+   {
+    "t": "P",
+    "q": -2,
+    "k": 23.79,
+    "d": 8,
+    "px": 1.14,
+    "iv": 0.66,
+    "exp": "2026-10-16"
+   }
+  ],
+  "comparacao": null,
+  "ref": {
+   "data": "2026-10-02",
+   "spot": 23.72,
+   "caixa": 1.21
+  },
+  "lab_stats": {
+   "prob": 0.5703,
+   "be": [
+    21.58,
+    26.0
+   ],
+   "best": 3.19,
+   "worst": -6.0,
+   "sig": 0.6593,
+   "d0": 8,
+   "openUp": "loss",
+   "slopeDown": 1.0
+  }
+ },
+ {
+  "id": "b2",
+  "nome": "Módulo B2 — Boosters afastados",
+  "familia": "Módulos",
+  "pop": "b2",
+  "racional": "Afasta as pernas compradas e cria uma faixa central mais larga do que no B1. O foco é ampliar a região de resultado favorável entre as assunções.",
+  "esperado": "Tende a formar uma zona central ampla, mas sem asas externas a razão 1×2 ainda deixa cauda negativa no lado da CALL acima da assunção superior.",
+  "notas": [
+   "O payoff revela que o 1×2 sem asa adicional não limita integralmente a cauda de alta; o Hexabox é a versão que explicita a proteção externa."
+  ],
+  "modo": "expiry",
+  "comp_label": null,
+  "pernas": [
+   {
+    "t": "C",
+    "q": 1,
+    "k": 22.54,
+    "d": 31,
+    "px": 2.74,
+    "iv": 0.562,
+    "exp": "2026-11-19"
+   },
+   {
+    "t": "C",
+    "q": -2,
+    "k": 24.54,
+    "d": 31,
+    "px": 1.7,
+    "iv": 0.5571,
+    "exp": "2026-11-19"
+   },
+   {
+    "t": "P",
+    "q": 1,
+    "k": 25.54,
+    "d": 31,
+    "px": 2.71,
+    "iv": 0.5703,
+    "exp": "2026-11-19"
+   },
+   {
+    "t": "P",
+    "q": -2,
+    "k": 23.54,
+    "d": 31,
+    "px": 1.63,
+    "iv": 0.5734,
+    "exp": "2026-11-19"
+   }
+  ],
+  "comparacao": null,
+  "ref": {
+   "data": "2026-10-02",
+   "spot": 23.72,
+   "caixa": 1.21
+  },
+  "lab_stats": {
+   "prob": 0.5638,
+   "be": [
+    20.33,
+    27.75
+   ],
+   "best": 4.21,
+   "worst": -4.33,
+   "sig": 0.5655,
+   "d0": 31,
+   "openUp": "loss",
+   "slopeDown": 1.0
+  }
+ },
+ {
+  "id": "b3-2x3",
+  "nome": "Módulo B3 — versão 2×3 bilateral",
+  "familia": "Módulos",
+  "pop": "b3",
+  "racional": "Aumenta o coeficiente das pernas compradas e vendidas para adaptar a estrutura a uma cadeia mais cara/volátil. O saldo direcional de cada lado continua equivalente a uma opção vendida líquida.",
+  "esperado": "A concentração no centro cresce, mas o custo/benefício da cauda muda. Deve ser comparada com o B1/B2 pela largura da zona útil e pela margem requerida.",
+  "notas": [],
+  "modo": "expiry",
+  "comp_label": null,
+  "pernas": [
+   {
+    "t": "C",
+    "q": 2,
+    "k": 23.54,
+    "d": 31,
+    "px": 2.16,
+    "iv": 0.5635,
+    "exp": "2026-11-19"
+   },
+   {
+    "t": "C",
+    "q": -3,
+    "k": 24.54,
+    "d": 31,
+    "px": 1.7,
+    "iv": 0.5571,
+    "exp": "2026-11-19"
+   },
+   {
+    "t": "P",
+    "q": 2,
+    "k": 24.54,
+    "d": 31,
+    "px": 2.13,
+    "iv": 0.5748,
+    "exp": "2026-11-19"
+   },
+   {
+    "t": "P",
+    "q": -3,
+    "k": 23.54,
+    "d": 31,
+    "px": 1.63,
+    "iv": 0.5734,
+    "exp": "2026-11-19"
+   }
+  ],
+  "comparacao": null,
+  "ref": {
+   "data": "2026-10-02",
+   "spot": 23.72,
+   "caixa": 1.41
+  },
+  "lab_stats": {
+   "prob": 0.5883,
+   "be": [
+    20.13,
+    27.95
+   ],
+   "best": 3.41,
+   "worst": -4.13,
+   "sig": 0.5668,
+   "d0": 31,
+   "openUp": "loss",
+   "slopeDown": 1.0
+  }
+ },
+ {
+  "id": "b3-3x4",
+  "nome": "Módulo B3 — versão 3×4 bilateral",
+  "familia": "Módulos",
+  "pop": "b3",
+  "racional": "Variante de maior densidade do B3. A razão 3×4 reduz a diferença líquida de delta de cauda por unidade de opção comprada, mas aumenta o nocional e a exigência de margem.",
+  "esperado": "O miolo recebe mais convexidade; em contrapartida, o operador deve controlar tamanho, margem e custo de saída porque há mais contratos por unidade de estrutura.",
+  "notas": [],
+  "modo": "expiry",
+  "comp_label": null,
+  "pernas": [
+   {
+    "t": "C",
+    "q": 3,
+    "k": 23.54,
+    "d": 31,
+    "px": 2.16,
+    "iv": 0.5635,
+    "exp": "2026-11-19"
+   },
+   {
+    "t": "C",
+    "q": -4,
+    "k": 24.54,
+    "d": 31,
+    "px": 1.7,
+    "iv": 0.5571,
+    "exp": "2026-11-19"
+   },
+   {
+    "t": "P",
+    "q": 3,
+    "k": 24.54,
+    "d": 31,
+    "px": 2.13,
+    "iv": 0.5748,
+    "exp": "2026-11-19"
+   },
+   {
+    "t": "P",
+    "q": -4,
+    "k": 23.54,
+    "d": 31,
+    "px": 1.63,
+    "iv": 0.5734,
+    "exp": "2026-11-19"
+   }
+  ],
+  "comparacao": null,
+  "ref": {
+   "data": "2026-10-02",
+   "spot": 23.72,
+   "caixa": 0.45
+  },
+  "lab_stats": {
+   "prob": 0.5926,
+   "be": [
+    20.09,
+    27.99
+   ],
+   "best": 3.45,
+   "worst": -4.09,
+   "sig": 0.5669,
+   "d0": 31,
+   "openUp": "loss",
+   "slopeDown": 1.0
+  }
+ },
+ {
+  "id": "bwb",
+  "nome": "Broken Wing Butterfly de CALL",
+  "familia": "Asas / proteção",
+  "pop": "bwb",
+  "racional": "Borboleta assimétrica: a asa superior é mais larga que a inferior. A montagem selecionada fecha com crédito de aproximadamente R$ 0,25, igual ao desequilíbrio geométrico de R$ 0,25.",
+  "esperado": "O ganho máximo fica próximo do strike vendido. Nas extremidades, o risco é limitado pelas duas CALLs compradas; a assimetria desloca o perfil de payoff.",
+  "notas": [],
+  "modo": "expiry",
+  "comp_label": null,
+  "pernas": [
+   {
+    "t": "C",
+    "q": 1,
+    "k": 22.29,
+    "d": 8,
+    "px": 2.07,
+    "iv": 0.6652,
+    "exp": "2026-10-16"
+   },
+   {
+    "t": "C",
+    "q": -2,
+    "k": 22.79,
+    "d": 8,
+    "px": 1.82,
+    "iv": 0.6549,
+    "exp": "2026-10-16"
+   },
+   {
+    "t": "C",
+    "q": 1,
+    "k": 23.54,
+    "d": 8,
+    "px": 1.32,
+    "iv": 0.6511,
+    "exp": "2026-10-16"
+   }
+  ],
+  "comparacao": null,
+  "ref": {
+   "data": "2026-10-02",
+   "spot": 23.72,
+   "caixa": 0.25
+  },
+  "lab_stats": {
+   "prob": 0.5048,
+   "be": [
+    23.6
+   ],
+   "best": 0.74,
+   "worst": 0.0,
+   "sig": 0.6565,
+   "d0": 8,
+   "openUp": null,
+   "slopeDown": 0.0
+  }
+ },
+ {
+  "id": "collar",
+  "nome": "Collar — proteção financiada",
+  "familia": "Proteção patrimonial",
+  "pop": "collar",
+  "racional": "Usa o prêmio da CALL OTM para financiar total ou parcialmente a PUT OTM. Cria piso e teto para a ação em carteira.",
+  "esperado": "Abaixo do strike da PUT, a perda fica travada; acima do strike da CALL, o ganho fica limitado. Entre os strikes, a posição acompanha a ação.",
+  "notas": [],
+  "modo": "expiry",
+  "comp_label": null,
+  "pernas": [
+   {
+    "t": "S",
+    "q": 1,
+    "k": null,
+    "d": 0,
+    "px": 23.72,
+    "iv": null,
+    "exp": null
+   },
+   {
+    "t": "C",
+    "q": -1,
+    "k": 25.04,
+    "d": 31,
+    "px": 1.49,
+    "iv": 0.5556,
+    "exp": "2026-11-19"
+   },
+   {
+    "t": "P",
+    "q": 1,
+    "k": 22.54,
+    "d": 31,
+    "px": 1.19,
+    "iv": 0.5779,
+    "exp": "2026-11-19"
+   }
+  ],
+  "comparacao": null,
+  "ref": {
+   "data": "2026-10-02",
+   "spot": 23.72,
+   "caixa": 0.3
+  },
+  "lab_stats": {
+   "prob": 0.4856,
+   "be": [
+    23.42
+   ],
+   "best": 1.62,
+   "worst": -0.88,
+   "sig": 0.5667,
+   "d0": 31,
+   "openUp": null,
+   "slopeDown": 0.0
+  }
+ },
+ {
+  "id": "bull-spread",
+  "nome": "Trava de alta com CALL",
+  "familia": "Direcionais",
+  "pop": "trava-alta",
+  "racional": "Compra CALL mais baixa e vende CALL mais alta para reduzir o custo da tese de alta e limitar simultaneamente ganho e perda.",
+  "esperado": "Perde o débito se o ativo ficar abaixo de R$ 23,54; atinge ganho máximo acima de R$ 24,54.",
+  "notas": [],
+  "modo": "expiry",
+  "comp_label": null,
+  "pernas": [
+   {
+    "t": "C",
+    "q": 1,
+    "k": 23.54,
+    "d": 8,
+    "px": 1.32,
+    "iv": 0.6511,
+    "exp": "2026-10-16"
+   },
+   {
+    "t": "C",
+    "q": -1,
+    "k": 24.54,
+    "d": 8,
+    "px": 0.91,
+    "iv": 0.6514,
+    "exp": "2026-10-16"
+   }
+  ],
+  "comparacao": null,
+  "ref": {
+   "data": "2026-10-02",
+   "spot": 23.72,
+   "caixa": -0.41
+  },
+  "lab_stats": {
+   "prob": 0.4428,
+   "be": [
+    23.95
+   ],
+   "best": 0.59,
+   "worst": -0.41,
+   "sig": 0.6512,
+   "d0": 8,
+   "openUp": null,
+   "slopeDown": 0.0
+  }
+ },
+ {
+  "id": "bear-put-spread",
+  "nome": "Trava de baixa com PUT",
+  "familia": "Direcionais",
+  "pop": "trava-baixa",
+  "racional": "Compra PUT mais alta e vende PUT mais baixa, financiando parcialmente o hedge/tese de baixa.",
+  "esperado": "Ganha com queda até o strike inferior; abaixo dele o ganho fica travado. Se o ativo permanecer acima do strike superior, perde o débito.",
+  "notas": [],
+  "modo": "expiry",
+  "comp_label": null,
+  "pernas": [
+   {
+    "t": "P",
+    "q": 1,
+    "k": 24.54,
+    "d": 8,
+    "px": 1.57,
+    "iv": 0.6605,
+    "exp": "2026-10-16"
+   },
+   {
+    "t": "P",
+    "q": -1,
+    "k": 23.54,
+    "d": 8,
+    "px": 1.04,
+    "iv": 0.6605,
+    "exp": "2026-10-16"
+   }
+  ],
+  "comparacao": null,
+  "ref": {
+   "data": "2026-10-02",
+   "spot": 23.72,
+   "caixa": -0.53
+  },
+  "lab_stats": {
+   "prob": 0.5632,
+   "be": [
+    24.01
+   ],
+   "best": 0.47,
+   "worst": -0.53,
+   "sig": 0.6605,
+   "d0": 8,
+   "openUp": null,
+   "slopeDown": 0.0
+  }
+ },
+ {
+  "id": "thl-call",
+  "nome": "THL de CALL — mesmo strike, vencimentos distintos",
+  "familia": "Tempo / rolagem",
+  "pop": "thl",
+  "racional": "Compra a CALL mais longa e vende a CALL mais curta no mesmo strike, tentando capturar a diferença de decaimento temporal.",
+  "esperado": "No vencimento curto, a CALL longa ainda terá valor temporal. Por isso o gráfico é mark-to-model, não payoff determinístico.",
+  "notas": [],
+  "modo": "mtm",
+  "comp_label": null,
+  "pernas": [
+   {
+    "t": "C",
+    "q": 1,
+    "k": 23.79,
+    "d": 31,
+    "px": 2.04,
+    "iv": 0.5595,
+    "exp": "2026-11-19"
+   },
+   {
+    "t": "C",
+    "q": -1,
+    "k": 23.79,
+    "d": 18,
+    "px": 1.99,
+    "iv": 0.7356,
+    "exp": "2026-10-30"
+   }
+  ],
+  "comparacao": null,
+  "ref": {
+   "data": "2026-10-02",
+   "spot": 23.72,
+   "caixa": -0.05
+  },
+  "lab_stats": {
+   "prob": 0.7244,
+   "be": [
+    19.18,
+    29.85
+   ],
+   "best": 1.1505,
+   "worst": -0.0494,
+   "sig": 0.7356,
+   "d0": 18,
+   "openUp": null,
+   "slopeDown": 0.002
+  }
+ },
+ {
+  "id": "clade",
+  "nome": "TLAD — Trava de Linha Assimétrica Dupla (antiga Clade)",
+  "familia": "Tempo / rolagem",
+  "pop": "tlad",
+  "racional": "TLAD (o nome correto da antiga \"Clade\"): combina duas razões horizontais 1×2 no mesmo strike: uma em CALL e outra em PUT. A proposta é reciclar a perna que perde valor e manter a perna longa como matéria-prima do ciclo seguinte.",
+  "esperado": "No vencimento curto, as opções longas continuam vivas. A curva mostra o valor estimado dessas longas após o exercício/expiração das curtas.",
+  "notas": [],
+  "modo": "mtm",
+  "comp_label": null,
+  "pernas": [
+   {
+    "t": "C",
+    "q": 1,
+    "k": 23.79,
+    "d": 31,
+    "px": 2.04,
+    "iv": 0.5595,
+    "exp": "2026-11-19"
+   },
+   {
+    "t": "C",
+    "q": -2,
+    "k": 23.79,
+    "d": 8,
+    "px": 1.23,
+    "iv": 0.6594,
+    "exp": "2026-10-16"
+   },
+   {
+    "t": "P",
+    "q": 1,
+    "k": 23.79,
+    "d": 31,
+    "px": 1.75,
+    "iv": 0.575,
+    "exp": "2026-11-19"
+   },
+   {
+    "t": "P",
+    "q": -2,
+    "k": 23.79,
+    "d": 8,
+    "px": 1.14,
+    "iv": 0.66,
+    "exp": "2026-10-16"
+   }
+  ],
+  "comparacao": null,
+  "ref": {
+   "data": "2026-10-02",
+   "spot": 23.72,
+   "caixa": 0.95
+  },
+  "lab_stats": {
+   "prob": 0.6003,
+   "be": [
+    21.51,
+    26.25
+   ],
+   "best": 4.1796,
+   "worst": -7.0995,
+   "sig": 0.6597,
+   "d0": 8,
+   "openUp": "loss",
+   "slopeDown": 1.031
+  }
+ },
+ {
+  "id": "straddle-long-put",
+  "nome": "Short straddle + PUT longa — proxy disponível",
+  "familia": "Híbridas / hedge",
+  "pop": "straddle-long-put",
+  "racional": "Vende straddle curto ATM para gerar caixa e mantém uma PUT de prazo maior como proteção de queda.",
+  "esperado": "A zona central recebe theta das duas opções curtas; em quedas, a PUT longa ganha valor. A alta continua exigindo atenção por causa da CALL curta.",
+  "notas": [],
+  "modo": "mtm",
+  "comp_label": null,
+  "pernas": [
+   {
+    "t": "P",
+    "q": 1,
+    "k": 23.7,
+    "d": 51,
+    "px": 1.73,
+    "iv": 0.4823,
+    "exp": "2026-12-18"
+   },
+   {
+    "t": "C",
+    "q": -1,
+    "k": 23.79,
+    "d": 8,
+    "px": 1.23,
+    "iv": 0.6594,
+    "exp": "2026-10-16"
+   },
+   {
+    "t": "P",
+    "q": -1,
+    "k": 23.79,
+    "d": 8,
+    "px": 1.14,
+    "iv": 0.66,
+    "exp": "2026-10-16"
+   }
+  ],
+  "comparacao": null,
+  "ref": {
+   "data": "2026-10-02",
+   "spot": 23.72,
+   "caixa": 0.64
+  },
+  "lab_stats": {
+   "prob": 0.7587,
+   "be": [
+    25.58
+   ],
+   "best": 2.465,
+   "worst": -7.4124,
+   "sig": 0.6597,
+   "d0": 8,
+   "openUp": "loss",
+   "slopeDown": 0.035
+  }
+ },
+ {
+  "id": "mannerheim",
+  "nome": "Mônada de Buffon Mannerheim",
+  "familia": "Mônadas",
+  "pop": "mannerheim",
+  "racional": "Vender 1 CALL curta financia três THLs de PUT em strikes adjacentes. A lógica é aceitar explicitamente o risco da CALL e usar os calendários de PUT para gerar/reciclar crédito e construir defesa ao longo das rolagens.",
+  "esperado": "No baseline de 02/10/2026 a montagem ficou exatamente zero-cost, com theta forte e delta negativo. A curva do primeiro vencimento mostra boa monetização/proteção no lado de baixa e a cauda de alta como risco dominante; o manejo prioriza alongar as PUTs e, depois, reforçar a proteção da CALL.",
+  "notas": [
+   "Risco dominante no lado de alta: a CALL vendida curta permanece sem proteção direta. As THLs de PUT protegem/monetizam o lado de baixa."
+  ],
+  "modo": "mtm",
+  "comp_label": null,
+  "pernas": [
+   {
+    "t": "C",
+    "q": -1.0,
+    "k": 23.29,
+    "d": 8,
+    "px": 1.48,
+    "iv": 0.6559,
+    "exp": "2026-10-16"
+   },
+   {
+    "t": "P",
+    "q": -1.0,
+    "k": 23.04,
+    "d": 8,
+    "px": 1.09,
+    "iv": 0.6638,
+    "exp": "2026-10-16"
+   },
+   {
+    "t": "P",
+    "q": 1.0,
+    "k": 23.04,
+    "d": 31,
+    "px": 1.4,
+    "iv": 0.5768,
+    "exp": "2026-11-19"
+   },
+   {
+    "t": "P",
+    "q": -1.0,
+    "k": 23.29,
+    "d": 8,
+    "px": 0.92,
+    "iv": 0.6645,
+    "exp": "2026-10-16"
+   },
+   {
+    "t": "P",
+    "q": 1.0,
+    "k": 23.29,
+    "d": 31,
+    "px": 1.5,
+    "iv": 0.5769,
+    "exp": "2026-11-19"
+   },
+   {
+    "t": "P",
+    "q": -1.0,
+    "k": 23.54,
+    "d": 8,
+    "px": 1.04,
+    "iv": 0.6605,
+    "exp": "2026-10-16"
+   },
+   {
+    "t": "P",
+    "q": 1.0,
+    "k": 23.54,
+    "d": 31,
+    "px": 1.63,
+    "iv": 0.5734,
+    "exp": "2026-11-19"
+   }
+  ],
+  "comparacao": null,
+  "ref": {
+   "data": "2026-10-02",
+   "spot": 23.72,
+   "caixa": 0.0
+  },
+  "lab_points": [
+   {
+    "x": 17.0,
+    "y": 0.0
+   },
+   {
+    "x": 17.25,
+    "y": 0.0
+   },
+   {
+    "x": 17.5,
+    "y": 0.0
+   },
+   {
+    "x": 17.75,
+    "y": 0.0
+   },
+   {
+    "x": 18.0,
+    "y": 0.0
+   },
+   {
+    "x": 18.25,
+    "y": 0.0
+   },
+   {
+    "x": 18.5,
+    "y": 0.0
+   },
+   {
+    "x": 18.75,
+    "y": 0.0
+   },
+   {
+    "x": 19.0,
+    "y": 0.028
+   },
+   {
+    "x": 19.25,
+    "y": 0.084
+   },
+   {
+    "x": 19.5,
+    "y": 0.203
+   },
+   {
+    "x": 19.75,
+    "y": 0.344
+   },
+   {
+    "x": 20.0,
+    "y": 0.5
+   },
+   {
+    "x": 20.25,
+    "y": 0.672
+   },
+   {
+    "x": 20.5,
+    "y": 0.86
+   },
+   {
+    "x": 20.75,
+    "y": 1.065
+   },
+   {
+    "x": 21.0,
+    "y": 1.288
+   },
+   {
+    "x": 21.25,
+    "y": 1.528
+   },
+   {
+    "x": 21.5,
+    "y": 1.786
+   },
+   {
+    "x": 21.75,
+    "y": 2.063
+   },
+   {
+    "x": 22.0,
+    "y": 2.359
+   },
+   {
+    "x": 22.25,
+    "y": 2.673
+   },
+   {
+    "x": 22.5,
+    "y": 3.007
+   },
+   {
+    "x": 22.75,
+    "y": 3.359
+   },
+   {
+    "x": 23.0,
+    "y": 3.729
+   },
+   {
+    "x": 23.25,
+    "y": 3.909
+   },
+   {
+    "x": 23.5,
+    "y": 3.646
+   },
+   {
+    "x": 23.75,
+    "y": 3.111
+   },
+   {
+    "x": 24.0,
+    "y": 2.554
+   },
+   {
+    "x": 24.25,
+    "y": 2.014
+   },
+   {
+    "x": 24.5,
+    "y": 1.491
+   },
+   {
+    "x": 24.75,
+    "y": 0.984
+   },
+   {
+    "x": 25.0,
+    "y": 0.492
+   },
+   {
+    "x": 25.25,
+    "y": 0.016
+   },
+   {
+    "x": 25.5,
+    "y": -0.446
+   },
+   {
+    "x": 25.75,
+    "y": -0.894
+   },
+   {
+    "x": 26.0,
+    "y": -1.329
+   },
+   {
+    "x": 26.25,
+    "y": -1.751
+   },
+   {
+    "x": 26.5,
+    "y": -2.161
+   },
+   {
+    "x": 26.75,
+    "y": -2.56
+   },
+   {
+    "x": 27.0,
+    "y": -2.947
+   },
+   {
+    "x": 27.25,
+    "y": -3.325
+   },
+   {
+    "x": 27.5,
+    "y": -3.693
+   },
+   {
+    "x": 27.75,
+    "y": -4.051
+   },
+   {
+    "x": 28.0,
+    "y": -4.402
+   },
+   {
+    "x": 28.25,
+    "y": -4.744
+   },
+   {
+    "x": 28.5,
+    "y": -5.079
+   },
+   {
+    "x": 28.75,
+    "y": -5.405
+   },
+   {
+    "x": 29.0,
+    "y": -5.688
+   },
+   {
+    "x": 29.25,
+    "y": -5.96
+   },
+   {
+    "x": 29.5,
+    "y": -6.21
+   },
+   {
+    "x": 29.75,
+    "y": -6.46
+   },
+   {
+    "x": 30.0,
+    "y": -6.71
+   },
+   {
+    "x": 30.25,
+    "y": -6.96
+   },
+   {
+    "x": 30.5,
+    "y": -7.21
+   },
+   {
+    "x": 30.75,
+    "y": -7.46
+   },
+   {
+    "x": 31.0,
+    "y": -7.71
+   }
+  ],
+  "lab_stats": {
+   "prob": 0.6951,
+   "be": [
+    18.75,
+    25.26
+   ],
+   "best": 3.909,
+   "worst": -7.71,
+   "sig": 0.6612,
+   "d0": 8,
+   "openUp": "loss",
+   "slopeDown": 0.0
+  },
+  "curva_lab": true
+ },
+ {
+  "id": "quatermine-v1",
+  "nome": "Mônada de Buffon Quatermine — V1",
+  "familia": "Mônadas",
+  "pop": "quatermine-v1",
+  "racional": "Combina 1 diagonal de CALL com 2 diagonais de PUT. O crédito das pernas curtas é usado para comprar prazo nas opções longas, buscando uma arquitetura defensiva que possa ser continuamente alongada.",
+  "esperado": "O racional do material é conservador, voltado a consolidação ou leve baixa, mas esta calibração real ficou com delta inicial positivo. O ganho central é relevante no primeiro vencimento, enquanto as diagonais reduzem as caudas; o resultado depende dos strikes e do custo de manter a distância temporal.",
+  "notas": [
+   "Estrutura travada por diagonais. Nesta calibração BBAS3, o delta grego inicial ficou positivo (+0,28), apesar da descrição estrutural 'neutra/levemente negativa'."
+  ],
+  "modo": "mtm",
+  "comp_label": null,
+  "pernas": [
+   {
+    "t": "C",
+    "q": -1.0,
+    "k": 23.2,
+    "d": 4,
+    "px": 1.31,
+    "iv": 0.7784,
+    "exp": "2026-10-09"
+   },
+   {
+    "t": "C",
+    "q": 1.0,
+    "k": 25.04,
+    "d": 31,
+    "px": 1.49,
+    "iv": 0.5556,
+    "exp": "2026-11-19"
+   },
+   {
+    "t": "P",
+    "q": -1.0,
+    "k": 23.2,
+    "d": 4,
+    "px": 0.76,
+    "iv": 0.7855,
+    "exp": "2026-10-09"
+   },
+   {
+    "t": "P",
+    "q": 1.0,
+    "k": 21.54,
+    "d": 31,
+    "px": 0.85,
+    "iv": 0.5825,
+    "exp": "2026-11-19"
+   },
+   {
+    "t": "P",
+    "q": -1.0,
+    "k": 24.7,
+    "d": 4,
+    "px": 1.58,
+    "iv": 0.7577,
+    "exp": "2026-10-09"
+   },
+   {
+    "t": "P",
+    "q": 1.0,
+    "k": 22.7,
+    "d": 51,
+    "px": 1.3,
+    "iv": 0.4883,
+    "exp": "2026-12-18"
+   }
+  ],
+  "comparacao": null,
+  "ref": {
+   "data": "2026-10-02",
+   "spot": 23.72,
+   "caixa": 0.01
+  },
+  "lab_points": [
+   {
+    "x": 17.0,
+    "y": -3.454
+   },
+   {
+    "x": 17.25,
+    "y": -3.412
+   },
+   {
+    "x": 17.5,
+    "y": -3.365
+   },
+   {
+    "x": 17.75,
+    "y": -3.312
+   },
+   {
+    "x": 18.0,
+    "y": -3.25
+   },
+   {
+    "x": 18.25,
+    "y": -3.14
+   },
+   {
+    "x": 18.5,
+    "y": -3.019
+   },
+   {
+    "x": 18.75,
+    "y": -2.886
+   },
+   {
+    "x": 19.0,
+    "y": -2.74
+   },
+   {
+    "x": 19.25,
+    "y": -2.581
+   },
+   {
+    "x": 19.5,
+    "y": -2.408
+   },
+   {
+    "x": 19.75,
+    "y": -2.221
+   },
+   {
+    "x": 20.0,
+    "y": -2.02
+   },
+   {
+    "x": 20.25,
+    "y": -1.804
+   },
+   {
+    "x": 20.5,
+    "y": -1.572
+   },
+   {
+    "x": 20.75,
+    "y": -1.325
+   },
+   {
+    "x": 21.0,
+    "y": -1.062
+   },
+   {
+    "x": 21.25,
+    "y": -0.784
+   },
+   {
+    "x": 21.5,
+    "y": -0.489
+   },
+   {
+    "x": 21.75,
+    "y": -0.178
+   },
+   {
+    "x": 22.0,
+    "y": 0.149
+   },
+   {
+    "x": 22.25,
+    "y": 0.491
+   },
+   {
+    "x": 22.5,
+    "y": 0.85
+   },
+   {
+    "x": 22.75,
+    "y": 1.225
+   },
+   {
+    "x": 23.0,
+    "y": 1.615
+   },
+   {
+    "x": 23.25,
+    "y": 1.921
+   },
+   {
+    "x": 23.5,
+    "y": 1.842
+   },
+   {
+    "x": 23.75,
+    "y": 1.779
+   },
+   {
+    "x": 24.0,
+    "y": 1.729
+   },
+   {
+    "x": 24.25,
+    "y": 1.695
+   },
+   {
+    "x": 24.5,
+    "y": 1.674
+   },
+   {
+    "x": 24.75,
+    "y": 1.617
+   },
+   {
+    "x": 25.0,
+    "y": 1.373
+   },
+   {
+    "x": 25.25,
+    "y": 1.142
+   },
+   {
+    "x": 25.5,
+    "y": 0.923
+   },
+   {
+    "x": 25.75,
+    "y": 0.717
+   },
+   {
+    "x": 26.0,
+    "y": 0.522
+   },
+   {
+    "x": 26.25,
+    "y": 0.338
+   },
+   {
+    "x": 26.5,
+    "y": 0.165
+   },
+   {
+    "x": 26.75,
+    "y": 0.002
+   },
+   {
+    "x": 27.0,
+    "y": -0.151
+   },
+   {
+    "x": 27.25,
+    "y": -0.295
+   },
+   {
+    "x": 27.5,
+    "y": -0.43
+   },
+   {
+    "x": 27.75,
+    "y": -0.556
+   },
+   {
+    "x": 28.0,
+    "y": -0.674
+   },
+   {
+    "x": 28.25,
+    "y": -0.785
+   },
+   {
+    "x": 28.5,
+    "y": -0.888
+   },
+   {
+    "x": 28.75,
+    "y": -0.975
+   },
+   {
+    "x": 29.0,
+    "y": -1.052
+   },
+   {
+    "x": 29.25,
+    "y": -1.123
+   },
+   {
+    "x": 29.5,
+    "y": -1.181
+   },
+   {
+    "x": 29.75,
+    "y": -1.221
+   },
+   {
+    "x": 30.0,
+    "y": -1.258
+   },
+   {
+    "x": 30.25,
+    "y": -1.293
+   },
+   {
+    "x": 30.5,
+    "y": -1.325
+   },
+   {
+    "x": 30.75,
+    "y": -1.355
+   },
+   {
+    "x": 31.0,
+    "y": -1.383
+   }
+  ],
+  "lab_stats": {
+   "prob": 0.6804,
+   "be": [
+    21.89,
+    26.75
+   ],
+   "best": 1.921,
+   "worst": -3.454,
+   "sig": 0.7739,
+   "d0": 4,
+   "openUp": "loss",
+   "slopeDown": 0.204
+  },
+  "curva_lab": true
+ },
+ {
+  "id": "quatermine-v2",
+  "nome": "Mônada de Buffon Quatermine — V2",
+  "familia": "Mônadas",
+  "pop": "quatermine-v2",
+  "racional": "Usa uma CALL longa OTM e dois Boosters Horizontais de PUT, limitando a exposição líquida vendida em PUT a 1 kg-base. A prioridade é maximizar caixa imediato para financiar o alongamento das pontas compradoras.",
+  "esperado": "A quase neutralidade de caixa exigiu PUTs vendidas ITM e produziu delta fortemente positivo. Isso favorece estabilidade/alta, mas torna a estrutura sensível à queda: zero-cost não significa baixo risco. O manejo deve reinvestir o crédito em prazo antes de liberar caixa.",
+  "notas": [
+   "A quase neutralidade de caixa foi obtida com boosters de PUT ITM. Resultado: delta inicial fortemente positivo (+1,19) e risco relevante em queda."
+  ],
+  "modo": "mtm",
+  "comp_label": null,
+  "pernas": [
+   {
+    "t": "C",
+    "q": 1.0,
+    "k": 26.79,
+    "d": 31,
+    "px": 0.93,
+    "iv": 0.5481,
+    "exp": "2026-11-19"
+   },
+   {
+    "t": "P",
+    "q": -1.6,
+    "k": 24.79,
+    "d": 8,
+    "px": 1.71,
+    "iv": 0.6622,
+    "exp": "2026-10-16"
+   },
+   {
+    "t": "P",
+    "q": 1.0,
+    "k": 24.79,
+    "d": 31,
+    "px": 2.28,
+    "iv": 0.5724,
+    "exp": "2026-11-19"
+   },
+   {
+    "t": "P",
+    "q": -1.4,
+    "k": 25.79,
+    "d": 8,
+    "px": 2.41,
+    "iv": 0.6559,
+    "exp": "2026-10-16"
+   },
+   {
+    "t": "P",
+    "q": 1.0,
+    "k": 25.79,
+    "d": 31,
+    "px": 2.89,
+    "iv": 0.5699,
+    "exp": "2026-11-19"
+   }
+  ],
+  "comparacao": null,
+  "ref": {
+   "data": "2026-10-02",
+   "spot": 23.72,
+   "caixa": 0.01
+  },
+  "lab_points": [
+   {
+    "x": 17.0,
+    "y": -8.073
+   },
+   {
+    "x": 17.25,
+    "y": -7.821
+   },
+   {
+    "x": 17.5,
+    "y": -7.57
+   },
+   {
+    "x": 17.75,
+    "y": -7.318
+   },
+   {
+    "x": 18.0,
+    "y": -7.065
+   },
+   {
+    "x": 18.25,
+    "y": -6.812
+   },
+   {
+    "x": 18.5,
+    "y": -6.559
+   },
+   {
+    "x": 18.75,
+    "y": -6.304
+   },
+   {
+    "x": 19.0,
+    "y": -6.048
+   },
+   {
+    "x": 19.25,
+    "y": -5.792
+   },
+   {
+    "x": 19.5,
+    "y": -5.534
+   },
+   {
+    "x": 19.75,
+    "y": -5.274
+   },
+   {
+    "x": 20.0,
+    "y": -5.013
+   },
+   {
+    "x": 20.25,
+    "y": -4.75
+   },
+   {
+    "x": 20.5,
+    "y": -4.485
+   },
+   {
+    "x": 20.75,
+    "y": -4.205
+   },
+   {
+    "x": 21.0,
+    "y": -3.889
+   },
+   {
+    "x": 21.25,
+    "y": -3.565
+   },
+   {
+    "x": 21.5,
+    "y": -3.233
+   },
+   {
+    "x": 21.75,
+    "y": -2.884
+   },
+   {
+    "x": 22.0,
+    "y": -2.487
+   },
+   {
+    "x": 22.25,
+    "y": -2.075
+   },
+   {
+    "x": 22.5,
+    "y": -1.65
+   },
+   {
+    "x": 22.75,
+    "y": -1.209
+   },
+   {
+    "x": 23.0,
+    "y": -0.754
+   },
+   {
+    "x": 23.25,
+    "y": -0.282
+   },
+   {
+    "x": 23.5,
+    "y": 0.205
+   },
+   {
+    "x": 23.75,
+    "y": 0.709
+   },
+   {
+    "x": 24.0,
+    "y": 1.23
+   },
+   {
+    "x": 24.25,
+    "y": 1.767
+   },
+   {
+    "x": 24.5,
+    "y": 2.322
+   },
+   {
+    "x": 24.75,
+    "y": 2.893
+   },
+   {
+    "x": 25.0,
+    "y": 3.146
+   },
+   {
+    "x": 25.25,
+    "y": 3.351
+   },
+   {
+    "x": 25.5,
+    "y": 3.574
+   },
+   {
+    "x": 25.75,
+    "y": 3.813
+   },
+   {
+    "x": 26.0,
+    "y": 3.774
+   },
+   {
+    "x": 26.25,
+    "y": 3.697
+   },
+   {
+    "x": 26.5,
+    "y": 3.635
+   },
+   {
+    "x": 26.75,
+    "y": 3.588
+   },
+   {
+    "x": 27.0,
+    "y": 3.558
+   },
+   {
+    "x": 27.25,
+    "y": 3.542
+   },
+   {
+    "x": 27.5,
+    "y": 3.54
+   },
+   {
+    "x": 27.75,
+    "y": 3.553
+   },
+   {
+    "x": 28.0,
+    "y": 3.579
+   },
+   {
+    "x": 28.25,
+    "y": 3.619
+   },
+   {
+    "x": 28.5,
+    "y": 3.671
+   },
+   {
+    "x": 28.75,
+    "y": 3.735
+   },
+   {
+    "x": 29.0,
+    "y": 3.811
+   },
+   {
+    "x": 29.25,
+    "y": 3.898
+   },
+   {
+    "x": 29.5,
+    "y": 3.995
+   },
+   {
+    "x": 29.75,
+    "y": 4.103
+   },
+   {
+    "x": 30.0,
+    "y": 4.22
+   },
+   {
+    "x": 30.25,
+    "y": 4.349
+   },
+   {
+    "x": 30.5,
+    "y": 4.51
+   },
+   {
+    "x": 30.75,
+    "y": 4.678
+   },
+   {
+    "x": 31.0,
+    "y": 4.851
+   }
+  ],
+  "lab_stats": {
+   "prob": 0.5227,
+   "be": [
+    23.39
+   ],
+   "best": 4.851,
+   "worst": -8.073,
+   "sig": 0.6593,
+   "d0": 8,
+   "openUp": "gain",
+   "slopeDown": 1.008
+  },
+  "curva_lab": true
+ },
+ {
+  "id": "hexabox",
+  "nome": "Hexabox — Mônada de 6 pontas",
+  "familia": "Mônadas",
+  "pop": "hexabox",
+  "racional": "Box simétrico de seis pernas: 1×2 de CALL, 1×2 de PUT e proteções longas nas extremidades. O pequeno débito inicial compra contenção de cauda; a primeira rolagem busca recuperar esse custo e as seguintes financiam o alongamento das proteções.",
+  "esperado": "Foi a calibração mais aderente ao racional: delta praticamente neutro, theta positivo e perdas limitadas nas extremidades da faixa. Deve funcionar melhor quando BBAS3 permanece no miolo; a saída persistente da faixa exige manejo e reduz a vantagem temporal.",
+  "notas": [
+   "É a calibração mais fiel ao texto: pequeno débito, delta próximo de zero e theta positivo, com perdas nos extremos da faixa."
+  ],
+  "modo": "mtm",
+  "comp_label": null,
+  "pernas": [
+   {
+    "t": "C",
+    "q": 1.0,
+    "k": 22.54,
+    "d": 8,
+    "px": 1.91,
+    "iv": 0.665,
+    "exp": "2026-10-16"
+   },
+   {
+    "t": "C",
+    "q": -2.0,
+    "k": 22.79,
+    "d": 8,
+    "px": 1.82,
+    "iv": 0.6549,
+    "exp": "2026-10-16"
+   },
+   {
+    "t": "P",
+    "q": 1.0,
+    "k": 24.54,
+    "d": 8,
+    "px": 1.57,
+    "iv": 0.6605,
+    "exp": "2026-10-16"
+   },
+   {
+    "t": "P",
+    "q": -2.0,
+    "k": 24.29,
+    "d": 8,
+    "px": 1.42,
+    "iv": 0.6571,
+    "exp": "2026-10-16"
+   },
+   {
+    "t": "C",
+    "q": 1.0,
+    "k": 24.29,
+    "d": 31,
+    "px": 1.82,
+    "iv": 0.5609,
+    "exp": "2026-11-19"
+   },
+   {
+    "t": "P",
+    "q": 1.0,
+    "k": 22.79,
+    "d": 31,
+    "px": 1.3,
+    "iv": 0.5779,
+    "exp": "2026-11-19"
+   }
+  ],
+  "comparacao": null,
+  "ref": {
+   "data": "2026-10-02",
+   "spot": 23.72,
+   "caixa": -0.12
+  },
+  "lab_points": [
+   {
+    "x": 17.0,
+    "y": -1.199
+   },
+   {
+    "x": 17.25,
+    "y": -1.193
+   },
+   {
+    "x": 17.5,
+    "y": -1.185
+   },
+   {
+    "x": 17.75,
+    "y": -1.176
+   },
+   {
+    "x": 18.0,
+    "y": -1.165
+   },
+   {
+    "x": 18.25,
+    "y": -1.152
+   },
+   {
+    "x": 18.5,
+    "y": -1.137
+   },
+   {
+    "x": 18.75,
+    "y": -1.083
+   },
+   {
+    "x": 19.0,
+    "y": -1.022
+   },
+   {
+    "x": 19.25,
+    "y": -0.952
+   },
+   {
+    "x": 19.5,
+    "y": -0.875
+   },
+   {
+    "x": 19.75,
+    "y": -0.788
+   },
+   {
+    "x": 20.0,
+    "y": -0.692
+   },
+   {
+    "x": 20.25,
+    "y": -0.586
+   },
+   {
+    "x": 20.5,
+    "y": -0.469
+   },
+   {
+    "x": 20.75,
+    "y": -0.342
+   },
+   {
+    "x": 21.0,
+    "y": -0.204
+   },
+   {
+    "x": 21.25,
+    "y": -0.054
+   },
+   {
+    "x": 21.5,
+    "y": 0.107
+   },
+   {
+    "x": 21.75,
+    "y": 0.281
+   },
+   {
+    "x": 22.0,
+    "y": 0.466
+   },
+   {
+    "x": 22.25,
+    "y": 0.664
+   },
+   {
+    "x": 22.5,
+    "y": 0.874
+   },
+   {
+    "x": 22.75,
+    "y": 1.307
+   },
+   {
+    "x": 23.0,
+    "y": 1.371
+   },
+   {
+    "x": 23.25,
+    "y": 1.368
+   },
+   {
+    "x": 23.5,
+    "y": 1.378
+   },
+   {
+    "x": 23.75,
+    "y": 1.399
+   },
+   {
+    "x": 24.0,
+    "y": 1.432
+   },
+   {
+    "x": 24.25,
+    "y": 1.476
+   },
+   {
+    "x": 24.5,
+    "y": 1.112
+   },
+   {
+    "x": 24.75,
+    "y": 0.888
+   },
+   {
+    "x": 25.0,
+    "y": 0.716
+   },
+   {
+    "x": 25.25,
+    "y": 0.553
+   },
+   {
+    "x": 25.5,
+    "y": 0.401
+   },
+   {
+    "x": 25.75,
+    "y": 0.258
+   },
+   {
+    "x": 26.0,
+    "y": 0.125
+   },
+   {
+    "x": 26.25,
+    "y": 0.0
+   },
+   {
+    "x": 26.5,
+    "y": -0.116
+   },
+   {
+    "x": 26.75,
+    "y": -0.225
+   },
+   {
+    "x": 27.0,
+    "y": -0.325
+   },
+   {
+    "x": 27.25,
+    "y": -0.419
+   },
+   {
+    "x": 27.5,
+    "y": -0.505
+   },
+   {
+    "x": 27.75,
+    "y": -0.586
+   },
+   {
+    "x": 28.0,
+    "y": -0.66
+   },
+   {
+    "x": 28.25,
+    "y": -0.728
+   },
+   {
+    "x": 28.5,
+    "y": -0.791
+   },
+   {
+    "x": 28.75,
+    "y": -0.836
+   },
+   {
+    "x": 29.0,
+    "y": -0.87
+   },
+   {
+    "x": 29.25,
+    "y": -0.901
+   },
+   {
+    "x": 29.5,
+    "y": -0.93
+   },
+   {
+    "x": 29.75,
+    "y": -0.957
+   },
+   {
+    "x": 30.0,
+    "y": -0.981
+   },
+   {
+    "x": 30.25,
+    "y": -1.004
+   },
+   {
+    "x": 30.5,
+    "y": -1.024
+   },
+   {
+    "x": 30.75,
+    "y": -1.043
+   },
+   {
+    "x": 31.0,
+    "y": -1.06
+   }
+  ],
+  "lab_stats": {
+   "prob": 0.6219,
+   "be": [
+    21.33,
+    26.25
+   ],
+   "best": 1.476,
+   "worst": -1.199,
+   "sig": 0.6583,
+   "d0": 8,
+   "openUp": "loss",
+   "slopeDown": 0.034
+  },
+  "curva_lab": true
+ },
+ {
+  "id": "monada-basica-call",
+  "nome": "Mônada Básica / Primal — CALL",
+  "familia": "Mônadas",
+  "pop": "basica-call",
+  "racional": "Versão CALL: +1 kg de CALL longa, −1,2 kg de CALL curta ATM e −0,2 kg de PUT curta ATM. A venda excedente gera caixa/theta enquanto a opção longa fornece cobertura parcial; o circuito de rolagem é usado para acumular hedge e alongar proteção.",
+  "esperado": "A montagem ficou com delta inicial quase neutro e theta positivo, mas mantém risco residual aproximado de 0,2 kg nas duas caudas. O que se espera é captura de valor temporal no centro e uso disciplinado dos créditos para aprofundar PUTs e/ou alongar a cobertura de CALL.",
+  "notas": [
+   "Delta inicial quase neutro, theta positivo e risco residual aproximado de 0,2 kg em cada cauda, antes do manejo/rolagem."
+  ],
+  "modo": "mtm",
+  "comp_label": null,
+  "pernas": [
+   {
+    "t": "C",
+    "q": 1.0,
+    "k": 23.79,
+    "d": 31,
+    "px": 2.04,
+    "iv": 0.5595,
+    "exp": "2026-11-19"
+   },
+   {
+    "t": "C",
+    "q": -1.2,
+    "k": 23.79,
+    "d": 8,
+    "px": 1.23,
+    "iv": 0.6594,
+    "exp": "2026-10-16"
+   },
+   {
+    "t": "P",
+    "q": -0.2,
+    "k": 23.79,
+    "d": 8,
+    "px": 1.14,
+    "iv": 0.66,
+    "exp": "2026-10-16"
+   }
+  ],
+  "comparacao": null,
+  "ref": {
+   "data": "2026-10-02",
+   "spot": 23.72,
+   "caixa": -0.336
+  },
+  "lab_points": [
+   {
+    "x": 17.0,
+    "y": -1.507
+   },
+   {
+    "x": 17.25,
+    "y": -1.449
+   },
+   {
+    "x": 17.5,
+    "y": -1.389
+   },
+   {
+    "x": 17.75,
+    "y": -1.327
+   },
+   {
+    "x": 18.0,
+    "y": -1.263
+   },
+   {
+    "x": 18.25,
+    "y": -1.197
+   },
+   {
+    "x": 18.5,
+    "y": -1.127
+   },
+   {
+    "x": 18.75,
+    "y": -1.055
+   },
+   {
+    "x": 19.0,
+    "y": -0.98
+   },
+   {
+    "x": 19.25,
+    "y": -0.9
+   },
+   {
+    "x": 19.5,
+    "y": -0.817
+   },
+   {
+    "x": 19.75,
+    "y": -0.73
+   },
+   {
+    "x": 20.0,
+    "y": -0.639
+   },
+   {
+    "x": 20.25,
+    "y": -0.542
+   },
+   {
+    "x": 20.5,
+    "y": -0.441
+   },
+   {
+    "x": 20.75,
+    "y": -0.334
+   },
+   {
+    "x": 21.0,
+    "y": -0.222
+   },
+   {
+    "x": 21.25,
+    "y": -0.104
+   },
+   {
+    "x": 21.5,
+    "y": 0.019
+   },
+   {
+    "x": 21.75,
+    "y": 0.149
+   },
+   {
+    "x": 22.0,
+    "y": 0.284
+   },
+   {
+    "x": 22.25,
+    "y": 0.426
+   },
+   {
+    "x": 22.5,
+    "y": 0.574
+   },
+   {
+    "x": 22.75,
+    "y": 0.728
+   },
+   {
+    "x": 23.0,
+    "y": 0.889
+   },
+   {
+    "x": 23.25,
+    "y": 1.056
+   },
+   {
+    "x": 23.5,
+    "y": 1.229
+   },
+   {
+    "x": 23.75,
+    "y": 1.409
+   },
+   {
+    "x": 24.0,
+    "y": 1.3
+   },
+   {
+    "x": 24.25,
+    "y": 1.142
+   },
+   {
+    "x": 24.5,
+    "y": 0.989
+   },
+   {
+    "x": 24.75,
+    "y": 0.843
+   },
+   {
+    "x": 25.0,
+    "y": 0.702
+   },
+   {
+    "x": 25.25,
+    "y": 0.566
+   },
+   {
+    "x": 25.5,
+    "y": 0.435
+   },
+   {
+    "x": 25.75,
+    "y": 0.31
+   },
+   {
+    "x": 26.0,
+    "y": 0.19
+   },
+   {
+    "x": 26.25,
+    "y": 0.074
+   },
+   {
+    "x": 26.5,
+    "y": -0.038
+   },
+   {
+    "x": 26.75,
+    "y": -0.145
+   },
+   {
+    "x": 27.0,
+    "y": -0.248
+   },
+   {
+    "x": 27.25,
+    "y": -0.347
+   },
+   {
+    "x": 27.5,
+    "y": -0.442
+   },
+   {
+    "x": 27.75,
+    "y": -0.534
+   },
+   {
+    "x": 28.0,
+    "y": -0.623
+   },
+   {
+    "x": 28.25,
+    "y": -0.709
+   },
+   {
+    "x": 28.5,
+    "y": -0.792
+   },
+   {
+    "x": 28.75,
+    "y": -0.872
+   },
+   {
+    "x": 29.0,
+    "y": -0.95
+   },
+   {
+    "x": 29.25,
+    "y": -1.026
+   },
+   {
+    "x": 29.5,
+    "y": -1.099
+   },
+   {
+    "x": 29.75,
+    "y": -1.17
+   },
+   {
+    "x": 30.0,
+    "y": -1.24
+   },
+   {
+    "x": 30.25,
+    "y": -1.308
+   },
+   {
+    "x": 30.5,
+    "y": -1.374
+   },
+   {
+    "x": 30.75,
+    "y": -1.439
+   },
+   {
+    "x": 31.0,
+    "y": -1.502
+   }
+  ],
+  "lab_stats": {
+   "prob": 0.6194,
+   "be": [
+    21.46,
+    26.42
+   ],
+   "best": 1.409,
+   "worst": -1.507,
+   "sig": 0.6595,
+   "d0": 8,
+   "openUp": "loss",
+   "slopeDown": 0.244
+  },
+  "curva_lab": true
+ },
+ {
+  "id": "monada-basica-put",
+  "nome": "Mônada Básica / Primal — PUT",
+  "familia": "Mônadas",
+  "pop": "basica-put",
+  "racional": "Versão PUT: +1 kg de PUT longa, −1,2 kg de PUT curta ATM e −0,2 kg de CALL curta ATM. A estrutura gera caixa nas curtas e reinveste as rolagens em PUTs longas/profundas, formando uma reserva defensiva contra quedas.",
+  "esperado": "Também ficou quase delta-neutra e theta-positiva; neste termo foi mais barata que a versão CALL. A curva mantém ganho central e caudas residuais, e o objetivo operacional é usar o fluxo recorrente para ampliar a reserva de proteção sem confundir geração de caixa com ausência de risco.",
+  "notas": [
+   "Delta inicial quase neutro, theta positivo. Ficou mais barata que a versão CALL nas cotações usadas, refletindo a assimetria da curva."
+  ],
+  "modo": "mtm",
+  "comp_label": null,
+  "pernas": [
+   {
+    "t": "P",
+    "q": 1.0,
+    "k": 23.79,
+    "d": 31,
+    "px": 1.75,
+    "iv": 0.575,
+    "exp": "2026-11-19"
+   },
+   {
+    "t": "P",
+    "q": -1.2,
+    "k": 23.79,
+    "d": 8,
+    "px": 1.14,
+    "iv": 0.66,
+    "exp": "2026-10-16"
+   },
+   {
+    "t": "C",
+    "q": -0.2,
+    "k": 23.79,
+    "d": 8,
+    "px": 1.23,
+    "iv": 0.6594,
+    "exp": "2026-10-16"
+   }
+  ],
+  "comparacao": null,
+  "ref": {
+   "data": "2026-10-02",
+   "spot": 23.72,
+   "caixa": -0.136
+  },
+  "lab_points": [
+   {
+    "x": 17.0,
+    "y": -1.494
+   },
+   {
+    "x": 17.25,
+    "y": -1.444
+   },
+   {
+    "x": 17.5,
+    "y": -1.394
+   },
+   {
+    "x": 17.75,
+    "y": -1.344
+   },
+   {
+    "x": 18.0,
+    "y": -1.294
+   },
+   {
+    "x": 18.25,
+    "y": -1.244
+   },
+   {
+    "x": 18.5,
+    "y": -1.194
+   },
+   {
+    "x": 18.75,
+    "y": -1.144
+   },
+   {
+    "x": 19.0,
+    "y": -1.094
+   },
+   {
+    "x": 19.25,
+    "y": -1.044
+   },
+   {
+    "x": 19.5,
+    "y": -0.994
+   },
+   {
+    "x": 19.75,
+    "y": -0.92
+   },
+   {
+    "x": 20.0,
+    "y": -0.827
+   },
+   {
+    "x": 20.25,
+    "y": -0.728
+   },
+   {
+    "x": 20.5,
+    "y": -0.625
+   },
+   {
+    "x": 20.75,
+    "y": -0.517
+   },
+   {
+    "x": 21.0,
+    "y": -0.403
+   },
+   {
+    "x": 21.25,
+    "y": -0.283
+   },
+   {
+    "x": 21.5,
+    "y": -0.158
+   },
+   {
+    "x": 21.75,
+    "y": -0.027
+   },
+   {
+    "x": 22.0,
+    "y": 0.11
+   },
+   {
+    "x": 22.25,
+    "y": 0.253
+   },
+   {
+    "x": 22.5,
+    "y": 0.402
+   },
+   {
+    "x": 22.75,
+    "y": 0.558
+   },
+   {
+    "x": 23.0,
+    "y": 0.719
+   },
+   {
+    "x": 23.25,
+    "y": 0.887
+   },
+   {
+    "x": 23.5,
+    "y": 1.061
+   },
+   {
+    "x": 23.75,
+    "y": 1.24
+   },
+   {
+    "x": 24.0,
+    "y": 1.132
+   },
+   {
+    "x": 24.25,
+    "y": 0.974
+   },
+   {
+    "x": 24.5,
+    "y": 0.821
+   },
+   {
+    "x": 24.75,
+    "y": 0.674
+   },
+   {
+    "x": 25.0,
+    "y": 0.533
+   },
+   {
+    "x": 25.25,
+    "y": 0.396
+   },
+   {
+    "x": 25.5,
+    "y": 0.265
+   },
+   {
+    "x": 25.75,
+    "y": 0.139
+   },
+   {
+    "x": 26.0,
+    "y": 0.018
+   },
+   {
+    "x": 26.25,
+    "y": -0.099
+   },
+   {
+    "x": 26.5,
+    "y": -0.212
+   },
+   {
+    "x": 26.75,
+    "y": -0.32
+   },
+   {
+    "x": 27.0,
+    "y": -0.424
+   },
+   {
+    "x": 27.25,
+    "y": -0.525
+   },
+   {
+    "x": 27.5,
+    "y": -0.621
+   },
+   {
+    "x": 27.75,
+    "y": -0.715
+   },
+   {
+    "x": 28.0,
+    "y": -0.805
+   },
+   {
+    "x": 28.25,
+    "y": -0.892
+   },
+   {
+    "x": 28.5,
+    "y": -0.977
+   },
+   {
+    "x": 28.75,
+    "y": -1.058
+   },
+   {
+    "x": 29.0,
+    "y": -1.138
+   },
+   {
+    "x": 29.25,
+    "y": -1.214
+   },
+   {
+    "x": 29.5,
+    "y": -1.278
+   },
+   {
+    "x": 29.75,
+    "y": -1.328
+   },
+   {
+    "x": 30.0,
+    "y": -1.378
+   },
+   {
+    "x": 30.25,
+    "y": -1.428
+   },
+   {
+    "x": 30.5,
+    "y": -1.478
+   },
+   {
+    "x": 30.75,
+    "y": -1.528
+   },
+   {
+    "x": 31.0,
+    "y": -1.578
+   }
+  ],
+  "lab_stats": {
+   "prob": 0.5465,
+   "be": [
+    21.8,
+    26.04
+   ],
+   "best": 1.24,
+   "worst": -1.578,
+   "sig": 0.6599,
+   "d0": 8,
+   "openUp": "loss",
+   "slopeDown": 0.2
+  },
+  "curva_lab": true
+ },
+ {
+  "id": "call-compra",
+  "nome": "Compra de CALL ATM",
+  "familia": "Base",
+  "pop": "call-compra",
+  "racional": "Direito de comprar BBAS3 a R$ 23,79 até 19/11, pagando R$ 2,04. É a ponta solta de referência para todas as estruturas altistas.",
+  "esperado": "Ganha acima de R$ 25,83 (strike + prêmio). Abaixo de R$ 23,79 perde o prêmio inteiro.",
+  "notas": [],
+  "modo": "expiry",
+  "comp_label": null,
+  "pernas": [
+   {
+    "t": "C",
+    "q": 1,
+    "k": 23.79,
+    "d": 31,
+    "px": 2.04,
+    "iv": 0.5595,
+    "exp": "2026-11-19"
+   }
+  ],
+  "comparacao": null,
+  "ref": {
+   "data": "2026-10-02",
+   "spot": 23.72,
+   "caixa": -2.04
+  },
+  "lab_stats": {
+   "prob": 0.2967,
+   "be": [
+    25.83
+   ],
+   "best": 6.17,
+   "worst": -2.04,
+   "sig": 0.5595,
+   "d0": 31,
+   "openUp": "gain",
+   "slopeDown": 0.0
+  }
+ },
+ {
+  "id": "call-venda",
+  "nome": "Venda de CALL a seco",
+  "familia": "Base",
+  "pop": "call-venda",
+  "racional": "Lançamento descoberto da CALL 25,04: recebe R$ 1,49 apostando que BBAS3 não passa de R$ 26,53.",
+  "esperado": "Fica com o prêmio abaixo de R$ 25,04. Acima de R$ 26,53 a perda cresce sem limite.",
+  "notas": [
+   "Exige margem. Referência de risco para os hedges do Cap. 11."
+  ],
+  "modo": "expiry",
+  "comp_label": null,
+  "pernas": [
+   {
+    "t": "C",
+    "q": -1,
+    "k": 25.04,
+    "d": 31,
+    "px": 1.49,
+    "iv": 0.5556,
+    "exp": "2026-11-19"
+   }
+  ],
+  "comparacao": null,
+  "ref": {
+   "data": "2026-10-02",
+   "spot": 23.72,
+   "caixa": 1.49
+  },
+  "lab_stats": {
+   "prob": 0.7492,
+   "be": [
+    26.53
+   ],
+   "best": 1.49,
+   "worst": -5.47,
+   "sig": 0.5556,
+   "d0": 31,
+   "openUp": "loss",
+   "slopeDown": 0.0
+  }
+ },
+ {
+  "id": "put-compra",
+  "nome": "Compra de PUT ATM",
+  "familia": "Base",
+  "pop": "put-compra",
+  "racional": "Direito de vender BBAS3 a R$ 23,79 até 19/11, pagando R$ 1,75: seguro ou aposta na queda.",
+  "esperado": "Ganha abaixo de R$ 22,04. Acima de R$ 23,79 perde o prêmio.",
+  "notas": [],
+  "modo": "expiry",
+  "comp_label": null,
+  "pernas": [
+   {
+    "t": "P",
+    "q": 1,
+    "k": 23.79,
+    "d": 31,
+    "px": 1.75,
+    "iv": 0.575,
+    "exp": "2026-11-19"
+   }
+  ],
+  "comparacao": null,
+  "ref": {
+   "data": "2026-10-02",
+   "spot": 23.72,
+   "caixa": -1.75
+  },
+  "lab_stats": {
+   "prob": 0.3959,
+   "be": [
+    22.04
+   ],
+   "best": 6.04,
+   "worst": -1.75,
+   "sig": 0.575,
+   "d0": 31,
+   "openUp": null,
+   "slopeDown": -1.0
+  }
+ },
+ {
+  "id": "trava-alta-put",
+  "nome": "Trava de alta com PUT (crédito)",
+  "familia": "Direcionais",
+  "pop": "trava-alta-put",
+  "racional": "Vende a PUT 23,79 e compra a PUT 23,29 do vencimento de 16/10: recebe crédito apostando que BBAS3 fica acima de R$ 23,79.",
+  "esperado": "Crédito máximo acima de R$ 23,79; perda máxima abaixo de R$ 23,29 (largura de R$ 0,50 menos o crédito).",
+  "notas": [],
+  "modo": "expiry",
+  "comp_label": null,
+  "pernas": [
+   {
+    "t": "P",
+    "q": -1,
+    "k": 23.79,
+    "d": 8,
+    "px": 1.14,
+    "iv": 0.66,
+    "exp": "2026-10-16"
+   },
+   {
+    "t": "P",
+    "q": 1,
+    "k": 23.29,
+    "d": 8,
+    "px": 0.92,
+    "iv": 0.6645,
+    "exp": "2026-10-16"
+   }
+  ],
+  "comparacao": null,
+  "ref": {
+   "data": "2026-10-02",
+   "spot": 23.72,
+   "caixa": 0.22
+  },
+  "lab_stats": {
+   "prob": 0.4976,
+   "be": [
+    23.57
+   ],
+   "best": 0.22,
+   "worst": -0.28,
+   "sig": 0.6623,
+   "d0": 8,
+   "openUp": null,
+   "slopeDown": 0.0
+  }
+ },
+ {
+  "id": "trava-baixa-call",
+  "nome": "Trava de baixa com CALL (crédito)",
+  "familia": "Direcionais",
+  "pop": "trava-baixa-call",
+  "racional": "Vende a CALL 23,79 e compra a CALL 24,54 de 16/10: crédito apostando que BBAS3 não sobe.",
+  "esperado": "Crédito inteiro abaixo de R$ 23,79; perda máxima acima de R$ 24,54.",
+  "notas": [],
+  "modo": "expiry",
+  "comp_label": null,
+  "pernas": [
+   {
+    "t": "C",
+    "q": -1,
+    "k": 23.79,
+    "d": 8,
+    "px": 1.23,
+    "iv": 0.6594,
+    "exp": "2026-10-16"
+   },
+   {
+    "t": "C",
+    "q": 1,
+    "k": 24.54,
+    "d": 8,
+    "px": 0.91,
+    "iv": 0.6514,
+    "exp": "2026-10-16"
+   }
+  ],
+  "comparacao": null,
+  "ref": {
+   "data": "2026-10-02",
+   "spot": 23.72,
+   "caixa": 0.32
+  },
+  "lab_stats": {
+   "prob": 0.5773,
+   "be": [
+    24.11
+   ],
+   "best": 0.32,
+   "worst": -0.43,
+   "sig": 0.6554,
+   "d0": 8,
+   "openUp": null,
+   "slopeDown": 0.0
+  }
+ },
+ {
+  "id": "seagull",
+  "nome": "Seagull — PUT vendida financia trava de alta",
+  "familia": "Direcionais",
+  "pop": "seagull",
+  "racional": "A PUT 22,54 vendida paga a trava de alta de CALL 25,04/26,79 e ainda sobra crédito.",
+  "esperado": "Ganha até R$ 1,75 + crédito acima de R$ 26,79; abaixo de R$ 22,54 a PUT vendida assume o risco.",
+  "notas": [
+   "A PUT vendida exige caixa ou garantia."
+  ],
+  "modo": "expiry",
+  "comp_label": null,
+  "pernas": [
+   {
+    "t": "P",
+    "q": -1,
+    "k": 22.54,
+    "d": 31,
+    "px": 1.19,
+    "iv": 0.5779,
+    "exp": "2026-11-19"
+   },
+   {
+    "t": "C",
+    "q": 1,
+    "k": 25.04,
+    "d": 31,
+    "px": 1.49,
+    "iv": 0.5556,
+    "exp": "2026-11-19"
+   },
+   {
+    "t": "C",
+    "q": -1,
+    "k": 26.79,
+    "d": 31,
+    "px": 0.93,
+    "iv": 0.5481,
+    "exp": "2026-11-19"
+   }
+  ],
+  "comparacao": null,
+  "ref": {
+   "data": "2026-10-02",
+   "spot": 23.72,
+   "caixa": 0.63
+  },
+  "lab_stats": {
+   "prob": 0.6191,
+   "be": [
+    21.91
+   ],
+   "best": 2.38,
+   "worst": -5.91,
+   "sig": 0.5605,
+   "d0": 31,
+   "openUp": null,
+   "slopeDown": 1.0
+  }
+ },
+ {
+  "id": "fence",
+  "nome": "Fence — defesa financiada da custódia",
+  "familia": "Proteção patrimonial",
+  "pop": "fence",
+  "racional": "Ação em custódia + CALL 25,04 vendida pagando a trava de baixa de PUT 23,54/22,54.",
+  "esperado": "Protege a correção até R$ 22,54 e trava o ganho acima de R$ 25,04.",
+  "notas": [],
+  "modo": "expiry",
+  "comp_label": null,
+  "pernas": [
+   {
+    "t": "S",
+    "q": 1,
+    "k": null,
+    "d": 0,
+    "px": 23.72,
+    "iv": null,
+    "exp": null
+   },
+   {
+    "t": "C",
+    "q": -1,
+    "k": 25.04,
+    "d": 31,
+    "px": 1.49,
+    "iv": 0.5556,
+    "exp": "2026-11-19"
+   },
+   {
+    "t": "P",
+    "q": 1,
+    "k": 23.54,
+    "d": 31,
+    "px": 1.63,
+    "iv": 0.5734,
+    "exp": "2026-11-19"
+   },
+   {
+    "t": "P",
+    "q": -1,
+    "k": 22.54,
+    "d": 31,
+    "px": 1.19,
+    "iv": 0.5779,
+    "exp": "2026-11-19"
+   }
+  ],
+  "comparacao": null,
+  "ref": {
+   "data": "2026-10-02",
+   "spot": 23.72,
+   "caixa": 1.05
+  },
+  "lab_stats": {
+   "prob": 0.6372,
+   "be": [
+    21.67
+   ],
+   "best": 2.37,
+   "worst": -5.67,
+   "sig": 0.569,
+   "d0": 31,
+   "openUp": null,
+   "slopeDown": 1.0
+  }
+ },
+ {
+  "id": "straddle-compra",
+  "nome": "Straddle comprado ATM",
+  "familia": "Volatilidade",
+  "pop": "straddle-compra",
+  "racional": "Compra CALL e PUT 23,79 de 19/11: aposta no tamanho do movimento, não na direção.",
+  "esperado": "Ganha fora de R$ 20,00 a R$ 27,58 (strike ± R$ 3,79).",
+  "notas": [],
+  "modo": "expiry",
+  "comp_label": null,
+  "pernas": [
+   {
+    "t": "C",
+    "q": 1,
+    "k": 23.79,
+    "d": 31,
+    "px": 2.04,
+    "iv": 0.5595,
+    "exp": "2026-11-19"
+   },
+   {
+    "t": "P",
+    "q": 1,
+    "k": 23.79,
+    "d": 31,
+    "px": 1.75,
+    "iv": 0.575,
+    "exp": "2026-11-19"
+   }
+  ],
+  "comparacao": null,
+  "ref": {
+   "data": "2026-10-02",
+   "spot": 23.72,
+   "caixa": -3.79
+  },
+  "lab_stats": {
+   "prob": 0.4194,
+   "be": [
+    20.0,
+    27.58
+   ],
+   "best": 4.42,
+   "worst": -3.78,
+   "sig": 0.5673,
+   "d0": 31,
+   "openUp": "gain",
+   "slopeDown": -1.0
+  }
+ },
+ {
+  "id": "strangle-compra",
+  "nome": "Strangle comprado",
+  "familia": "Volatilidade",
+  "pop": "strangle-compra",
+  "racional": "Compra CALL 25,04 e PUT 22,54 de 19/11: mais barato que o straddle, exige movimento maior.",
+  "esperado": "Ganha abaixo de R$ 19,86 ou acima de R$ 27,72.",
+  "notas": [],
+  "modo": "expiry",
+  "comp_label": null,
+  "pernas": [
+   {
+    "t": "C",
+    "q": 1,
+    "k": 25.04,
+    "d": 31,
+    "px": 1.49,
+    "iv": 0.5556,
+    "exp": "2026-11-19"
+   },
+   {
+    "t": "P",
+    "q": 1,
+    "k": 22.54,
+    "d": 31,
+    "px": 1.19,
+    "iv": 0.5779,
+    "exp": "2026-11-19"
+   }
+  ],
+  "comparacao": null,
+  "ref": {
+   "data": "2026-10-02",
+   "spot": 23.72,
+   "caixa": -2.68
+  },
+  "lab_stats": {
+   "prob": 0.4014,
+   "be": [
+    19.86,
+    27.72
+   ],
+   "best": 4.28,
+   "worst": -2.68,
+   "sig": 0.5667,
+   "d0": 31,
+   "openUp": "gain",
+   "slopeDown": -1.0
+  }
+ },
+ {
+  "id": "straddle-venda",
+  "nome": "Straddle vendido ATM",
+  "familia": "Volatilidade",
+  "pop": "straddle-venda",
+  "racional": "Vende CALL e PUT 23,79 de 19/11 e recebe R$ 3,79: aposta em BBAS3 parado.",
+  "esperado": "Ganho máximo em R$ 23,79; perde fora de R$ 20,00–27,58. Exige margem.",
+  "notas": [],
+  "modo": "expiry",
+  "comp_label": null,
+  "pernas": [
+   {
+    "t": "C",
+    "q": -1,
+    "k": 23.79,
+    "d": 31,
+    "px": 2.04,
+    "iv": 0.5595,
+    "exp": "2026-11-19"
+   },
+   {
+    "t": "P",
+    "q": -1,
+    "k": 23.79,
+    "d": 31,
+    "px": 1.75,
+    "iv": 0.575,
+    "exp": "2026-11-19"
+   }
+  ],
+  "comparacao": null,
+  "ref": {
+   "data": "2026-10-02",
+   "spot": 23.72,
+   "caixa": 3.79
+  },
+  "lab_stats": {
+   "prob": 0.5789,
+   "be": [
+    20.0,
+    27.58
+   ],
+   "best": 3.78,
+   "worst": -4.42,
+   "sig": 0.5673,
+   "d0": 31,
+   "openUp": "loss",
+   "slopeDown": 1.0
+  }
+ },
+ {
+  "id": "strangle-venda",
+  "nome": "Strangle vendido",
+  "familia": "Volatilidade",
+  "pop": "strangle-venda",
+  "racional": "Vende CALL 25,04 e PUT 22,54 de 19/11: faixa larga de ganho.",
+  "esperado": "Fica com R$ 2,68 entre R$ 22,54 e R$ 25,04; perde fora de R$ 19,86–27,72.",
+  "notas": [],
+  "modo": "expiry",
+  "comp_label": null,
+  "pernas": [
+   {
+    "t": "C",
+    "q": -1,
+    "k": 25.04,
+    "d": 31,
+    "px": 1.49,
+    "iv": 0.5556,
+    "exp": "2026-11-19"
+   },
+   {
+    "t": "P",
+    "q": -1,
+    "k": 22.54,
+    "d": 31,
+    "px": 1.19,
+    "iv": 0.5779,
+    "exp": "2026-11-19"
+   }
+  ],
+  "comparacao": null,
+  "ref": {
+   "data": "2026-10-02",
+   "spot": 23.72,
+   "caixa": 2.68
+  },
+  "lab_stats": {
+   "prob": 0.5969,
+   "be": [
+    19.86,
+    27.72
+   ],
+   "best": 2.68,
+   "worst": -4.28,
+   "sig": 0.5667,
+   "d0": 31,
+   "openUp": "loss",
+   "slopeDown": 1.0
+  }
+ },
+ {
+  "id": "condor",
+  "nome": "Iron condor",
+  "familia": "Volatilidade",
+  "pop": "condor",
+  "racional": "Strangle vendido 22,54/25,04 protegido pelas pontas 21,54 e 26,79.",
+  "esperado": "Crédito de R$ 0,90 entre os strikes vendidos; perda limitada pelas asas (a de cima é mais larga).",
+  "notas": [],
+  "modo": "expiry",
+  "comp_label": null,
+  "pernas": [
+   {
+    "t": "P",
+    "q": 1,
+    "k": 21.54,
+    "d": 31,
+    "px": 0.85,
+    "iv": 0.5825,
+    "exp": "2026-11-19"
+   },
+   {
+    "t": "P",
+    "q": -1,
+    "k": 22.54,
+    "d": 31,
+    "px": 1.19,
+    "iv": 0.5779,
+    "exp": "2026-11-19"
+   },
+   {
+    "t": "C",
+    "q": -1,
+    "k": 25.04,
+    "d": 31,
+    "px": 1.49,
+    "iv": 0.5556,
+    "exp": "2026-11-19"
+   },
+   {
+    "t": "C",
+    "q": 1,
+    "k": 26.79,
+    "d": 31,
+    "px": 0.93,
+    "iv": 0.5481,
+    "exp": "2026-11-19"
+   }
+  ],
+  "comparacao": null,
+  "ref": {
+   "data": "2026-10-02",
+   "spot": 23.72,
+   "caixa": 0.9
+  },
+  "lab_stats": {
+   "prob": 0.3502,
+   "be": [
+    21.64,
+    25.94
+   ],
+   "best": 0.9,
+   "worst": -0.85,
+   "sig": 0.566,
+   "d0": 31,
+   "openUp": null,
+   "slopeDown": 0.0
+  }
+ },
+ {
+  "id": "borboleta",
+  "nome": "Borboleta clássica de CALL",
+  "familia": "Asas / proteção",
+  "pop": "borboleta",
+  "racional": "Asas simétricas de R$ 1,25 em torno de R$ 23,79, vencimento 19/11.",
+  "esperado": "Custa R$ 0,15 e paga até R$ 1,10 com BBAS3 em R$ 23,79 no vencimento.",
+  "notas": [],
+  "modo": "expiry",
+  "comp_label": null,
+  "pernas": [
+   {
+    "t": "C",
+    "q": 1,
+    "k": 22.54,
+    "d": 31,
+    "px": 2.74,
+    "iv": 0.562,
+    "exp": "2026-11-19"
+   },
+   {
+    "t": "C",
+    "q": -2,
+    "k": 23.79,
+    "d": 31,
+    "px": 2.04,
+    "iv": 0.5595,
+    "exp": "2026-11-19"
+   },
+   {
+    "t": "C",
+    "q": 1,
+    "k": 25.04,
+    "d": 31,
+    "px": 1.49,
+    "iv": 0.5556,
+    "exp": "2026-11-19"
+   }
+  ],
+  "comparacao": null,
+  "ref": {
+   "data": "2026-10-02",
+   "spot": 23.72,
+   "caixa": -0.15
+  },
+  "lab_stats": {
+   "prob": 0.184,
+   "be": [
+    22.69,
+    24.89
+   ],
+   "best": 1.09,
+   "worst": -0.15,
+   "sig": 0.5592,
+   "d0": 31,
+   "openUp": null,
+   "slopeDown": 0.0
+  }
+ },
+ {
+  "id": "thl-put",
+  "nome": "THL/p com PUT — curva invertida",
+  "familia": "Tempo / rolagem",
+  "pop": "thl-put",
+  "racional": "Vende a PUT 23,79 de 19/11 (31 du, acima da regra de 22 du) e compra a PUT 23,70 de 18/12.",
+  "esperado": "Com a curva de vol invertida pela eleição (57% contra 48%), a THL sai quase de graça: crédito de R$ 0,02.",
+  "notas": [
+   "Strikes diferem em R$ 0,09 (23,79 × 23,70): é a série mais próxima disponível em dezembro."
+  ],
+  "modo": "mtm",
+  "comp_label": null,
+  "pernas": [
+   {
+    "t": "P",
+    "q": -1,
+    "k": 23.79,
+    "d": 31,
+    "px": 1.75,
+    "iv": 0.575,
+    "exp": "2026-11-19"
+   },
+   {
+    "t": "P",
+    "q": 1,
+    "k": 23.7,
+    "d": 51,
+    "px": 1.73,
+    "iv": 0.4823,
+    "exp": "2026-12-18"
+   }
+  ],
+  "comparacao": null,
+  "ref": {
+   "data": "2026-10-02",
+   "spot": 23.72,
+   "caixa": 0.02
+  },
+  "lab_stats": {
+   "prob": 0.8065,
+   "be": [
+    19.12
+   ],
+   "best": 1.257,
+   "worst": -0.0685,
+   "sig": 0.575,
+   "d0": 31,
+   "openUp": null,
+   "slopeDown": 0.003
+  }
+ },
+ {
+  "id": "thl-perene",
+  "nome": "THL perene de CALL — proxy",
+  "familia": "Tempo / rolagem",
+  "pop": "thl-perene",
+  "racional": "Vende a CALL 23,79 de 19/11 e compra a CALL 23,79 de 18/12, a série mais longa da cadeia.",
+  "esperado": "O POP pede longa de 3 a 6 meses; a cadeia de 02/10 só vai até dezembro (51 du). É um proxy curto.",
+  "notas": [],
+  "modo": "mtm",
+  "comp_label": null,
+  "pernas": [
+   {
+    "t": "C",
+    "q": -1,
+    "k": 23.79,
+    "d": 31,
+    "px": 2.04,
+    "iv": 0.5595,
+    "exp": "2026-11-19"
+   },
+   {
+    "t": "C",
+    "q": 1,
+    "k": 23.79,
+    "d": 51,
+    "px": 2.33,
+    "iv": 0.4823,
+    "exp": "2026-12-18"
+   }
+  ],
+  "comparacao": null,
+  "ref": {
+   "data": "2026-10-02",
+   "spot": 23.72,
+   "caixa": -0.29
+  },
+  "lab_stats": {
+   "prob": 0.4859,
+   "be": [
+    20.98,
+    27.24
+   ],
+   "best": 0.9938,
+   "worst": -0.2887,
+   "sig": 0.5595,
+   "d0": 31,
+   "openUp": null,
+   "slopeDown": 0.003
+  }
+ },
+ {
+  "id": "calendar-butterfly",
+  "nome": "Calendar butterfly de CALL",
+  "familia": "Tempo / rolagem",
+  "pop": "calendar-butterfly",
+  "racional": "Asas vendidas em 16/10 (22,79 e 24,54) e corpo comprado em 19/11 (2 × 23,79).",
+  "esperado": "Ganho concentrado perto de R$ 23,79 no vencimento curto; o corpo longo segue vivo.",
+  "notas": [],
+  "modo": "mtm",
+  "comp_label": null,
+  "pernas": [
+   {
+    "t": "C",
+    "q": -1,
+    "k": 22.79,
+    "d": 8,
+    "px": 1.82,
+    "iv": 0.6549,
+    "exp": "2026-10-16"
+   },
+   {
+    "t": "C",
+    "q": 2,
+    "k": 23.79,
+    "d": 31,
+    "px": 2.04,
+    "iv": 0.5595,
+    "exp": "2026-11-19"
+   },
+   {
+    "t": "C",
+    "q": -1,
+    "k": 24.54,
+    "d": 8,
+    "px": 0.91,
+    "iv": 0.6514,
+    "exp": "2026-10-16"
+   }
+  ],
+  "comparacao": null,
+  "ref": {
+   "data": "2026-10-02",
+   "spot": 23.72,
+   "caixa": -1.35
+  },
+  "lab_stats": {
+   "prob": 0.5711,
+   "be": [
+    21.6,
+    25.99
+   ],
+   "best": 0.9515,
+   "worst": -1.451,
+   "sig": 0.6532,
+   "d0": 8,
+   "openUp": "loss",
+   "slopeDown": 0.029
+  }
+ },
+ {
+  "id": "booster-fly",
+  "nome": "Booster e Fly sobre custódia",
+  "familia": "Booster",
+  "pop": "booster-fly",
+  "racional": "Booster 1×2 de 16/10 (23,54/24,54) lastreado na ação, com a CALL 26,79 de 19/11 como âncora.",
+  "esperado": "Zona boa entre R$ 23,54 e R$ 25,54; a CALL longa devolve convexidade numa alta forte.",
+  "notas": [],
+  "modo": "mtm",
+  "comp_label": null,
+  "pernas": [
+   {
+    "t": "S",
+    "q": 1,
+    "k": null,
+    "d": 0,
+    "px": 23.72,
+    "iv": null,
+    "exp": null
+   },
+   {
+    "t": "C",
+    "q": 1,
+    "k": 23.54,
+    "d": 8,
+    "px": 1.32,
+    "iv": 0.6511,
+    "exp": "2026-10-16"
+   },
+   {
+    "t": "C",
+    "q": -2,
+    "k": 24.54,
+    "d": 8,
+    "px": 0.91,
+    "iv": 0.6514,
+    "exp": "2026-10-16"
+   },
+   {
+    "t": "C",
+    "q": 1,
+    "k": 26.79,
+    "d": 31,
+    "px": 0.93,
+    "iv": 0.5481,
+    "exp": "2026-11-19"
+   }
+  ],
+  "comparacao": null,
+  "ref": {
+   "data": "2026-10-02",
+   "spot": 23.72,
+   "caixa": -0.43
+  },
+  "lab_stats": {
+   "prob": 0.4976,
+   "be": [
+    23.58
+   ],
+   "best": 6.9499,
+   "worst": -8.1491,
+   "sig": 0.6513,
+   "d0": 8,
+   "openUp": "gain",
+   "slopeDown": 1.002
+  }
+ },
+ {
+  "id": "malha-bw",
+  "nome": "Malha de broken wings 2:3:1",
+  "familia": "Asas / proteção",
+  "pop": "malha-bw",
+  "racional": "Uma camada da malha: 2 × CALL 23,54, −3 × CALL 24,54, +1 × CALL 26,79 (19/11).",
+  "esperado": "Pico em R$ 24,54; delta estrutural −2×23,54 + 3×24,54 − 26,79 = −0,25.",
+  "notas": [],
+  "modo": "expiry",
+  "comp_label": null,
+  "pernas": [
+   {
+    "t": "C",
+    "q": 2,
+    "k": 23.54,
+    "d": 31,
+    "px": 2.16,
+    "iv": 0.5635,
+    "exp": "2026-11-19"
+   },
+   {
+    "t": "C",
+    "q": -3,
+    "k": 24.54,
+    "d": 31,
+    "px": 1.7,
+    "iv": 0.5571,
+    "exp": "2026-11-19"
+   },
+   {
+    "t": "C",
+    "q": 1,
+    "k": 26.79,
+    "d": 31,
+    "px": 0.93,
+    "iv": 0.5481,
+    "exp": "2026-11-19"
+   }
+  ],
+  "comparacao": null,
+  "ref": {
+   "data": "2026-10-02",
+   "spot": 23.72,
+   "caixa": -0.15
+  },
+  "lab_stats": {
+   "prob": 0.2097,
+   "be": [
+    23.62,
+    26.39
+   ],
+   "best": 1.79,
+   "worst": -0.4,
+   "sig": 0.5577,
+   "d0": 31,
+   "openUp": null,
+   "slopeDown": 0.0
+  }
+ },
+ {
+  "id": "hyperfly",
+  "nome": "Hyperfly 1-3-2",
+  "familia": "Asas / proteção",
+  "pop": "hyperfly",
+  "racional": "Razão 1-3-2 (22,54/23,79/24,54) calibrada para delta estrutural quase zero (−0,25).",
+  "esperado": "Custo de R$ 0,02; ganho máximo em R$ 23,79; perda máxima em R$ 24,54.",
+  "notas": [],
+  "modo": "expiry",
+  "comp_label": null,
+  "pernas": [
+   {
+    "t": "C",
+    "q": 1,
+    "k": 22.54,
+    "d": 31,
+    "px": 2.74,
+    "iv": 0.562,
+    "exp": "2026-11-19"
+   },
+   {
+    "t": "C",
+    "q": -3,
+    "k": 23.79,
+    "d": 31,
+    "px": 2.04,
+    "iv": 0.5595,
+    "exp": "2026-11-19"
+   },
+   {
+    "t": "C",
+    "q": 2,
+    "k": 24.54,
+    "d": 31,
+    "px": 1.7,
+    "iv": 0.5571,
+    "exp": "2026-11-19"
+   }
+  ],
+  "comparacao": null,
+  "ref": {
+   "data": "2026-10-02",
+   "spot": 23.72,
+   "caixa": -0.02
+  },
+  "lab_stats": {
+   "prob": 0.1603,
+   "be": [
+    22.53,
+    24.4
+   ],
+   "best": 1.21,
+   "worst": -0.27,
+   "sig": 0.5591,
+   "d0": 31,
+   "openUp": null,
+   "slopeDown": 0.0
+  }
+ },
+ {
+  "id": "fly-modular",
+  "nome": "Fly modular com PUT vendida (par binário)",
+  "familia": "Asas / proteção",
+  "pop": "fly-modular",
+  "racional": "Borboleta 22,54/23,79/25,04 com a PUT 22,54 vendida como par binário: fecha com crédito (ZCC).",
+  "esperado": "Sobe o resultado de toda a curva em R$ 1,19; abaixo de R$ 22,54 a PUT vendida assume o risco.",
+  "notas": [
+   "A PUT vendida exige caixa ou garantia."
+  ],
+  "modo": "expiry",
+  "comp_label": null,
+  "pernas": [
+   {
+    "t": "C",
+    "q": 1,
+    "k": 22.54,
+    "d": 31,
+    "px": 2.74,
+    "iv": 0.562,
+    "exp": "2026-11-19"
+   },
+   {
+    "t": "C",
+    "q": -2,
+    "k": 23.79,
+    "d": 31,
+    "px": 2.04,
+    "iv": 0.5595,
+    "exp": "2026-11-19"
+   },
+   {
+    "t": "C",
+    "q": 1,
+    "k": 25.04,
+    "d": 31,
+    "px": 1.49,
+    "iv": 0.5556,
+    "exp": "2026-11-19"
+   },
+   {
+    "t": "P",
+    "q": -1,
+    "k": 22.54,
+    "d": 31,
+    "px": 1.19,
+    "iv": 0.5779,
+    "exp": "2026-11-19"
+   }
+  ],
+  "comparacao": null,
+  "ref": {
+   "data": "2026-10-02",
+   "spot": 23.72,
+   "caixa": 1.04
+  },
+  "lab_stats": {
+   "prob": 0.6551,
+   "be": [
+    21.5
+   ],
+   "best": 2.28,
+   "worst": -5.5,
+   "sig": 0.5629,
+   "d0": 31,
+   "openUp": null,
+   "slopeDown": 1.0
+  }
+ },
+ {
+  "id": "modulo-q",
+  "nome": "Módulo Q — CALL longa contra 2 curtas",
+  "familia": "Módulos",
+  "pop": "modulo-q",
+  "racional": "Substitui uma CALL ITM por +1 CALL 23,54 de 19/11 contra 2 CALLs 24,54 de 16/10.",
+  "esperado": "Ganho máximo perto de R$ 24,54 no vencimento curto; acima, sobra 1 CALL curta descoberta.",
+  "notas": [],
+  "modo": "mtm",
+  "comp_label": null,
+  "pernas": [
+   {
+    "t": "C",
+    "q": 1,
+    "k": 23.54,
+    "d": 31,
+    "px": 2.16,
+    "iv": 0.5635,
+    "exp": "2026-11-19"
+   },
+   {
+    "t": "C",
+    "q": -2,
+    "k": 24.54,
+    "d": 8,
+    "px": 0.91,
+    "iv": 0.6514,
+    "exp": "2026-10-16"
+   }
+  ],
+  "comparacao": null,
+  "ref": {
+   "data": "2026-10-02",
+   "spot": 23.72,
+   "caixa": -0.34
+  },
+  "lab_stats": {
+   "prob": 0.7133,
+   "be": [
+    20.04,
+    25.94
+   ],
+   "best": 1.814,
+   "worst": -6.7341,
+   "sig": 0.6514,
+   "d0": 8,
+   "openUp": "loss",
+   "slopeDown": 0.018
+  }
+ },
+ {
+  "id": "booster-horizontal",
+  "nome": "Booster horizontal de PUT 1,5×1",
+  "familia": "Booster",
+  "pop": "booster-horizontal",
+  "racional": "Fatoração dos prêmios: 1,75 ÷ 1,14 ≈ 1,5. Vende 1,5 PUT 23,79 de 16/10 e compra 1 PUT 23,79 de 19/11.",
+  "esperado": "Fecha praticamente a custo zero (débito de R$ 0,04); sobra 0,5 PUT vendida a seco na queda.",
+  "notas": [],
+  "modo": "mtm",
+  "comp_label": null,
+  "pernas": [
+   {
+    "t": "P",
+    "q": -1.5,
+    "k": 23.79,
+    "d": 8,
+    "px": 1.14,
+    "iv": 0.66,
+    "exp": "2026-10-16"
+   },
+   {
+    "t": "P",
+    "q": 1,
+    "k": 23.79,
+    "d": 31,
+    "px": 1.75,
+    "iv": 0.575,
+    "exp": "2026-11-19"
+   }
+  ],
+  "comparacao": null,
+  "ref": {
+   "data": "2026-10-02",
+   "spot": 23.72,
+   "caixa": -0.04
+  },
+  "lab_stats": {
+   "prob": 0.7035,
+   "be": [
+    22.1
+   ],
+   "best": 1.602,
+   "worst": -3.922,
+   "sig": 0.66,
+   "d0": 8,
+   "openUp": null,
+   "slopeDown": 0.517
+  }
+ },
+ {
+  "id": "linha-mannerheim",
+  "nome": "Linha de Mannerheim (LM)",
+  "familia": "Gradiente linear",
+  "pop": "linha-mannerheim",
+  "racional": "Venda da PUT 23,79 de 16/10 + 3 THLs de CALL 23,79 (16/10 × 19/11).",
+  "esperado": "As THLs dominam o centro; a PUT vendida é o risco na queda.",
+  "notas": [],
+  "modo": "mtm",
+  "comp_label": null,
+  "pernas": [
+   {
+    "t": "P",
+    "q": -1,
+    "k": 23.79,
+    "d": 8,
+    "px": 1.14,
+    "iv": 0.66,
+    "exp": "2026-10-16"
+   },
+   {
+    "t": "C",
+    "q": 3,
+    "k": 23.79,
+    "d": 31,
+    "px": 2.04,
+    "iv": 0.5595,
+    "exp": "2026-11-19"
+   },
+   {
+    "t": "C",
+    "q": -3,
+    "k": 23.79,
+    "d": 8,
+    "px": 1.23,
+    "iv": 0.6594,
+    "exp": "2026-10-16"
+   }
+  ],
+  "comparacao": null,
+  "ref": {
+   "data": "2026-10-02",
+   "spot": 23.72,
+   "caixa": -1.29
+  },
+  "lab_stats": {
+   "prob": 0.5946,
+   "be": [
+    22.31,
+    27.73
+   ],
+   "best": 3.503,
+   "worst": -9.0485,
+   "sig": 0.6595,
+   "d0": 8,
+   "openUp": "loss",
+   "slopeDown": 1.043
+  }
+ },
+ {
+  "id": "gl-shortput-booster",
+  "nome": "GL short put + booster horizontal",
+  "familia": "Gradiente linear",
+  "pop": "gl-shortput-booster",
+  "racional": "Uma camada da escada no strike 23,79: PUT vendida + 2 CALLs de 19/11 contra 3 de 16/10, com a ação cobrindo a CALL extra.",
+  "esperado": "Crédito na entrada; o risco é a queda (ação + PUT vendida).",
+  "notas": [],
+  "modo": "mtm",
+  "comp_label": null,
+  "pernas": [
+   {
+    "t": "S",
+    "q": 1,
+    "k": null,
+    "d": 0,
+    "px": 23.72,
+    "iv": null,
+    "exp": null
+   },
+   {
+    "t": "P",
+    "q": -1,
+    "k": 23.79,
+    "d": 8,
+    "px": 1.14,
+    "iv": 0.66,
+    "exp": "2026-10-16"
+   },
+   {
+    "t": "C",
+    "q": 2,
+    "k": 23.79,
+    "d": 31,
+    "px": 2.04,
+    "iv": 0.5595,
+    "exp": "2026-11-19"
+   },
+   {
+    "t": "C",
+    "q": -3,
+    "k": 23.79,
+    "d": 8,
+    "px": 1.23,
+    "iv": 0.6594,
+    "exp": "2026-10-16"
+   }
+  ],
+  "comparacao": null,
+  "ref": {
+   "data": "2026-10-02",
+   "spot": 23.72,
+   "caixa": 0.75
+  },
+  "lab_stats": {
+   "prob": 0.6639,
+   "be": [
+    22.42
+   ],
+   "best": 4.0153,
+   "worst": -14.739,
+   "sig": 0.6595,
+   "d0": 8,
+   "openUp": "loss",
+   "slopeDown": 2.029
+  }
+ },
+ {
+  "id": "asym-wings-diagonal",
+  "nome": "Asymmetric wings + diagonal de PUT",
+  "familia": "Gradiente linear",
+  "pop": "asym-wings-diagonal",
+  "racional": "PUT 24,54 comprada e 2 PUTs 23,79 vendidas em 16/10; a asa de baixo é a PUT 22,70 de dezembro.",
+  "esperado": "Ganho no corpo em R$ 23,79; a PUT longa de dezembro protege a queda e segue viva.",
+  "notas": [],
+  "modo": "mtm",
+  "comp_label": null,
+  "pernas": [
+   {
+    "t": "P",
+    "q": 1,
+    "k": 24.54,
+    "d": 8,
+    "px": 1.57,
+    "iv": 0.6605,
+    "exp": "2026-10-16"
+   },
+   {
+    "t": "P",
+    "q": -2,
+    "k": 23.79,
+    "d": 8,
+    "px": 1.14,
+    "iv": 0.66,
+    "exp": "2026-10-16"
+   },
+   {
+    "t": "P",
+    "q": 1,
+    "k": 22.7,
+    "d": 51,
+    "px": 1.3,
+    "iv": 0.4883,
+    "exp": "2026-12-18"
+   }
+  ],
+  "comparacao": null,
+  "ref": {
+   "data": "2026-10-02",
+   "spot": 23.72,
+   "caixa": -0.59
+  },
+  "lab_stats": {
+   "prob": 0.7151,
+   "be": [
+    20.72,
+    26.7
+   ],
+   "best": 1.5187,
+   "worst": -0.8656,
+   "sig": 0.6602,
+   "d0": 8,
+   "openUp": null,
+   "slopeDown": 0.058
+  }
+ },
+ {
+  "id": "straddle-perene",
+  "nome": "Straddle perene (ZCC)",
+  "familia": "Híbridas / hedge",
+  "pop": "straddle-perene",
+  "racional": "Straddle 23,79 vendido em 16/10 financiando a CALL 23,79 de 19/11.",
+  "esperado": "Crédito de R$ 0,33; a CALL longa limita a alta, a queda fica com a PUT vendida.",
+  "notas": [],
+  "modo": "mtm",
+  "comp_label": null,
+  "pernas": [
+   {
+    "t": "P",
+    "q": -1,
+    "k": 23.79,
+    "d": 8,
+    "px": 1.14,
+    "iv": 0.66,
+    "exp": "2026-10-16"
+   },
+   {
+    "t": "C",
+    "q": -1,
+    "k": 23.79,
+    "d": 8,
+    "px": 1.23,
+    "iv": 0.6594,
+    "exp": "2026-10-16"
+   },
+   {
+    "t": "C",
+    "q": 1,
+    "k": 23.79,
+    "d": 31,
+    "px": 2.04,
+    "iv": 0.5595,
+    "exp": "2026-11-19"
+   }
+  ],
+  "comparacao": null,
+  "ref": {
+   "data": "2026-10-02",
+   "spot": 23.72,
+   "caixa": 0.33
+  },
+  "lab_stats": {
+   "prob": 0.6551,
+   "be": [
+    22.47
+   ],
+   "best": 1.9277,
+   "worst": -7.4495,
+   "sig": 0.6597,
+   "d0": 8,
+   "openUp": null,
+   "slopeDown": 1.014
+  }
+ },
+ {
+  "id": "strangle-p",
+  "nome": "Strangle/P coberto",
+  "familia": "Híbridas / hedge",
+  "pop": "strangle-p",
+  "racional": "Vende CALL 23,29 e PUT 24,29 de 16/10 e compra a CALL 24,29 de 19/11.",
+  "esperado": "Crédito de R$ 1,08; o lado que entrar em risco recebe o Booster Reverso como manejo.",
+  "notas": [],
+  "modo": "mtm",
+  "comp_label": null,
+  "pernas": [
+   {
+    "t": "C",
+    "q": -1,
+    "k": 23.29,
+    "d": 8,
+    "px": 1.48,
+    "iv": 0.6559,
+    "exp": "2026-10-16"
+   },
+   {
+    "t": "C",
+    "q": 1,
+    "k": 24.29,
+    "d": 31,
+    "px": 1.82,
+    "iv": 0.5609,
+    "exp": "2026-11-19"
+   },
+   {
+    "t": "P",
+    "q": -1,
+    "k": 24.29,
+    "d": 8,
+    "px": 1.42,
+    "iv": 0.6571,
+    "exp": "2026-10-16"
+   }
+  ],
+  "comparacao": null,
+  "ref": {
+   "data": "2026-10-02",
+   "spot": 23.72,
+   "caixa": 1.08
+  },
+  "lab_stats": {
+   "prob": 0.6659,
+   "be": [
+    22.4
+   ],
+   "best": 1.7154,
+   "worst": -7.2025,
+   "sig": 0.6565,
+   "d0": 8,
+   "openUp": null,
+   "slopeDown": 1.011
+  }
+ },
+ {
+  "id": "box-perene",
+  "nome": "Box 23,54/24,54",
+  "familia": "Proteção patrimonial",
+  "pop": "box-perene",
+  "racional": "Trava de alta de CALL + trava de baixa de PUT nos mesmos strikes: recebe exatamente R$ 1,00 no vencimento.",
+  "esperado": "Custo de R$ 0,96 pelos últimos negócios. Pelo book, a taxa tende ao CDI; a diferença aqui é ruído de \"último\".",
+  "notas": [
+   "\"Último\" não é bid/ask: confira o box no book antes de concluir que existe taxa acima do CDI."
+  ],
+  "modo": "expiry",
+  "comp_label": null,
+  "pernas": [
+   {
+    "t": "C",
+    "q": 1,
+    "k": 23.54,
+    "d": 31,
+    "px": 2.16,
+    "iv": 0.5635,
+    "exp": "2026-11-19"
+   },
+   {
+    "t": "C",
+    "q": -1,
+    "k": 24.54,
+    "d": 31,
+    "px": 1.7,
+    "iv": 0.5571,
+    "exp": "2026-11-19"
+   },
+   {
+    "t": "P",
+    "q": 1,
+    "k": 24.54,
+    "d": 31,
+    "px": 2.13,
+    "iv": 0.5748,
+    "exp": "2026-11-19"
+   },
+   {
+    "t": "P",
+    "q": -1,
+    "k": 23.54,
+    "d": 31,
+    "px": 1.63,
+    "iv": 0.5734,
+    "exp": "2026-11-19"
+   }
+  ],
+  "comparacao": null,
+  "ref": {
+   "data": "2026-10-02",
+   "spot": 23.72,
+   "caixa": -0.96
+  },
+  "lab_stats": {
+   "prob": 1.0,
+   "be": [],
+   "best": 0.04,
+   "worst": 0.04,
+   "sig": 0.5672,
+   "d0": 31,
+   "openUp": null,
+   "slopeDown": 0.0
+  }
+ },
+ {
+  "id": "box-p",
+  "nome": "Box/p diagonal",
+  "familia": "Proteção patrimonial",
+  "pop": "box-p",
+  "racional": "CALL 23,54 e PUT 24,54 de 19/11 compradas; CALL 24,54 e PUT 23,54 de 16/10 vendidas.",
+  "esperado": "No vencimento curto as longas seguem vivas; as curtas são roladas.",
+  "notas": [],
+  "modo": "mtm",
+  "comp_label": null,
+  "pernas": [
+   {
+    "t": "C",
+    "q": 1,
+    "k": 23.54,
+    "d": 31,
+    "px": 2.16,
+    "iv": 0.5635,
+    "exp": "2026-11-19"
+   },
+   {
+    "t": "C",
+    "q": -1,
+    "k": 24.54,
+    "d": 8,
+    "px": 0.91,
+    "iv": 0.6514,
+    "exp": "2026-10-16"
+   },
+   {
+    "t": "P",
+    "q": 1,
+    "k": 24.54,
+    "d": 31,
+    "px": 2.13,
+    "iv": 0.5748,
+    "exp": "2026-11-19"
+   },
+   {
+    "t": "P",
+    "q": -1,
+    "k": 23.54,
+    "d": 8,
+    "px": 1.04,
+    "iv": 0.6605,
+    "exp": "2026-10-16"
+   }
+  ],
+  "comparacao": null,
+  "ref": {
+   "data": "2026-10-02",
+   "spot": 23.72,
+   "caixa": -2.34
+  },
+  "lab_stats": {
+   "prob": 0.6349,
+   "be": [
+    21.68,
+    26.97
+   ],
+   "best": 1.5306,
+   "worst": -1.3191,
+   "sig": 0.656,
+   "d0": 8,
+   "openUp": "loss",
+   "slopeDown": 0.028
+  }
+ },
+ {
+  "id": "colar-perene",
+  "nome": "Colar perene — PUT longa de dezembro",
+  "familia": "Proteção patrimonial",
+  "pop": "colar-perene",
+  "racional": "Ação + PUT 22,70 de 18/12 (base do hedge) financiada pela CALL 25,04 de 19/11.",
+  "esperado": "Piso perto de R$ 22,70 e teto em R$ 25,04 no vencimento de novembro; a PUT segue viva.",
+  "notas": [],
+  "modo": "mtm",
+  "comp_label": null,
+  "pernas": [
+   {
+    "t": "S",
+    "q": 1,
+    "k": null,
+    "d": 0,
+    "px": 23.72,
+    "iv": null,
+    "exp": null
+   },
+   {
+    "t": "P",
+    "q": 1,
+    "k": 22.7,
+    "d": 51,
+    "px": 1.3,
+    "iv": 0.4883,
+    "exp": "2026-12-18"
+   },
+   {
+    "t": "C",
+    "q": -1,
+    "k": 25.04,
+    "d": 31,
+    "px": 1.49,
+    "iv": 0.5556,
+    "exp": "2026-11-19"
+   }
+  ],
+  "comparacao": null,
+  "ref": {
+   "data": "2026-10-02",
+   "spot": 23.72,
+   "caixa": 0.19
+  },
+  "lab_stats": {
+   "prob": 0.6293,
+   "be": [
+    21.82
+   ],
+   "best": 1.9547,
+   "worst": -0.8254,
+   "sig": 0.5556,
+   "d0": 31,
+   "openUp": null,
+   "slopeDown": 0.009
+  }
+ },
+ {
+  "id": "financiamento",
+  "nome": "Financiamento — CALL ITM 22,54",
+  "familia": "Base",
+  "pop": "financiamento",
+  "racional": "Compra BBAS3 a R$ 23,72 e vende a CALL 22,54 de 19/11 a R$ 2,74: desembolso de R$ 20,98.",
+  "esperado": "Se exercido, recebe R$ 22,54: 7,4% em 31 du. Só perde abaixo de R$ 20,98.",
+  "notas": [],
+  "modo": "expiry",
+  "comp_label": null,
+  "pernas": [
+   {
+    "t": "S",
+    "q": 1,
+    "k": null,
+    "d": 0,
+    "px": 23.72,
+    "iv": null,
+    "exp": null
+   },
+   {
+    "t": "C",
+    "q": -1,
+    "k": 22.54,
+    "d": 31,
+    "px": 2.74,
+    "iv": 0.562,
+    "exp": "2026-11-19"
+   }
+  ],
+  "comparacao": null,
+  "ref": {
+   "data": "2026-10-02",
+   "spot": 23.72,
+   "caixa": 2.74
+  },
+  "lab_stats": {
+   "prob": 0.6992,
+   "be": [
+    20.98
+   ],
+   "best": 1.56,
+   "worst": -4.98,
+   "sig": 0.562,
+   "d0": 31,
+   "openUp": null,
+   "slopeDown": 1.0
+  }
+ },
+ {
+  "id": "dividendo-sint",
+  "nome": "Dividendo sintético — 30% lançado",
+  "familia": "Base",
+  "pop": "dividendo-sint",
+  "racional": "CALL 25,04 lançada sobre 30% da posição: renda parcial sem travar a alta dos outros 70%.",
+  "esperado": "Renda de R$ 0,45 por ação no ciclo; acima de R$ 25,04, 70% da posição continua subindo.",
+  "notas": [],
+  "modo": "expiry",
+  "comp_label": null,
+  "pernas": [
+   {
+    "t": "S",
+    "q": 1,
+    "k": null,
+    "d": 0,
+    "px": 23.72,
+    "iv": null,
+    "exp": null
+   },
+   {
+    "t": "C",
+    "q": -0.3,
+    "k": 25.04,
+    "d": 31,
+    "px": 1.49,
+    "iv": 0.5556,
+    "exp": "2026-11-19"
+   }
+  ],
+  "comparacao": null,
+  "ref": {
+   "data": "2026-10-02",
+   "spot": 23.72,
+   "caixa": 0.447
+  },
+  "lab_stats": {
+   "prob": 0.5,
+   "be": [
+    23.27
+   ],
+   "best": 6.639,
+   "worst": -7.273,
+   "sig": 0.5556,
+   "d0": 31,
+   "openUp": "gain",
+   "slopeDown": 1.0
+  }
+ },
+ {
+  "id": "anakha",
+  "nome": "Crédito de Anakha — semanal",
+  "familia": "Mônadas",
+  "pop": "anakha",
+  "racional": "Straddle curto na semanal de 09/10 (23,20) com a CALL 24,54 de 16/10 cobrindo a alta.",
+  "esperado": "Crédito de R$ 1,16 na entrada; o POP manda recomprar alguns dias depois, sem esperar o vencimento.",
+  "notas": [
+   "A PUT vendida fica a descoberto."
+  ],
+  "modo": "mtm",
+  "comp_label": null,
+  "pernas": [
+   {
+    "t": "C",
+    "q": -1,
+    "k": 23.2,
+    "d": 4,
+    "px": 1.31,
+    "iv": 0.7784,
+    "exp": "2026-10-09"
+   },
+   {
+    "t": "P",
+    "q": -1,
+    "k": 23.2,
+    "d": 4,
+    "px": 0.76,
+    "iv": 0.7855,
+    "exp": "2026-10-09"
+   },
+   {
+    "t": "C",
+    "q": 1,
+    "k": 24.54,
+    "d": 8,
+    "px": 0.91,
+    "iv": 0.6514,
+    "exp": "2026-10-16"
+   }
+  ],
+  "comparacao": null,
+  "ref": {
+   "data": "2026-10-02",
+   "spot": 23.72,
+   "caixa": 1.16
+  },
+  "lab_stats": {
+   "prob": 0.6525,
+   "be": [
+    21.96,
+    26.6
+   ],
+   "best": 1.4472,
+   "worst": -6.04,
+   "sig": 0.7819,
+   "d0": 4,
+   "openUp": null,
+   "slopeDown": 1.0
+  }
+ },
+ {
+  "id": "hedge-inverse",
+  "nome": "Hedge — Inverse Line",
+  "familia": "Hedge · ajustes",
+  "pop": "hedge-inverse",
+  "racional": "CALL 23,79 vendida ameaçada: recompra a CALL e vende a PUT do mesmo strike.",
+  "esperado": "A posição vira PUT vendida: o risco migra da alta para a queda.",
+  "notas": [],
+  "modo": "expiry",
+  "comp_label": "posição original (antes do ajuste)",
+  "pernas": [
+   {
+    "t": "C",
+    "q": -1,
+    "k": 23.79,
+    "d": 8,
+    "px": 1.23,
+    "iv": 0.6594,
+    "exp": "2026-10-16"
+   },
+   {
+    "t": "C",
+    "q": 1,
+    "k": 23.79,
+    "d": 8,
+    "px": 1.23,
+    "iv": 0.6594,
+    "exp": "2026-10-16"
+   },
+   {
+    "t": "P",
+    "q": -1,
+    "k": 23.79,
+    "d": 8,
+    "px": 1.14,
+    "iv": 0.66,
+    "exp": "2026-10-16"
+   }
+  ],
+  "comparacao": [
+   {
+    "t": "C",
+    "q": -1,
+    "k": 23.79,
+    "d": 8,
+    "px": 1.23,
+    "iv": 0.6594,
+    "exp": "2026-10-16"
+   }
+  ],
+  "ref": {
+   "data": "2026-10-02",
+   "spot": 23.72,
+   "caixa": 1.14
+  },
+  "lab_stats": {
+   "prob": 0.6304,
+   "be": [
+    22.65
+   ],
+   "best": 1.14,
+   "worst": -6.65,
+   "sig": 0.6596,
+   "d0": 8,
+   "openUp": null,
+   "slopeDown": 1.0
+  }
+ },
+ {
+  "id": "hedge-straddle-din",
+  "nome": "Hedge — Straddle dinâmico",
+  "familia": "Hedge · ajustes",
+  "pop": "hedge-straddle-din",
+  "racional": "Recompra a CALL 23,29 vendida e vende CALL e PUT 24,54.",
+  "esperado": "Straddle vendido um degrau acima: ganho máximo em R$ 24,54.",
+  "notas": [],
+  "modo": "expiry",
+  "comp_label": "posição original (antes do ajuste)",
+  "pernas": [
+   {
+    "t": "C",
+    "q": -1,
+    "k": 23.29,
+    "d": 8,
+    "px": 1.48,
+    "iv": 0.6559,
+    "exp": "2026-10-16"
+   },
+   {
+    "t": "C",
+    "q": 1,
+    "k": 23.29,
+    "d": 8,
+    "px": 1.48,
+    "iv": 0.6559,
+    "exp": "2026-10-16"
+   },
+   {
+    "t": "C",
+    "q": -1,
+    "k": 24.54,
+    "d": 8,
+    "px": 0.91,
+    "iv": 0.6514,
+    "exp": "2026-10-16"
+   },
+   {
+    "t": "P",
+    "q": -1,
+    "k": 24.54,
+    "d": 8,
+    "px": 1.57,
+    "iv": 0.6605,
+    "exp": "2026-10-16"
+   }
+  ],
+  "comparacao": [
+   {
+    "t": "C",
+    "q": -1,
+    "k": 23.29,
+    "d": 8,
+    "px": 1.48,
+    "iv": 0.6559,
+    "exp": "2026-10-16"
+   }
+  ],
+  "ref": {
+   "data": "2026-10-02",
+   "spot": 23.72,
+   "caixa": 2.48
+  },
+  "lab_stats": {
+   "prob": 0.5916,
+   "be": [
+    22.06,
+    27.02
+   ],
+   "best": 2.44,
+   "worst": -6.06,
+   "sig": 0.6559,
+   "d0": 8,
+   "openUp": "loss",
+   "slopeDown": 1.0
+  }
+ },
+ {
+  "id": "hedge-booster-h",
+  "nome": "Hedge — Booster horizontal",
+  "familia": "Hedge · ajustes",
+  "pop": "hedge-booster-h",
+  "racional": "Soma −2 PUTs 23,79 de 16/10 e +1 PUT de 19/11 à CALL vendida.",
+  "esperado": "Mais crédito e delta positivo; o risco passa a ser a queda forte.",
+  "notas": [],
+  "modo": "mtm",
+  "comp_label": "posição original (antes do ajuste)",
+  "pernas": [
+   {
+    "t": "C",
+    "q": -1,
+    "k": 23.79,
+    "d": 8,
+    "px": 1.23,
+    "iv": 0.6594,
+    "exp": "2026-10-16"
+   },
+   {
+    "t": "P",
+    "q": -2,
+    "k": 23.79,
+    "d": 8,
+    "px": 1.14,
+    "iv": 0.66,
+    "exp": "2026-10-16"
+   },
+   {
+    "t": "P",
+    "q": 1,
+    "k": 23.79,
+    "d": 31,
+    "px": 1.75,
+    "iv": 0.575,
+    "exp": "2026-11-19"
+   }
+  ],
+  "comparacao": [
+   {
+    "t": "C",
+    "q": -1,
+    "k": 23.79,
+    "d": 8,
+    "px": 1.23,
+    "iv": 0.6594,
+    "exp": "2026-10-16"
+   }
+  ],
+  "ref": {
+   "data": "2026-10-02",
+   "spot": 23.72,
+   "caixa": 1.76
+  },
+  "lab_stats": {
+   "prob": 0.6206,
+   "be": [
+    21.38,
+    26.31
+   ],
+   "best": 3.392,
+   "worst": -6.364,
+   "sig": 0.6598,
+   "d0": 8,
+   "openUp": "loss",
+   "slopeDown": 1.017
+  }
+ },
+ {
+  "id": "hedge-calendar-line",
+  "nome": "Hedge — Calendar line",
+  "familia": "Hedge · ajustes",
+  "pop": "hedge-calendar-line",
+  "racional": "Soma PUT vendida + calendário de CALL à CALL vendida.",
+  "esperado": "A CALL longa de 19/11 amortece a alta.",
+  "notas": [],
+  "modo": "mtm",
+  "comp_label": "posição original (antes do ajuste)",
+  "pernas": [
+   {
+    "t": "C",
+    "q": -1,
+    "k": 23.79,
+    "d": 8,
+    "px": 1.23,
+    "iv": 0.6594,
+    "exp": "2026-10-16"
+   },
+   {
+    "t": "P",
+    "q": -1,
+    "k": 23.79,
+    "d": 8,
+    "px": 1.14,
+    "iv": 0.66,
+    "exp": "2026-10-16"
+   },
+   {
+    "t": "C",
+    "q": 1,
+    "k": 23.79,
+    "d": 31,
+    "px": 2.04,
+    "iv": 0.5595,
+    "exp": "2026-11-19"
+   },
+   {
+    "t": "C",
+    "q": -1,
+    "k": 23.79,
+    "d": 8,
+    "px": 1.23,
+    "iv": 0.6594,
+    "exp": "2026-10-16"
+   }
+  ],
+  "comparacao": [
+   {
+    "t": "C",
+    "q": -1,
+    "k": 23.79,
+    "d": 8,
+    "px": 1.23,
+    "iv": 0.6594,
+    "exp": "2026-10-16"
+   }
+  ],
+  "ref": {
+   "data": "2026-10-02",
+   "spot": 23.72,
+   "caixa": 1.56
+  },
+  "lab_stats": {
+   "prob": 0.5829,
+   "be": [
+    21.57,
+    26.12
+   ],
+   "best": 3.1477,
+   "worst": -6.5755,
+   "sig": 0.6596,
+   "d0": 8,
+   "openUp": "loss",
+   "slopeDown": 1.014
+  }
+ },
+ {
+  "id": "hedge-mannerheim",
+  "nome": "Hedge — Linha de Mannerheim",
+  "familia": "Hedge · ajustes",
+  "pop": "hedge-mannerheim",
+  "racional": "Soma PUT vendida + 3 THLs de CALL à CALL vendida.",
+  "esperado": "As THLs transformam a alta em zona de ganho no vencimento curto.",
+  "notas": [],
+  "modo": "mtm",
+  "comp_label": "posição original (antes do ajuste)",
+  "pernas": [
+   {
+    "t": "C",
+    "q": -1,
+    "k": 23.79,
+    "d": 8,
+    "px": 1.23,
+    "iv": 0.6594,
+    "exp": "2026-10-16"
+   },
+   {
+    "t": "P",
+    "q": -1,
+    "k": 23.79,
+    "d": 8,
+    "px": 1.14,
+    "iv": 0.66,
+    "exp": "2026-10-16"
+   },
+   {
+    "t": "C",
+    "q": 3,
+    "k": 23.79,
+    "d": 31,
+    "px": 2.04,
+    "iv": 0.5595,
+    "exp": "2026-11-19"
+   },
+   {
+    "t": "C",
+    "q": -3,
+    "k": 23.79,
+    "d": 8,
+    "px": 1.23,
+    "iv": 0.6594,
+    "exp": "2026-10-16"
+   }
+  ],
+  "comparacao": [
+   {
+    "t": "C",
+    "q": -1,
+    "k": 23.79,
+    "d": 8,
+    "px": 1.23,
+    "iv": 0.6594,
+    "exp": "2026-10-16"
+   }
+  ],
+  "ref": {
+   "data": "2026-10-02",
+   "spot": 23.72,
+   "caixa": -0.06
+  },
+  "lab_stats": {
+   "prob": 0.5612,
+   "be": [
+    21.71,
+    26.07
+   ],
+   "best": 4.723,
+   "worst": -8.0465,
+   "sig": 0.6595,
+   "d0": 8,
+   "openUp": "loss",
+   "slopeDown": 1.043
+  }
+ },
+ {
+  "id": "hedge-booster-v",
+  "nome": "Hedge — Booster vertical",
+  "familia": "Hedge · ajustes",
+  "pop": "hedge-booster-v",
+  "racional": "Soma o booster de PUT 24,54/23,79 (mesmo vencimento) à CALL vendida.",
+  "esperado": "Crédito extra e delta positivo; queda forte vira o risco.",
+  "notas": [],
+  "modo": "expiry",
+  "comp_label": "posição original (antes do ajuste)",
+  "pernas": [
+   {
+    "t": "C",
+    "q": -1,
+    "k": 23.79,
+    "d": 8,
+    "px": 1.23,
+    "iv": 0.6594,
+    "exp": "2026-10-16"
+   },
+   {
+    "t": "P",
+    "q": 1,
+    "k": 24.54,
+    "d": 8,
+    "px": 1.57,
+    "iv": 0.6605,
+    "exp": "2026-10-16"
+   },
+   {
+    "t": "P",
+    "q": -2,
+    "k": 23.79,
+    "d": 8,
+    "px": 1.14,
+    "iv": 0.66,
+    "exp": "2026-10-16"
+   }
+  ],
+  "comparacao": [
+   {
+    "t": "C",
+    "q": -1,
+    "k": 23.79,
+    "d": 8,
+    "px": 1.23,
+    "iv": 0.6594,
+    "exp": "2026-10-16"
+   }
+  ],
+  "ref": {
+   "data": "2026-10-02",
+   "spot": 23.72,
+   "caixa": 1.94
+  },
+  "lab_stats": {
+   "prob": 0.5987,
+   "be": [
+    21.1,
+    25.73
+   ],
+   "best": 2.67,
+   "worst": -6.27,
+   "sig": 0.66,
+   "d0": 8,
+   "openUp": "loss",
+   "slopeDown": 1.0
+  }
+ },
+ {
+  "id": "hedge-assimetrico",
+  "nome": "Hedge — Assimétrico (PUT vendida)",
+  "familia": "Hedge · ajustes",
+  "pop": "hedge-assimetrico",
+  "racional": "PUT 23,79 vendida ameaçada: vende a CALL 23,79 e compra 2 CALLs 24,29 de 19/11.",
+  "esperado": "A alta passa a pagar; a queda continua com a PUT.",
+  "notas": [],
+  "modo": "mtm",
+  "comp_label": "posição original (antes do ajuste)",
+  "pernas": [
+   {
+    "t": "P",
+    "q": -1,
+    "k": 23.79,
+    "d": 8,
+    "px": 1.14,
+    "iv": 0.66,
+    "exp": "2026-10-16"
+   },
+   {
+    "t": "C",
+    "q": -1,
+    "k": 23.79,
+    "d": 8,
+    "px": 1.23,
+    "iv": 0.6594,
+    "exp": "2026-10-16"
+   },
+   {
+    "t": "C",
+    "q": 2,
+    "k": 24.29,
+    "d": 31,
+    "px": 1.82,
+    "iv": 0.5609,
+    "exp": "2026-11-19"
+   }
+  ],
+  "comparacao": [
+   {
+    "t": "P",
+    "q": -1,
+    "k": 23.79,
+    "d": 8,
+    "px": 1.14,
+    "iv": 0.66,
+    "exp": "2026-10-16"
+   }
+  ],
+  "ref": {
+   "data": "2026-10-02",
+   "spot": 23.72,
+   "caixa": -1.27
+  },
+  "lab_stats": {
+   "prob": 0.5808,
+   "be": [
+    23.0
+   ],
+   "best": 6.1455,
+   "worst": -9.0451,
+   "sig": 0.6597,
+   "d0": 8,
+   "openUp": "gain",
+   "slopeDown": 1.021
+  }
+ },
+ {
+  "id": "hedge-straddle-ha",
+  "nome": "Hedge — Straddle HA (PUT vendida)",
+  "familia": "Hedge · ajustes",
+  "pop": "hedge-straddle-ha",
+  "racional": "PUT 23,79 vendida + CALL 23,79 vendida + 2 CALLs 25,04 de 19/11.",
+  "esperado": "Straddle parcialmente coberto: a alta forte vira ganho.",
+  "notas": [],
+  "modo": "mtm",
+  "comp_label": "posição original (antes do ajuste)",
+  "pernas": [
+   {
+    "t": "P",
+    "q": -1,
+    "k": 23.79,
+    "d": 8,
+    "px": 1.14,
+    "iv": 0.66,
+    "exp": "2026-10-16"
+   },
+   {
+    "t": "C",
+    "q": -1,
+    "k": 23.79,
+    "d": 8,
+    "px": 1.23,
+    "iv": 0.6594,
+    "exp": "2026-10-16"
+   },
+   {
+    "t": "C",
+    "q": 2,
+    "k": 25.04,
+    "d": 31,
+    "px": 1.49,
+    "iv": 0.5556,
+    "exp": "2026-11-19"
+   }
+  ],
+  "comparacao": [
+   {
+    "t": "P",
+    "q": -1,
+    "k": 23.79,
+    "d": 8,
+    "px": 1.14,
+    "iv": 0.66,
+    "exp": "2026-10-16"
+   }
+  ],
+  "ref": {
+   "data": "2026-10-02",
+   "spot": 23.72,
+   "caixa": -0.61
+  },
+  "lab_stats": {
+   "prob": 0.5948,
+   "be": [
+    22.89
+   ],
+   "best": 5.4033,
+   "worst": -8.3921,
+   "sig": 0.6597,
+   "d0": 8,
+   "openUp": "gain",
+   "slopeDown": 1.012
+  }
+ }
+]

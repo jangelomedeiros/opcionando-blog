@@ -1,0 +1,1688 @@
+{
+ "anakha": {
+  "nome": "Crédito de Anakha",
+  "fam": "monada",
+  "visao": "Estatística · neutra",
+  "objetivo": "Receber crédito alto na entrada e encerrar cedo, sem esperar o vencimento.",
+  "contexto": "Só BOVA11 ou semanais de altíssima liquidez.",
+  "janela": "Opções semanais, com giro rápido. Crédito na entrada.",
+  "montagem": [
+   "Venda a CALL semanal ATM.",
+   "Venda a PUT semanal logo abaixo: completa o strangle curto.",
+   "Compre a CALL da semana seguinte, no limite de cima: cobre a alta."
+  ],
+  "manejo": "Encerre a cada ciclo pagando a recompra. Não carregue até o vencimento e não economize na recompra.",
+  "saida": "Recompra alguns dias depois, embolsando a diferença.",
+  "risco": "Disciplina e tamanho de lote: a PUT vendida fica a descoberto e um movimento brusco pune quem alavancou.",
+  "regra": "Semanais líquidas; encerrar a cada ciclo.",
+  "checklist": [
+   "A semanal é líquida?",
+   "Lote pequeno?",
+   "Data da recompra definida?"
+  ],
+  "m": [
+   "objetivo",
+   "contexto",
+   "janela",
+   "montagem",
+   "manejo",
+   "risco",
+   "regra"
+  ],
+  "fonte": "Manuais do Prof. Su (POPs)"
+ },
+ "asym-wings-diagonal": {
+  "nome": "Asymmetric Wings + Trava Diagonal",
+  "fam": "gradiente",
+  "visao": "Borboleta assimétrica diagonal",
+  "objetivo": "Borboleta de asas assimétricas com as pernas de proteção em strikes e vencimentos diferentes.",
+  "contexto": "Recomendação do quadro: montar essa variação com PUT.",
+  "janela": "Corpo e asa de cima no vencimento curto; asa de baixo no longo.",
+  "montagem": [
+   "Compre a PUT de cima (curta).",
+   "Venda 2 PUTs do corpo (curtas).",
+   "Compre a PUT de baixo num vencimento mais longo (diagonal)."
+  ],
+  "manejo": "No vencimento curto, a PUT longa vira proteção para a próxima série.",
+  "saida": "Realize no corpo.",
+  "risco": "Queda forte antes do vencimento curto.",
+  "regra": "Montar essa variação com PUT.",
+  "checklist": [
+   "A asa longa protege a queda?",
+   "Custo compatível com o ganho no corpo?"
+  ],
+  "m": [
+   "objetivo",
+   "regra",
+   "contexto"
+  ],
+  "fonte": "Apostila do curso · pernas: leitura do laboratório"
+ },
+ "b1": {
+  "nome": "Módulo B1 — boosters contrapostos ATM",
+  "fam": "modular",
+  "visao": "Binarização · pico no ATM",
+  "objetivo": "Trocar o strangle vendido a seco por um pico de ganho no ATM capturado em poucos dias.",
+  "contexto": "Índices estacionários e líquidos (BOVA11). Evitar ações muito voláteis.",
+  "janela": "Entrada entre 12 e 24 dias úteis do vencimento; permanência de 3 a 5 dias úteis. Custo zero ou pequeno crédito.",
+  "montagem": [
+   "Ponta CALL: compre 1 CALL abaixo do ATM.",
+   "Venda 2 CALLs ATM (booster de CALL).",
+   "Ponta PUT: compre 1 PUT acima do ATM.",
+   "Venda 2 PUTs ATM: boosters contrapostos."
+  ],
+  "manejo": "Não rolar. Atingido o lucro, zera tudo e, se quiser, remonta do zero.",
+  "saida": "Saída em 3 a 5 dias úteis ou no alvo de lucro.",
+  "risco": "Movimento forte para qualquer lado: sobra 1 opção vendida em cada ponta.",
+  "regra": "Entrada 12–24 dias úteis, permanência 3–5 dias úteis, não rolar.",
+  "checklist": [
+   "Estou entre 12 e 24 dias úteis?",
+   "Fecha a custo zero ou crédito?",
+   "Sei o dia da saída?"
+  ],
+  "m": [
+   "objetivo",
+   "contexto",
+   "janela",
+   "manejo",
+   "regra"
+  ],
+  "fonte": "Manuais do Prof. Su (POPs)"
+ },
+ "b2": {
+  "nome": "Módulo B2 — boosters afastados",
+  "fam": "modular",
+  "visao": "Binarização · strangle sintético",
+  "objetivo": "Montar um strangle vendido sintético com platô de ganho largo entre os strikes vendidos.",
+  "contexto": "BOVA11 ou ativos grandes dentro de canais definidos.",
+  "janela": "Início do ciclo, com 30 a 45 dias úteis. Custo zero ou pequeno crédito.",
+  "montagem": [
+   "Ponta CALL: compre 1 CALL ITM.",
+   "Venda 2 CALLs acima.",
+   "Ponta PUT: compre 1 PUT ITM.",
+   "Venda 2 PUTs abaixo: surge o platô."
+  ],
+  "manejo": "Regra dos 10%: a cada rolagem credora, role 10% a menos do lote vendido. Os strikes de risco se afastam e sobram compradas a custo zero.",
+  "saida": "Estrutura de ciclo: encerre quando o platô for capturado ou o canal romper.",
+  "risco": "Fora da faixa ainda sobra 1 opção vendida de cada lado; na alta, a perda é aberta.",
+  "regra": "Regra dos 10% nas rolagens credoras.",
+  "checklist": [
+   "O canal está definido?",
+   "Sei aplicar a regra dos 10%?",
+   "Aceito a cauda aberta na alta?"
+  ],
+  "m": [
+   "objetivo",
+   "contexto",
+   "janela",
+   "manejo",
+   "regra"
+  ],
+  "fonte": "Manuais do Prof. Su (POPs)"
+ },
+ "b3": {
+  "nome": "Módulo B3 — coeficiente 2×3 / 3×4",
+  "fam": "modular",
+  "visao": "Binarização · custo zero em vol alta",
+  "objetivo": "Ajustar o coeficiente de assunção (2×3 ou 3×4) para fechar a custo zero quando a 1×2 não fecha.",
+  "contexto": "Ações de vol média a alta (PETR4, VALE3).",
+  "janela": "Mais de 24 dias úteis até o vencimento. Custo zero ou pequeno crédito.",
+  "montagem": [
+   "Ponta CALL: compre 2 CALLs ITM e venda 3 OTM (ou 3×4).",
+   "Ponta PUT: compre 2 PUTs ITM e venda 3 OTM."
+  ],
+  "manejo": "Desgaste inicial mais lento que o B1: dá para carregar com conforto e fazer ajustes parciais quando o papel chega ao miolo.",
+  "saida": "Realize no miolo; ajuste parcial em vez de zerar tudo.",
+  "risco": "Sobra 1 opção vendida líquida em cada ponta, como no B1.",
+  "regra": "Mais de 24 dias úteis; coeficiente escolhido para custo zero.",
+  "checklist": [
+   "Mais de 24 dias úteis?",
+   "O coeficiente fecha a custo zero?",
+   "A margem cabe no plano?"
+  ],
+  "m": [
+   "objetivo",
+   "contexto",
+   "janela",
+   "manejo",
+   "regra"
+  ],
+  "fonte": "Manuais do Prof. Su (POPs)"
+ },
+ "basica-call": {
+  "nome": "Mônada Básica CALL",
+  "fam": "monada",
+  "visao": "Tesouraria assimétrica 10×12×2",
+  "objetivo": "Pagar um aporte em opções longas para ter rolagens credoras de alto valor.",
+  "contexto": "Ativos grandes e muito líquidos (BOVA11, PETR4).",
+  "janela": "Exige débito de montagem.",
+  "montagem": [
+   "Compre 10 de CALL longa: o débito que sustenta a estrutura.",
+   "Venda 12 de CALL curta ATM: 10 formam a THL 10×10 e 2 são venda extra.",
+   "Venda 2 de PUT curta ATM: a assimetria 10×12×2."
+  ],
+  "manejo": "A primeira rolagem recupera quase todo o aporte. O caixa seguinte compra PUTs profundas ITM de 1 a 2 anos como blindagem da carteira.",
+  "saida": "Estrutura de ciclo.",
+  "risco": "Movimento forte: as 2 opções extras vendidas em CALL e em PUT ficam expostas.",
+  "regra": "Débito de montagem; caixa das rolagens vira blindagem.",
+  "checklist": [
+   "O aporte cabe no plano?",
+   "Sei o risco das vendas extras?"
+  ],
+  "m": [
+   "objetivo",
+   "contexto",
+   "janela",
+   "montagem",
+   "manejo",
+   "risco",
+   "regra"
+  ],
+  "fonte": "Manuais do Prof. Su (POPs)"
+ },
+ "basica-put": {
+  "nome": "Mônada Básica PUT",
+  "fam": "monada",
+  "visao": "Tesouraria assimétrica 10×12×2",
+  "objetivo": "Mesma lógica da Básica CALL, com a THL montada em PUTs.",
+  "contexto": "Ativos grandes e muito líquidos (BOVA11, PETR4).",
+  "janela": "Exige débito de montagem.",
+  "montagem": [
+   "Compre 10 de PUT longa.",
+   "Venda 12 de PUT curta ATM.",
+   "Venda 2 de CALL curta ATM."
+  ],
+  "manejo": "A primeira rolagem recupera quase todo o aporte. O caixa seguinte vai para a reserva de PUTs longas.",
+  "saida": "Estrutura de ciclo.",
+  "risco": "Movimento forte: as 2 opções extras vendidas ficam expostas.",
+  "regra": "Débito de montagem; caixa vira reserva de PUTs longas.",
+  "checklist": [
+   "O aporte cabe no plano?",
+   "Sei o risco das vendas extras?"
+  ],
+  "m": [
+   "objetivo",
+   "contexto",
+   "janela",
+   "montagem",
+   "manejo",
+   "risco",
+   "regra"
+  ],
+  "fonte": "Manuais do Prof. Su (POPs)"
+ },
+ "booster-call": {
+  "nome": "Booster de CALL (integrado à custódia)",
+  "fam": "ferramenta",
+  "visao": "Renda sobre custódia",
+  "objetivo": "Trocar a alta acima do strike vendido por renda, aproximando o exercício do dinheiro e reduzindo o risco de cauda.",
+  "contexto": "Quem já tem o ativo e quer substituir uma venda coberta simples.",
+  "janela": "Não é estratégia autônoma: depende da custódia. 20 a 45 dias úteis.",
+  "montagem": [
+   "Ativo em custódia: condição obrigatória.",
+   "Compre 1 CALL.",
+   "Venda 2 CALLs acima: uma coberta pela CALL comprada, outra pela ação."
+  ],
+  "manejo": "Usar como peça vinculada à carteira, não isolada.",
+  "saida": "Vencimento ou realização no miolo (entre os strikes).",
+  "risco": "Queda do ativo, que segue em custódia.",
+  "regra": "Depende da custódia; peça vinculada à carteira.",
+  "checklist": [
+   "As ações estão em custódia?",
+   "Aceito o teto econômico antes do strike cardinal?"
+  ],
+  "m": [
+   "objetivo",
+   "contexto",
+   "janela",
+   "montagem",
+   "manejo",
+   "regra"
+  ],
+  "fonte": "Manuais do Prof. Su (POPs)"
+ },
+ "booster-fly": {
+  "nome": "Booster e Fly",
+  "fam": "borboleta",
+  "visao": "Renda sobre custódia · perenidade",
+  "objetivo": "Montar um booster (razão 1×2) quase de graça usando as ações em custódia como lastro e completar a borboleta com uma CALL longa de outro vencimento.",
+  "contexto": "Quem já tem o ativo e quer uma estrutura de renda perene.",
+  "janela": "Booster no vencimento curto; CALL longa no vencimento seguinte.",
+  "montagem": [
+   "Ações em custódia (lastro da CALL extra vendida).",
+   "Compre 1 CALL e venda 2 CALLs acima (o booster).",
+   "Compre a CALL longa, mais acima, em outro vencimento."
+  ],
+  "manejo": "Rolar o booster mês a mês, mantendo a CALL longa como âncora.",
+  "saida": "Estrutura perene: avalie a cada vencimento se o booster ainda fecha perto de custo zero.",
+  "risco": "Queda do ativo em custódia.",
+  "regra": "O quadro registra como rolar o booster mês a mês, mantendo a CALL longa como âncora.",
+  "checklist": [
+   "As ações cobrem a CALL extra vendida?",
+   "O booster fecha perto de custo zero?"
+  ],
+  "m": [
+   "objetivo",
+   "manejo",
+   "regra"
+  ],
+  "fonte": "Apostila do curso"
+ },
+ "booster-horizontal": {
+  "nome": "Booster Horizontal",
+  "fam": "borboleta",
+  "visao": "Razão de calendário · custo zero",
+  "objetivo": "Vender mais opções curtas do que as longas compradas, na proporção calculada por fatoração dos preços, para fechar perto de custo zero.",
+  "contexto": "Exemplo trabalhado com PETR4, versões com CALL e com PUT. É o bloco dos boosters da Quatermine V2.",
+  "janela": "Curta no vencimento próximo; longa no seguinte. Proporção = prêmio da longa ÷ prêmio da curta (arredondada).",
+  "montagem": [
+   "Calcule a razão: prêmio da longa ÷ prêmio da curta.",
+   "Venda a quantidade de curtas indicada pela razão.",
+   "Compre 1 longa no mesmo strike."
+  ],
+  "manejo": "O excesso vendido (razão − 1) fica descoberto: trate-o como venda a seco, com stop e hedge.",
+  "saida": "Role as curtas a cada vencimento; encerre se a razão deixar de fechar a custo zero.",
+  "risco": "A fração vendida a mais age como opção vendida a seco (ex.: 1,5×1 deixa 0,5 vendido).",
+  "regra": "A razão entre as pernas não é arbitrária: fatore os preços para descobrir a proporção que fecha perto de custo zero.",
+  "checklist": [
+   "Calculei a razão pelos preços?",
+   "Sei quanto ficou vendido a seco?",
+   "THL 1×1 não serviria melhor?"
+  ],
+  "m": [
+   "objetivo",
+   "regra",
+   "contexto"
+  ],
+  "fonte": "Apostila do curso"
+ },
+ "booster-put": {
+  "nome": "Booster reverso de PUT (integrado ao caixa)",
+  "fam": "ferramenta",
+  "visao": "Renda sobre caixa",
+  "objetivo": "Usar o caixa como garantia para receber prêmio com o exercício mais perto do dinheiro.",
+  "contexto": "Quem tem caixa e aceitaria comprar o ativo mais barato.",
+  "janela": "Exige dinheiro em caixa ou garantia. 20 a 45 dias úteis.",
+  "montagem": [
+   "Compre 1 PUT.",
+   "Venda 2 PUTs abaixo: uma fica a descoberto, garantida pelo caixa."
+  ],
+  "manejo": "Usar como peça vinculada ao caixa, não isolada.",
+  "saida": "Vencimento ou realização no miolo.",
+  "risco": "Queda forte abaixo do strike vendido: a opção extra vira compra do ativo.",
+  "regra": "Exige caixa ou garantia; peça vinculada ao caixa.",
+  "checklist": [
+   "O caixa cobre o exercício da PUT extra?",
+   "Aceito comprar no strike vendido?"
+  ],
+  "m": [
+   "objetivo",
+   "contexto",
+   "janela",
+   "montagem",
+   "manejo",
+   "regra"
+  ],
+  "fonte": "Manuais do Prof. Su (POPs)"
+ },
+ "borboleta": {
+  "nome": "Borboleta clássica",
+  "fam": "borboleta",
+  "visao": "Alvo de preço · vol cara",
+  "objetivo": "Ganhar muito se o papel terminar perto de um preço-alvo, com custo baixo e risco limitado ao débito.",
+  "contexto": "Alvo de preço preciso no vencimento (lateralidade apertada ou strike que atrai o preço).",
+  "janela": "10 a 30 dias úteis. Débito pequeno; ganho máximo no corpo = largura da asa − débito.",
+  "montagem": [
+   "Compre a CALL do strike de baixo.",
+   "Venda 2 CALLs do strike central (o corpo).",
+   "Compre a CALL do strike de cima (fecha a asa)."
+  ],
+  "manejo": "Se o preço migrar, desloque a borboleta ou feche e remonte no novo alvo.",
+  "saida": "Realize com 50% a 70% do ganho máximo perto do corpo. Stop: encerre se o preço passar da metade da segunda asa.",
+  "risco": "Perde o débito fora das asas.",
+  "regra": "Montar a asa com no mínimo 2,5 desvios-padrão de volatilidade (em PETR4, 1,5 desvio basta), preferencialmente com opções fora do dinheiro. Stop de saída: preço além da metade da segunda asa.",
+  "checklist": [
+   "A asa tem pelo menos 2,5 desvios-padrão?",
+   "O débito é pequeno frente ao ganho máximo?",
+   "Sei onde é a metade da segunda asa (stop)?"
+  ],
+  "m": [
+   "regra",
+   "saida"
+  ],
+  "fonte": "Apostila do curso"
+ },
+ "box-p": {
+  "nome": "Box/p (strangle coberto long put)",
+  "fam": "protecao",
+  "visao": "Box diagonal · renda",
+  "objetivo": "Variação do box com vencimentos diferentes, equivalente a um strangle coberto com uma PUT longa de proteção.",
+  "contexto": "Mesmo uso do Box Perene, montado majoritariamente com PUTs; exemplo do quadro em Itaúsa (ITSA4).",
+  "janela": "Pernas curtas no vencimento próximo; longas no seguinte.",
+  "montagem": [
+   "Compre a CALL longa e venda a CALL curta de strike acima.",
+   "Compre a PUT longa e venda a PUT curta de strike abaixo."
+  ],
+  "manejo": "Role as pernas curtas a cada vencimento (exemplo do quadro: rolagem em ITSA4).",
+  "saida": "Estrutura perene; encerre quando as longas chegarem perto do vencimento.",
+  "risco": "Movimento forte entre as rolagens e liquidez das longas.",
+  "regra": "Mesmo uso do Box Perene, com a vantagem de poder ser montado majoritariamente com PUTs.",
+  "checklist": [
+   "As séries longas têm liquidez?",
+   "O crédito das curtas cobre o carrego?"
+  ],
+  "m": [
+   "objetivo",
+   "regra",
+   "contexto"
+  ],
+  "fonte": "Apostila do curso"
+ },
+ "box-perene": {
+  "nome": "Box Perene",
+  "fam": "protecao",
+  "visao": "Renda fixa sintética · lateral",
+  "objetivo": "Trava de alta de CALL + trava de baixa de PUT nos mesmos strikes: payoff travado igual à distância entre os strikes.",
+  "contexto": "Mercado lateral; ferramenta de financiamento/arbitragem da taxa embutida nas opções, rolada continuamente.",
+  "janela": "Qualquer prazo; compare o retorno (largura − custo) ÷ custo com o CDI do período.",
+  "montagem": [
+   "Compre a trava de alta em CALL (strike baixo/alto).",
+   "Compre a trava de baixa em PUT nos mesmos strikes.",
+   "Confira: custo total < largura."
+  ],
+  "manejo": "Role o box a cada vencimento, sempre conferindo a taxa contra o CDI.",
+  "saida": "Vencimento: recebe a largura exata.",
+  "risco": "Execução e liquidez: com preços do book (não o último negócio) a taxa tende a se aproximar do CDI.",
+  "regra": "Ideal para mercado lateral, usado como \"renda fixa sintética\" rolada continuamente.",
+  "checklist": [
+   "Usei bid/ask, não o último negócio?",
+   "A taxa supera o CDI?",
+   "As 4 séries são líquidas?"
+  ],
+  "m": [
+   "objetivo",
+   "regra",
+   "contexto"
+  ],
+  "fonte": "Apostila do curso"
+ },
+ "bwb": {
+  "nome": "Borboleta de asa quebrada (BWB)",
+  "fam": "borboleta",
+  "visao": "Delta estrutural · crédito",
+  "objetivo": "Aceitar uma perda definida na alta (o delta estrutural) em troca de ganho alto no miolo.",
+  "contexto": "Substitui a trava diagonal simples, que no Brasil sofre com vol implícita alta.",
+  "janela": "Condição de entrada: receber na montagem pelo menos o valor do delta estrutural (−K1 + 2K2 − K3).",
+  "montagem": [
+   "Compre 1 CALL do strike de baixo (ITM).",
+   "Venda 2 CALLs do strike central (ATM): o corpo.",
+   "Compre 1 CALL distante: a asa quebrada, mais longe que a outra."
+  ],
+  "manejo": "Montar só quando a condição de crédito for cumprida.",
+  "saida": "Realize perto do corpo no vencimento; com o crédito cobrindo o delta estrutural, a alta forte não gera perda.",
+  "risco": "Alta forte: a perda é o delta estrutural mais o custo, se a condição não for cumprida.",
+  "regra": "Receber na montagem pelo menos o delta estrutural.",
+  "checklist": [
+   "Calculei −K1 + 2K2 − K3?",
+   "O crédito cobre esse valor?"
+  ],
+  "m": [
+   "janela",
+   "manejo",
+   "regra",
+   "contexto"
+  ],
+  "fonte": "Manuais do Prof. Su (POPs)"
+ },
+ "calendar-butterfly": {
+  "nome": "Calendar Butterfly",
+  "fam": "calendario",
+  "visao": "Alvo de preço · tempo a favor",
+  "objetivo": "Borboleta assimétrica no tempo: corpo comprado no vencimento longo e asas vendidas no curto.",
+  "contexto": "Alvo de preço no vencimento curto; gasta menos capital que a borboleta comum e o tempo trabalha mais a favor.",
+  "janela": "Asas curtas com 8 a 25 dias úteis; corpo no vencimento seguinte.",
+  "montagem": [
+   "Venda a CALL curta do strike de baixo (asa).",
+   "Compre 2 CALLs longas do strike central (corpo).",
+   "Venda a CALL curta do strike de cima (asa)."
+  ],
+  "manejo": "No vencimento curto, as asas viram pó ou são recompradas; o corpo longo vira matéria-prima de nova estrutura.",
+  "saida": "Realize perto do corpo no vencimento curto.",
+  "risco": "Movimento forte para fora das asas e queda da vol do corpo.",
+  "regra": "Ativos sugeridos: BOVA11, PETR4, ABEV3. Montar com CALL.",
+  "checklist": [
+   "O alvo está no strike do corpo?",
+   "A série longa é líquida?"
+  ],
+  "m": [
+   "regra",
+   "contexto"
+  ],
+  "fonte": "Apostila do curso · leitura das pernas: Kaplan, Opções na Prática vol. 2"
+ },
+ "call-compra": {
+  "nome": "Compra de CALL",
+  "fam": "fund",
+  "visao": "Alta forte · vol barata",
+  "objetivo": "Ter exposição à alta com perda máxima conhecida: o prêmio pago.",
+  "contexto": "Rompimento ou tendência de alta com gatilho claro, volatilidade implícita baixa (abaixo da histórica) e prazo compatível com o movimento esperado.",
+  "janela": "20 a 45 dias úteis, para o movimento acontecer antes de o theta acelerar. Evite carregar a última semana (efeito hole). Débito = prêmio.",
+  "montagem": [
+   "Defina alvo e prazo do movimento antes de escolher a série.",
+   "Escolha strike ATM ou levemente OTM (delta entre 0,40 e 0,60).",
+   "Compre com ordem limitada, perto do meio do spread."
+  ],
+  "manejo": "Se o movimento vier cedo, realize parte ou transforme em trava de alta vendendo uma CALL acima: trava o ganho e reduz o theta.",
+  "saida": "Realize no alvo técnico (50% a 100% sobre o prêmio). Stop em 50% do prêmio ou na invalidação da tese. Não carregue para os últimos 5 dias úteis.",
+  "risco": "Theta e queda da vol: o papel pode subir devagar e a opção ainda perder valor.",
+  "checklist": [
+   "Sei quanto o papel precisa subir para pagar o prêmio (break-even)?",
+   "O prazo cobre o tempo do movimento?",
+   "A vol implícita está barata frente à histórica?",
+   "Perder 100% do prêmio cabe no meu plano?"
+  ],
+  "m": [],
+  "regra": "",
+  "fonte": "Padrão Opcionando"
+ },
+ "call-venda": {
+  "nome": "Venda de CALL a seco (descoberta)",
+  "fam": "fund",
+  "visao": "Baixa ou lateral · vol cara",
+  "objetivo": "Receber o prêmio apostando que o papel não passa do strike até o vencimento.",
+  "contexto": "Resistência forte acima, vol implícita cara e nenhum evento no prazo. Só para quem tem margem e entende o risco ilimitado.",
+  "janela": "20 a 45 dias úteis. Crédito = prêmio. Exige margem bloqueada na corretora.",
+  "montagem": [
+   "Confirme a margem disponível e o limite de perda em R$.",
+   "Venda CALL OTM (delta até 0,30), acima de uma resistência.",
+   "Registre o stop antes de enviar a ordem."
+  ],
+  "manejo": "Na alta, recompre ou aplique um dos hedges da família “Hedge · ajustes” (Inverse Line, Booster Horizontal, Linha de Mannerheim). Nunca aumente a posição vendida para \"fazer preço médio\".",
+  "saida": "Recompre com 50% a 70% do prêmio capturado. Stop quando a perda chegar a 2× o prêmio recebido ou no rompimento da resistência.",
+  "risco": "Perda teoricamente ilimitada numa alta forte (gap, short squeeze).",
+  "regra": "Comece sempre pela venda coberta. Venda a seco só com plano de hedge pronto.",
+  "checklist": [
+   "Tenho margem para um gap de alta?",
+   "O stop está definido em R$?",
+   "Há evento (balanço, eleição) até o vencimento?",
+   "Sei qual hedge farei se o strike for ameaçado?"
+  ],
+  "m": [],
+  "fonte": "Padrão Opcionando"
+ },
+ "colar-perene": {
+  "nome": "Hedge Geral — Colar Perene",
+  "fam": "protecao",
+  "visao": "Proteção contínua da carteira",
+  "objetivo": "A versão \"para sempre\" do collar: ação + PUT comprada + CALL vendida, rolado indefinidamente.",
+  "contexto": "Carteira de longo prazo; priorize séries com liquidez nas opções longas P, T e X (PUTs de abril, agosto e dezembro).",
+  "janela": "PUT longa como base (meses à frente); CALL vendida mensal.",
+  "montagem": [
+   "Compre a PUT longa como base do hedge.",
+   "Venda CALL OTM mensal para financiar.",
+   "Faça o hedge de forma gradativa: não proteja 100% de uma vez."
+  ],
+  "manejo": "Role a CALL todo mês; alongue a PUT quando ela ficar curta.",
+  "saida": "Estrutura perene.",
+  "risco": "Custo de oportunidade na alta e custo da PUT se a CALL não financiar.",
+  "regra": "Comprar PUT longa como base do hedge e realizar o hedge de forma gradativa.",
+  "checklist": [
+   "A série longa é P, T ou X líquida?",
+   "Qual % da carteira já está protegido?"
+  ],
+  "m": [
+   "objetivo",
+   "regra",
+   "contexto",
+   "montagem"
+  ],
+  "fonte": "Apostila do curso"
+ },
+ "collar": {
+  "nome": "Collar (proteção financiada)",
+  "fam": "protecao",
+  "visao": "Proteção · custo zero",
+  "objetivo": "Abrir mão da alta acima de um teto para ter um piso sem tirar dinheiro do bolso.",
+  "contexto": "Atravessar períodos de incerteza, como eleições e balanços, com o ativo em custódia.",
+  "janela": "Antes do evento de incerteza. Custo próximo de zero (CALL paga a PUT).",
+  "montagem": [
+   "Ativo em custódia.",
+   "Venda CALL OTM: o teto que paga a proteção.",
+   "Compre PUT OTM com o prêmio recebido: o piso."
+  ],
+  "manejo": "Desmontar ou rolar depois do evento.",
+  "saida": "Encerre depois do evento ou no vencimento.",
+  "risco": "Perde a alta acima do teto.",
+  "regra": "Montar antes do evento de incerteza; desmontar ou rolar depois.",
+  "checklist": [
+   "O custo líquido está perto de zero?",
+   "O piso protege o que preciso?",
+   "Sei quando desmonto?"
+  ],
+  "m": [
+   "contexto",
+   "janela",
+   "manejo",
+   "regra"
+  ],
+  "fonte": "Manuais do Prof. Su (POPs)"
+ },
+ "condor": {
+  "nome": "Iron condor",
+  "fam": "vol",
+  "visao": "Lateral · vol cara",
+  "objetivo": "Vender um strangle protegido pelas pontas: ganho limitado ao crédito, com alta probabilidade dentro do canal.",
+  "contexto": "Lateralidade entre suporte e resistência claros, vol cara e nenhum evento no prazo.",
+  "janela": "20 a 45 dias úteis. Crédito recebido; perda máxima = maior largura − crédito.",
+  "montagem": [
+   "Venda PUT abaixo do preço (suporte) e compre PUT mais abaixo.",
+   "Venda CALL acima do preço (resistência) e compre CALL mais acima."
+  ],
+  "manejo": "Se um lado for testado, role esse lado para longe ou encerre a estrutura.",
+  "saida": "Recompre com 50% do crédito capturado. Stop: perda de 1× a 2× o crédito.",
+  "risco": "Rompimento do canal.",
+  "checklist": [
+   "O canal tem suporte e resistência claros?",
+   "Crédito ≥ 1/3 da largura?",
+   "Sem evento no prazo?"
+  ],
+  "m": [],
+  "regra": "",
+  "fonte": "Padrão Opcionando"
+ },
+ "covered-call": {
+  "nome": "Venda coberta (covered call)",
+  "fam": "renda",
+  "visao": "Alta lenta ou lateral · vol cara",
+  "objetivo": "Transformar a ação em carteira em renda recorrente, aceitando vender no strike + prêmio.",
+  "contexto": "Papel em carteira, sem expectativa de alta forte no curto prazo, com vol implícita cara.",
+  "janela": "20 a 45 dias úteis. Crédito = prêmio. Lastro = ações em custódia.",
+  "montagem": [
+   "Tenha as ações em custódia (lote compatível com as opções).",
+   "Escolha strike acima do preço (OTM), no nível em que aceitaria vender.",
+   "Lance a CALL com ordem limitada."
+  ],
+  "manejo": "Se o papel encostar no strike perto do vencimento, role para cima e para frente a crédito, ou deixe exercer se a rolagem não compensar.",
+  "saida": "Recompre com 70% a 80% do prêmio capturado para relançar. No vencimento, deixe virar pó ou aceite o exercício.",
+  "risco": "Queda do papel (o prêmio amortece pouco) e custo de oportunidade acima do strike.",
+  "regra": "Dica do curso: trate a venda coberta como operação de taxa. Se a rolagem não compensar, deixe ir a exercício.",
+  "checklist": [
+   "Aceito vender a strike + prêmio?",
+   "O prêmio rende acima do CDI no prazo?",
+   "Há dividendos antes do vencimento (risco de exercício antecipado)?",
+   "Sei minha regra de rolagem?"
+  ],
+  "m": [
+   "regra"
+  ],
+  "fonte": "Padrão Opcionando + Apostila do curso"
+ },
+ "dividendo-sint": {
+  "nome": "Dividendo sintético",
+  "fam": "renda",
+  "visao": "Alta · renda parcial",
+  "objetivo": "Gerar fluxo parecido com dividendo lançando CALL sobre só uma fatia da posição.",
+  "contexto": "Você quer renda recorrente sem abrir mão do potencial de alta da maior parte da carteira.",
+  "janela": "Ciclos mensais. Lance de 20% a 30% da posição (no exemplo, 30%).",
+  "montagem": [
+   "Defina a fatia da carteira (ex.: 30% das ações).",
+   "Lance CALL OTM só sobre essa fatia.",
+   "Mantenha o restante livre para capturar a alta."
+  ],
+  "manejo": "Se a CALL for ameaçada, role apenas a fatia lançada. O restante da posição segue intacto.",
+  "saida": "Recompre com 70% a 80% do prêmio capturado e relance.",
+  "risco": "Queda do papel: a renda amortece pouco.",
+  "regra": "Diferente da venda coberta tradicional, a estrutura de renda fica sobre uma parcela pequena da carteira.",
+  "checklist": [
+   "Qual fatia aceito ver exercida?",
+   "O prêmio da fatia compensa?",
+   "Tenho regra de rolagem só para a fatia?"
+  ],
+  "m": [
+   "objetivo",
+   "regra"
+  ],
+  "fonte": "Apostila do curso"
+ },
+ "fence": {
+  "nome": "Fence",
+  "fam": "direcional",
+  "visao": "Defesa após alta forte",
+  "objetivo": "Usar a venda de uma CALL para financiar uma trava de baixa de PUT que protege quem já tem o ativo.",
+  "contexto": "Mercado que subiu forte e você já possui o ativo: quer travar parte do ganho contra uma correção.",
+  "janela": "15 a 45 dias úteis. Custo próximo de zero.",
+  "montagem": [
+   "Tenha o ativo em custódia.",
+   "Venda CALL acima do preço (o teto que paga a defesa).",
+   "Compre PUT perto do preço e venda PUT abaixo (a trava de baixa)."
+  ],
+  "manejo": "Se a correção vier, encerre a trava de PUT no suporte. Se o papel subir até a CALL, role ou aceite o exercício.",
+  "saida": "Encerrar a defesa depois da correção ou do vencimento.",
+  "risco": "Abaixo da PUT vendida a proteção acaba; acima da CALL o ganho fica travado.",
+  "regra": "Ideal montar quando o mercado subiu forte e você já possui o ativo.",
+  "checklist": [
+   "Tenho o ativo em custódia?",
+   "Aceito vender no strike da CALL?",
+   "A proteção cobre a correção que espero?"
+  ],
+  "m": [
+   "contexto",
+   "regra"
+  ],
+  "fonte": "Apostila do curso"
+ },
+ "financiamento": {
+  "nome": "Financiamento (renda fixa sintética)",
+  "fam": "renda",
+  "visao": "Neutro · taxa travada",
+  "objetivo": "Comprar a ação e vender CALL dentro do dinheiro para travar uma taxa até o vencimento.",
+  "contexto": "Ativos de menor volatilidade e alta liquidez (índices, ETFs, empresas sólidas), quando a taxa embutida supera o CDI.",
+  "janela": "20 a 45 dias úteis. Desembolso = preço da ação − prêmio. Taxa = (strike − desembolso) ÷ desembolso.",
+  "montagem": [
+   "Compre a ação.",
+   "Venda CALL ITM (strike abaixo do preço) na mesma quantidade.",
+   "Calcule a taxa e compare com o CDI do prazo."
+  ],
+  "manejo": "Se o papel cair abaixo do strike, a taxa encolhe: avalie rolar para um strike menor ou carregar a ação.",
+  "saida": "Exercício no vencimento (cenário-base): você entrega a ação pelo strike e remonta.",
+  "risco": "Queda abaixo do custo líquido (preço − prêmio). A proteção é só o valor extrínseco recebido.",
+  "regra": "Indicado para ativos que oferecem menores taxas: índices, ETFs, empresas sólidas e de baixa volatilidade.",
+  "checklist": [
+   "A taxa supera o CDI do prazo?",
+   "Quanto o papel pode cair até eu perder dinheiro?",
+   "Há dividendo que mude a conta?"
+  ],
+  "m": [
+   "contexto",
+   "regra"
+  ],
+  "fonte": "Apostila do curso"
+ },
+ "fly-modular": {
+  "nome": "Fly Modular",
+  "fam": "borboleta",
+  "visao": "Booster + asa + par binário",
+  "objetivo": "Reconstruir o perfil da borboleta a partir de um booster e uma trava, fechando o delta estrutural em zero.",
+  "contexto": "Montar sempre como ZCC (custo líquido zero), acompanhado de uma PUT vendida como par binário.",
+  "janela": "15 a 35 dias úteis.",
+  "montagem": [
+   "Booster: compre 1 CALL e venda 2 CALLs acima.",
+   "Compre a CALL da asa de cima: delta estrutural zero.",
+   "Venda a PUT do par binário para zerar o custo."
+  ],
+  "manejo": "A PUT vendida é a assunção: trate como venda garantida (caixa reservado).",
+  "saida": "Realize no corpo; a PUT vira pó se o papel ficar acima dela.",
+  "risco": "Queda forte: a PUT vendida do par binário.",
+  "regra": "Recomendado montar sempre como ZCC, sempre acompanhado de uma PUT vendida como par binário.",
+  "checklist": [
+   "Fecha a custo zero?",
+   "O caixa da PUT está reservado?"
+  ],
+  "m": [
+   "objetivo",
+   "regra",
+   "contexto"
+  ],
+  "fonte": "Apostila do curso · decomposição: leitura do laboratório"
+ },
+ "gl-shortput-booster": {
+  "nome": "GL Short Put + Booster Horizontal",
+  "fam": "gradiente",
+  "visao": "Escada de boosters",
+  "objetivo": "Cada camada vende uma PUT e financia um booster horizontal num strike vizinho, formando uma escada.",
+  "contexto": "Sugerido em PETR4 e ABEV3, sempre com ativos em custódia.",
+  "janela": "Curtas no vencimento próximo; CALLs longas no seguinte.",
+  "montagem": [
+   "Ativo em custódia (cobre a CALL extra vendida).",
+   "Venda a PUT do degrau.",
+   "Compre 2 CALLs longas e venda 3 curtas no mesmo strike.",
+   "Repita em strikes progressivamente mais baixos."
+  ],
+  "manejo": "Role as curtas a cada vencimento, degrau por degrau.",
+  "saida": "Encerre a escada se o ativo romper o último degrau.",
+  "risco": "Queda forte: as PUTs vendidas de todos os degraus.",
+  "regra": "Fazer com exposição pequena, sempre com ativos em custódia.",
+  "checklist": [
+   "Exposição pequena?",
+   "Ativo em custódia?",
+   "Caixa para as PUTs?"
+  ],
+  "m": [
+   "objetivo",
+   "contexto",
+   "regra"
+  ],
+  "fonte": "Apostila do curso"
+ },
+ "hedge-assimetrico": {
+  "nome": "Hedge — Assimétrico",
+  "fam": "hedge",
+  "visao": "Manejo de opção vendida",
+  "objetivo": "Combinar uma venda de CALL com a compra de 2 CALLs no mês seguinte, strike vizinho, para ajustar a PUT vendida.",
+  "contexto": "PUT vendida ameaçada: o papel caiu e encostou no strike.",
+  "janela": "No vencimento da opção vendida original, assim que o strike for ameaçado.",
+  "montagem": [
+   "Mantenha a PUT vendida original.",
+   "Venda CALL curta no strike.",
+   "Compre 2 CALLs longas no strike vizinho acima."
+  ],
+  "manejo": "Depois do ajuste, a posição é nova: recalcule break-evens e risco máximo antes de qualquer outro passo.",
+  "saida": "Encerre o conjunto (original + ajuste) junto, de preferência a crédito.",
+  "risco": "Queda forte (PUT original + CALL vendida não protegem a queda).",
+  "regra": "Ajuste para PUT vendida.",
+  "checklist": [
+   "O ajuste reduz o risco, ou só muda de lugar?",
+   "Recalculei o novo break-even?",
+   "A ordem sai a crédito?"
+  ],
+  "m": [
+   "objetivo",
+   "montagem",
+   "regra",
+   "contexto"
+  ],
+  "fonte": "Apostila do curso"
+ },
+ "hedge-booster-h": {
+  "nome": "Hedge — Booster Horizontal",
+  "fam": "hedge",
+  "visao": "Manejo de opção vendida",
+  "objetivo": "Reduzir a exposição da CALL vendida usando uma razão de calendário em PUT.",
+  "contexto": "CALL vendida ameaçada: o papel subiu e encostou no strike.",
+  "janela": "No vencimento da opção vendida original, assim que o strike for ameaçado.",
+  "montagem": [
+   "Mantenha a CALL vendida original.",
+   "Venda 2 PUTs curtas no mesmo strike.",
+   "Compre 1 PUT longa no mesmo strike."
+  ],
+  "manejo": "Depois do ajuste, a posição é nova: recalcule break-evens e risco máximo antes de qualquer outro passo.",
+  "saida": "Encerre o conjunto (original + ajuste) junto, de preferência a crédito.",
+  "risco": "Queda forte: 1 PUT líquida vendida.",
+  "regra": "Ajuste para CALL vendida.",
+  "checklist": [
+   "O ajuste reduz o risco, ou só muda de lugar?",
+   "Recalculei o novo break-even?",
+   "A ordem sai a crédito?"
+  ],
+  "m": [
+   "objetivo",
+   "montagem",
+   "regra",
+   "contexto"
+  ],
+  "fonte": "Apostila do curso"
+ },
+ "hedge-booster-v": {
+  "nome": "Hedge — Booster Vertical",
+  "fam": "hedge",
+  "visao": "Manejo de opção vendida",
+  "objetivo": "Ajuste vertical simples (mesmo vencimento): booster de PUT que soma delta positivo à posição.",
+  "contexto": "CALL vendida ameaçada: o papel subiu e encostou no strike.",
+  "janela": "No vencimento da opção vendida original, assim que o strike for ameaçado.",
+  "montagem": [
+   "Mantenha a CALL vendida original.",
+   "Compre 1 PUT de strike acima.",
+   "Venda 2 PUTs do strike abaixo."
+  ],
+  "manejo": "Depois do ajuste, a posição é nova: recalcule break-evens e risco máximo antes de qualquer outro passo.",
+  "saida": "Encerre o conjunto (original + ajuste) junto, de preferência a crédito.",
+  "risco": "Queda forte: 1 PUT líquida vendida.",
+  "regra": "Ajuste para CALL vendida.",
+  "checklist": [
+   "O ajuste reduz o risco, ou só muda de lugar?",
+   "Recalculei o novo break-even?",
+   "A ordem sai a crédito?"
+  ],
+  "m": [
+   "objetivo",
+   "montagem",
+   "regra",
+   "contexto"
+  ],
+  "fonte": "Apostila do curso"
+ },
+ "hedge-calendar-line": {
+  "nome": "Hedge — Calendar Line",
+  "fam": "hedge",
+  "visao": "Manejo de opção vendida",
+  "objetivo": "Combinar uma perna de calendário com uma trava vertical para suavizar o ajuste da CALL vendida.",
+  "contexto": "CALL vendida ameaçada: o papel subiu e encostou no strike.",
+  "janela": "No vencimento da opção vendida original, assim que o strike for ameaçado.",
+  "montagem": [
+   "Mantenha a CALL vendida original.",
+   "Venda PUT curta no strike.",
+   "Compre CALL longa e venda CALL curta no mesmo strike (calendário)."
+  ],
+  "manejo": "Depois do ajuste, a posição é nova: recalcule break-evens e risco máximo antes de qualquer outro passo.",
+  "saida": "Encerre o conjunto (original + ajuste) junto, de preferência a crédito.",
+  "risco": "Movimento forte para qualquer lado.",
+  "regra": "Ajuste para CALL vendida.",
+  "checklist": [
+   "O ajuste reduz o risco, ou só muda de lugar?",
+   "Recalculei o novo break-even?",
+   "A ordem sai a crédito?"
+  ],
+  "m": [
+   "objetivo",
+   "montagem",
+   "regra",
+   "contexto"
+  ],
+  "fonte": "Apostila do curso"
+ },
+ "hedge-inverse": {
+  "nome": "Hedge — Inverse Line",
+  "fam": "hedge",
+  "visao": "Manejo de opção vendida",
+  "objetivo": "Substituir a CALL vendida por uma combinação invertida no mesmo strike, no lado oposto do book: a posição vira uma PUT vendida.",
+  "contexto": "CALL vendida ameaçada: o papel subiu e encostou no strike.",
+  "janela": "No vencimento da opção vendida original, assim que o strike for ameaçado.",
+  "montagem": [
+   "Mantenha a CALL vendida original.",
+   "Compre CALL no mesmo strike (anula a original).",
+   "Venda PUT no mesmo strike."
+  ],
+  "manejo": "Depois do ajuste, a posição é nova: recalcule break-evens e risco máximo antes de qualquer outro passo.",
+  "saida": "Encerre o conjunto (original + ajuste) junto, de preferência a crédito.",
+  "risco": "A posição passa a perder na queda (PUT vendida).",
+  "regra": "Ajuste para CALL vendida.",
+  "checklist": [
+   "O ajuste reduz o risco, ou só muda de lugar?",
+   "Recalculei o novo break-even?",
+   "A ordem sai a crédito?"
+  ],
+  "m": [
+   "objetivo",
+   "montagem",
+   "regra",
+   "contexto"
+  ],
+  "fonte": "Apostila do curso"
+ },
+ "hedge-mannerheim": {
+  "nome": "Hedge — Linha de Mannerheim",
+  "fam": "hedge",
+  "visao": "Manejo de opção vendida",
+  "objetivo": "A receita do Gradiente Linear aplicada como ajuste pontual: venda de PUT + 3 THLs de CALL.",
+  "contexto": "CALL vendida ameaçada: o papel subiu e encostou no strike.",
+  "janela": "No vencimento da opção vendida original, assim que o strike for ameaçado.",
+  "montagem": [
+   "Mantenha a CALL vendida original.",
+   "Venda PUT curta no strike.",
+   "Compre 3 CALLs longas e venda 3 curtas no mesmo strike."
+  ],
+  "manejo": "Depois do ajuste, a posição é nova: recalcule break-evens e risco máximo antes de qualquer outro passo.",
+  "saida": "Encerre o conjunto (original + ajuste) junto, de preferência a crédito.",
+  "risco": "Queda forte (PUT vendida).",
+  "regra": "Ajuste para CALL vendida.",
+  "checklist": [
+   "O ajuste reduz o risco, ou só muda de lugar?",
+   "Recalculei o novo break-even?",
+   "A ordem sai a crédito?"
+  ],
+  "m": [
+   "objetivo",
+   "montagem",
+   "regra",
+   "contexto"
+  ],
+  "fonte": "Apostila do curso"
+ },
+ "hedge-straddle-din": {
+  "nome": "Hedge — Straddle Dinâmico",
+  "fam": "hedge",
+  "visao": "Manejo de opção vendida",
+  "objetivo": "Redistribuir o risco de uma CALL vendida isolada entre strikes vizinhos, formando um straddle gerenciado ativamente.",
+  "contexto": "CALL vendida ameaçada: o papel subiu e encostou no strike.",
+  "janela": "No vencimento da opção vendida original, assim que o strike for ameaçado.",
+  "montagem": [
+   "Recompre a CALL vendida original.",
+   "Venda a CALL do strike de cima.",
+   "Venda a PUT do mesmo strike de cima."
+  ],
+  "manejo": "Depois do ajuste, a posição é nova: recalcule break-evens e risco máximo antes de qualquer outro passo.",
+  "saida": "Encerre o conjunto (original + ajuste) junto, de preferência a crédito.",
+  "risco": "Movimento forte para qualquer lado (straddle vendido).",
+  "regra": "Ajuste para CALL vendida.",
+  "checklist": [
+   "O ajuste reduz o risco, ou só muda de lugar?",
+   "Recalculei o novo break-even?",
+   "A ordem sai a crédito?"
+  ],
+  "m": [
+   "objetivo",
+   "montagem",
+   "regra",
+   "contexto"
+  ],
+  "fonte": "Apostila do curso"
+ },
+ "hedge-straddle-ha": {
+  "nome": "Hedge — Straddle HA",
+  "fam": "hedge",
+  "visao": "Manejo de opção vendida",
+  "objetivo": "Straddle parcialmente coberto, usado como hedge da PUT vendida.",
+  "contexto": "PUT vendida ameaçada: o papel caiu e encostou no strike.",
+  "janela": "No vencimento da opção vendida original, assim que o strike for ameaçado.",
+  "montagem": [
+   "Mantenha a PUT vendida original.",
+   "Venda CALL curta no strike.",
+   "Compre 2 CALLs de vencimento mais longo acima."
+  ],
+  "manejo": "Depois do ajuste, a posição é nova: recalcule break-evens e risco máximo antes de qualquer outro passo.",
+  "saida": "Encerre o conjunto (original + ajuste) junto, de preferência a crédito.",
+  "risco": "Queda forte.",
+  "regra": "Ajuste para PUT vendida.",
+  "checklist": [
+   "O ajuste reduz o risco, ou só muda de lugar?",
+   "Recalculei o novo break-even?",
+   "A ordem sai a crédito?"
+  ],
+  "m": [
+   "objetivo",
+   "montagem",
+   "regra",
+   "contexto"
+  ],
+  "fonte": "Apostila do curso"
+ },
+ "hexabox": {
+  "nome": "Mônada Hexabox",
+  "fam": "monada",
+  "visao": "Neutra · faixa central",
+  "objetivo": "Pagar um pequeno débito para ter rolagem dupla (duas curtas contra uma longa) nos dois lados, com asas travadas.",
+  "contexto": "Ativos estacionários que orbitam uma faixa central, como BOVA11.",
+  "janela": "Débito de montagem de R$ 0,10 a R$ 0,20 por lote, segundo o curso.",
+  "montagem": [
+   "Compre CALL ITM e venda 2 CALLs ATM.",
+   "Compre PUT ITM e venda 2 PUTs ATM.",
+   "Compre a CALL longa acima (asa de cima).",
+   "Compre a PUT longa abaixo (asa de baixo)."
+  ],
+  "manejo": "A primeira rolagem recupera o custo. As seguintes viram lucro livre para alongar as pontas longas.",
+  "saida": "Estrutura de ciclo.",
+  "risco": "Saída da faixa central antes de as rolagens recuperarem o custo.",
+  "regra": "Débito pequeno; primeira rolagem recupera o custo.",
+  "checklist": [
+   "O débito está na faixa do POP?",
+   "O ativo orbita uma faixa?"
+  ],
+  "m": [
+   "objetivo",
+   "contexto",
+   "janela",
+   "montagem",
+   "manejo",
+   "risco",
+   "regra"
+  ],
+  "fonte": "Manuais do Prof. Su (POPs)"
+ },
+ "hyperfly": {
+  "nome": "Hyperfly",
+  "fam": "borboleta",
+  "visao": "Poder de cobertura · delta estrutural zero",
+  "objetivo": "Explorar a magnitude do poder de cobertura de uma opção com razão de pernas maior que o padrão 1-2-1.",
+  "contexto": "Montada com CALL ou com PUT; bem calibrada, fecha com delta estrutural zero.",
+  "janela": "10 a 35 dias úteis, mesmo vencimento.",
+  "montagem": [
+   "Compre 1 opção do strike de baixo.",
+   "Venda 3 do strike central.",
+   "Compre 2 do strike de cima, ajustando os strikes para delta estrutural zero (−K1 + 3K2 − 2K3 ≈ 0)."
+  ],
+  "manejo": "Desloque a estrutura se o preço sair do miolo.",
+  "saida": "Realize perto do strike central.",
+  "risco": "Movimento entre o corpo e a asa de cima, onde fica a perda máxima.",
+  "regra": "Bem calibrada, a estrutura fecha com delta estrutural igual a zero.",
+  "checklist": [
+   "Calculei o delta estrutural?",
+   "Sei onde fica a perda máxima?"
+  ],
+  "m": [
+   "objetivo",
+   "regra",
+   "contexto"
+  ],
+  "fonte": "Apostila do curso · razão 1-3-2: leitura do laboratório"
+ },
+ "linha-mannerheim": {
+  "nome": "GL de Linha de Mannerheim",
+  "fam": "gradiente",
+  "visao": "Venda ATM financiando THLs",
+  "objetivo": "Vender uma opção ATM e usar o prêmio para comprar 2,5 a 3 unidades de THL do outro lado.",
+  "contexto": "O prêmio da venda ATM financia uma quantidade generosa de proteção via calendários (o nome remete a uma linha de fortificação).",
+  "janela": "THLs com mais de 22 dias úteis até a curta.",
+  "montagem": [
+   "LM: venda a PUT ATM.",
+   "Compre 2,5 a 3 THLs de CALL (vende curta, compra longa, mesmo strike).",
+   "(LMR, a reversa: venda CALL ATM + THLs de PUT.)"
+  ],
+  "manejo": "Role as curtas das THLs; o caixa alonga a THL mais crítica.",
+  "saida": "Estrutura de ciclo.",
+  "risco": "A opção ATM vendida a seco.",
+  "regra": "Receita de razão fixa: 2,5 a 3 unidades de THL para cada opção ATM vendida.",
+  "checklist": [
+   "Razão entre 2,5 e 3 THLs por opção vendida?",
+   "Sei o risco da ponta vendida?"
+  ],
+  "m": [
+   "objetivo",
+   "regra",
+   "montagem",
+   "contexto"
+  ],
+  "fonte": "Apostila do curso"
+ },
+ "malha-bw": {
+  "nome": "Malha de Broken Wings",
+  "fam": "borboleta",
+  "visao": "Alívio de PUT vendida",
+  "objetivo": "Camadas de borboletas de asas assimétricas, cada uma deslocando um pouco as asas, para aliviar uma PUT vendida desconfortável.",
+  "contexto": "PUT vendida pressionada; montar sempre de forma dual (PUT e CALL).",
+  "janela": "Mesmo vencimento da posição a aliviar.",
+  "montagem": [
+   "Compre 2 CALLs do strike de baixo.",
+   "Venda 3 CALLs do strike central.",
+   "Compre 1 CALL acima (proteção). Repita em camadas deslocadas."
+  ],
+  "manejo": "Acrescente ou retire camadas conforme o preço anda.",
+  "saida": "Desmonte com o preço dentro da malha.",
+  "risco": "Se o ativo subir acima da ponta superior da malha, a estrutura passa a custar dinheiro para ser desmontada.",
+  "regra": "Montar sempre de forma dual (PUT e CALL).",
+  "checklist": [
+   "A malha é dual?",
+   "Sei o custo de desmontar acima da ponta superior?"
+  ],
+  "m": [
+   "objetivo",
+   "regra",
+   "risco",
+   "contexto"
+  ],
+  "fonte": "Apostila do curso"
+ },
+ "mannerheim": {
+  "nome": "Mônada Mannerheim",
+  "fam": "monada",
+  "visao": "Levemente baixista · delta negativo",
+  "objetivo": "Aceitar o risco de uma CALL vendida a seco para financiar três THLs de PUT que geram caixa por theta.",
+  "contexto": "Ativos líquidos que oscilam em canal (BOVA11, PETR4, BBAS3).",
+  "janela": "Início de série, com 30 a 45 dias úteis até as curtas. Custo zero ou aporte pequeno.",
+  "montagem": [
+   "Venda 1 kg de CALL ATM a seco: o crédito é a matéria-prima.",
+   "THL de PUT no strike ATM: vende a curta, compra a longa.",
+   "THL de PUT no strike seguinte.",
+   "THL de PUT no terceiro strike."
+  ],
+  "manejo": "Na 1ª rolagem, o caixa das THLs alonga a THL ATM em 1 mês. Nas seguintes, compra proteções de CALL OTM longas até zerar o delta estrutural.",
+  "saida": "Estrutura de ciclo (estudo de 12 semanas).",
+  "risco": "Fica todo na CALL vendida: uma alta forte domina o resultado.",
+  "regra": "Custo zero ou aporte pequeno; 30 a 45 dias úteis.",
+  "checklist": [
+   "Fecha a custo zero?",
+   "Sei como vou proteger a CALL vendida nas rolagens?"
+  ],
+  "m": [
+   "objetivo",
+   "contexto",
+   "janela",
+   "montagem",
+   "manejo",
+   "risco",
+   "regra"
+  ],
+  "fonte": "Manuais do Prof. Su (POPs)"
+ },
+ "modulo-q": {
+  "nome": "Módulo Q",
+  "fam": "modular",
+  "visao": "Eficiência de capital",
+  "objetivo": "Substituir uma opção ITM (que consome mais capital) por uma estrutura de razão 1×2 num strike vizinho, liberando capital.",
+  "contexto": "Quando você está com CALL ou PUT ITM (dentro do dinheiro).",
+  "janela": "Longa no vencimento distante; 2 curtas no próximo.",
+  "montagem": [
+   "Compre a opção longa no strike de baixo.",
+   "Venda 2 opções curtas no strike vizinho acima."
+  ],
+  "manejo": "Role as curtas a cada vencimento.",
+  "saida": "Encerre quando o objetivo de capital for cumprido.",
+  "risco": "Alta forte: sobra 1 opção curta descoberta.",
+  "regra": "Estratégia ideal quando está com CALL ou PUT ITM.",
+  "checklist": [
+   "A substituição libera capital de fato?",
+   "Sei o risco da curta extra?"
+  ],
+  "m": [
+   "objetivo",
+   "regra",
+   "contexto"
+  ],
+  "fonte": "Apostila do curso"
+ },
+ "put-compra": {
+  "nome": "Compra de PUT",
+  "fam": "fund",
+  "visao": "Baixa ou proteção · vol barata",
+  "objetivo": "Lucrar na queda ou segurar a carteira com custo máximo conhecido.",
+  "contexto": "Perda de suporte, topo técnico ou proteção antes de um evento, com vol implícita barata.",
+  "janela": "Proteção: 20 a 60 dias úteis (mais prazo, theta diário menor). Especulação: o prazo do movimento. Débito = prêmio.",
+  "montagem": [
+   "Decida se é aposta (strike ATM) ou seguro (strike OTM, no nível de perda aceitável).",
+   "Na proteção, compre quantidade proporcional às ações em carteira.",
+   "Compre com ordem limitada."
+  ],
+  "manejo": "Seguro: role para frente quando faltarem cerca de 10 dias úteis ou depois do evento. Especulação: após a queda, venda uma PUT abaixo e forme trava de baixa.",
+  "saida": "Especulação: realize no suporte-alvo; stop em 50% do prêmio. Proteção: mantenha enquanto existir o risco que motivou a compra.",
+  "risco": "Theta e queda da vol depois do evento: o seguro \"expira\" se nada acontecer.",
+  "checklist": [
+   "É seguro ou especulação? (muda strike e prazo)",
+   "Quanto custa o seguro em % da carteira?",
+   "Qual o break-even?",
+   "Quando vou rolar ou encerrar?"
+  ],
+  "m": [],
+  "regra": "",
+  "fonte": "Padrão Opcionando"
+ },
+ "put-venda": {
+  "nome": "Venda de PUT garantida em caixa",
+  "fam": "fund",
+  "visao": "Alta ou lateral · vol cara",
+  "objetivo": "Ser remunerado para esperar a compra do papel num preço que você já aceitaria pagar.",
+  "contexto": "Papel de qualidade que você quer ter, suporte abaixo do strike e vol implícita cara (prêmio gordo).",
+  "janela": "20 a 45 dias úteis. Crédito = prêmio. Caixa reservado = strike × quantidade.",
+  "montagem": [
+   "Escolha o strike no preço em que compraria o papel de bom grado.",
+   "Reserve o caixa (strike × quantidade).",
+   "Venda a PUT com ordem limitada."
+  ],
+  "manejo": "Na queda, role para baixo e para frente a crédito ou aceite o exercício e passe a lançar CALL coberta.",
+  "saida": "Recompre com 50% a 70% do prêmio capturado ou deixe virar pó. Se exercido, o custo efetivo é strike − prêmio.",
+  "risco": "Queda forte: você compra pelo strike mesmo com o mercado bem abaixo.",
+  "regra": "Venda sempre com lastro (caixa reservado), nunca descoberta.",
+  "checklist": [
+   "Quero mesmo ter esse papel a esse preço?",
+   "O caixa está reservado?",
+   "O custo efetivo (strike − prêmio) faz sentido?",
+   "Há balanço ou evento antes do vencimento?"
+  ],
+  "m": [],
+  "fonte": "Padrão Opcionando"
+ },
+ "quatermine-v1": {
+  "nome": "Mônada Quatermine V1",
+  "fam": "monada",
+  "visao": "Defensiva · delta neutro",
+  "objetivo": "Cobrir todas as pontas vendidas com opções mais longas (diagonais), trocando parte do crédito por tranquilidade.",
+  "contexto": "Índices e papéis consolidados (BOVA11), quando se quer reduzir o risco de volatilidade.",
+  "janela": "Início do mês ou da série, com 30 a 45 dias úteis. Custo zero ou débito pequeno.",
+  "montagem": [
+   "Diagonal de CALL: vende CALL curta e compra CALL longa acima.",
+   "Diagonal de PUT 1: vende PUT curta e compra PUT de quatro meses abaixo.",
+   "Diagonal de PUT 2: vende PUT curta e compra PUT de três meses."
+  ],
+  "manejo": "O crédito das rolagens empurra as compradas 1 mês à frente sem tirar do bolso. Com 6 a 10 semanas de distância entre curtas e longas, o excedente vira lucro sacável.",
+  "saida": "Estrutura de ciclo.",
+  "risco": "Queda forte abaixo das PUTs longas e gaps entre rolagens.",
+  "regra": "30 a 45 dias úteis; custo zero ou débito pequeno.",
+  "checklist": [
+   "As três curtas estão cobertas?",
+   "A distância temporal é de 6 a 10 semanas?"
+  ],
+  "m": [
+   "objetivo",
+   "contexto",
+   "janela",
+   "montagem",
+   "manejo",
+   "risco",
+   "regra"
+  ],
+  "fonte": "Manuais do Prof. Su (POPs)"
+ },
+ "quatermine-v2": {
+  "nome": "Mônada Quatermine V2",
+  "fam": "monada",
+  "visao": "Altista · delta positivo",
+  "objetivo": "Aceitar 1 kg líquido vendido em PUT para arrecadar muito mais caixa nas rolagens.",
+  "contexto": "Ações em alta ou consolidação, com boa liquidez de rolagem.",
+  "janela": "Início de ciclo, a custo zero.",
+  "montagem": [
+   "Compre a CALL longa OTM: a parte altista.",
+   "Booster horizontal de PUT 1: vende 1,6 kg de PUT curta, compra 1 kg longa.",
+   "Booster horizontal de PUT 2: vende 1,4 kg de PUT curta, compra 1 kg longa."
+  ],
+  "manejo": "O crédito alto permite alongar as três compradas em 1 mês já na primeira rolagem. Depois, o excedente baixa os strikes das PUTs vendidas.",
+  "saida": "Estrutura de ciclo.",
+  "risco": "Queda forte: o 1 kg líquido de PUT vendida age como PUT a seco.",
+  "regra": "Custo zero no início; exposição líquida vendida em PUT limitada a 1 kg.",
+  "checklist": [
+   "A exposição líquida vendida é de 1 kg?",
+   "Aceito o risco de queda forte?"
+  ],
+  "m": [
+   "objetivo",
+   "contexto",
+   "janela",
+   "montagem",
+   "manejo",
+   "risco",
+   "regra"
+  ],
+  "fonte": "Manuais do Prof. Su (POPs)"
+ },
+ "seagull": {
+  "nome": "Seagull",
+  "fam": "direcional",
+  "visao": "Recuperação após queda forte",
+  "objetivo": "Financiar uma trava de alta de CALL com a venda de uma PUT fora do dinheiro.",
+  "contexto": "Mercado que caiu forte: a PUT vendida fica gorda (vol alta) e barateia a aposta de recuperação.",
+  "janela": "15 a 45 dias úteis. Custo próximo de zero ou crédito.",
+  "montagem": [
+   "Venda PUT OTM (abaixo do preço, num preço em que aceitaria comprar).",
+   "Compre CALL acima do preço.",
+   "Venda CALL mais acima (fecha a trava de alta)."
+  ],
+  "manejo": "Se o papel cair até a PUT vendida, trate como venda de PUT: role para baixo e para frente ou aceite o exercício.",
+  "saida": "Ganho máximo acima da CALL vendida. Realize com 70% a 80% do máximo.",
+  "risco": "Queda forte: a PUT vendida fica a seco.",
+  "regra": "Ideal montar quando o mercado caiu forte.",
+  "checklist": [
+   "Aceito comprar o papel no strike da PUT?",
+   "A estrutura fecha a custo zero ou crédito?",
+   "O caixa da PUT está reservado?"
+  ],
+  "m": [
+   "contexto",
+   "regra"
+  ],
+  "fonte": "Apostila do curso"
+ },
+ "straddle-compra": {
+  "nome": "Straddle comprado",
+  "fam": "vol",
+  "visao": "Movimento forte · vol barata",
+  "objetivo": "Lucrar com um movimento forte, sem precisar acertar a direção.",
+  "contexto": "Antes de um evento (balanço, decisão de juros), enquanto a vol implícita ainda está barata.",
+  "janela": "Montar 5 a 15 dias úteis antes do evento, em série que vença depois dele. Débito = soma dos prêmios.",
+  "montagem": [
+   "Compre a CALL ATM.",
+   "Compre a PUT ATM no mesmo strike e vencimento."
+  ],
+  "manejo": "Depois do movimento, venda a ponta que ganhou ou transforme em trava para reduzir o theta.",
+  "saida": "Encerre logo após o evento: a vol costuma cair (vol crush). Stop: 40% a 50% do débito se o movimento não vier.",
+  "risco": "Ativo parado e queda da vol depois do evento.",
+  "checklist": [
+   "O movimento esperado é maior que o custo total?",
+   "A vol já não subiu demais antes do evento?",
+   "Vou sair logo depois do evento?"
+  ],
+  "m": [],
+  "regra": "",
+  "fonte": "Padrão Opcionando"
+ },
+ "straddle-long-put": {
+  "nome": "Straddle com PUT longa",
+  "fam": "perene",
+  "visao": "Reciclagem · caixa com proteção",
+  "objetivo": "Pagar uma PUT longa para vender straddle curto sem pânico nas quedas.",
+  "contexto": "Geração de caixa constante com proteção patrimonial.",
+  "janela": "PUT longa de 24 meses (POP 08); straddle curto mensal.",
+  "montagem": [
+   "Compre 1 PUT de 2 anos: o escudo contra crises.",
+   "Venda a CALL curta ATM.",
+   "Venda a PUT curta ATM."
+  ],
+  "manejo": "Reduza 10% do lote vendido a cada rolagem credora. As sobras financiam boosters reversos e BWBs a custo zero.",
+  "saida": "Estrutura perene.",
+  "risco": "Alta forte: a CALL vendida fica a descoberto.",
+  "regra": "PUT longa de 1 a 2 anos; regra dos 10% nas rolagens credoras.",
+  "checklist": [
+   "A PUT longa tem prazo suficiente?",
+   "Aplico a regra dos 10%?"
+  ],
+  "m": [
+   "objetivo",
+   "contexto",
+   "janela",
+   "montagem",
+   "manejo",
+   "regra"
+  ],
+  "fonte": "Manuais do Prof. Su (POPs)"
+ },
+ "straddle-perene": {
+  "nome": "Straddle Perene",
+  "fam": "perene",
+  "visao": "Reversão à média após queda",
+  "objetivo": "O prêmio duplo do straddle vendido financia uma CALL de vencimento distante, que protege o lado de cima.",
+  "contexto": "Mercado que caiu muito, apostando em estabilização. Pensado para ser rolado continuamente.",
+  "janela": "Straddle curto mensal; CALL longa meses à frente. ZCC (custo próximo de zero).",
+  "montagem": [
+   "Venda a PUT ATM curta.",
+   "Venda a CALL ATM curta.",
+   "Compre a CALL longa no mesmo strike (proteção)."
+  ],
+  "manejo": "Role o straddle curto a cada vencimento; a CALL longa segue como âncora.",
+  "saida": "Estrutura perene.",
+  "risco": "Queda forte: a PUT vendida fica sem proteção.",
+  "regra": "Ideal montar quando o mercado caiu muito; rolar continuamente.",
+  "checklist": [
+   "O mercado já caiu muito?",
+   "A estrutura fecha perto de custo zero?"
+  ],
+  "m": [
+   "objetivo",
+   "contexto",
+   "regra"
+  ],
+  "fonte": "Apostila do curso"
+ },
+ "straddle-venda": {
+  "nome": "Straddle vendido",
+  "fam": "vol",
+  "visao": "Lateral apertada · vol cara",
+  "objetivo": "Receber o maior crédito possível apostando que o papel fica parado no strike.",
+  "contexto": "Ativo parado num ponto bem definido, vol implícita cara e nenhum evento no prazo.",
+  "janela": "20 a 45 dias úteis. Crédito = soma dos prêmios. Exige margem.",
+  "montagem": [
+   "Venda a CALL ATM.",
+   "Venda a PUT ATM no mesmo strike."
+  ],
+  "manejo": "Rolagem da ponta testada; ou proteja com PUT longa (Straddle com put longa) e boosters.",
+  "saida": "Recompre com 25% a 50% do crédito capturado. Stop: perda de 1× o crédito.",
+  "risco": "Qualquer movimento forte: perda ilimitada na alta e grande na queda.",
+  "regra": "POP 08: o straddle vendido curto ganha um escudo com a compra de uma PUT longa de 2 anos (veja Straddle com put longa).",
+  "checklist": [
+   "Tenho margem para um gap?",
+   "Há evento no prazo?",
+   "A vol implícita está acima da histórica?"
+  ],
+  "m": [
+   "regra"
+  ],
+  "fonte": "Manuais do Prof. Su (POPs)"
+ },
+ "strangle-compra": {
+  "nome": "Strangle comprado",
+  "fam": "vol",
+  "visao": "Movimento explosivo · vol barata",
+  "objetivo": "Apostar num movimento explosivo para qualquer lado, pagando menos que o straddle.",
+  "contexto": "Expectativa de movimento grande, com vol implícita barata.",
+  "janela": "Mesma lógica do straddle: antes do evento, em série que vença depois dele. Débito = soma dos prêmios.",
+  "montagem": [
+   "Compre CALL OTM acima do preço.",
+   "Compre PUT OTM abaixo do preço."
+  ],
+  "manejo": "Realize a ponta vencedora quando o movimento vier.",
+  "saida": "Encerre depois do evento. Stop: 50% do débito.",
+  "risco": "Theta pesado se o ativo ficar no meio.",
+  "checklist": [
+   "O movimento precisa ir além das duas asas mais o custo: é realista?",
+   "A vol está barata?",
+   "Qual o prazo do evento?"
+  ],
+  "m": [],
+  "regra": "",
+  "fonte": "Padrão Opcionando"
+ },
+ "strangle-p": {
+  "nome": "Strangle/P (coberto)",
+  "fam": "perene",
+  "visao": "Mercado sem vol",
+  "objetivo": "Strangle coberto com manejo pré-definido para cada lado.",
+  "contexto": "Mercados sem volatilidade (vol realizada baixa, preço lateral).",
+  "janela": "Vendidas curtas; CALL de proteção mais longa.",
+  "montagem": [
+   "Venda a CALL curta e compre a CALL longa de strike acima.",
+   "Venda a PUT curta."
+  ],
+  "manejo": "Se o preço subir e a CALL ficar ITM, a PUT vira pó e só a CALL precisa de ajuste (e vice-versa). Receita padrão do lado em risco: Booster Reverso.",
+  "saida": "Role as curtas a cada vencimento.",
+  "risco": "Queda forte (PUT vendida).",
+  "regra": "Ideal montar em mercados sem volatilidade; manejo do lado em risco com Booster Reverso.",
+  "checklist": [
+   "A vol realizada está baixa?",
+   "Tenho a receita de manejo de cada lado?"
+  ],
+  "m": [
+   "objetivo",
+   "contexto",
+   "manejo",
+   "regra"
+  ],
+  "fonte": "Apostila do curso"
+ },
+ "strangle-venda": {
+  "nome": "Strangle vendido",
+  "fam": "vol",
+  "visao": "Lateral entre suporte e resistência · vol cara",
+  "objetivo": "Receber crédito numa faixa larga de preço, entre suporte e resistência.",
+  "contexto": "Lateralidade clara, vol cara e nenhum evento no prazo.",
+  "janela": "20 a 45 dias úteis. Crédito = soma dos prêmios. Exige margem.",
+  "montagem": [
+   "Venda CALL OTM na resistência.",
+   "Venda PUT OTM no suporte."
+  ],
+  "manejo": "Se uma ponta for testada, role-a para longe a crédito, ou recompre a ponta que virou pó e reposicione.",
+  "saida": "Recompre com 50% do crédito capturado. Stop: perda de 1× a 2× o crédito.",
+  "risco": "Rompimento da faixa: as duas pontas ficam a seco, com perda ilimitada na alta.",
+  "regra": "Na escola do Prof. Su, o strangle vendido a seco é o que o Módulo B1 substitui: ganho pequeno e angústia constante. O B2 é a versão sintética com platô de ganho.",
+  "checklist": [
+   "Suporte e resistência estão claros?",
+   "Margem suficiente para o pior gap?",
+   "Considerei o B1/B2 como alternativa?"
+  ],
+  "m": [
+   "regra"
+  ],
+  "fonte": "Manuais do Prof. Su (POPs)"
+ },
+ "thl": {
+  "nome": "THL — Trava Horizontal de Linha",
+  "fam": "calendario",
+  "visao": "Ativo perto do strike · vol baixa",
+  "objetivo": "Capturar a diferença de velocidade do theta entre dois vencimentos, no mesmo strike.",
+  "contexto": "Ativo perto do strike no curto prazo e vol baixa com espaço para subir. É o tijolo da Mannerheim e das Básicas.",
+  "janela": "Montar com mais de 22 dias úteis até o vencimento curto. Não manter na última semana, por causa do efeito hole. Débito pequeno.",
+  "montagem": [
+   "Venda a opção de vencimento curto (a perna de curto).",
+   "Compre a opção de vencimento longo, no mesmo strike."
+  ],
+  "manejo": "Rolar a perna de curto a cada vencimento; a longa segue como base.",
+  "saida": "Encerre (ou role a curta) antes da última semana. Stop: perda de 50% do débito, se o preço fugir da linha do strike.",
+  "risco": "Movimento forte para qualquer lado ou queda da vol.",
+  "regra": "Mais de 22 dias úteis até a curta e 1×1 (proporção diferente vira booster). Dica do curso: substituto de menor risco à venda coberta; ideal fazer com CALL e dominar os manejos antes de escalar.",
+  "checklist": [
+   "A curta tem mais de 22 dias úteis?",
+   "É 1×1 mesmo (não booster)?",
+   "Sei quando rolo a perna curta?"
+  ],
+  "m": [
+   "janela",
+   "manejo",
+   "regra",
+   "contexto"
+  ],
+  "fonte": "Manuais do Prof. Su (POPs) + Apostila do curso"
+ },
+ "thl-perene": {
+  "nome": "THL Perene",
+  "fam": "calendario",
+  "visao": "Tesouraria · rolagem contínua",
+  "objetivo": "THL pensado para ser rolado indefinidamente, com custo medido por mês (Unidade Temporal, UT).",
+  "contexto": "Papel líquido com séries longas negociadas; foco em fluxo mensal.",
+  "janela": "Iniciar com opções longas de 3 a 6 meses. Não fazer com opções de 2 anos.",
+  "montagem": [
+   "Compre a opção longa (3 a 6 meses).",
+   "Venda a curta no mesmo strike.",
+   "Calcule o custo por UT: débito ÷ meses de vida da longa."
+  ],
+  "manejo": "Rolar a curta todo mês; quando a longa chegar perto de 2 meses, alongue-a.",
+  "saida": "A estrutura é perene: a \"saída\" é a rolagem. Encerre se o custo por UT deixar de ser coberto pelos créditos.",
+  "risco": "Movimento forte e queda da vol nas longas.",
+  "regra": "Recomendado iniciar com opções de 3 a 6 meses. Não recomendado com opções de 2 anos: tempo demais reduz a eficiência do carrego.",
+  "checklist": [
+   "A longa tem 3 a 6 meses?",
+   "Sei o custo por UT?",
+   "Os créditos mensais cobrem a UT?"
+  ],
+  "m": [
+   "janela",
+   "regra",
+   "objetivo"
+  ],
+  "fonte": "Apostila do curso"
+ },
+ "thl-put": {
+  "nome": "THL/p com PUT",
+  "fam": "calendario",
+  "visao": "Ativo perto do strike · lado defensivo",
+  "objetivo": "A mesma lógica do THL, montada com PUTs, do lado de proteção/baixa.",
+  "contexto": "Mesmo uso do THL; costuma aproveitar curvas de vol invertidas (curto mais caro que o longo).",
+  "janela": "Mais de 22 dias úteis até a curta, como no THL. Débito pequeno.",
+  "montagem": [
+   "Venda a PUT de vencimento curto.",
+   "Compre a PUT de vencimento longo no mesmo strike."
+  ],
+  "manejo": "Rolar a PUT curta a cada vencimento.",
+  "saida": "Encerre ou role antes da última semana.",
+  "risco": "Queda forte muito abaixo do strike.",
+  "regra": "Exige aprender bem os manejos antes de operar sozinho. Se o ativo cair muito abaixo do strike, monte um hedge com broken wings para conter a perda.",
+  "checklist": [
+   "A curta tem mais de 22 dias úteis?",
+   "Tenho o hedge de broken wings planejado para quedas fortes?"
+  ],
+  "m": [
+   "regra",
+   "objetivo"
+  ],
+  "fonte": "Apostila do curso"
+ },
+ "tlad": {
+  "nome": "TLAD — Trava de Linha Assimétrica Dupla",
+  "fam": "perene",
+  "visao": "Tesouraria · fluxo nos dois sentidos",
+  "objetivo": "Aceitar sobras vendidas dos dois lados para ter fluxo de caixa nos dois sentidos; potencializa a venda coberta.",
+  "contexto": "Tesouraria de longo prazo, com rolagens mensais (exemplo do curso: PETR4 a R$ 30).",
+  "janela": "Ciclos mensais.",
+  "montagem": [
+   "Ponta CALL: compre 1 CALL longa e venda 2 curtas no mesmo strike.",
+   "Ponta PUT: compre 1 PUT longa e venda 2 curtas no mesmo strike."
+  ],
+  "manejo": "No vencimento, aproveite o colapso do extrínseco da ponta inutilizada para rolar a ponta viva e remontar a simetria a custo zero. Qualquer direção já tem receita de qual perna fechar e qual abrir.",
+  "saida": "Estrutura perene.",
+  "risco": "Movimento forte: sobra 1 opção vendida em cada ponta.",
+  "regra": "Receita de rolagem pronta para cada direção (alta: −B30 + 3N30; baixa: −N30 + 3B30).",
+  "checklist": [
+   "Sei a receita de rolagem de cada direção?",
+   "As séries longas têm liquidez?"
+  ],
+  "m": [
+   "objetivo",
+   "contexto",
+   "janela",
+   "manejo",
+   "regra"
+  ],
+  "fonte": "Manuais do Prof. Su (POPs) + Apostila do curso"
+ },
+ "trava-alta": {
+  "nome": "Trava de alta com CALL",
+  "fam": "direcional",
+  "visao": "Alta moderada · vol baixa a média",
+  "objetivo": "Apostar na alta até um alvo com custo e risco definidos.",
+  "contexto": "Alta moderada até uma resistência. Ideal depois de uma queda grande do ativo (recuperação).",
+  "janela": "Montar só entre 12 e 6 dias úteis do vencimento. Com mais de 22 dias úteis, o extrínseco impede a trava de reagir ao movimento (knockout temporal). Débito = diferença dos prêmios.",
+  "montagem": [
+   "Compre a CALL de strike menor (perto do preço).",
+   "Venda a CALL de strike maior (no alvo)."
+  ],
+  "manejo": "Não rolar. Se o alvo vier antes, encerre.",
+  "saida": "Ganho máximo acima do strike vendido = largura − débito. Realize com 70% a 80% do máximo. Stop: perda de 50% do débito ou rompimento do suporte.",
+  "risco": "Perder todo o débito se o papel não subir.",
+  "regra": "Janela de 12 a 6 dias úteis. Dica do curso: ideal montar depois de uma queda grande do ativo.",
+  "checklist": [
+   "Estou entre 12 e 6 dias úteis do vencimento?",
+   "O alvo técnico está perto do strike vendido?",
+   "Relação ganho máximo ÷ débito ≥ 1,5?"
+  ],
+  "m": [
+   "janela",
+   "regra"
+  ],
+  "fonte": "Manuais do Prof. Su (POPs) + Apostila do curso"
+ },
+ "trava-alta-put": {
+  "nome": "Trava de alta com PUT (crédito)",
+  "fam": "direcional",
+  "visao": "Alta ou lateral · vol cara",
+  "objetivo": "Receber crédito apostando que o papel fica acima de um suporte, com perda máxima definida.",
+  "contexto": "Alta ou lateralidade acima de um suporte claro, com vol implícita cara.",
+  "janela": "15 a 45 dias úteis (estrutura vendedora de prêmio). Crédito recebido; perda máxima = largura − crédito.",
+  "montagem": [
+   "Venda a PUT de strike maior (abaixo do preço, no suporte).",
+   "Compre a PUT de strike menor (o seguro que trava a perda)."
+  ],
+  "manejo": "Se o suporte for testado, role a trava inteira para baixo e para frente a crédito, ou encerre.",
+  "saida": "Recompre com 50% a 70% do crédito capturado. Stop: perda igual ao crédito recebido ou rompimento do suporte.",
+  "risco": "Abaixo do strike comprado, perde a largura menos o crédito.",
+  "checklist": [
+   "O strike vendido está abaixo de um suporte?",
+   "Crédito ≥ 1/3 da largura?",
+   "Sei onde é o stop?"
+  ],
+  "m": [],
+  "regra": "",
+  "fonte": "Padrão Opcionando"
+ },
+ "trava-baixa": {
+  "nome": "Trava de baixa com PUT",
+  "fam": "direcional",
+  "visao": "Baixa moderada · vol baixa a média",
+  "objetivo": "Apostar na queda até um suporte-alvo com custo e risco definidos.",
+  "contexto": "Correção esperada depois de uma alta grande do ativo, com alvo num suporte.",
+  "janela": "Montar só entre 12 e 6 dias úteis do vencimento; com mais de 22 dias úteis, knockout temporal. Débito = diferença dos prêmios.",
+  "montagem": [
+   "Compre a PUT de strike maior (perto do preço).",
+   "Venda a PUT de strike menor (no alvo)."
+  ],
+  "manejo": "Não rolar. Abaixo do strike vendido o ganho trava: encerre.",
+  "saida": "Ganho máximo = largura − débito. Realize com 70% a 80% do máximo. Stop: perda de 50% do débito.",
+  "risco": "Acima do strike comprado a estrutura vira pó e a perda trava no débito.",
+  "regra": "Janela de 12 a 6 dias úteis. Dica do curso: ideal montar depois de uma alta grande do ativo.",
+  "checklist": [
+   "Estou entre 12 e 6 dias úteis?",
+   "O suporte-alvo coincide com o strike vendido?",
+   "Aceito perder o débito inteiro?"
+  ],
+  "m": [
+   "janela",
+   "regra"
+  ],
+  "fonte": "Manuais do Prof. Su (POPs) + Apostila do curso"
+ },
+ "trava-baixa-call": {
+  "nome": "Trava de baixa com CALL (crédito)",
+  "fam": "direcional",
+  "visao": "Baixa ou lateral · vol cara",
+  "objetivo": "Receber crédito apostando que o papel não passa de uma resistência, com perda máxima definida.",
+  "contexto": "Resistência forte acima, tendência de baixa ou lateral, vol implícita cara.",
+  "janela": "8 a 45 dias úteis. Crédito recebido; perda máxima = largura − crédito.",
+  "montagem": [
+   "Venda a CALL de strike menor (acima do preço, na resistência).",
+   "Compre a CALL de strike maior (limita a perda)."
+  ],
+  "manejo": "Se a resistência romper, encerre ou role para cima e para frente a crédito.",
+  "saida": "Recompre com 50% a 70% do crédito. Stop: perda igual ao crédito ou rompimento da resistência.",
+  "risco": "Acima do strike comprado, perda máxima.",
+  "checklist": [
+   "O strike vendido está acima de uma resistência?",
+   "Crédito ≥ 1/3 da largura?",
+   "Há evento no prazo?"
+  ],
+  "m": [],
+  "regra": "",
+  "fonte": "Padrão Opcionando"
+ }
+}

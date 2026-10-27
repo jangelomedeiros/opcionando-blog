@@ -1,0 +1,113 @@
+---
+import '../../../styles/laboratorio.css';
+import Base from '../../../layouts/Base.astro';
+import Metricas from '../../../components/laboratorio/Metricas.astro';
+import BlocoHoje from '../../../components/laboratorio/BlocoHoje.astro';
+import { DISCLAIMER } from '../../../consts';
+import { ESTRUTURAS, POPS, FAM_COR, grafico, teoria, hoje, lerMercado, hojeIso, rs, br, dmyy, qfmt, moneyness } from '../../../lib/laboratorio';
+
+export function getStaticPaths() {
+  return ESTRUTURAS.map((e, i) => ({ params: { id: e.id }, props: { est: e, i } }));
+}
+const { est, i } = Astro.props;
+const { meta, mercado } = lerMercado();
+const pop = POPS[est.pop];
+const { spot0, at, comp0 } = teoria(est);
+const h = hoje(est, meta, mercado, hojeIso());
+const cor = FAM_COR[est.familia] ?? '#0b3b40';
+const ant = i > 0 ? ESTRUTURAS[i - 1] : null;
+const prox = i < ESTRUTURAS.length - 1 ? ESTRUTURAS[i + 1] : null;
+const mesma = ESTRUTURAS.filter((e) => e.familia === est.familia && e.id !== est.id).slice(0, 6);
+const descricao = `${est.nome}: montagem teórica, gráfico de payoff, ganho e perda máximos, break-even, POP e como montar hoje com preços reais de BBAS3.`;
+---
+<Base title={`${est.nome} | Laboratório de estruturas`} description={descricao}>
+  <section class="container-larga pagina lab" style={`--fc:${cor}`}>
+    <p class="sobretitulo"><a href="/ferramentas">Ferramentas</a> · <a href="/ferramentas/laboratorio">Laboratório de estruturas</a></p>
+    <p class="chip-wrap"><span class="chip">{est.familia}</span>{pop?.visao && <span class="visao">{pop.visao}</span>}</p>
+    <h1>{est.nome}</h1>
+    <p class="intro">{est.racional}</p>
+
+    <section class="sec" id="teoria">
+      <h2><span class="n">1</span>Montagem teórica</h2>
+      <div class="duo">
+        <div class="fig">
+          <Fragment set:html={grafico(at, spot0, { comp: comp0, rotSpot: 'ref. 02/10' })} />
+          <div class="cap"><span><i class="k1"></i>{comp0 ? 'após o ajuste' : 'payoff'}</span>{comp0 && <span><i class="k2"></i>{est.comp_label || 'posição original'}</span>}<span><i class="k3"></i>preço de referência</span></div>
+        </div>
+        <div class="side">
+          <h3 class="mini">Pernas</h3>
+          <div class="twrap">
+            <table class="legs">
+              <thead><tr><th>Lado</th><th>Qtd.</th><th>Instrumento</th><th>Strike</th><th>Prazo</th><th>Prêmio (ilustr.)</th></tr></thead>
+              <tbody>
+                {est.pernas.map((l) => (
+                  <tr>
+                    <td class={l.q > 0 ? 'buy' : 'sell'}>{l.q > 0 ? 'Comprar' : 'Vender'}</td>
+                    <td>{qfmt(l.q)}</td>
+                    <td>{l.t === 'S' ? 'Ação (custódia)' : l.t === 'C' ? 'CALL' : 'PUT'}</td>
+                    <td>{l.t === 'S' ? '—' : <>{rs(l.k!)}<small>{moneyness(l, spot0)}</small></>}</td>
+                    <td>{l.t === 'S' ? '—' : `${l.d} du`}</td>
+                    <td>{rs(l.px)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <p class="nota">Exemplo calibrado com BBAS3 a {rs(spot0)} em {dmyy(est.ref.data)}. Os prêmios são ilustrativos; o que vale é a relação entre os strikes e os prazos.</p>
+        </div>
+      </div>
+      <Metricas a={at} />
+      {est.modo === 'mtm' && <p class="nota">Curva no primeiro vencimento ({at.d0} du). As pernas mais longas são avaliadas por Black-Scholes com a VI de entrada congelada e carry zero.</p>}
+      <div class="esperar">
+        <h3 class="mini">O que esperar</h3>
+        <p>{est.esperado}</p>
+        {est.notas.length > 0 && <ul class="notas">{est.notas.map((n) => <li>{n}</li>)}</ul>}
+      </div>
+    </section>
+
+    <section class="sec" id="pop">
+      <h2><span class="n">2</span>Procedimento operacional (POP)</h2>
+      {pop ? (
+        <div class="pop">
+          <div class="pgrid">
+            <div class="pb"><h3 class="mini">Objetivo</h3><p>{pop.objetivo}</p></div>
+            <div class="pb"><h3 class="mini">Contexto de entrada</h3><p>{pop.contexto}</p></div>
+            <div class="pb wide"><h3 class="mini">Janela e custo</h3><p>{pop.janela}</p></div>
+            <div class="pb wide"><h3 class="mini">Montagem, passo a passo</h3><ol>{pop.montagem.map((x) => <li>{x}</li>)}</ol></div>
+            <div class="pb"><h3 class="mini">Manejo</h3><p>{pop.manejo}</p></div>
+            {pop.saida && <div class="pb"><h3 class="mini">Saída e stop</h3><p>{pop.saida}</p></div>}
+            <div class="pb wide risk"><h3 class="mini">Risco principal</h3><p>{pop.risco}</p></div>
+            {pop.regra && <div class="pb wide rule"><h3 class="mini">Regra de escolha</h3><p>{pop.regra}</p></div>}
+            <div class="pb wide">
+              <h3 class="mini">Checklist antes de enviar a ordem</h3>
+              <ul class="chk">{pop.checklist.map((x) => <li><i></i>{x}</li>)}</ul>
+            </div>
+          </div>
+          <p class="fonte">Fonte: {pop.fonte}</p>
+        </div>
+      ) : <p class="nota">Esta estrutura ainda não tem POP publicado.</p>}
+    </section>
+
+    <BlocoHoje est={est} h={h} at={at} />
+
+    <div class="caixa alerta" style="margin-top:2rem">
+      <strong>Teste com os seus números.</strong> Monte esta estrutura perna por perna na <a href="/ferramentas/calculadora-de-payoff">calculadora de payoff</a>.
+      <br /><small>* Probabilidade de lucro estimada pelo modelo (lognormal, Black-Scholes, carry zero, VI das pernas do primeiro vencimento). Não considera custos, impostos, margem, dividendos nem exercício antecipado. Preços de &quot;último negócio&quot; não são bid/ask: confira o book antes de enviar qualquer ordem.</small>
+    </div>
+
+    {mesma.length > 0 && (
+      <>
+        <h2 class="rel">Mais em {est.familia}</h2>
+        <ul class="rel-list">
+          {mesma.map((e) => <li><a href={`/ferramentas/laboratorio/${e.id}/`}>{e.nome}</a></li>)}
+        </ul>
+      </>
+    )}
+    <nav class="prox-ant" aria-label="Navegação entre estruturas">
+      {ant ? <a href={`/ferramentas/laboratorio/${ant.id}/`}>← {ant.nome}</a> : <span></span>}
+      {prox ? <a href={`/ferramentas/laboratorio/${prox.id}/`}>{prox.nome} →</a> : <span></span>}
+    </nav>
+    <p class="aviso-legal">{DISCLAIMER}</p>
+  </section>
+  <script is:inline src="/lab-idade.js" defer></script>
+</Base>

@@ -1,0 +1,26 @@
+---
+import { rs, br, pct, type Analise } from '../../lib/laboratorio';
+interface Props { a: Analise }
+const { a } = Astro.props;
+const c = a.cash;
+const temCaixa = Math.abs(c) > 0.004;
+---
+<div class="tiles">
+  <div class={`tile ${c > 0.004 ? 'pos' : c < -0.004 ? 'neg' : ''}`}>
+    <b>{temCaixa ? rs(Math.abs(c)) : 'R$ 0,00'}</b>
+    <span>{c > 0.004 ? 'crédito das opções' : c < -0.004 ? 'débito das opções' : 'custo zero'}</span>
+    {temCaixa && <em>{rs(Math.abs(c) * 100, 0)} por lote de 100</em>}
+  </div>
+  <div class="tile pos">
+    <b>{a.gain === null ? 'ilimitado' : rs(a.gain)}</b><span>ganho máximo</span>
+    {a.gain !== null && <em>{rs(a.gain * 100, 0)} por lote</em>}
+  </div>
+  <div class="tile neg">
+    <b>{a.loss === null ? 'ilimitada' : rs(a.loss)}</b><span>perda máxima</span>
+    <em>{a.loss === null ? 'a descoberto na ponta de alta' : a.loss_zero ? 'se o ativo for a zero' : `${rs(a.loss * 100, 0)} por lote`}</em>
+  </div>
+  <div class="tile">
+    <b>{a.be.length ? a.be.map((b) => br(b)).join(' · ') : 'sem break-even'}</b><span>break-even{a.be.length > 1 ? 's' : ''}</span><em>preço do ativo no vencimento</em>
+  </div>
+  <div class="tile"><b>{pct(a.prob)}</b><span>prob. de lucro*</span><em>VI média {pct(a.sg)}</em></div>
+</div>
