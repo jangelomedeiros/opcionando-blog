@@ -1,0 +1,95 @@
+exec(open('scripts/blocos.py').read())
+cfg = {
+ 'veredito': [
+  {'rotulo': 'Preço-teto de entrada', 'valor': 'R$ 16,90', 'destaque': True, 'texto': 'Zona do teste secundário, logo acima da mínima do clímax. Com stop em R$ 15,80, entrega 2,3:1 até a VAL de 20 meses (19,38). A R$ 17,47 a relação cai para 1,1:1.'},
+  {'rotulo': 'Zona de acumulação', 'valor': 'R$ 15,2 – 16,5', 'texto': 'Entre a extensão de 127,2% da alta de agosto a outubro (15,23) e a mínima de hoje (16,48). Abaixo dela não há histórico de volume.'},
+  {'rotulo': 'Range 6 meses (base)', 'valor': 'R$ 15,2 – 19,4', 'texto': 'Extremos plausíveis R$ 12,5 – 22. Volatilidade 20d: 136% a.a., quase três vezes a média do ano (47%).'},
+  {'rotulo': 'Viés', 'valor': 'Baixa / clímax?', 'tom': 'baixa', 'texto': 'Abaixo de toda a área de valor, com candidato a clímax de venda. Até o teste secundário, o viés segue de baixa.'},
+ ],
+ 'medias': {'diario': 'MMA20 23,58 · MMA50 22,02 · MMA100 21,03 · MMA200 22,23', 'semanal': 'MMA20 21,18 · MMA50 22,13 · MMA200 24,08'},
+ 'mme': {'nome': 'MME 10 / 20', 'diario': '22,91 / 23,15', 'semanal': '21,92 / 21,74', 'sinal': 'baixa', 'leitura': 'Cruzadas para baixo no diário e R$ 5,50 acima do preço. As médias só vão alcançar o preço com o tempo.'},
+ 'estoc': {'nome': 'Estocástico K/D', 'diario': '23,2 / 28,3', 'semanal': '48,4 / 65,3', 'sinal': 'baixa', 'leitura': 'Cruzado para baixo nos dois tempos. O semanal ainda não chegou à sobrevenda.'},
+ 'cci': {'nome': 'CCI 20', 'diario': '−363', 'semanal': '−148', 'sinal': 'neutro', 'leitura': 'O CCI diário em −363 é o mais extremo da série. Leituras assim são raras e costumam anteceder repique ou lateralização.'},
+ 'atr': {'nome': 'ATR 14', 'diario': 'R$ 1,38 (≈ 7,9% por pregão)', 'sinal': 'neutro', 'leitura': 'Era R$ 0,90 em 15/10. É o maior ATR relativo dos sete papéis: posição precisa ser menor.'},
+ 'rating': {'nome': 'Rating TradingView', 'diario': 'D −0,65 · venda forte', 'semanal': 'S −0,51 · venda forte', 'sinal': 'baixa', 'leitura': 'Venda forte nos dois tempos. Em 15/10, o BB estava acima de todas as médias.'},
+ 'nota': 'Os indicadores do BB estão no extremo da série: **CCI diário em −363, IFR em 27 e fechamento R$ 2,69 abaixo da banda inferior de Bollinger**. É o quadro técnico de um clímax, mas as médias seguem em venda forte nos dois tempos. Extremos assim costumam se resolver com repique ou lateralização; a direção depois disso depende do teste secundário.',
+ 'fluxo': [
+  '**Fluxo vendedor dominante.** Nos 20 pregões até hoje, 480 mi de ações em dias de alta contra 744 mi em dias de queda (9 altas e 11 quedas). Em 15/10 já era vendedor (494 × 546 mi). Em 60 pregões, 1.172 × 1.385 mi.',
+  '**Volume de hoje: 10 vezes a média de 250 dias** (28,4 mi), 5,8 vezes a de 20 e o maior dos 20 meses (286 mi). Abertura e mínima em R$ 16,48 (gap de −33%), máxima de R$ 18,12 e fechamento a 60% do candle.',
+  '**O OBV não confirmou outubro.** O máximo do OBV é de 08/mai. A alta pós 1º turno veio sem o OBV acompanhar, e hoje ele despencou 264 mi em 20 pregões.',
+  '**Leitura Wyckoff:** volume ultra-alto e spread largo têm perfil de **clímax de venda**, mas o fechamento no meio do candle é mais fraco que o do Bradesco (92%) e o do Itaú (82%). A confirmação depende da reação automática e do teste secundário.',
+ ],
+ 'perfilNotas': [
+  '**Abaixo de toda a história recente.** Só 1,4% do volume dos 20 meses foi negociado abaixo de R$ 17,47. Não há referência de volume embaixo: o suporte é só a mínima de hoje.',
+  '**A área de valor ficou acima.** A de 20 meses vai de 19,38 a 24,88 (POC 21,88); a de 6 meses, de 19,12 a 23,88 (POC 20,38). A faixa de R$ 20–22 concentra 34% do volume.',
+  '**Quem está preso.** A VWAP desde o 1º turno está em 22,63: quem comprou depois da eleição paga em média 30% acima do preço atual. A VWAP de 6 meses (21,21) e a de 2026 (22,36) também estão acima.',
+  '**Pivô de hoje.** A VWAP ancorada na mínima de 20 meses está em 17,36, colada no fechamento.',
+  '**Nós de 6 meses:** HVN 18,12 · 20,12 · 22,38 · 24,12. LVN 18,62 · 23,62.',
+ ],
+ 'macro': {
+  'titulo': 'Estatal, o BB foi o banco mais punido pela reeleição',
+  'fonte': FONTE_MACRO,
+  'tabela': marca(BANCOS, 'BBAS3'),
+  'pontos': [
+   '**Eleição.** Lula foi reeleito com 51,79% dos votos válidos, contra 48,21% de Flávio Bolsonaro. O BB caiu 29,3%, a maior queda entre os grandes bancos. Controlado pela União, era o papel mais sensível ao resultado: tinha subido 11% no pregão seguinte ao 1º turno.',
+   '**Juros.** O título de 10 anos foi de 13,04% em 15/10 para 15,42%. O JPMorgan argumenta que o BB ganha relativamente com juro alto, porque sua vantagem está na captação barata, mas juro alto também adia a queda da inadimplência.',
+   '**Agro e câmbio.** A carteira agro do BB é de R$ 421,6 bi, a maior do sistema. O dólar a R$ 5,40 aumenta a receita em reais do produtor exportador, o que ajuda a capacidade de pagamento. O El Niño segue como risco para a safra.',
+   '**Crédito das famílias.** O Banco Central estuda travas para o endividamento das famílias, o que limita o crescimento da carteira de pessoa física no curto prazo.',
+  ],
+ },
+ 'micro': {
+  'titulo': 'Barato no patrimônio, caro no retorno',
+  'fundamentos': [
+   {'nome': 'Valor de mercado', 'valor': 'R$ 141,4 bi'},
+   {'nome': 'P/L · P/VP (TTM)', 'valor': '8,1× · 0,55× (0,73× em 15/10)'},
+   {'nome': 'ROE (TTM)', 'valor': '6,8%'},
+   {'nome': 'Dividend yield (TradingView)', 'valor': '2,5%'},
+   {'nome': 'Lucro ajustado 2T26', 'valor': 'R$ 3,9 bi (+3,3% a/a)'},
+   {'nome': 'ROE 2T26', 'valor': '8,3%'},
+   {'nome': 'Inadimplência 90d total', 'valor': '5,61% (3,96% há 1 ano)'},
+   {'nome': 'PF · agro · PJ', 'valor': '8,41% · 6,27% · 3,18%'},
+   {'nome': 'Basileia · capital principal', 'valor': '13,91% · 11,27%'},
+   {'nome': 'Guidance 2026: lucro ajustado', 'valor': 'R$ 18–22 bi (ponta baixa)'},
+   {'nome': 'Guidance 2026: custo do crédito', 'valor': 'R$ 65–70 bi (ponta alta)'},
+   {'nome': 'Consenso (15/10)', 'valor': '1 compra · 8 neutro · 3 venda'},
+  ],
+  'sustentacao': [
+   '**MP 1.376.** Renegociação de dívidas rurais com potencial de até R$ 100 bi. O banco espera melhora relevante na provisão do agro a partir do 4T26.',
+   '**Formação de inadimplência no agro caindo:** R$ 7,2 bi no 1T26 para R$ 5,7 bi no 2T26, com uma matriz de concessão mais rígida.',
+   '**Desconto patrimonial extremo.** P/VP de 0,55×, contra 0,86× do Bradesco e 2,1× do Itaú. Se o ROE voltar a cerca de 12% em 2027, como projeta o JPMorgan, o desconto fica difícil de justificar.',
+   '**Eficiência de 28%,** entre as melhores do setor.',
+  ],
+  'pressao': [
+   '**Inadimplência subindo.** A pessoa física saltou de 6,82% para 8,41% em um trimestre, puxada pelo cartão.',
+   '**Guidance em risco.** A diretoria espera lucro na ponta baixa (R$ 18 bi). Citi projeta R$ 17,5 bi e JPMorgan R$ 16,9 bi, abaixo do piso.',
+   '**Revisões negativas.** O JPMorgan rebaixou o papel para underweight em outubro, com alvo de R$ 23.',
+   '**Dividendos menores** com ROE de um dígito e capital principal caindo.',
+  ],
+  'evento': '**Resultado do 3T26 em 11/11** (teleconferência em 12/11), dentro do prazo da estrutura. É o balanço que decide se o guidance de lucro cai.',
+ },
+ 'plano': {
+  'titulo': 'Teto em R$ 16,90: só depois do teste secundário',
+  'texto': 'Se o clímax se confirmar, a entrada com assimetria vem no **teste secundário**. A R$ 17,47, com stop em R$ 15,80, o risco é de R$ 1,67 para um ganho de R$ 1,91 até a VAL: **1,1:1**. Em R$ 16,90 a mesma operação entrega **2,3:1** até a VAL e 4,5:1 até a POC.',
+  'tranches': [
+   {'nome': '1 · teste secundário', 'nota': 'até 1/2 da posição', 'entrada': '16,48 – 16,90', 'gatilho': 'Volta à região da mínima com volume abaixo da metade de 26/10 e candle de rejeição', 'stop': '15,80', 'alvos': '18,12 · 19,38 · 21,88', 'rr': '1,6 · 3,0 · 5,8'},
+   {'nome': '2 · extensão', 'nota': 'até 1/2 da posição', 'entrada': '15,23 – 15,80', 'gatilho': 'Perda de 16,48 sem volume climático e recuperação no mesmo pregão', 'stop': '14,60', 'alvos': '17,47 · 19,38', 'rr': '2,2 · 4,3'},
+   {'nome': 'Alternativa', 'nota': 'compra por força', 'entrada': '> 19,40', 'gatilho': 'Fechamento acima da VAL de 20 meses com volume acima da média de 20 dias', 'stop': '18,10', 'alvos': '21,21 · 21,88', 'rr': '1,4 · 1,9'},
+  ],
+  'nota': 'R/R da tranche 1 calculado a partir de 16,70 e da tranche 2 a partir de 15,50. **Com opções:** a trava de baixa com call 19,95/21,95 desta análise ganha se o preço ficar abaixo da área de valor, que é o cenário base. Quem prefere a compra deve esperar o teste secundário.',
+ },
+ 'cenarios': {
+  'titulo': 'Base R$ 15,2 – 19,4: range abaixo da área de valor',
+  'linhas': [
+   {'cenario': 'Baixista', 'prob': '30%', 'faixa': '12,5 – 15,2', 'premissas': 'Perda de 16,48 com volume, 3T26 com corte do guidance de lucro e inadimplência de pessoa física acima de 9%. Alvo na extensão de 15,23 e abaixo, sem referência de volume.'},
+   {'cenario': 'Base', 'prob': '50%', 'faixa': '15,2 – 19,4', 'premissas': 'Reação automática até 18,12–19,38, teste secundário e lateralização até o balanço de 11/11. O preço fica abaixo da área de valor.'},
+   {'cenario': 'Altista', 'prob': '20%', 'faixa': '19,4 – 22', 'premissas': 'O choque é lido como exagero: 3T26 com provisão agro caindo pela MP 1.376 e guidance mantido. Volta para a área de valor e busca a POC de 21,88.'},
+  ],
+  'nota': '* Probabilidades são julgamento do estudo, não saída de modelo. Para referência estatística: a volatilidade de 60 dias (83% a.a.) projeta, em 126 pregões, R$ 9,74 – 31,32 a 1 desvio-padrão; com a de 250 dias (47%), R$ 12,52 – 24,38. As faixas são amplas porque a volatilidade está inflada pelo choque.',
+ },
+ 'gatilhos': {
+  'melhora': ['Teste secundário em 16,48–17,00 com volume abaixo de 140 mi', 'Fechamento acima de R$ 19,38 (VAL de 20 meses)', '3T26 confirmando o guidance de lucro de R$ 18–22 bi', 'Provisão do agro caindo no 4T26'],
+  'piora': ['Perda de R$ 16,48 com volume acima de 150 mi', 'Corte do guidance de lucro no 3T26', 'Inadimplência de pessoa física acima de 8,4%', 'Sinais de mudança na gestão ou na política de crédito do controlador', 'Volume voltando a crescer nos dias de queda'],
+ },
+ 'fontes': FONTES('BBAS3', '; fundamentos do 2T26, guidance e opiniões de analistas vêm do estudo de 15/10; calendário de balanços da Rankia'),
+}
+aplica('BBAS3', cfg)
