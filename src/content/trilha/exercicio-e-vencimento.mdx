@@ -1,0 +1,93 @@
+---
+title: 'Exercício e vencimento na B3'
+description: 'O que acontece com a sua opção no último dia: exercício automático, exercício antecipado, opções americanas e europeias, ajuste por proventos e o que fazer antes do vencimento.'
+modulo: 8
+objetivos:
+  - 'Saber quando as opções vencem e qual é o último dia de negociação'
+  - 'Entender o exercício automático da B3 e como evitá-lo'
+  - 'Diferenciar opção americana e europeia'
+  - 'Saber o que acontece com quem está vendido quando é exercido'
+---
+
+## Quando vence
+
+- **Mensais:** vencem na **3ª sexta-feira** do mês. Se não houver pregão nesse dia, o vencimento passa para o
+  **dia útil anterior**.
+- **Semanais:** vencem na sexta-feira indicada pelo sufixo `W` (módulo 2).
+- O **último dia de negociação** é o próprio dia do vencimento.
+
+A partir do vencimento, a opção deixa de existir: ou foi exercida, ou virou pó.
+
+## Exercício automático
+
+A B3 exerce automaticamente as opções que terminam **dentro do dinheiro** por pelo menos **R$ 0,01** em relação ao
+preço de fechamento da ação no dia do vencimento.
+
+- Call de strike 38 com a ação fechando a 38,01 → **exercida**.
+- Put de strike 38 com a ação fechando a 37,99 → **exercida**.
+- Qualquer opção fora do dinheiro → **não é exercida** automaticamente. Ela só pode ser exercida a pedido do titular
+  e com autorização da B3, o que quase nunca faz sentido.
+
+<div class="caixa alerta">
+
+**Exercício automático não é escolha sua.** Se você está comprado numa call levemente ITM e não quer receber as
+ações (ou não tem dinheiro para pagá-las), precisa **zerar a posição antes do fechamento** ou pedir à corretora o
+**"exercício contrário"**, que bloqueia o exercício automático. Cada corretora tem um prazo para esse pedido no dia
+do vencimento: confirme com a sua.
+
+</div>
+
+## O que significa ser exercido
+
+| Você está | Exercício significa |
+|---|---|
+| **Comprado em call** | compra 100 ações por opção pagando o strike |
+| **Comprado em put** | vende 100 ações por opção recebendo o strike |
+| **Vendido em call** | **entrega** 100 ações por opção e recebe o strike |
+| **Vendido em put** | **compra** 100 ações por opção pagando o strike |
+
+Na **venda coberta**, ser exercido é vender as ações que você já tem pelo strike: o resultado final é strike + prêmio
+recebido. Na **put vendida** (coberta por caixa), ser exercido é comprar a ação pelo strike: o custo efetivo é strike
+− prêmio recebido.
+
+Nos dois casos, o exercício **não é um desastre**: é a operação funcionando como foi desenhada. O problema é ser
+exercido sem ter planejado.
+
+## Americana ou europeia
+
+- **Americana:** pode ser exercida pelo titular **a qualquer momento** até o vencimento.
+- **Europeia:** só pode ser exercida **no vencimento**.
+
+Na B3 existem calls e puts nos dois estilos. A grade da corretora mostra o estilo numa coluna, geralmente chamada
+"Mod.", "Estilo" ou "A/E".
+
+**Para quem vende uma opção americana**, o risco de exercício antecipado existe, mas é raro antes do vencimento,
+porque o titular perderia o valor extrínseco que ainda resta. A situação clássica em que acontece é a **véspera da
+data-ex de um provento**, quando o extrínseco da call ITM é menor do que o dividendo que o titular passaria a receber
+como acionista.
+
+## Ajuste por proventos
+
+Quando a empresa paga dividendos ou JCP, a B3 **reduz o strike** das opções na data-ex pelo valor do provento. O
+código da série não muda. Por isso o strike que está na grade pode ser diferente do número da série (módulo 2).
+
+Para quem está posicionado, o efeito é neutro: a ação cai mais ou menos o valor do provento e o strike cai junto.
+
+## Rotina da semana do vencimento
+
+1. **Segunda:** liste as posições que vencem na sexta e onde a ação está em relação a cada strike.
+2. **Para cada posição, decida:** encerrar, **rolar** (zerar e abrir o mesmo tipo de posição num vencimento à
+   frente) ou aceitar o exercício.
+3. **Se aceitar o exercício,** confira se há ações ou caixa suficientes.
+4. **No dia do vencimento,** evite deixar opções muito perto do strike sem decisão: um centavo no fechamento muda o
+   resultado.
+
+## Resumo do módulo
+
+- Mensal vence na **3ª sexta**; o último dia de negociação é o do vencimento.
+- A B3 exerce automaticamente o que termina **ITM por R$ 0,01 ou mais**. Para evitar, zere antes ou peça exercício
+  contrário.
+- **Americana** pode ser exercida antes; **europeia**, só no vencimento.
+- Proventos **reduzem o strike** na data-ex.
+
+No próximo módulo, o assunto que mantém um operador vivo no mercado: **gestão de risco**.

@@ -1,0 +1,83 @@
+---
+title: 'Dentro, no e fora do dinheiro (ITM, ATM, OTM)'
+description: 'A distância entre o strike e o preço da ação define quanto a opção custa, quanto ela anda e qual a chance de valer alguma coisa no vencimento.'
+modulo: 4
+objetivos:
+  - 'Classificar qualquer call ou put como ITM, ATM ou OTM'
+  - 'Saber o que muda no prêmio e no comportamento em cada situação'
+  - 'Escolher a região de strike que combina com o seu objetivo'
+---
+import LabPremio from '../../components/trilha/LabPremio.astro';
+
+## Três situações, uma pergunta
+
+A pergunta é simples: **se eu exercesse agora, ganharia alguma coisa?**
+
+| | Call | Put | Valor intrínseco |
+|---|---|---|---|
+| **ITM** · dentro do dinheiro | strike **abaixo** do preço | strike **acima** do preço | tem |
+| **ATM** · no dinheiro | strike **perto** do preço | strike **perto** do preço | perto de zero |
+| **OTM** · fora do dinheiro | strike **acima** do preço | strike **abaixo** do preço | zero |
+
+Com a ação a R$ 38,00: a call 36 é ITM, a call 38 é ATM e a call 40 é OTM. Para as puts é o espelho: a put 40 é ITM
+e a put 36 é OTM.
+
+<LabPremio
+  titulo="🎯 Onde está o seu strike?"
+  subtitulo="Troque entre call e put e mova o preço da ação. Veja a situação mudar e o prêmio se reorganizar."
+  tipo="call" spot={38} strike={38} dias={42} vol={35}
+  controles={['tipo', 'spot', 'strike']}
+  kpis={['moneyness', 'premio', 'intrinseco', 'extrinseco']}
+  grafico="curva"
+/>
+
+## O que muda em cada região
+
+**ITM (dentro do dinheiro)**
+- Prêmio alto, quase todo intrínseco.
+- Anda **quase junto com a ação**: se a ação sobe R$ 1, uma call bem ITM sobe perto de R$ 1.
+- Alta chance de valer alguma coisa no vencimento.
+- Uso típico: substituir a ação com menos capital, ou vender coberto quando se aceita entregar o papel.
+
+**ATM (no dinheiro)**
+- É onde está o **maior valor extrínseco** e onde o prêmio reage mais à passagem do tempo e à volatilidade.
+- Anda **mais ou menos metade** do que a ação anda.
+- Uso típico: quem vende prêmio procura essa região; quem compra paga caro pelo tempo.
+
+**OTM (fora do dinheiro)**
+- Prêmio baixo, **só extrínseco**.
+- Anda pouco no começo e precisa de um movimento grande para valer alguma coisa.
+- Grande chance de **virar pó** (vencer valendo zero).
+- Uso típico: proteção barata (put OTM), apostas de cauda com perda pequena, venda com folga de distância.
+
+<div class="caixa alerta">
+
+**O OTM barato é a armadilha mais comum.** Uma call que custa R$ 0,10 parece "risco pequeno", mas a chance de ela
+pagar costuma ser igualmente pequena. Perder R$ 0,10 cem vezes seguidas é perder R$ 10. Barato não é sinônimo de
+bom negócio: compare o prêmio com a probabilidade de o movimento acontecer.
+
+</div>
+
+## Extremos: deep ITM e deep OTM
+
+- **Deep ITM** (muito dentro): se comporta praticamente como a ação. O extrínseco é mínimo.
+- **Deep OTM** (muito fora): funciona como um bilhete de loteria barato, com chance muito baixa de pagar.
+
+## Como escolher a região
+
+| Objetivo | Região que costuma fazer sentido |
+|---|---|
+| Ganhar com uma alta forte, arriscando pouco | Call **ATM ou levemente OTM** |
+| Exposição parecida com a da ação, usando menos capital | Call **ITM** |
+| Renda vendendo prêmio | Strike **ATM ou levemente OTM**, onde o extrínseco é maior |
+| Seguro da carteira | Put **OTM**: mais barata, cobre quedas maiores |
+| Entrar numa ação abaixo do preço atual | Put vendida **OTM**, no preço em que você aceita comprar |
+
+## Resumo do módulo
+
+- **ITM** tem intrínseco; **ATM** está no preço; **OTM** é só extrínseco.
+- ITM anda quase como a ação; ATM anda cerca de metade; OTM anda pouco até o movimento ficar grande.
+- O maior extrínseco está no **ATM**.
+- OTM barato pode ser caro na soma das vezes que vira pó.
+
+No próximo módulo, você vai medir exatamente **quanto a opção anda quando a ação anda**: o **delta**.

@@ -27,7 +27,7 @@ const prontos = modulos.filter((m) => m.pronto).length;
       usa só o que você aprendeu nos anteriores. Siga a sequência e, no final, você vai saber ler
       uma grade de opções, entender o preço de cada uma e montar uma operação com risco definido.
     </p>
-    <p class="progresso"><strong>{prontos}</strong> de {modulos.length} módulos publicados. Os demais estão em produção.</p>
+    <p class="progresso"><strong>{prontos}</strong> de {modulos.length} módulos publicados.{prontos < modulos.length && ' Os demais estão em produção.'}</p>
 
     <ol class="trilha">
       {modulos.map((m) => (

@@ -1,0 +1,93 @@
+---
+title: 'Valor intrínseco e valor extrínseco'
+description: 'Todo prêmio tem duas partes: o que a opção vale se exercida agora e o que se paga pela chance de ela valer mais. Uma fica, a outra derrete.'
+modulo: 3
+objetivos:
+  - 'Calcular o valor intrínseco de uma call e de uma put'
+  - 'Achar o valor extrínseco a partir do prêmio da grade'
+  - 'Entender por que o extrínseco sempre vai a zero no vencimento'
+  - 'Usar essa divisão para saber o que você está comprando ou vendendo'
+---
+import LabPremio from '../../components/trilha/LabPremio.astro';
+
+## O prêmio tem duas camadas
+
+Pense num ingresso de show revendido. Parte do preço é o **valor de face**: o que ele vale de verdade.
+O resto é o **ágio**: quanto as pessoas pagam a mais pela expectativa. Depois do show, o ágio vira zero.
+
+Com opções é igual:
+
+<div class="caixa">
+
+**Prêmio = valor intrínseco + valor extrínseco**
+
+- **Valor intrínseco:** quanto você ganharia se exercesse **agora**. Nunca é negativo.
+- **Valor extrínseco** (ou valor tempo): o resto. É o preço do **tempo** que falta e da **volatilidade**, ou seja, da chance de a opção valer mais até o vencimento.
+
+</div>
+
+## Como calcular o intrínseco
+
+- **Call:** preço da ação − strike, se for positivo. Se não for, zero.
+- **Put:** strike − preço da ação, se for positivo. Se não for, zero.
+
+E o extrínseco é o que sobra: **prêmio − intrínseco**.
+
+## Exemplo com números
+
+A ação está a **R$ 38,00**, faltam 42 dias úteis para o vencimento e a volatilidade é de 35% ao ano. Três calls desse vencimento:
+
+| Call | Prêmio | Intrínseco | Extrínseco |
+|---|---:|---:|---:|
+| Strike R$ 36,00 | R$ 3,76 | 38 − 36 = **R$ 2,00** | 3,76 − 2,00 = **R$ 1,76** |
+| Strike R$ 38,00 | R$ 2,58 | **R$ 0,00** | **R$ 2,58** |
+| Strike R$ 40,00 | R$ 1,68 | **R$ 0,00** | **R$ 1,68** |
+
+Repare: a call de strike 36 é a mais cara, mas é a que tem **menos ágio por cima do que já vale**. A de strike 38 é
+**só extrínseco**: quem compra está pagando inteiramente pela expectativa.
+
+<LabPremio
+  titulo="⚖️ Abra o prêmio ao meio"
+  subtitulo="Call de strike R$ 36,00, volatilidade de 35% ao ano. Os valores iniciais são os da tabela acima. Mexa no preço da ação e nos dias até o vencimento."
+  tipo="call" spot={38} strike={36} dias={42} vol={35}
+  controles={['tipo', 'spot', 'dias']}
+  kpis={['premio', 'intrinseco', 'extrinseco']}
+  grafico="barra"
+/>
+
+Teste três coisas no laboratório:
+
+1. **Leve os dias a zero.** O extrínseco some e o prêmio vira só intrínseco.
+2. **Coloque a ação bem abaixo do strike.** O intrínseco some e o prêmio vira só extrínseco, pequeno.
+3. **Deixe a ação perto do strike.** É ali que o extrínseco é maior.
+
+## Por que isso importa
+
+**Quem compra opção** paga o extrínseco e precisa que o movimento aconteça **antes** de o tempo comê-lo. Se a ação
+ficar parada, o comprador perde o extrínseco inteiro, mesmo que a tese esteja certa no longo prazo.
+
+**Quem vende opção** recebe o extrínseco. É esse pedaço que vira lucro se nada acontecer. O intrínseco, não: se a
+opção está dentro do dinheiro, o vendedor vai devolver esse valor de um jeito ou de outro.
+
+<div class="caixa alerta">
+
+**Na venda coberta e na put vendida, a renda é só o extrínseco.** Vender uma call de strike 36 por R$ 3,76 com a ação
+a R$ 38 parece render 9,9%, mas R$ 2,00 disso é intrínseco: você está, na prática, vendendo a ação a 36 e
+recebendo R$ 1,76 pelo tempo. A conta honesta da renda é **extrínseco ÷ preço da ação**: 4,6%.
+
+</div>
+
+## Dividendos e o intrínseco
+
+Na data-ex de um provento, a ação cai mais ou menos o valor pago. A B3 **ajusta o strike** das opções no mesmo valor,
+para que o intrínseco não seja distorcido pelo provento. É por isso que você vê strikes "quebrados" como 60,20 ou
+14,43 na grade (módulo 2).
+
+## Resumo do módulo
+
+- **Prêmio = intrínseco + extrínseco.**
+- **Intrínseco da call** = ação − strike; **da put** = strike − ação. Nunca negativo.
+- O **extrínseco** paga tempo e volatilidade, e vai a **zero** no vencimento.
+- Comprador paga o extrínseco; vendedor recebe. A renda real de quem vende é o extrínseco.
+
+No próximo módulo, você vai dar nome às três situações que apareceram na tabela: **dentro, no e fora do dinheiro**.

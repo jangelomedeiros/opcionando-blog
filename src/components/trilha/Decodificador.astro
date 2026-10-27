@@ -1,0 +1,102 @@
+---
+// Decodificador de código de opção da B3 + tabela de letras dos meses.
+const meses = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'];
+const calls = 'ABCDEFGHIJKL'.split('');
+const puts = 'MNOPQRSTUVWX'.split('');
+const exemplos = ['PETRL60', 'VALEX653', 'BBASJ195W4', 'BBASW22', 'ITUBL447', 'BOVAV205W5'];
+---
+<div class="dec">
+  <strong class="tit">🔎 Decodificador de código</strong>
+  <p class="sub">Digite um código da grade da sua corretora ou clique num exemplo.</p>
+  <div class="entrada">
+    <input type="text" value="PETRL60" maxlength="12" aria-label="Código da opção" autocomplete="off" spellcheck="false" />
+    <label class="ano">Ano <input type="number" value="2026" min="2024" max="2035" aria-label="Ano do vencimento" /></label>
+  </div>
+  <div class="ex">{exemplos.map((e) => <button type="button" data-ex={e}>{e}</button>)}</div>
+  <div class="partes" aria-live="polite"></div>
+  <p class="msg" aria-live="polite"></p>
+
+  <details class="tabela">
+    <summary>Tabela das letras dos meses</summary>
+    <div class="grade-meses">
+      <span class="cab"></span>{meses.map((m) => <span class="cab">{m}</span>)}
+      <span class="rot call">Call</span>{calls.map((l) => <b class="call">{l}</b>)}
+      <span class="rot put">Put</span>{puts.map((l) => <b class="put">{l}</b>)}
+    </div>
+  </details>
+</div>
+
+<script>
+  const MESES = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'];
+  const RAIZ: Record<string, string> = {
+    PETR: 'Petrobras (PETR4 ou PETR3)', VALE: 'Vale (VALE3)', BBAS: 'Banco do Brasil (BBAS3)', BBDC: 'Bradesco (BBDC4 ou BBDC3)',
+    ITUB: 'Itaú (ITUB4)', PRIO: 'PRIO (PRIO3)', AXIA: 'Axia Energia (AXIA3)', BOVA: 'ETF BOVA11', ABEV: 'Ambev (ABEV3)',
+    B3SA: 'B3 (B3SA3)', ITSA: 'Itaúsa (ITSA4)', BBSE: 'BB Seguridade (BBSE3)', WEGE: 'WEG (WEGE3)', SUZB: 'Suzano (SUZB3)',
+    MGLU: 'Magazine Luiza (MGLU3)', CSNA: 'CSN (CSNA3)', GGBR: 'Gerdau (GGBR4)', LREN: 'Renner (LREN3)', CMIG: 'Cemig (CMIG4)',
+  };
+  function sexta(ano: number, mes: number, n: number) {
+    const d = new Date(Date.UTC(ano, mes, 1));
+    const off = (5 - d.getUTCDay() + 7) % 7; // 5 = sexta
+    const dia = 1 + off + (n - 1) * 7;
+    const r = new Date(Date.UTC(ano, mes, dia));
+    return r.getUTCMonth() === mes ? r : null;
+  }
+  const fmt = (d: Date) => d.toLocaleDateString('pt-BR', { timeZone: 'UTC', day: '2-digit', month: '2-digit', year: 'numeric' });
+  document.querySelectorAll<HTMLElement>('.dec').forEach((el) => {
+    const inp = el.querySelector<HTMLInputElement>('.entrada > input')!, ano = el.querySelector<HTMLInputElement>('.ano input')!;
+    const partes = el.querySelector('.partes')!, msg = el.querySelector('.msg')!;
+    el.querySelectorAll<HTMLButtonElement>('[data-ex]').forEach((b) => b.addEventListener('click', () => { inp.value = b.dataset.ex!; upd(); }));
+    inp.addEventListener('input', upd); ano.addEventListener('input', upd);
+    function caixa(trecho: string, nome: string, valor: string, cls: string) {
+      return `<div class="p ${cls}"><code>${trecho}</code><span>${nome}</span><b>${valor}</b></div>`;
+    }
+    function upd() {
+      const c = inp.value.toUpperCase().replace(/\s/g, '');
+      const m = c.match(/^([A-Z0-9]{4})([A-X])(\d{1,4})(?:W([1-5]))?$/);
+      if (!m) { partes.innerHTML = ''; msg.textContent = c ? 'Formato esperado: 4 letras do ativo + letra do mês + número da série, com W1 a W5 no fim se for semanal (ex.: BBASJ195W4).' : ''; return; }
+      const [, raiz, letra, serie, w] = m;
+      const idx = letra.charCodeAt(0) - 65, call = idx < 12, mes = call ? idx : idx - 12;
+      if (w === '3') { partes.innerHTML = ''; msg.textContent = 'Não existe W3: a 3ª sexta-feira é o vencimento da série mensal.'; return; }
+      const n = w ? +w : 3, a = +ano.value || 2026, venc = sexta(a, mes, n);
+      partes.innerHTML =
+        caixa(raiz, 'Ativo-objeto', RAIZ[raiz] ?? 'confira na corretora', 'a') +
+        caixa(letra, call ? 'Call · mês' : 'Put · mês', `${call ? 'Call' : 'Put'} de ${MESES[mes]}`, call ? 'c' : 'v') +
+        caixa(serie, 'Série', 'identifica a opção, não é o strike', 's') +
+        caixa(w ? 'W' + w : '—', 'Mensal ou semanal', w ? `semanal · ${w}ª sexta` : 'mensal · 3ª sexta', 'w');
+      msg.innerHTML = venc
+        ? `Vencimento em <b>${fmt(venc)}</b>${w ? '' : ''}. Se for feriado, vence no dia útil anterior. O strike está na coluna da grade: proventos ajustam o strike e o número da série continua o mesmo.`
+        : `Não existe ${w}ª sexta-feira em ${MESES[mes]} de ${a}: confira o código.`;
+    }
+    upd();
+  });
+</script>
+
+<style>
+  .dec { margin: 2rem 0; padding: 1.2rem; border-radius: var(--raio); background: var(--bg-card); border: 2px solid var(--borda); }
+  .tit { font-family: var(--font-titulo); font-size: 1.2rem; color: var(--destaque); display: block; }
+  .sub { margin: 0.2rem 0 0.7rem; font-size: 0.88rem; color: var(--texto-suave); }
+  .entrada { display: flex; gap: 10px; flex-wrap: wrap; }
+  .entrada > input { flex: 1; min-width: 0; font-family: var(--font-mono); font-size: 1.4rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.5rem 0.8rem; border-radius: 10px; border: 2px solid var(--petroleo); background: var(--giz); color: var(--destaque); }
+  .ano { display: flex; flex-direction: column; font-size: 0.75rem; color: var(--texto-suave); font-weight: 600; }
+  .ano input { width: 90px; font-family: var(--font-mono); font-size: 1rem; padding: 0.45rem; border-radius: 8px; border: 1px solid var(--borda); background: var(--giz); color: var(--texto); }
+  .ex { display: flex; flex-wrap: wrap; gap: 6px; margin: 0.6rem 0; }
+  .ex button { font-family: var(--font-mono); font-size: 0.8rem; padding: 3px 9px; border-radius: 999px; border: 1px solid var(--borda); background: transparent; color: var(--texto); cursor: pointer; }
+  .ex button:hover { border-color: var(--coral); color: var(--coral); }
+  .partes { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; }
+  .partes :global(.p) { display: flex; flex-direction: column; gap: 2px; padding: 0.6rem 0.7rem; border-radius: 10px; background: var(--giz); border-top: 4px solid var(--petroleo); }
+  .partes :global(.p.c) { border-top-color: #1f8a5b; } .partes :global(.p.v) { border-top-color: #d64545; } .partes :global(.p.w) { border-top-color: var(--coral); }
+  .partes :global(code) { font-family: var(--font-mono); font-size: 1.3rem; font-weight: 700; color: var(--destaque); background: none; padding: 0; }
+  .partes :global(span) { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--texto-suave); font-weight: 600; }
+  .partes :global(b) { font-size: 0.9rem; line-height: 1.3; }
+  @media (prefers-color-scheme: dark) { .partes :global(.p), .entrada > input, .ano input { background: #0e262c; } }
+  .msg { font-size: 0.9rem; margin: 0.7rem 0 0; line-height: 1.5; }
+  .tabela { margin-top: 0.9rem; }
+  .tabela summary { cursor: pointer; font-weight: 600; color: var(--destaque); }
+  .grade-meses { display: grid; grid-template-columns: 52px repeat(12, minmax(0, 1fr)); gap: 3px; margin-top: 0.6rem; font-family: var(--font-mono); text-align: center; font-size: 0.85rem; }
+  .grade-meses .cab { font-size: 0.7rem; color: var(--texto-suave); text-transform: uppercase; }
+  .grade-meses .rot { text-align: left; font-weight: 700; font-family: var(--font-texto); }
+  .grade-meses b { padding: 4px 0; border-radius: 6px; }
+  .grade-meses b.call { background: #d9f2e6; color: #166b46; } .grade-meses b.put { background: #fbe0e0; color: #a83232; }
+  .grade-meses .rot.call { color: #1f8a5b; } .grade-meses .rot.put { color: #d64545; }
+  @media (max-width: 520px) { .grade-meses { font-size: 0.72rem; grid-template-columns: 40px repeat(12, minmax(0, 1fr)); } }
+</style>

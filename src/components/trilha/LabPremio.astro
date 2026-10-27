@@ -1,0 +1,168 @@
+---
+// Laboratório de prêmio: Black-Scholes com controles configuráveis.
+// Usado nos módulos de valor intrínseco/extrínseco, moneyness, delta, theta e volatilidade.
+interface Props {
+  titulo: string;
+  subtitulo?: string;
+  tipo?: 'call' | 'put';
+  spot?: number;
+  strike?: number;
+  dias?: number; // dias úteis até o vencimento
+  vol?: number; // % ao ano
+  juros?: number; // % ao ano
+  controles?: ('tipo' | 'spot' | 'strike' | 'dias' | 'vol')[];
+  kpis?: ('premio' | 'intrinseco' | 'extrinseco' | 'moneyness' | 'delta' | 'theta' | 'vega')[];
+  grafico?: 'curva' | 'barra' | 'nenhum';
+}
+const {
+  titulo, subtitulo, tipo = 'call', spot = 38, strike = 38, dias = 42, vol = 35, juros = 14,
+  controles = ['spot', 'dias'], kpis = ['premio', 'intrinseco', 'extrinseco'], grafico = 'curva',
+} = Astro.props;
+const faixaS = { min: Math.round(strike * 0.7), max: Math.round(strike * 1.3) };
+const rot: Record<string, string> = {
+  premio: 'Prêmio', intrinseco: 'Valor intrínseco', extrinseco: 'Valor extrínseco', moneyness: 'Situação',
+  delta: 'Delta', theta: 'Theta (por dia útil)', vega: 'Vega (por 1 p.p. de vol)',
+};
+---
+<div class="lab" data-tipo={tipo} data-spot={spot} data-strike={strike} data-dias={dias} data-vol={vol} data-juros={juros}
+  data-smin={faixaS.min} data-smax={faixaS.max} data-grafico={grafico}>
+  <strong class="tit">{titulo}</strong>
+  {subtitulo && <p class="sub">{subtitulo}</p>}
+
+  <div class="ctrls">
+    {controles.includes('tipo') && (
+      <div class="tipo" role="group" aria-label="Tipo da opção">
+        <button type="button" data-t="call" aria-pressed={tipo === 'call'}>Call</button>
+        <button type="button" data-t="put" aria-pressed={tipo === 'put'}>Put</button>
+      </div>
+    )}
+    {controles.includes('spot') && <label>Preço da ação <output data-o="spot"></output><input type="range" data-c="spot" min={faixaS.min} max={faixaS.max} step="0.1" value={spot} /></label>}
+    {controles.includes('strike') && <label>Strike <output data-o="strike"></output><input type="range" data-c="strike" min={faixaS.min} max={faixaS.max} step="0.5" value={strike} /></label>}
+    {controles.includes('dias') && <label>Dias úteis até o vencimento <output data-o="dias"></output><input type="range" data-c="dias" min="0" max="126" step="1" value={dias} /></label>}
+    {controles.includes('vol') && <label>Volatilidade implícita <output data-o="vol"></output><input type="range" data-c="vol" min="10" max="120" step="1" value={vol} /></label>}
+  </div>
+
+  {grafico === 'curva' && (
+    <svg viewBox="0 0 640 260" role="img" aria-label="Valor da opção em função do preço da ação" data-svg></svg>
+  )}
+  {grafico === 'barra' && (
+    <div class="barra" aria-hidden="true">
+      <div class="seg int" data-bi></div><div class="seg ext" data-be></div>
+    </div>
+  )}
+  {grafico !== 'nenhum' && (
+    <p class="leg">
+      {grafico === 'curva' ? <><i class="l-hoje"></i>Valor hoje (Black-Scholes) <i class="l-venc"></i>No vencimento (só intrínseco)</> : <><i class="l-int"></i>Intrínseco <i class="l-ext"></i>Extrínseco</>}
+    </p>
+  )}
+
+  <div class="kpis">
+    {kpis.map((k) => <div><span>{rot[k]}</span><b data-k={k}>—</b></div>)}
+  </div>
+  <p class="nota">Modelo Black-Scholes, juros de {juros.toLocaleString('pt-BR')}% ao ano, 252 dias úteis. Números didáticos: o prêmio real sai da grade.</p>
+</div>
+
+<script>
+  const N = (x: number) => {
+    const t = 1 / (1 + 0.2316419 * Math.abs(x)), d = 0.3989423 * Math.exp(-x * x / 2);
+    const p = d * t * (0.3193815 + t * (-0.3565638 + t * (1.781478 + t * (-1.821256 + t * 1.330274))));
+    return x > 0 ? 1 - p : p;
+  };
+  const npdf = (x: number) => Math.exp(-x * x / 2) / Math.sqrt(2 * Math.PI);
+  function bs(tipo: string, S: number, K: number, du: number, v: number, r: number) {
+    const T = du / 252, rr = Math.log(1 + r);
+    const intr = Math.max(tipo === 'call' ? S - K : K - S, 0);
+    if (T <= 0 || v <= 0) return { p: intr, d: tipo === 'call' ? (S > K ? 1 : 0) : (S < K ? -1 : 0), vega: 0 };
+    const d1 = (Math.log(S / K) + (rr + v * v / 2) * T) / (v * Math.sqrt(T)), d2 = d1 - v * Math.sqrt(T);
+    const c = S * N(d1) - K * Math.exp(-rr * T) * N(d2);
+    const p = tipo === 'call' ? c : c - S + K * Math.exp(-rr * T);
+    return { p: Math.max(p, intr), d: tipo === 'call' ? N(d1) : N(d1) - 1, vega: S * npdf(d1) * Math.sqrt(T) / 100 };
+  }
+  const brl = (v: number) => 'R$ ' + v.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const num = (v: number, n = 2) => v.toLocaleString('pt-BR', { minimumFractionDigits: n, maximumFractionDigits: n });
+
+  document.querySelectorAll<HTMLElement>('.lab').forEach((el) => {
+    const d = el.dataset;
+    const st: Record<string, any> = { tipo: d.tipo, spot: +d.spot!, strike: +d.strike!, dias: +d.dias!, vol: +d.vol! };
+    const r = +d.juros! / 100, smin = +d.smin!, smax = +d.smax!;
+    const svg = el.querySelector<SVGSVGElement>('[data-svg]');
+    const W = 640, H = 260, m = { l: 46, r: 14, t: 14, b: 34 };
+    el.querySelectorAll<HTMLInputElement>('input[data-c]').forEach((i) => i.addEventListener('input', () => { st[i.dataset.c!] = +i.value; upd(); }));
+    el.querySelectorAll<HTMLButtonElement>('.tipo button').forEach((b) => b.addEventListener('click', () => {
+      st.tipo = b.dataset.t; el.querySelectorAll('.tipo button').forEach((x) => x.setAttribute('aria-pressed', String(x === b))); upd();
+    }));
+    function upd() {
+      const { tipo, spot: S, strike: K, dias: du, vol } = st, v = vol / 100;
+      const o = bs(tipo, S, K, du, v, r);
+      const intr = Math.max(tipo === 'call' ? S - K : K - S, 0), ext = Math.max(o.p - intr, 0);
+      const dist = (S - K) / K;
+      const mon = Math.abs(dist) < 0.02 ? 'ATM · no dinheiro' : ((tipo === 'call' ? S > K : S < K) ? 'ITM · dentro do dinheiro' : 'OTM · fora do dinheiro');
+      const amanha = bs(tipo, S, K, Math.max(du - 1, 0), v, r).p;
+      const set = (k: string, t: string) => { const x = el.querySelector(`[data-k="${k}"]`); if (x) x.textContent = t; };
+      set('premio', brl(o.p)); set('intrinseco', brl(intr)); set('extrinseco', brl(ext)); set('moneyness', mon);
+      set('delta', num(o.d)); set('theta', du > 0 ? '−' + brl(Math.max(o.p - amanha, 0)) : '—'); set('vega', brl(o.vega));
+      const out = (k: string, t: string) => { const x = el.querySelector(`[data-o="${k}"]`); if (x) x.textContent = t; };
+      out('spot', brl(S)); out('strike', brl(K)); out('dias', du === 0 ? 'vencimento' : `${du}`); out('vol', `${vol}% a.a.`);
+      const bi = el.querySelector<HTMLElement>('[data-bi]'), be = el.querySelector<HTMLElement>('[data-be]');
+      if (bi && be) { const tot = Math.max(o.p, 0.0001); bi.style.flexGrow = String(intr / tot); be.style.flexGrow = String(ext / tot);
+        bi.textContent = intr > 0.05 * tot ? brl(intr) : ''; be.textContent = ext > 0.05 * tot ? brl(ext) : ''; }
+      if (svg) desenha(S, K, du, v, tipo);
+    }
+    function desenha(S: number, K: number, du: number, v: number, tipo: string) {
+      const xs: number[] = []; for (let s = smin; s <= smax + 1e-9; s += (smax - smin) / 120) xs.push(s);
+      const hoje = xs.map((s) => bs(tipo, s, K, du, v, r).p), venc = xs.map((s) => Math.max(tipo === 'call' ? s - K : K - s, 0));
+      const ymax = Math.max(...hoje, ...venc) * 1.08 || 1;
+      const X = (s: number) => m.l + (s - smin) / (smax - smin) * (W - m.l - m.r), Y = (p: number) => m.t + (1 - p / ymax) * (H - m.t - m.b);
+      const path = (ys: number[]) => ys.map((y, i) => `${i ? 'L' : 'M'}${X(xs[i]).toFixed(1)},${Y(y).toFixed(1)}`).join('');
+      const passo = ymax > 8 ? 2 : ymax > 4 ? 1 : 0.5;
+      let g = '';
+      for (let y = 0; y <= ymax; y += passo) g += `<line x1="${m.l}" x2="${W - m.r}" y1="${Y(y)}" y2="${Y(y)}" class="grade"/><text x="${m.l - 6}" y="${Y(y) + 4}" text-anchor="end" class="rot">${num(y)}</text>`;
+      const ps = Math.max(1, Math.round((smax - smin) / 6));
+      for (let s = Math.ceil(smin / ps) * ps; s <= smax; s += ps) g += `<text x="${X(s)}" y="${H - m.b + 16}" text-anchor="middle" class="rot">${s}</text>`;
+      g += `<text x="${(W + m.l) / 2}" y="${H - 3}" text-anchor="middle" class="eixo">preço da ação (R$)</text>`;
+      g += `<line x1="${X(K)}" x2="${X(K)}" y1="${m.t}" y2="${H - m.b}" class="k"/><text x="${X(K) + 4}" y="${m.t + 12}" class="rot">strike ${num(K)}</text>`;
+      g += `<path d="${path(venc)}" class="venc"/><path d="${path(hoje)}" class="hoje"/>`;
+      const p = bs(tipo, S, K, du, v, r).p;
+      g += `<line x1="${X(S)}" x2="${X(S)}" y1="${m.t}" y2="${H - m.b}" class="cur"/><circle cx="${X(S)}" cy="${Y(p)}" r="6" class="pt"/>`;
+      svg!.innerHTML = g;
+    }
+    upd();
+  });
+</script>
+
+<style>
+  .lab { margin: 2rem 0; padding: 1.2rem; border-radius: var(--raio); background: var(--bg-card); border: 2px solid var(--borda); }
+  .tit { font-family: var(--font-titulo); font-size: 1.2rem; color: var(--destaque); display: block; }
+  .sub { margin: 0.2rem 0 0.8rem; font-size: 0.88rem; color: var(--texto-suave); }
+  .ctrls { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 10px 18px; margin-bottom: 0.6rem; }
+  .ctrls label { display: flex; flex-direction: column; font-size: 0.82rem; color: var(--texto-suave); font-weight: 600; }
+  .ctrls output { font-family: var(--font-mono); color: var(--destaque); font-size: 0.95rem; }
+  .ctrls input { width: 100%; accent-color: var(--coral); height: 26px; }
+  .tipo { display: flex; gap: 6px; align-items: end; }
+  .tipo button { flex: 1; padding: 0.45rem; border-radius: 8px; border: 1px solid var(--borda); background: var(--giz); color: var(--texto); font-weight: 600; cursor: pointer; }
+  .tipo button[aria-pressed="true"] { background: var(--petroleo); color: #fff; border-color: var(--petroleo); }
+  svg { width: 100%; height: auto; display: block; }
+  .lab :global(.grade) { stroke: var(--borda); }
+  .lab :global(.rot) { fill: var(--texto-suave); font-family: var(--font-mono); font-size: 11.5px; }
+  .lab :global(.eixo) { fill: var(--texto-suave); font-size: 12.5px; }
+  .lab :global(.k) { stroke: var(--texto-suave); stroke-dasharray: 3 4; }
+  .lab :global(.venc) { fill: none; stroke: var(--texto-suave); stroke-width: 2; stroke-dasharray: 6 4; }
+  .lab :global(.hoje) { fill: none; stroke: var(--petroleo); stroke-width: 3; }
+  @media (prefers-color-scheme: dark) { .lab :global(.hoje) { stroke: #7fc6d1; } }
+  .lab :global(.cur) { stroke: var(--coral); stroke-dasharray: 4 4; }
+  .lab :global(.pt) { fill: var(--coral); stroke: var(--bg-card); stroke-width: 3; }
+  .barra { display: flex; height: 38px; border-radius: 8px; overflow: hidden; background: var(--giz); margin: 0.4rem 0; }
+  .seg { display: grid; place-items: center; color: #fff; font-family: var(--font-mono); font-size: 0.85rem; font-weight: 600; transition: flex-grow .15s; min-width: 0; overflow: hidden; }
+  .seg.int { background: var(--petroleo); } .seg.ext { background: var(--coral); }
+  .leg { font-size: 0.8rem; color: var(--texto-suave); margin: 0.3rem 0; }
+  .leg i { display: inline-block; width: 18px; height: 4px; vertical-align: middle; margin: 0 6px 0 12px; border-radius: 2px; }
+  .leg i:first-child { margin-left: 0; }
+  .l-hoje { background: var(--petroleo); } .l-venc { background: repeating-linear-gradient(90deg, var(--texto-suave) 0 6px, transparent 6px 10px); }
+  .l-int { background: var(--petroleo); height: 10px !important; } .l-ext { background: var(--coral); height: 10px !important; }
+  .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 8px; margin-top: 0.6rem; }
+  .kpis div { background: var(--giz); border-radius: 10px; padding: 0.5rem 0.6rem; text-align: center; }
+  @media (prefers-color-scheme: dark) { .kpis div, .barra, .tipo button { background: #0e262c; } }
+  .kpis span { display: block; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--texto-suave); font-weight: 600; }
+  .kpis b { font-family: var(--font-mono); color: var(--destaque); font-size: 0.98rem; }
+  .nota { font-size: 0.76rem; color: var(--texto-suave); margin: 0.6rem 0 0; }
+</style>

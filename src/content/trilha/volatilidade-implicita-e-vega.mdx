@@ -1,0 +1,107 @@
+---
+title: 'Volatilidade implícita e vega'
+description: 'A volatilidade é o "preço do medo" dentro do prêmio. Saber separar a volatilidade que já aconteceu da que o mercado está cobrando é o que diferencia prêmio caro de prêmio barato.'
+modulo: 7
+objetivos:
+  - 'Diferenciar volatilidade histórica de volatilidade implícita'
+  - 'Entender o vega: quanto o prêmio muda com a volatilidade'
+  - 'Reconhecer o esmagamento de volatilidade depois de um evento'
+  - 'Usar IV contra HV como filtro antes de comprar ou vender'
+---
+import LabPremio from '../../components/trilha/LabPremio.astro';
+
+## Duas volatilidades diferentes
+
+**Volatilidade** é o tamanho típico das oscilações de uma ação, expresso em % ao ano. Existem duas que importam:
+
+- **Volatilidade histórica (HV):** a que **já aconteceu**. É calculada com os preços passados, por exemplo nos
+  últimos 20 pregões (HV20).
+- **Volatilidade implícita (IV):** a que **o mercado está cobrando** no prêmio hoje. Não se calcula a partir do
+  gráfico: ela é extraída do próprio preço da opção, de trás para frente, pelo modelo.
+
+A HV é o retrovisor. A IV é a previsão embutida no preço.
+
+<div class="caixa">
+
+**Regra prática:** a volatilidade é o único fator do prêmio que ninguém observa diretamente. Preço da ação, strike,
+prazo e juros estão na tela. A volatilidade é o que o mercado **acha** que vem pela frente, e é nela que mora
+a maior parte da negociação.
+
+</div>
+
+## Vega: a sensibilidade à volatilidade
+
+**Vega** é quanto o prêmio muda quando a volatilidade implícita sobe **1 ponto percentual**.
+
+Uma call ATM com vega de **0,06** ganha cerca de **R$ 0,06** se a IV passar de 35% para 36%, mesmo que a ação fique
+parada. E perde o mesmo valor se a IV cair.
+
+- O vega é **maior no ATM** e em prazos **mais longos**.
+- Comprar opção é ficar **comprado em volatilidade** (vega positivo).
+- Vender opção é ficar **vendido em volatilidade** (vega negativo).
+
+<LabPremio
+  titulo="🌪️ Mude o medo do mercado"
+  subtitulo="Ação e strike a R$ 38,00, 42 dias úteis. Mexa só na volatilidade e veja o prêmio inteiro se mover."
+  tipo="call" spot={38} strike={38} dias={42} vol={35}
+  controles={['vol', 'dias', 'spot']}
+  kpis={['premio', 'extrinseco', 'vega']}
+  grafico="curva"
+/>
+
+Com a ação parada a R$ 38,00, a mesma call ATM vale cerca de R$ 2,15 com IV de 28%, R$ 2,58 com 35%, R$ 3,18 com 45%
+e R$ 4,09 com 60%. **Quase o dobro**, sem a ação sair do lugar.
+
+## IV contra HV: o prêmio está caro ou barato?
+
+Comparar a IV com a HV é o primeiro filtro antes de montar uma estrutura:
+
+| Situação | Leitura | Tende a favorecer |
+|---|---|---|
+| **IV bem acima da HV** | o mercado cobra mais medo do que a ação vem mostrando | **vender** prêmio |
+| **IV bem abaixo da HV** | a ação vem se mexendo mais do que o prêmio cobra | **comprar** prêmio, ou ter cautela ao vender |
+| **IV perto da HV** | prêmio "justo" pelo passado recente | a tese decide, não a volatilidade |
+
+### Exemplo real: a grade de 26/10/2026
+
+Depois do choque de preços que se seguiu ao resultado eleitoral, as ações oscilaram muito mais do que as opções
+passaram a cobrar. Nos cálculos do canal com as grades daquele dia:
+
+| Papel | IV aproximada das opções | HV20 da ação |
+|---|---:|---:|
+| BBAS3 | ~44% | ~136% |
+| BBDC4 | ~41% | ~106% |
+| ITUB4 | ~29% | ~70% |
+| AXIA3 | ~28% | ~60% |
+
+A HV20 estava inflada por poucos pregões de movimento extremo. A leitura correta não é "o prêmio está barato,
+compre tudo", e sim: **o mercado está apostando que a calmaria volta**. Quem vende prêmio nesse cenário está
+recebendo menos do que o movimento recente sugere. É informação, não sinal de entrada.
+
+## Esmagamento de volatilidade (vol crush)
+
+Antes de um evento conhecido (balanço, decisão de juros, eleição), a IV costuma **subir**: ninguém sabe o resultado
+e o seguro fica caro. Assim que o evento passa, a incerteza some e a IV **despenca**, às vezes no pregão seguinte.
+
+O efeito prático:
+
+- Quem **compra** opção na véspera do balanço pode **acertar a direção e perder dinheiro**: a ação anda a favor, mas
+  a queda da IV come o ganho.
+- Quem **vende** opção na véspera recebe a IV inflada, e corre o risco de o movimento ser maior do que o prêmio cobriu.
+
+<div class="caixa alerta">
+
+**Antes de qualquer operação, olhe o calendário.** Se houver resultado trimestral, data-ex de provento ou evento
+macro dentro do prazo da opção, a volatilidade vai se comportar diferente. As análises do canal trazem esse
+calendário na seção de gatilhos.
+
+</div>
+
+## Resumo do módulo
+
+- **HV** é a volatilidade que já aconteceu; **IV** é a que está no preço.
+- **Vega** = quanto o prêmio muda por 1 p.p. de IV. Maior no ATM e em prazos longos.
+- **IV acima da HV** tende a favorecer quem vende; **abaixo**, quem compra. É filtro, não gatilho.
+- Depois de eventos, a IV costuma **desabar**: o vol crush.
+
+No próximo módulo, o que acontece no dia em que tudo isso termina: **exercício e vencimento**.

@@ -1,0 +1,105 @@
+---
+title: 'Gestão de risco: primeiro a perda, depois o ganho'
+description: 'Opção permite definir o risco antes de entrar. Este módulo mostra como usar isso: perda máxima por estrutura, percentual da conta por operação, margem e a matemática da recuperação.'
+modulo: 9
+objetivos:
+  - 'Calcular a perda máxima de uma estrutura antes de entrar'
+  - 'Dimensionar a posição pelo risco, não pelo ganho esperado'
+  - 'Entender margem e por que venda descoberta pede cuidado'
+  - 'Respeitar a matemática assimétrica da recuperação'
+---
+import CalcPosicao from '../../components/trilha/CalcPosicao.astro';
+
+## A pergunta certa vem primeiro
+
+Quem começa pergunta **"quanto posso ganhar?"**. Quem fica no mercado pergunta **"quanto posso perder, e aguento
+perder isso?"**.
+
+Esse é o grande trunfo das opções: na maioria das estruturas, a perda máxima é **conhecida antes do clique**.
+Desperdiçar essa informação é operar opção como quem opera loteria.
+
+## Perda máxima por estrutura
+
+| Estrutura | Perda máxima |
+|---|---|
+| Compra de call ou put | o **prêmio pago** |
+| Trava com débito (ex.: trava de alta com call) | o **débito pago** |
+| Trava com crédito | **diferença entre strikes − crédito recebido** |
+| Venda coberta | a queda da ação até zero, **menos** o prêmio recebido |
+| Put vendida coberta por caixa | **strike − prêmio**, se a ação for a zero |
+| Venda **descoberta** de call | **ilimitada** |
+
+<div class="caixa alerta">
+
+**Venda descoberta de call não tem teto de perda.** A ação pode subir quanto quiser. Para quem está começando, a
+regra do canal é simples: só venda call se tiver as ações (venda coberta) ou se comprar outra call acima
+(trava). Sem exceção.
+
+</div>
+
+## Tamanho da posição: o risco decide
+
+O método mais usado por operadores profissionais é arriscar uma **fração pequena e fixa** do capital por operação,
+algo entre **0,5% e 2%**. A conta é:
+
+**Lotes = (capital × % de risco) ÷ (perda máxima por opção × 100)**
+
+Exemplo: conta de R$ 50.000, risco de 1% por operação (R$ 500), uma trava de alta com débito de R$ 2,73 por opção.
+Um lote arrisca R$ 273. Cabe **1 lote**, e não 2.
+
+<CalcPosicao />
+
+Teste na calculadora: com 1% de risco, quantas perdas máximas **seguidas** seriam necessárias para zerar a conta?
+É esse número que protege você da sequência ruim, e sequências ruins acontecem com qualquer método.
+
+## A matemática da recuperação
+
+Perder e recuperar não são simétricos:
+
+| Perda | Ganho necessário para voltar ao zero |
+|---:|---:|
+| 10% | 11% |
+| 20% | 25% |
+| 30% | 43% |
+| **50%** | **100%** |
+| 75% | 300% |
+
+Perder metade da conta exige **dobrar** o que sobrou só para empatar. Por isso o foco do operador é **não sofrer a
+grande perda**, e não acertar a grande tacada. Morgan Housel insiste nesse ponto: a habilidade mais importante no
+mercado é **continuar no jogo** o tempo suficiente para os bons resultados se acumularem. Nassim Taleb chama o
+oposto de **risco de ruína**: uma única perda que tira você do jogo anula qualquer média favorável.
+
+## Margem
+
+Quando você **vende** uma opção sem cobertura total, a B3 exige uma **garantia** (margem) depositada na corretora,
+em dinheiro, ações ou títulos.
+
+- A margem **muda todo dia** com o preço da ação e a volatilidade.
+- Num dia de movimento forte, a corretora pode pedir **mais garantia** ou zerar a sua posição para cobrir o risco.
+- Margem não é a sua perda máxima. É o que a B3 considera necessário hoje. A perda pode ser maior.
+
+Na venda coberta (com as ações) e na put coberta por caixa (com o dinheiro do strike reservado), a margem é a
+própria cobertura.
+
+## Stop em opções: pense na ação, não no prêmio
+
+Opções oscilam muito em percentual. Uma call pode cair 40% num dia ruim e voltar no seguinte. Por isso, o stop mais
+consistente costuma ser definido **no preço da ação** (o nível técnico que invalida a tese), e não no prêmio.
+
+Uma régua útil para medir o tamanho de um movimento "normal" é o **ATR** (amplitude média dos últimos pregões): um
+stop mais curto do que um ATR costuma ser apenas ruído.
+
+## Diversificação de verdade
+
+Cinco operações vendidas em put de cinco bancos diferentes **não são cinco riscos**: são um risco só, o do setor.
+Antes de abrir mais uma posição, pergunte o que acontece com todas elas num único dia ruim.
+
+## Resumo do módulo
+
+- Calcule a **perda máxima** antes de entrar. Se não souber calcular, não entre.
+- **Tamanho pela perda**, entre 0,5% e 2% do capital por operação.
+- **Nada de venda descoberta de call.**
+- Perder 50% exige ganhar 100%. O objetivo é **sobreviver**.
+- Margem muda todo dia; stop se define pela ação; correlação esconde concentração.
+
+No último módulo, você vai juntar tudo num **plano operacional** escrito antes do clique.

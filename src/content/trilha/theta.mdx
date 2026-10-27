@@ -1,0 +1,85 @@
+---
+title: 'Theta: o tempo cobra todo dia'
+description: 'O theta é quanto o prêmio perde a cada dia que passa, com tudo o mais parado. É o custo de quem compra e a renda de quem vende, e ele acelera perto do vencimento.'
+modulo: 6
+objetivos:
+  - 'Entender o que o theta mede'
+  - 'Ver por que o decaimento acelera nas últimas semanas'
+  - 'Saber quem paga e quem recebe o theta'
+  - 'Usar o theta para escolher o prazo da operação'
+---
+import ThetaDerrete from '../../components/artigo/ThetaDerrete.astro';
+import LabPremio from '../../components/trilha/LabPremio.astro';
+
+## O sorvete no sol
+
+Lembra do valor extrínseco (módulo 3)? Ele é o preço do tempo. A cada pregão que passa sem a ação andar, sobra
+menos tempo, e o extrínseco encolhe. **Theta** é o tamanho dessa mordida diária.
+
+Uma opção com theta de **−0,04** perde cerca de **R$ 0,04 por dia** se a ação e a volatilidade ficarem paradas.
+Num lote de 100, são R$ 4 por dia.
+
+<ThetaDerrete />
+
+## Não é uma linha reta
+
+O derretimento **acelera**. A opção ATM perde pouco por dia quando faltam dois meses e perde muito quando faltam
+duas semanas. O motivo é que o extrínseco acompanha, de forma aproximada, a **raiz quadrada do tempo**:
+cortar o prazo de 42 para 21 dias úteis não corta o prêmio pela metade, mas cortar de 5 para 1 dia leva quase tudo.
+
+Com a ação a R$ 38,00, strike R$ 38,00 e volatilidade de 35%:
+
+| Dias úteis restantes | Prêmio da call ATM |
+|---:|---:|
+| 42 | R$ 2,58 |
+| 21 | R$ 1,74 |
+| 10 | R$ 1,16 |
+| 5 | R$ 0,80 |
+| 1 | R$ 0,34 |
+
+Na primeira metade do prazo, a opção perdeu R$ 0,84. Nos últimos cinco dias, perdeu R$ 0,80 sozinha.
+
+<LabPremio
+  titulo="⏳ Quanto custa um dia?"
+  subtitulo="Arraste os dias até o vencimento e veja o theta crescer. Depois tire a ação do strike e veja o theta encolher."
+  tipo="call" spot={38} strike={38} dias={42} vol={35}
+  controles={['spot', 'dias']}
+  kpis={['premio', 'extrinseco', 'theta']}
+  grafico="curva"
+/>
+
+## Quem paga e quem recebe
+
+| | Theta | O tempo é |
+|---|---|---|
+| **Comprador** de call ou put | negativo | **inimigo**: precisa que o movimento venha logo |
+| **Vendedor** de call ou put | positivo | **aliado**: ganha se nada acontecer |
+
+O theta é o motivo de a venda de opções ser chamada de "renda". Mas não é renda grátis: o vendedor recebe o theta
+porque assume o risco do movimento grande (o gama do módulo 5). O tempo ajuda o vendedor quase todos os dias e
+cobra a conta nos dias de movimento forte.
+
+## Theta e prazo: como isso muda a escolha
+
+- **Quem compra** costuma preferir prazos mais longos (dois ou três meses): paga mais caro, mas o theta diário é
+  menor e a tese tem tempo para acontecer.
+- **Quem vende** costuma preferir a janela de **30 a 45 dias corridos**: é onde o derretimento começa a acelerar sem
+  ainda entrar na última semana, quando o gama fica perigoso.
+- **Semanais** derretem muito rápido. São atraentes para quem vende e cruéis para quem compra sem um gatilho claro.
+
+<div class="caixa alerta">
+
+**Fim de semana não é presente.** Os modelos usados aqui contam **dias úteis** (252 por ano), como é costume no
+mercado brasileiro. Na prática, quem forma preço costuma antecipar o fim de semana nos últimos pregões da semana.
+Não conte com um salto de theta a seu favor na segunda de manhã.
+
+</div>
+
+## Resumo do módulo
+
+- **Theta** = quanto o prêmio perde por dia, com tudo o mais parado.
+- O decaimento **acelera** perto do vencimento e é maior no **ATM**.
+- **Comprador paga** theta; **vendedor recebe**, em troca de assumir o risco do movimento.
+- O prazo da operação deve ser escolhido pensando no theta.
+
+No próximo módulo, a variável que mais confunde iniciantes e mais separa operadores: a **volatilidade**.

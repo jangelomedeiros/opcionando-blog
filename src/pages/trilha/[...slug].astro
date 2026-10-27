@@ -43,7 +43,7 @@ const { title, description, modulo, objetivos, youtube, updatedDate } = mod.data
       {anterior ? <a href={`/trilha/${anterior.id}/`}><small>← Módulo {anterior.data.modulo}</small>{anterior.data.title}</a> : <span />}
       {proximo
         ? <a class="dir" href={`/trilha/${proximo.id}/`}><small>Próximo: módulo {proximo.data.modulo} →</small>{proximo.data.title}</a>
-        : <a class="dir" href="/comece-aqui"><small>Próximo módulo em produção</small>Voltar para a trilha</a>}
+        : <a class="dir" href="/analises/"><small>Trilha concluída →</small>Ver as análises do canal</a>}
     </nav>
   </article>
 </Base>

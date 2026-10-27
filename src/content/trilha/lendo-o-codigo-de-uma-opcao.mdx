@@ -1,0 +1,104 @@
+---
+title: 'Lendo o código de uma opção'
+description: 'Quatro letras, uma letra de mês, um número e às vezes um W. Em segundos você descobre o ativo, se é call ou put e quando vence.'
+modulo: 2
+objetivos:
+  - 'Separar as quatro partes de qualquer código de opção da B3'
+  - 'Saber se a opção é call ou put e o mês de vencimento só pela letra'
+  - 'Diferenciar uma série mensal de uma semanal'
+  - 'Entender por que o número da série não é o strike'
+---
+import Decodificador from '../../components/trilha/Decodificador.astro';
+
+## O código é uma etiqueta
+
+Na grade da corretora, cada opção aparece com um código como <span class="ticker">PETRL60</span> ou
+<span class="ticker">BBASJ195W4</span>. Parece sopa de letras, mas cada pedaço tem uma função fixa:
+
+<div class="caixa">
+
+**`BBAS` · `J` · `195` · `W4`**
+
+1. **Ativo-objeto (4 letras):** a raiz do papel. `BBAS` é Banco do Brasil.
+2. **Letra do mês:** uma letra só diz **se é call ou put** e **em que mês vence**. `J` é call de outubro.
+3. **Número da série:** identifica a opção dentro daquele mês.
+4. **Sufixo `W` (só nas semanais):** `W4` = vence na 4ª sexta-feira do mês.
+
+</div>
+
+## A letra do mês: call de A a L, put de M a X
+
+Esta é a parte que mais assusta e a mais simples de decorar:
+
+- **Calls:** `A` = janeiro, `B` = fevereiro … `L` = dezembro.
+- **Puts:** `M` = janeiro, `N` = fevereiro … `X` = dezembro.
+
+A put de um mês é a letra da call **deslocada 12 posições** no alfabeto. Outubro é `J` na call e `V` na put;
+dezembro é `L` na call e `X` na put.
+
+| Mês | jan | fev | mar | abr | mai | jun | jul | ago | set | out | nov | dez |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| **Call** | A | B | C | D | E | F | G | H | I | J | K | L |
+| **Put** | M | N | O | P | Q | R | S | T | U | V | W | X |
+
+## O número da série não é o strike
+
+É o erro mais caro de quem está começando. O número **costuma lembrar** o strike quando a série é criada, mas
+não é o strike. Quando a empresa paga dividendos ou JCP, a B3 **reduz o strike** no valor do provento, e o
+número da série continua o mesmo.
+
+Exemplo real da grade de 26/10/2026: a <span class="ticker">VALEX653</span>, put de dezembro da Vale, tinha
+strike de **R$ 60,20**, não R$ 65,30. A <span class="ticker">BBDCX170</span>, put de dezembro do Bradesco,
+tinha strike de **R$ 14,43**.
+
+<div class="caixa alerta">
+
+**Regra de ouro:** o strike está sempre na **coluna de strike da grade**. Nunca deduza o strike pelo código.
+
+</div>
+
+## Mensal ou semanal
+
+- **Mensal (sem sufixo):** vence na **3ª sexta-feira** do mês. Se não houver pregão nesse dia, vence no dia útil anterior.
+- **Semanal (sufixo `W1` a `W5`):** o número depois do `W` é a sexta-feira do mês em que a série vence. `W1` = 1ª sexta,
+  `W2` = 2ª, `W4` = 4ª, `W5` = 5ª. **Não existe `W3`**, porque a 3ª sexta é da série mensal.
+
+<div class="caixa">
+
+**Pegadinha do W.** `W` também é a letra da **put de novembro**. A diferença é a posição:
+
+- A letra do mês vem **logo depois das 4 letras do ativo**: <span class="ticker">BBASW22</span> é put mensal de novembro.
+- O `W` semanal vem **depois dos números**: <span class="ticker">BBASV239W4</span> é put semanal de outubro, 4ª sexta.
+
+</div>
+
+## Treine com o decodificador
+
+<Decodificador />
+
+## Exemplos resolvidos
+
+| Código | Leitura |
+|---|---|
+| <span class="ticker">BBASJ240W5</span> | Call de BBAS3, outubro, semanal da 5ª sexta (30/10/2026) |
+| <span class="ticker">BBASV240W4</span> | Put de BBAS3, outubro, semanal da 4ª sexta (23/10/2026) |
+| <span class="ticker">BBASW244</span> | Put de BBAS3, novembro, mensal (3ª sexta) |
+| <span class="ticker">ITUBL447</span> | Call de ITUB4, dezembro, mensal (18/12/2026) |
+| <span class="ticker">AXIAM601</span> | Put de AXIA3, janeiro, mensal |
+
+## O que o código não conta
+
+- **Se a ação é ON ou PN.** `PETR` serve para PETR3 e PETR4; a grade e o nome da série dizem qual é.
+- **O estilo de exercício.** A grade mostra se a opção é **americana** (pode ser exercida a qualquer momento) ou
+  **europeia** (só no vencimento), geralmente numa coluna "A/E" ou "Mod.". Isso aparece no módulo 8.
+- **A liquidez.** Duas séries vizinhas podem ter liquidez muito diferente. Veja o número de negócios antes de entrar.
+
+## Resumo do módulo
+
+- Código = **ativo (4 letras) + letra do mês + número da série + `W` se for semanal**.
+- **A a L = call**, **M a X = put**, na ordem dos meses.
+- Mensal vence na **3ª sexta-feira**; semanal vence na sexta indicada pelo `W`.
+- **O número da série não é o strike.** O strike está na grade.
+
+No próximo módulo, você vai abrir o prêmio de uma opção ao meio e ver as duas partes que o formam:
+o **valor intrínseco** e o **valor extrínseco**.

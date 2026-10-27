@@ -1,0 +1,54 @@
+---
+// Gerador do plano operacional em seis linhas, com cópia para a área de transferência.
+const campos = [
+  { k: 'tese', r: '1. Tese em uma frase', p: 'Ex.: BBDC4 fez clímax de venda em 14,58 e deve lateralizar até a POC de 17,75.' },
+  { k: 'estrutura', r: '2. Estrutura e por que ela', p: 'Ex.: venda de put 14,43 coberta: entro abaixo do clímax e recebo para esperar.' },
+  { k: 'risco', r: '3. Perda máxima e tamanho', p: 'Ex.: perda máxima de R$ 1.408 por lote; 1 lote = 1% da conta.' },
+  { k: 'lucro', r: '4. Saída no lucro', p: 'Ex.: recompro a put quando restar 30% do prêmio.' },
+  { k: 'prejuizo', r: '5. Saída ou ajuste no prejuízo', p: 'Ex.: fechamento abaixo de 14,58 com volume: rolo para baixo ou aceito o exercício.' },
+  { k: 'invalida', r: '6. O que invalida a tese e até quando', p: 'Ex.: perda de 14,58 em fechamento; vale até 18/12.' },
+];
+---
+<div class="plano">
+  <strong class="tit">📝 Escreva o seu plano antes do clique</strong>
+  <p class="sub">Preencha as seis linhas e copie para o seu diário de operações. Nada é enviado: fica só no seu navegador.</p>
+  <label class="cab">Papel e data<input type="text" data-k="cab" placeholder="Ex.: BBDC4 · 27/10/2026" /></label>
+  {campos.map((c) => <label>{c.r}<textarea data-k={c.k} rows="2" placeholder={c.p}></textarea></label>)}
+  <div class="acoes">
+    <button type="button" data-copiar>Copiar plano</button>
+    <span class="falta" aria-live="polite"></span>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('.plano').forEach((el) => {
+    const btn = el.querySelector<HTMLButtonElement>('[data-copiar]')!, falta = el.querySelector('.falta')!;
+    const campos = [...el.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>('[data-k]')];
+    const chave = 'opcionando-plano';
+    try { const s = JSON.parse(localStorage.getItem(chave) || '{}'); campos.forEach((c) => { if (s[c.dataset.k!]) c.value = s[c.dataset.k!]; }); } catch {}
+    const salvar = () => { try { localStorage.setItem(chave, JSON.stringify(Object.fromEntries(campos.map((c) => [c.dataset.k, c.value])))); } catch {} };
+    const conta = () => { const v = campos.filter((c) => c.dataset.k !== 'cab' && !c.value.trim()).length; falta.textContent = v ? `Faltam ${v} de 6 linhas.` : 'Plano completo.'; };
+    campos.forEach((c) => c.addEventListener('input', () => { salvar(); conta(); }));
+    btn.addEventListener('click', async () => {
+      const txt = campos.map((c) => {
+        const rot = c.closest('label')!.childNodes[0].textContent!.trim();
+        return c.dataset.k === 'cab' ? `PLANO · ${c.value || 'sem papel'}` : `${rot}: ${c.value.trim() || '(em branco)'}`;
+      }).join('\n');
+      try { await navigator.clipboard.writeText(txt); btn.textContent = 'Copiado ✓'; } catch { btn.textContent = 'Não foi possível copiar'; }
+      setTimeout(() => (btn.textContent = 'Copiar plano'), 1800);
+    });
+    conta();
+  });
+</script>
+
+<style>
+  .plano { margin: 2rem 0; padding: 1.2rem; border-radius: var(--raio); background: var(--bg-card); border: 2px solid var(--petroleo); display: grid; gap: 10px; }
+  .tit { font-family: var(--font-titulo); font-size: 1.2rem; color: var(--destaque); }
+  .sub { margin: -4px 0 4px; font-size: 0.88rem; color: var(--texto-suave); }
+  label { display: flex; flex-direction: column; gap: 4px; font-size: 0.85rem; font-weight: 600; color: var(--destaque); }
+  input, textarea { font: inherit; font-weight: 400; font-size: 0.92rem; padding: 0.5rem 0.65rem; border-radius: 8px; border: 1px solid var(--borda); background: var(--giz); color: var(--texto); resize: vertical; }
+  @media (prefers-color-scheme: dark) { input, textarea { background: #0e262c; } }
+  .acoes { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .acoes button { background: var(--coral); color: #fff; border: none; border-radius: 999px; padding: 0.6rem 1.2rem; font-weight: 700; cursor: pointer; }
+  .falta { font-size: 0.85rem; color: var(--texto-suave); }
+</style>

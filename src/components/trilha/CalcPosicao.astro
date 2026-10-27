@@ -1,0 +1,55 @@
+---
+// Calculadora de tamanho de posição pela perda máxima aceitável.
+---
+<div class="pos">
+  <strong class="tit">📏 Quantos lotes cabem no seu risco?</strong>
+  <p class="sub">Preencha com os seus números. A conta parte da perda máxima da estrutura, nunca do ganho.</p>
+  <div class="campos">
+    <label>Capital da conta (R$)<input type="number" data-c="cap" value="50000" min="0" step="1000" /></label>
+    <label>Risco por operação (% do capital)<input type="number" data-c="pct" value="1" min="0.1" max="10" step="0.1" /></label>
+    <label>Perda máxima por opção (R$)<input type="number" data-c="perda" value="2.73" min="0.01" step="0.01" /></label>
+    <label>Tamanho do lote<input type="number" data-c="lote" value="100" min="1" step="1" /></label>
+  </div>
+  <div class="res">
+    <div><span>Quanto posso perder</span><b data-r="orc">—</b></div>
+    <div><span>Perda máxima por lote</span><b data-r="porlote">—</b></div>
+    <div class="destaque"><span>Lotes que cabem</span><b data-r="lotes">—</b></div>
+    <div><span>Risco real da posição</span><b data-r="real">—</b></div>
+  </div>
+  <p class="msg" data-r="msg"></p>
+</div>
+
+<script>
+  const brl = (v: number) => 'R$ ' + v.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  document.querySelectorAll<HTMLElement>('.pos').forEach((el) => {
+    const v = (k: string) => +(el.querySelector<HTMLInputElement>(`[data-c="${k}"]`)!.value || 0);
+    const set = (k: string, t: string) => { el.querySelector(`[data-r="${k}"]`)!.textContent = t; };
+    const upd = () => {
+      const cap = v('cap'), pct = v('pct') / 100, perda = v('perda'), lote = Math.max(1, v('lote'));
+      const orc = cap * pct, porlote = perda * lote, lotes = porlote > 0 ? Math.floor(orc / porlote) : 0;
+      set('orc', brl(orc)); set('porlote', brl(porlote)); set('lotes', String(lotes));
+      set('real', lotes ? `${brl(lotes * porlote)} · ${(lotes * porlote / cap * 100).toLocaleString('pt-BR', { maximumFractionDigits: 2 })}%` : '—');
+      set('msg', lotes === 0
+        ? 'Nem um lote cabe no seu limite. Ou a estrutura arrisca demais para a conta, ou o limite está apertado: procure uma estrutura com perda máxima menor, não aumente o risco.'
+        : `Com ${lotes} lote${lotes > 1 ? 's' : ''}, uma perda máxima custa ${(lotes * porlote / cap * 100).toLocaleString('pt-BR', { maximumFractionDigits: 2 })}% da conta. Seriam precisas ${Math.floor(cap / Math.max(lotes * porlote, 1))} perdas máximas seguidas para zerar o capital.`);
+    };
+    el.querySelectorAll('input').forEach((i) => i.addEventListener('input', upd));
+    upd();
+  });
+</script>
+
+<style>
+  .pos { margin: 2rem 0; padding: 1.2rem; border-radius: var(--raio); background: var(--bg-card); border: 2px solid var(--borda); }
+  .tit { font-family: var(--font-titulo); font-size: 1.2rem; color: var(--destaque); display: block; }
+  .sub { margin: 0.2rem 0 0.8rem; font-size: 0.88rem; color: var(--texto-suave); }
+  .campos { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; }
+  .campos label { display: flex; flex-direction: column; gap: 4px; font-size: 0.8rem; font-weight: 600; color: var(--texto-suave); }
+  .campos input { font-family: var(--font-mono); font-size: 1rem; padding: 0.45rem 0.6rem; border-radius: 8px; border: 1px solid var(--borda); background: var(--giz); color: var(--texto); min-width: 0; }
+  .res { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; margin-top: 0.9rem; }
+  .res div { background: var(--giz); border-radius: 10px; padding: 0.55rem 0.6rem; text-align: center; }
+  @media (prefers-color-scheme: dark) { .res div, .campos input { background: #0e262c; } }
+  .res .destaque { background: var(--petroleo); } .res .destaque span, .res .destaque b { color: #fff; }
+  .res span { display: block; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--texto-suave); font-weight: 600; }
+  .res b { font-family: var(--font-mono); color: var(--destaque); font-size: 1.05rem; }
+  .msg { font-size: 0.9rem; margin: 0.8rem 0 0; line-height: 1.5; }
+</style>

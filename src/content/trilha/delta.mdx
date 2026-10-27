@@ -1,0 +1,103 @@
+---
+title: 'Delta: quanto a opção anda quando a ação anda'
+description: 'O delta é a velocidade da opção em relação à ação. Ele diz quanto o prêmio muda por real de movimento, quantas ações a sua posição equivale e, de forma aproximada, a chance de terminar dentro do dinheiro.'
+modulo: 5
+objetivos:
+  - 'Ler o delta de uma call e de uma put'
+  - 'Converter delta em ações equivalentes'
+  - 'Usar o delta como régua aproximada de probabilidade'
+  - 'Entender o gama: por que o delta muda quando a ação anda'
+---
+import LabPremio from '../../components/trilha/LabPremio.astro';
+
+## A velocidade da opção
+
+**Delta** é quanto o prêmio muda quando a ação sobe **R$ 1,00**.
+
+- **Call:** delta entre **0 e 1**. A ação sobe, a call sobe.
+- **Put:** delta entre **−1 e 0**. A ação sobe, a put cai.
+
+Uma call com delta **0,60** ganha cerca de **R$ 0,60** se a ação subir R$ 1,00, e perde R$ 0,60 se a ação cair R$ 1,00.
+Uma put com delta **−0,40** ganha cerca de **R$ 0,40** se a ação **cair** R$ 1,00.
+
+<div class="caixa">
+
+**Delta no módulo 4, em números:**
+
+- **Deep ITM:** delta perto de 1 (call) ou −1 (put). Anda como a ação.
+- **ATM:** delta perto de **0,5**. Anda metade.
+- **Deep OTM:** delta perto de 0. Quase não anda.
+
+</div>
+
+<LabPremio
+  titulo="🏎️ Veja o delta mudar"
+  subtitulo="Ação a R$ 38,00, strike R$ 38,00, 42 dias úteis, volatilidade de 35%. Arraste o preço e acompanhe o delta."
+  tipo="call" spot={38} strike={38} dias={42} vol={35}
+  controles={['tipo', 'spot', 'dias']}
+  kpis={['moneyness', 'premio', 'delta']}
+  grafico="curva"
+/>
+
+Repare que o delta de uma call ATM aqui aparece um pouco **acima** de 0,5 (perto de 0,59). É o efeito dos juros
+altos e do prazo: com Selic de dois dígitos, a call no dinheiro fica levemente "puxada" para dentro.
+
+## Delta em ações equivalentes
+
+Como o lote padrão é de **100 opções**, o delta vira uma régua de exposição:
+
+**Ações equivalentes = delta × quantidade de opções**
+
+| Posição | Delta | Equivale a |
+|---|---:|---|
+| Compra de 100 calls ATM | 0,59 | **+59 ações** |
+| Compra de 100 calls OTM (strike 42) | 0,32 | **+32 ações** |
+| Compra de 100 puts ATM | −0,41 | **−41 ações** (vendido) |
+| Venda de 100 puts ATM | −0,41 × −1 | **+41 ações** (comprado) |
+
+<div class="caixa alerta">
+
+**Vender put é ficar comprado.** O sinal confunde no começo: a put tem delta negativo, mas quem **vende** a put
+inverte o sinal. Vender put é uma posição que ganha quando a ação sobe, como ter a ação, só que com ganho limitado
+ao prêmio.
+
+</div>
+
+## Delta como régua de probabilidade
+
+Na prática de mesa, o delta é usado como **estimativa grosseira** da chance de a opção terminar **dentro do
+dinheiro** no vencimento:
+
+- Call com delta **0,30** → algo como **30%** de chance de terminar ITM.
+- Put com delta **−0,15** → algo como **15%**.
+
+É uma aproximação, não uma promessa. Ela vem do próprio modelo, que supõe volatilidade constante e não sabe que
+existe balanço trimestral, eleição ou fato relevante pela frente. Serve para comparar strikes, não para calcular
+quanto você vai ganhar.
+
+Quem vende prêmio costuma escolher strikes por delta: vender uma put de delta −0,20 é aceitar algo como uma chance
+em cinco de ser exercido.
+
+## Gama: o delta não fica parado
+
+Quando a ação anda, o delta também anda. A velocidade com que o delta muda tem nome: **gama**.
+
+- O gama é **maior no ATM** e perto do vencimento.
+- Gama alto significa que a posição muda de tamanho rápido: uma call ATM com delta 0,5 pode virar delta 0,8 em
+  poucos pregões de alta.
+
+**Para quem compra**, gama é bom: o ganho acelera a favor. **Para quem vende**, gama é risco: na última semana,
+uma opção ATM vendida pode passar de "quase pó" para "exercida" num único movimento. É por isso que muitos
+operadores encerram vendas ATM antes da semana do vencimento.
+
+No laboratório, deixe a ação no strike e leve os dias para 2 ou 3. Depois mova o preço um pouco para cada lado:
+o delta pula.
+
+## Resumo do módulo
+
+- **Delta** = quanto o prêmio muda por R$ 1,00 na ação. Call de 0 a 1, put de 0 a −1.
+- **Ações equivalentes** = delta × quantidade. Vender inverte o sinal.
+- Delta serve como **régua aproximada** de chance de terminar ITM.
+- **Gama** mede o quanto o delta muda; é máximo no ATM e perto do vencimento.
+
+No próximo módulo, o outro lado da moeda: o que acontece com o prêmio quando **nada acontece**. É o **theta**.
