@@ -37,6 +37,10 @@ def impl(t, S, K, T, px):
         else: hi = m
     return (lo + hi) / 2
 
+# Janela de dias úteis do 1º vencimento exigida pelo POP: (mínimo, máximo, alvo)
+JANELA = {'b1': (12, 24, 15), 'b2': (30, 45, 38), 'b3': (25, 999, 35), 'trava-alta': (6, 12, 8), 'trava-baixa': (6, 12, 8),
+          'thl': (23, 999, 35), 'thl-put': (23, 999, 35), 'tlad': (23, 999, 35)}
+
 def fnum(x, d=2):
     return f"{x:.{d}f}".replace('.', ',')
 
@@ -92,8 +96,12 @@ def main():
         def mapear(legs):
             exps = sorted({(l['d'], l['exp']) for l in legs if l['t'] != 'S'})
             tmap = {}; prev = -1
-            for d, ex in exps:
-                cand = sorted(range(len(series)), key=lambda i: abs(series[i][1] - d))
+            for n_, (d, ex) in enumerate(exps):
+                alvo_du = d; jan = JANELA.get(e['pop']) if n_ == 0 else None
+                if jan:
+                    dentro = [i for i in range(len(series)) if jan[0] <= series[i][1] <= jan[1]]
+                    if dentro: alvo_du = series[min(dentro, key=lambda i: abs(series[i][1] - jan[2]))][1]
+                cand = sorted(range(len(series)), key=lambda i: abs(series[i][1] - alvo_du))
                 i = next(i for i in cand if i > prev) if any(i > prev for i in cand) else len(series) - 1
                 tmap[ex] = series[i][0]; prev = i
             kmap = {}
@@ -107,7 +115,7 @@ def main():
                 porK = {x['k']: x for x in disp}
                 if len(ks) >= 3:
                     # borboletas e afins: preserva o desenho (razão entre as asas) em passos da grade
-                    cand = sorted(disp, key=lambda x: abs(x['k'] - ks[0] * fact) + (0.0 if not x['teo'] else 0.15))
+                    cand = sorted(disp, key=lambda x: abs(x['k'] - ks[0] * fact) + (0.15 if x['teo'] else 0.0) + (0.10 if (x['n'] or 0) < 5 else 0.0))
                     kk = cand[0]['k']; picks = [kk]
                     for g in (b - a_ for a_, b in zip(ks, ks[1:])):
                         kk = kk + max(1, round(g * fact / passo)) * passo
@@ -116,7 +124,7 @@ def main():
                     continue
                 for k in ks:
                     alvo = k * fact
-                    cand = sorted(disp, key=lambda x: abs(x['k'] - alvo) + (0.0 if not x['teo'] else 0.15))
+                    cand = sorted(disp, key=lambda x: abs(x['k'] - alvo) + (0.15 if x['teo'] else 0.0) + (0.10 if (x['n'] or 0) < 5 else 0.0))
                     pick = next((x for x in cand if x['k'] not in used), cand[0])
                     used.add(pick['k']); kmap[(ex, t, k)] = pick
             res = []
