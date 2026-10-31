@@ -179,4 +179,19 @@ const analises = defineCollection({
   }),
 });
 
-export const collections = { blog, trilha, acoes, estrategias, analises };
+// Seção "Risco Assumido": como usar opções sobre o risco que você já carrega (ação em carteira ou caixa reservado)
+const risco = defineCollection({
+  loader: glob({ base: './src/content/risco-assumido', pattern: '**/*.{md,mdx}' }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    ordem: z.number(),
+    pubDate: z.coerce.date(),
+    updatedDate: z.coerce.date().optional(),
+    tags: z.array(z.string()).default([]),
+    youtube: z.string().optional(),
+    draft: z.boolean().default(false),
+  }),
+});
+
+export const collections = { risco, blog, trilha, acoes, estrategias, analises };

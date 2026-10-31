@@ -1,0 +1,186 @@
+---
+title: 'Potencializando o risco que você já assumiu'
+description: 'Tem a ação na carteira ou o caixa separado para comprá-la? Então o risco de entrega já é seu. Veja como trocar a venda coberta e a PUT garantida por estruturas que vendem mais caro, compram mais barato e turbinam o miolo, sem descobrir nenhuma perna.'
+ordem: 1
+pubDate: 2026-10-31
+tags: ['venda coberta', 'put garantida', 'booster', 'mônadas', 'BBAS3', 'gestão de risco']
+---
+
+import EscadaRisco from '../../components/risco/EscadaRisco.astro';
+
+## A ideia em uma frase
+
+**Se você já aceita entregar a ação (ou comprar com o caixa que separou), a perna vendida já está coberta.**
+A venda coberta e a PUT garantida são o jeito mais simples de cobrar por esse risco. Mas não são o único,
+nem o mais eficiente. Dá para montar estruturas que usam **exatamente o mesmo risco** e pagam mais por ele.
+
+Todos os números deste artigo vêm do [Laboratório de estruturas](/ferramentas/laboratorio), com a cadeia de
+<span class="ticker">BBAS3</span> de **02/10/2026**: ação a R$ 23,72 e opções de 19/11 (31 dias úteis).
+Valores por ação; multiplique por 1.000 para ter o resultado por lote de mil.
+
+<div class="mapa-artigo">
+  <a href="#cardinal"><span>🧮</span><b>1. A conta</b>Equivalência cardinal</a>
+  <a href="#papel"><span>📦</span><b>2. Tenho a ação</b>Vender mais caro</a>
+  <a href="#caixa"><span>💰</span><b>3. Tenho o caixa</b>Comprar mais barato</a>
+  <a href="#monadas"><span>🧩</span><b>4. Mônadas cobertas</b>As estruturas robustas</a>
+  <a href="#queda"><span>📉</span><b>5. O teste da queda</b>27/10 na prática</a>
+  <a href="#pop"><span>✅</span><b>6. POP de robustez</b>As regras</a>
+</div>
+
+<h2 id="cardinal">1. A conta que organiza tudo: equivalência cardinal</h2>
+
+Toda estrutura deste artigo tem uma coisa em comum: **vende exatamente uma opção a mais do que compra**.
+Essa opção "sobrando" é o risco que você já assumiu: ela é coberta pela ação ou pelo caixa.
+
+Para saber em que preço você está, de fato, entregando (ou comprando) o papel, use a **equivalência cardinal**:
+
+<div class="caixa">
+
+**Strike cardinal** = (nº vendidas × strike vendido − nº compradas × strike comprado) ÷ (nº vendidas − nº compradas)
+
+**Regra de cobertura:** vendidas − compradas ≤ o que você já tem (ações para CALL, caixa para PUT).
+
+</div>
+
+Exemplo com o **Booster CALL**: compra 1 CALL 23,54 e vende 2 CALLs 24,54.
+O cardinal é (2 × 24,54 − 1 × 23,54) ÷ (2 − 1) = **R$ 25,54**. Somando o crédito de R$ 1,24, a ação sai,
+economicamente, a **R$ 26,78**. Na venda coberta simples (CALL 25,04 a R$ 1,49), sai a R$ 26,53.
+
+Potencializar sempre mexe em três coisas ao mesmo tempo:
+
+- **O preço de saída sobe**, porque o cardinal fica acima do strike da venda coberta.
+- **Aparece uma zona turbo no miolo**: entre a comprada e a vendida, o delta da posição dobra ou triplica.
+- **O colchão encolhe**: o crédito é menor, então o break-even de baixa sobe. É o preço da potência.
+
+<h2 id="papel">2. Tenho a ação: aceito entregar</h2>
+
+Arraste o preço de BBAS3 e veja quanto cada estrutura entrega no vencimento. A borda coral marca a melhor
+naquele preço (sem contar a ação pura).
+
+<EscadaRisco lado="papel" />
+
+| Estrutura | Crédito | Saída efetiva | Teto atingido em | Ganho máx. | Break-even |
+|---|---:|---:|---:|---:|---:|
+| [Venda coberta](/ferramentas/laboratorio/covered-call/) | 1,49 | 26,53 | 25,04 | 2,81 | **22,23** |
+| [Booster CALL](/ferramentas/laboratorio/booster-call/) | 1,24 | 26,78 | 24,54 | 3,06 | 22,48 |
+| [B2 lado CALL + ação](/ferramentas/laboratorio/b2/) | 0,66 | 27,20 | 24,54 | 3,48 | 23,06 |
+| [B3 2×3 lado CALL + ação](/ferramentas/laboratorio/b3-2x3/) | 0,78 | **27,32** | 24,54 | **3,60** | 22,94 |
+| [Collar](/ferramentas/laboratorio/collar/) (contrapeso) | 0,30 | 25,34 | 25,04 | 1,62 | 23,42 |
+
+**Como ler:** o Booster CALL é a troca mais equilibrada. Ele abre mão de R$ 0,25 de colchão para vender
+R$ 0,25 mais caro e chega ao teto R$ 0,50 antes. O B3 2×3 é o mais agressivo: vende R$ 0,79 acima da coberta,
+mas o break-even sobe R$ 0,71. O collar entra como referência do caminho oposto: abre mão de potência para travar o piso.
+
+<div class="caixa alerta">
+
+**A cauda que some.** No laboratório, o Módulo B2 aparece com "cauda negativa no lado da CALL". Com a ação na
+carteira, essa cauda desaparece: a CALL vendida a mais está coberta, e a cauda vira o teto de venda em R$ 27,20.
+
+</div>
+
+### Outras estruturas do laboratório que usam a custódia
+
+- **[Financiamento](/ferramentas/laboratorio/financiamento/)**: compra a ação e vende a CALL 22,54 (ITM) a R$ 2,74.
+  Desembolso de R$ 20,98 e, se exercido, recebe R$ 22,54 (7,4% em 31 dias úteis). É o extremo do colchão:
+  troca quase toda a alta por proteção.
+- **[Dividendo sintético](/ferramentas/laboratorio/dividendo-sint/)**: lança a CALL 25,04 sobre só 30% da posição.
+  Rende R$ 0,45 por ação no ciclo e deixa 70% livres para subir. É a forma mais leve de usar a custódia.
+- **[Booster e Fly sobre custódia](/ferramentas/laboratorio/booster-fly/)**: o Booster 1×2 lastreado na ação, com uma
+  CALL 26,79 longa de âncora. Se o papel disparar, a CALL longa devolve convexidade.
+- **[GL short put + booster horizontal](/ferramentas/laboratorio/gl-shortput-booster/)**: a ação cobre a CALL
+  extra de um 3×2 horizontal, e a PUT vendida usa o caixa. Usa os dois riscos de uma vez, com crédito na entrada.
+
+<h2 id="caixa">3. Tenho o caixa: aceito comprar</h2>
+
+Aqui o risco assumido é receber a ação. A PUT garantida é o padrão; as estruturas abaixo compram pelo mesmo
+caixa, mas pagam diferente.
+
+<EscadaRisco lado="caixa" />
+
+| Estrutura | Crédito | Compra efetiva | Ganho máx. (em) | Se o papel subir |
+|---|---:|---:|---:|---:|
+| [PUT garantida](/ferramentas/laboratorio/cash-put/) | 1,19 | 21,35 | 1,19 (≥ 22,54) | **1,19** |
+| [Booster de PUT](/ferramentas/laboratorio/booster-put/) | 1,13 | 21,41 | 2,13 (23,54) | 1,13 |
+| [B2 lado PUT](/ferramentas/laboratorio/b2/) | 0,55 | 20,99 | 2,55 (23,54) | 0,55 |
+| [B3 2×3 lado PUT](/ferramentas/laboratorio/b3-2x3/) | 0,63 | **20,91** | **2,63** (23,54) | 0,63 |
+
+**Como ler:** o Booster de PUT compra o papel praticamente no mesmo preço da PUT garantida (R$ 21,41 contra
+R$ 21,35) e quase dobra o ganho se o papel fechar no miolo. B2 e B3 compram cerca de R$ 0,40 mais barato,
+mas devolvem metade do prêmio se o papel disparar. Para quem quer de fato a ação, isso é aceitável. Para quem
+vende PUT só para renda, o Booster é o limite.
+
+O laboratório traz ainda o **[Booster horizontal de PUT 1,5×1](/ferramentas/laboratorio/booster-horizontal/)**:
+vende 1,5 PUT curta e compra 1 PUT longa no mesmo strike, quase a custo zero. O meio contrato a mais é o
+risco assumido, coberto pelo caixa.
+
+<div class="caixa">
+
+**Atenção à garantia.** No vencimento você recebe todas as PUTs vendidas e entrega pelas compradas, então a
+obrigação econômica é de 1 lote no strike cardinal. Mas, durante a operação, a margem é calculada sobre as
+pernas vendidas (2 ou 3 lotes). Confira o caixa bloqueado na corretora antes de montar.
+
+</div>
+
+<h2 id="monadas">4. Papel e caixa: as Mônadas cobertas</h2>
+
+Várias estruturas que no laboratório aparecem com "risco dominante" ficam **totalmente cobertas** quando a
+perna vendida a mais encontra a ação ou o caixa. É aqui que estão as montagens mais robustas.
+
+- **[Módulo B integrado](/ferramentas/laboratorio/b2/)**: cada lado do B1, B2 ou B3 vende uma opção líquida.
+  O lado CALL usa a ação; o lado PUT usa o caixa. Resultado: teto de venda acima, preço de compra abaixo e o
+  miolo turbinado nos dois sentidos.
+- **[Hexabox sem a asa de CALL](/ferramentas/laboratorio/hexabox/)**: com a ação, a CALL longa 24,29 comprada
+  como asa fica redundante. Trocá-la pela ação transforma o débito de R$ 0,12 em crédito de R$ 1,70, mantendo a asa de PUT.
+- **[Mannerheim coberta](/ferramentas/laboratorio/mannerheim/)**: o risco dominante da Mannerheim é a CALL curta
+  sem proteção. Com a ação, ela vira uma venda coberta em 23,29 cujo prêmio financia três THL de PUT. As PUTs
+  longas passam a proteger o próprio papel.
+- **[TLAD bilateral](/ferramentas/laboratorio/clade/)**: duas curtas e uma longa de cada lado. A curta a mais de
+  CALL se apoia na ação; a de PUT, no caixa. O ciclo de reciclagem roda sem perna descoberta (crédito de R$ 0,95).
+- **[Mônada Básica](/ferramentas/laboratorio/monada-basica-call/)**: vende 1,2 contra 1 comprado. O 0,2 a mais é
+  exatamente o risco residual que o manual aponta; 0,2 de ação (versão CALL) ou de caixa (versão PUT) o zera.
+- **[Quatermine V2](/ferramentas/laboratorio/quatermine-v2/)**: os boosters horizontais de PUT deixam 1 PUT
+  vendida líquida. É uma estrutura de **entrada no papel**. Só faz sentido para quem quer comprar entre 24,79 e 25,79.
+- **Covered strangle**: venda coberta mais PUT garantida (R$ 1,49 + R$ 1,19 = R$ 2,68). É o jeito mais simples
+  de usar os dois riscos e serve de benchmark para o Módulo B integrado.
+
+<h2 id="queda">5. O teste da queda: BBAS3 em 27/10</h2>
+
+Depois do segundo turno, BBAS3 fechou a **R$ 17,38 em 27/10**. Quem tinha a ação desde 23,72 viu o risco
+assumido se materializar. No vencimento, a esse preço, cada estrutura do quadro do papel entregaria:
+
+| Estrutura | Resultado a R$ 17,38 |
+|---|---:|
+| Ação pura | −6,34 |
+| Venda coberta | −4,85 |
+| Booster CALL | −5,10 |
+| B2 lado CALL + ação | −5,68 |
+| B3 2×3 lado CALL + ação | −5,56 |
+| Collar | **−0,88** |
+
+A lição é direta: **potencializar troca colchão por preço de venda**. Na alta, B2 e B3 vencem; na queda forte,
+eles perdem mais que a venda coberta, porque cobraram menos prêmio. Só o collar, que gastou parte do prêmio em
+proteção, segurou a queda. Escolher o degrau da escada é escolher qual desses dois cenários você teme mais.
+
+<h2 id="pop">6. POP de robustez: potencializar sem descobrir</h2>
+
+1. **Conte as pernas antes de enviar.** Vendidas menos compradas, por tipo e vencimento. Se passar do que você
+   tem em ações ou em caixa, deixou de ser potencialização e virou alavancagem.
+2. **Só monte se aceitar o strike cardinal.** O preço real de entrega é o cardinal mais o crédito, não o strike
+   da opção vendida. Se você não venderia a 26,78 (ou não compraria a 21,41), não monte.
+3. **Nunca desmonte a comprada sozinha.** No 1×2, a comprada do miolo é o que garante a segunda vendida. Zerar
+   só ela deixa uma CALL a seco contra uma ação.
+4. **Vigie o exercício antecipado.** As CALLs da B3 são americanas e BBAS3 paga proventos. Perto da data-com,
+   CALLs vendidas dentro do dinheiro podem ser exercidas antes. Se exercerem as duas, exerça a comprada para
+   cobrir a segunda entrega.
+5. **Escolha o degrau pela leitura do papel, não pelo crédito.** Cada degrau (coberta → Booster → B2 → B3)
+   sobe o break-even. Em tendência de alta, suba a escada; em dúvida, fique na coberta ou desça para o collar.
+6. **Orce o custo de três pernas.** São três spreads de compra e venda na entrada e na saída. Use ordem de
+   estrutura e cheque a liquidez do strike vendido, que concentra a quantidade.
+
+<div class="caixa">
+
+Os números usam o retrato do laboratório de 02/10/2026, no vencimento, sem custos, impostos ou proventos.
+Para os preços de hoje, abra a ficha de cada estrutura no [Laboratório](/ferramentas/laboratorio). Conteúdo
+educacional; não é recomendação de investimento.
+
+</div>

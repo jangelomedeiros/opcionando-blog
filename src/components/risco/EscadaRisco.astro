@@ -1,0 +1,155 @@
+---
+// Escada de potência: compara, no vencimento, estruturas que usam o mesmo risco já assumido
+// (a ação em carteira ou o caixa reservado). Preços do Laboratório BBAS3 de 02/10/2026.
+interface Perna { t: 'S' | 'C' | 'P'; q: number; k: number; px: number }
+interface Serie { id: string; nome: string; cor: string; pernas: Perna[]; tracejado?: boolean; lab?: string }
+
+interface Props { lado: 'papel' | 'caixa' }
+const { lado } = Astro.props;
+const S0 = 23.72;
+
+const PAPEL: Serie[] = [
+  { id: 'acao', nome: 'Ação pura', cor: '#8b8a84', tracejado: true, pernas: [{ t: 'S', q: 1, k: S0, px: 0 }] },
+  { id: 'coberta', nome: 'Venda coberta', cor: '#0e4a55', lab: 'covered-call', pernas: [{ t: 'S', q: 1, k: S0, px: 0 }, { t: 'C', q: -1, k: 25.04, px: 1.49 }] },
+  { id: 'booster', nome: 'Booster CALL', cor: '#f2694d', lab: 'booster-call', pernas: [{ t: 'S', q: 1, k: S0, px: 0 }, { t: 'C', q: 1, k: 23.54, px: 2.16 }, { t: 'C', q: -2, k: 24.54, px: 1.70 }] },
+  { id: 'b2', nome: 'B2 lado CALL', cor: '#8e5bb5', lab: 'b2', pernas: [{ t: 'S', q: 1, k: S0, px: 0 }, { t: 'C', q: 1, k: 22.54, px: 2.74 }, { t: 'C', q: -2, k: 24.54, px: 1.70 }] },
+  { id: 'b3', nome: 'B3 2×3 lado CALL', cor: '#3fa66b', lab: 'b3-2x3', pernas: [{ t: 'S', q: 1, k: S0, px: 0 }, { t: 'C', q: 2, k: 23.54, px: 2.16 }, { t: 'C', q: -3, k: 24.54, px: 1.70 }] },
+  { id: 'collar', nome: 'Collar', cor: '#c98a1b', lab: 'collar', pernas: [{ t: 'S', q: 1, k: S0, px: 0 }, { t: 'C', q: -1, k: 25.04, px: 1.49 }, { t: 'P', q: 1, k: 22.54, px: 1.19 }] },
+];
+const CAIXA: Serie[] = [
+  { id: 'putg', nome: 'PUT garantida', cor: '#0e4a55', lab: 'cash-put', pernas: [{ t: 'P', q: -1, k: 22.54, px: 1.19 }] },
+  { id: 'bput', nome: 'Booster de PUT', cor: '#f2694d', lab: 'booster-put', pernas: [{ t: 'P', q: 1, k: 24.54, px: 2.13 }, { t: 'P', q: -2, k: 23.54, px: 1.63 }] },
+  { id: 'b2p', nome: 'B2 lado PUT', cor: '#8e5bb5', lab: 'b2', pernas: [{ t: 'P', q: 1, k: 25.54, px: 2.71 }, { t: 'P', q: -2, k: 23.54, px: 1.63 }] },
+  { id: 'b3p', nome: 'B3 2×3 lado PUT', cor: '#3fa66b', lab: 'b3-2x3', pernas: [{ t: 'P', q: 2, k: 24.54, px: 2.13 }, { t: 'P', q: -3, k: 23.54, px: 1.63 }] },
+];
+
+const series = lado === 'papel' ? PAPEL : CAIXA;
+const res = (s: Serie, S: number) => s.pernas.reduce((a, p) => {
+  if (p.t === 'S') return a + p.q * (S - p.k);
+  const intr = p.t === 'C' ? Math.max(S - p.k, 0) : Math.max(p.k - S, 0);
+  return a + p.q * (intr - p.px);
+}, 0);
+
+const W = 640, H = 300, L = 44, R = 12, T = 12, B = 34;
+const xmin = 20, xmax = 28;
+const ymin = lado === 'papel' ? -4 : -2, ymax = lado === 'papel' ? 4 : 3;
+const X = (x: number) => L + ((x - xmin) / (xmax - xmin)) * (W - L - R);
+const Y = (y: number) => T + ((ymax - y) / (ymax - ymin)) * (H - T - B);
+const caminhos = series.map((s) => {
+  let d = '';
+  for (let x = xmin; x <= xmax + 1e-9; x += 0.02) {
+    const y = Math.max(ymin, Math.min(ymax, res(s, x)));
+    d += (d ? 'L' : 'M') + X(x).toFixed(1) + ',' + Y(y).toFixed(1);
+  }
+  return { ...s, d };
+});
+const ys = Array.from({ length: ymax - ymin + 1 }, (_, i) => ymin + i);
+const xs = Array.from({ length: xmax - xmin + 1 }, (_, i) => xmin + i);
+const dados = JSON.stringify(series.map((s) => ({ id: s.id, nome: s.nome, cor: s.cor, pernas: s.pernas })));
+const inicial = lado === 'papel' ? 24.54 : 23.54;
+---
+<figure class="escada" data-escada={dados} data-lado={lado}>
+  <figcaption>
+    <strong>{lado === 'papel' ? 'Tenho a ação: quanto cada estrutura entrega no vencimento' : 'Tenho o caixa: quanto cada estrutura entrega no vencimento'}</strong>
+    <span>R$ por ação · BBAS3 a 23,72 · série de 19/11 · prêmios do Laboratório de 02/10/2026</span>
+  </figcaption>
+
+  <div class="grafico">
+    <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-label="Resultado no vencimento de cada estrutura conforme o preço de BBAS3">
+      {ys.map((y) => (
+        <g>
+          <line x1={L} x2={W - R} y1={Y(y)} y2={Y(y)} class={y === 0 ? 'eixo' : 'grade'} />
+          <text x={L - 8} y={Y(y) + 4} text-anchor="end" class="rot">{y > 0 ? '+' + y : y}</text>
+        </g>
+      ))}
+      {xs.map((x) => (
+        <g>
+          <line x1={X(x)} x2={X(x)} y1={T} y2={H - B} class="grade v" />
+          <text x={X(x)} y={H - B + 17} text-anchor="middle" class="rot">{x}</text>
+        </g>
+      ))}
+      <line x1={X(S0)} x2={X(S0)} y1={T} y2={H - B} class="spot" />
+      <text x={X(S0) + 5} y={T + 11} class="rot spot-t">spot 23,72</text>
+      {caminhos.map((c) => (
+        <path d={c.d} fill="none" stroke={c.cor} stroke-width="2.4" stroke-linejoin="round" stroke-dasharray={c.tracejado ? '5 4' : undefined} data-linha={c.id} />
+      ))}
+      <line x1={X(inicial)} x2={X(inicial)} y1={T} y2={H - B} class="cursor" data-cursor />
+    </svg>
+  </div>
+
+  <label class="controle">
+    <span>Se BBAS3 fechar em <b data-preco>R$ {inicial.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</b> no vencimento</span>
+    <input type="range" min="20" max="28" step="0.01" value={inicial} data-slider aria-label="Preço de BBAS3 no vencimento" />
+  </label>
+
+  <ul class="placar">
+    {series.map((s) => (
+      <li data-item={s.id}>
+        <span class="nome"><i style={`background:${s.cor}`}></i>{s.lab ? <a href={`/ferramentas/laboratorio/${s.lab}/`}>{s.nome}</a> : s.nome}</span>
+        <b data-valor={s.id}>{res(s, inicial).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</b>
+      </li>
+    ))}
+  </ul>
+</figure>
+
+<script>
+  type P = { t: 'S' | 'C' | 'P'; q: number; k: number; px: number };
+  const brl = (v: number) => (v > 0.004 ? '+' : v < -0.004 ? '−' : '') + Math.abs(v).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  document.querySelectorAll<HTMLElement>('figure.escada').forEach((fig) => {
+    const series = JSON.parse(fig.dataset.escada || '[]') as { id: string; pernas: P[] }[];
+    const lado = fig.dataset.lado;
+    const res = (pernas: P[], S: number) => pernas.reduce((a, p) => {
+      if (p.t === 'S') return a + p.q * (S - p.k);
+      const intr = p.t === 'C' ? Math.max(S - p.k, 0) : Math.max(p.k - S, 0);
+      return a + p.q * (intr - p.px);
+    }, 0);
+    const slider = fig.querySelector<HTMLInputElement>('[data-slider]')!;
+    const cursor = fig.querySelector<SVGLineElement>('[data-cursor]')!;
+    const W = 640, L = 44, R = 12, xmin = 20, xmax = 28;
+    const upd = () => {
+      const S = parseFloat(slider.value);
+      fig.querySelector('[data-preco]')!.textContent = 'R$ ' + S.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      const x = L + ((S - xmin) / (xmax - xmin)) * (W - L - R);
+      cursor.setAttribute('x1', String(x)); cursor.setAttribute('x2', String(x));
+      const vals = series.map((s) => ({ id: s.id, v: res(s.pernas, S) }));
+      const melhor = Math.max(...vals.filter((v) => !(lado === 'papel' && v.id === 'acao')).map((v) => v.v));
+      vals.forEach(({ id, v }) => {
+        const el = fig.querySelector<HTMLElement>(`[data-valor="${id}"]`)!;
+        el.textContent = brl(v);
+        el.className = v > 0.004 ? 'pos' : v < -0.004 ? 'neg' : '';
+        fig.querySelector(`[data-item="${id}"]`)!.classList.toggle('lider', Math.abs(v - melhor) < 0.005 && !(lado === 'papel' && id === 'acao'));
+      });
+    };
+    slider.addEventListener('input', upd);
+    upd();
+  });
+</script>
+
+<style>
+  .escada { margin: 1.8rem 0; background: var(--bg-card); border: 1px solid var(--borda); border-radius: var(--raio); padding: 1rem 1rem 1.1rem; }
+  figcaption { display: grid; gap: 2px; margin-bottom: 0.6rem; }
+  figcaption strong { font-family: var(--font-titulo); color: var(--destaque); font-size: 1.12rem; line-height: 1.25; }
+  figcaption span { font-size: 0.8rem; color: var(--texto-suave); }
+  .grafico { overflow-x: auto; }
+  .grafico svg { display: block; width: 100%; height: auto; }
+  .grade { stroke: var(--borda); stroke-width: 1; }
+  .grade.v { stroke-opacity: 0.6; }
+  .eixo { stroke: var(--texto-suave); stroke-width: 1.4; }
+  .rot { font-family: var(--font-mono); font-size: 11px; fill: var(--texto-suave); }
+  .spot { stroke: var(--destaque); stroke-dasharray: 2 4; }
+  .spot-t { fill: var(--destaque); }
+  .cursor { stroke: var(--texto); stroke-width: 1.2; stroke-opacity: 0.55; }
+  .controle { display: grid; gap: 6px; margin: 0.8rem 0 0.6rem; font-size: 0.95rem; }
+  .controle b { font-family: var(--font-mono); color: var(--coral); }
+  .controle input { width: 100%; accent-color: var(--coral); }
+  .placar { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 6px; }
+  .placar li { display: flex; justify-content: space-between; align-items: center; gap: 8px; border: 1px solid var(--borda); border-radius: 10px; padding: 6px 10px; font-size: 0.9rem; min-width: 0; }
+  .placar li.lider { border-color: var(--coral); box-shadow: inset 0 0 0 1px var(--coral); }
+  .placar .nome { display: flex; align-items: center; gap: 7px; min-width: 0; }
+  .placar .nome a { color: inherit; }
+  .placar i { width: 10px; height: 10px; border-radius: 3px; flex: 0 0 auto; }
+  .placar b { font-family: var(--font-mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .placar b.pos { color: #2f8a5c; }
+  .placar b.neg { color: #c4473a; }
+  @media (prefers-color-scheme: dark) { .placar b.pos { color: #6cc49a; } .placar b.neg { color: #ef7f72; } }
+</style>

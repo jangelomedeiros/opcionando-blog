@@ -1,0 +1,45 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+
+const artigos = (await getCollection('risco', ({ data }) => import.meta.env.DEV || !data.draft))
+  .sort((a, b) => a.data.ordem - b.data.ordem);
+
+// Próximos temas da seção (aparecem como "Em breve" até serem publicados)
+const planejados = [
+  { title: 'O papel disparou: rolar, entregar ou recomprar?', resumo: 'O que fazer quando a CALL vendida fica dentro do dinheiro antes do vencimento.' },
+  { title: 'O papel caiu: defender a custódia ou aceitar o exercício?', resumo: 'Fence, colar perene e booster reverso como respostas à queda, com custo e prazo.' },
+  { title: 'A roda (wheel) com BBAS3', resumo: 'PUT garantida, exercício, venda coberta e de novo: o ciclo completo com preços reais.' },
+];
+---
+<Base title="Risco Assumido" description="Se você já tem a ação ou já separou o caixa para comprá-la, o risco já é seu. Aqui você aprende a usar opções para extrair mais desse mesmo risco, sem descobrir nada.">
+  <section class="container-larga pagina">
+    <p class="sobretitulo">Opções sobre o que você já tem</p>
+    <h1>Risco Assumido</h1>
+    <p class="intro">
+      Quem tem BBAS3 na carteira já aceitou o risco de o papel cair. Quem separou o caixa para comprar já aceitou
+      receber a ação. Esse risco não precisa ficar parado: com opções, ele pode render prêmio, vender mais caro
+      ou comprar mais barato. A regra é uma só: a perna vendida nunca pode passar do que você já tem.
+    </p>
+    <ul class="grade-cards">
+      {artigos.map((a) => (
+        <li>
+          <a class="card-link" href={`/risco-assumido/${a.id}/`}>
+            <span class="selo">Parte {String(a.data.ordem).padStart(2, '0')}</span>
+            <span class="titulo">{a.data.title}</span>
+            <span class="resumo">{a.data.description}</span>
+          </a>
+        </li>
+      ))}
+      {planejados.map((p) => (
+        <li>
+          <div class="card-link em-breve">
+            <span class="selo neutro">Em breve</span>
+            <span class="titulo">{p.title}</span>
+            <span class="resumo">{p.resumo}</span>
+          </div>
+        </li>
+      ))}
+    </ul>
+  </section>
+</Base>
