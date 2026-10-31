@@ -2,7 +2,7 @@
 import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 
-const artigos = (await getCollection('risco', ({ data }) => import.meta.env.DEV || !data.draft))
+const artigos = (await getCollection('supercoberta', ({ data }) => import.meta.env.DEV || !data.draft))
   .sort((a, b) => a.data.ordem - b.data.ordem);
 
 // Próximos temas da seção (aparecem como "Em breve" até serem publicados)
@@ -12,19 +12,19 @@ const planejados = [
   { title: 'A roda (wheel) com BBAS3', resumo: 'PUT garantida, exercício, venda coberta e de novo: o ciclo completo com preços reais.' },
 ];
 ---
-<Base title="Risco Assumido" description="Se você já tem a ação ou já separou o caixa para comprá-la, o risco já é seu. Aqui você aprende a usar opções para extrair mais desse mesmo risco, sem descobrir nada.">
+<Base title="Supercoberta" description="Além da venda coberta: estruturas com opções que vendem a sua ação mais caro, compram mais barato e turbinam o prêmio, sem deixar nenhuma perna descoberta.">
   <section class="container-larga pagina">
     <p class="sobretitulo">Opções sobre o que você já tem</p>
-    <h1>Risco Assumido</h1>
+    <h1>Supercoberta</h1>
     <p class="intro">
-      Quem tem BBAS3 na carteira já aceitou o risco de o papel cair. Quem separou o caixa para comprar já aceitou
-      receber a ação. Esse risco não precisa ficar parado: com opções, ele pode render prêmio, vender mais caro
-      ou comprar mais barato. A regra é uma só: a perna vendida nunca pode passar do que você já tem.
+      A venda coberta é o primeiro passo. A Supercoberta é o próximo: quem já tem a ação na carteira, ou o caixa
+      separado para comprá-la, já assumiu o risco de entrega. Com as estruturas certas, esse mesmo risco vende
+      mais caro, compra mais barato e paga mais prêmio. A regra é uma só: a perna vendida nunca passa do que você já tem.
     </p>
     <ul class="grade-cards">
       {artigos.map((a) => (
         <li>
-          <a class="card-link" href={`/risco-assumido/${a.id}/`}>
+          <a class="card-link" href={`/supercoberta/${a.id}/`}>
             <span class="selo">Parte {String(a.data.ordem).padStart(2, '0')}</span>
             <span class="titulo">{a.data.title}</span>
             <span class="resumo">{a.data.description}</span>

@@ -179,9 +179,9 @@ const analises = defineCollection({
   }),
 });
 
-// Seção "Risco Assumido": como usar opções sobre o risco que você já carrega (ação em carteira ou caixa reservado)
-const risco = defineCollection({
-  loader: glob({ base: './src/content/risco-assumido', pattern: '**/*.{md,mdx}' }),
+// Seção "Supercoberta": como usar opções sobre o risco que você já carrega (ação em carteira ou caixa reservado)
+const supercoberta = defineCollection({
+  loader: glob({ base: './src/content/supercoberta', pattern: '**/*.{md,mdx}' }),
   schema: z.object({
     title: z.string(),
     description: z.string(),
@@ -194,4 +194,4 @@ const risco = defineCollection({
   }),
 });
 
-export const collections = { risco, blog, trilha, acoes, estrategias, analises };
+export const collections = { supercoberta, blog, trilha, acoes, estrategias, analises };

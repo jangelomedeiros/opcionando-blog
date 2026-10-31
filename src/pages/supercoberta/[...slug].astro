@@ -5,7 +5,7 @@ import { formatarData, tempoLeitura } from '../../lib/posts';
 import { LINKS } from '../../consts';
 
 export async function getStaticPaths() {
-  const artigos = (await getCollection('risco', ({ data }) => import.meta.env.DEV || !data.draft))
+  const artigos = (await getCollection('supercoberta', ({ data }) => import.meta.env.DEV || !data.draft))
     .sort((a, b) => a.data.ordem - b.data.ordem);
   return artigos.map((a, i) => ({
     params: { slug: a.id },
@@ -19,7 +19,7 @@ const { title, description, ordem, pubDate, updatedDate, youtube } = artigo.data
 ---
 <Base title={title} description={description} type="article">
   <article class="container pagina">
-    <p class="sobretitulo"><a href="/risco-assumido">Risco Assumido</a> · Parte {String(ordem).padStart(2, '0')}</p>
+    <p class="sobretitulo"><a href="/supercoberta">Supercoberta</a> · Parte {String(ordem).padStart(2, '0')}</p>
     <h1>{title}</h1>
     <p class="intro">{description}</p>
     <p class="meta">
@@ -43,11 +43,11 @@ const { title, description, ordem, pubDate, updatedDate, youtube } = artigo.data
       tem tudo na prática.</p>
     </aside>
 
-    <nav class="nav-serie" aria-label="Navegação da seção Risco Assumido">
-      {anterior ? <a href={`/risco-assumido/${anterior.id}/`}><small>← Parte {anterior.data.ordem}</small>{anterior.data.title}</a> : <span />}
+    <nav class="nav-serie" aria-label="Navegação da seção Supercoberta">
+      {anterior ? <a href={`/supercoberta/${anterior.id}/`}><small>← Parte {anterior.data.ordem}</small>{anterior.data.title}</a> : <span />}
       {proximo
-        ? <a class="dir" href={`/risco-assumido/${proximo.id}/`}><small>Próxima: parte {proximo.data.ordem} →</small>{proximo.data.title}</a>
-        : <a class="dir" href="/risco-assumido"><small>Próxima parte em produção</small>Voltar para Risco Assumido</a>}
+        ? <a class="dir" href={`/supercoberta/${proximo.id}/`}><small>Próxima: parte {proximo.data.ordem} →</small>{proximo.data.title}</a>
+        : <a class="dir" href="/supercoberta"><small>Próxima parte em produção</small>Voltar para Supercoberta</a>}
     </nav>
   </article>
 </Base>
