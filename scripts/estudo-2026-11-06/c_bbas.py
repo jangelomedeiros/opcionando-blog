@@ -1,0 +1,214 @@
+# Monta a ficha src/content/analises/bbas3-2026-11-06.md. Números de calculados/stats_BBAS3.json,
+# grade do opcoes.net.br (séries de 06/11/2026) e TradingView (conector Trade).
+import yaml
+fm = {
+ 'ticker': 'BBAS3', 'empresa': 'Banco do Brasil',
+ 'title': 'Depois do clímax: teste secundário feito, range de R$ 16 a R$ 18,30 antes do balanço',
+ 'description': 'Nove pregões depois do tombo de 29%, o BB desenhou reação automática, teste secundário com 15% do volume do clímax e um fechamento na máxima. O range está montado; o balanço de 11/11 decide a saída.',
+ 'data': '2026-11-06', 'precoReferencia': 17.13, 'cenario': 'Lateral', 'timeframe': 'Diário e semanal',
+ 'suportes': [16.43, 16.08], 'resistencias': [17.55, 18.31, 19.38],
+ 'range': {'inferior': 16.08, 'superior': 18.31, 'rotulo': 'Range pós-clímax'},
+ 'volatilidade': 'Implícita da grade: ~37% · HV20 126% (inflada pelo gap) · HV dos 8 pregões pós-gap: 36%',
+ 'grafico': 'bbas3-2026-11-06', 'perfil': 'bbas3-2026-11-06',
+ 'veredito': [
+  {'rotulo': 'Preço-teto de entrada', 'valor': 'R$ 16,60', 'destaque': True, 'texto': 'Volta ao pivô do range (VWAP da mínima em 16,50 e POC pós-clímax em 16,55). Com stop em R$ 15,95, entrega 1,7:1 até 17,55 e 2,9:1 até a reação automática (18,31). A R$ 17,13 a relação cai para 1,1:1 até 18,31.'},
+  {'rotulo': 'Zona de acumulação', 'valor': 'R$ 16,08 – 16,60', 'texto': 'Do teste secundário (16,08) ao pivô do range. Foi onde o volume secou: 3/11 negociou 15% do volume do clímax.'},
+  {'rotulo': 'Range até o vencimento (18/12)', 'valor': 'R$ 16,1 – 18,3', 'texto': 'A implícita de 37% projeta R$ 15,14 – 19,38 a 1 desvio-padrão até 18/12. O balanço de 11/11 é o evento que pode romper o range.'},
+  {'rotulo': 'Viés', 'valor': 'Lateral (fase B)', 'tom': 'neutro', 'texto': 'Clímax, reação e teste secundário cumpridos. As médias seguem em venda forte, mas a oferta secou. Viés de baixa vira lateral até o rompimento de 16,08 ou 18,31.'},
+ ],
+ 'indicadores': [
+  {'nome': 'Médias móveis', 'diario': 'MMA10 17,56 · MMA20 20,82 · MMA50 21,75 · MMA200 22,03', 'semanal': 'MMA20 21,01 · MMA50 22,01 · MMA200 24,07', 'sinal': 'baixa', 'leitura': 'Preço 18% abaixo da MMA 20 e 22% abaixo da MMA 200. A MMA 10 (17,56) já está colada no preço: é a primeira média a ser recuperada.'},
+  {'nome': 'MME 10 / 20', 'diario': '17,92 / 19,57', 'semanal': '20,90 / 21,21', 'sinal': 'baixa', 'leitura': 'A MME 10 diária desceu de 22,91 para 17,92 em nove pregões. Fechamento acima dela seria o primeiro sinal de curto prazo a favor.'},
+  {'nome': 'IFR 14', 'diario': '31,7 (mínima de 24,1 no pós-gap)', 'semanal': '38,8', 'sinal': 'neutro', 'leitura': 'Saiu da sobrevenda sem nova mínima no IFR quando o preço fez 16,08 em 3/11: o momento vendedor perdeu força.'},
+  {'nome': 'Estocástico K/D', 'diario': '7,0 / 4,6', 'semanal': '28,7 / 48,2', 'sinal': 'neutro', 'leitura': 'Diário no piso e virando para cima. Sobrevenda extrema costuma anteceder repique, sem garantir reversão.'},
+  {'nome': 'CCI 20', 'diario': '−72', 'semanal': '−152', 'sinal': 'neutro', 'leitura': 'Saiu do extremo de −363 do dia do gap. O diário voltou para dentro da faixa normal.'},
+  {'nome': 'MACD', 'diario': '−1,77 × −1,20 (hist. −0,57)', 'semanal': '−0,31 × −0,02', 'sinal': 'baixa', 'leitura': 'Histograma diário encolhendo (era −0,74 no pregão anterior). O semanal cruzou para baixo e ainda registra o choque.'},
+  {'nome': 'ADX / DMI', 'diario': 'ADX 36,7 · +DI 18,7 · −DI 40,9', 'semanal': 'ADX 20,5', 'sinal': 'baixa', 'leitura': 'Tendência de baixa ainda forte no diário. O −DI recuou de 47 para 41.'},
+  {'nome': 'Bandas de Bollinger', 'diario': '13,44 – 28,21', 'sinal': 'neutro', 'leitura': 'Bandas abertas ao extremo pelo gap: perderam utilidade como referência até a volatilidade normalizar.'},
+  {'nome': 'ATR 14', 'diario': 'R$ 1,03 (≈ 6,0% por pregão)', 'sinal': 'neutro', 'leitura': 'Caiu de R$ 1,38 no dia do gap. Ainda é o dobro do normal do papel: posição menor.'},
+  {'nome': 'Volatilidade histórica', 'diario': 'HV20 126% · sem o gap: 36% · implícita ~37%', 'sinal': 'neutro', 'leitura': 'O HV20 está inflado por um único pregão. Sem ele, a volatilidade realizada pós-gap (36%) é igual à implícita: as opções estão no preço justo, nem caras nem baratas.'},
+  {'nome': 'OBV', 'diario': '−202 mi desde 26/10 · −494 mi em 20 pregões', 'sinal': 'baixa', 'leitura': 'Quase todo o saldo negativo veio do dia do gap. Nos oito pregões seguintes, as quedas tiveram volume decrescente.'},
+  {'nome': 'Rating TradingView', 'diario': 'D −0,35 · venda', 'semanal': 'S −0,51 · venda forte', 'sinal': 'baixa', 'leitura': 'O diário melhorou de venda forte (−0,65) para venda. Médias seguem em venda forte; osciladores, neutros.'},
+ ],
+ 'indicadoresNota': 'O quadro saiu do **extremo do clímax** (CCI −363, IFR 27) para **sobrevenda em recuperação**: IFR 31,7 sem divergência baixista na nova mínima, estocástico virando no piso e ATR caindo. As médias continuam todas acima do preço e em venda forte, o que é normal nove pregões depois de um gap de 33%. Os osciladores autorizam um range; só o rompimento de R$ 18,31 com volume mudaria as médias de lado.',
+ 'eventos': [
+  {'data': '26/out', 'evento': 'Clímax de venda (SC): −29,3% com 286 mi (5,8×)', 'leitura': 'Abertura e mínima em 16,48, fechamento a 60% do candle. Maior volume dos 20 meses.'},
+  {'data': '27/out', 'evento': 'Reação automática (AR): máxima de 18,31', 'leitura': 'Abriu em 18,00 com 124 mi, mas fechou na mínima (17,38). A demanda alcançou só a máxima do dia do clímax.'},
+  {'data': '28–30/out', 'evento': 'Recuo com volume em queda: 88 → 70 → 61 mi', 'leitura': 'Três pregões de queda ou empate, cada um com menos volume. A oferta foi perdendo força.'},
+  {'data': '03/nov', 'evento': 'Teste secundário (ST): mínima de 16,08 com 43,7 mi', 'leitura': 'Furou o clímax em R$ 0,40 com 15% do volume de 26/10 e não atraiu venda. Em Wyckoff, é o teste que confirma o clímax.'},
+  {'data': '06/nov', 'evento': '+3,9% com fechamento na máxima (17,13), 30,8 mi', 'leitura': 'Melhor pregão do pós-gap, com fechamento a 95% do candle. O volume abaixo da média de 20 dias mostra demanda ainda tímida.'},
+ ],
+ 'fluxo': [
+  '**Oferta secando.** Do clímax (286 mi) ao teste secundário (43,7 mi), cada pregão de queda teve menos volume que o anterior. Em 06/11, 30,8 mi: o volume já voltou à média de 250 dias (30,7 mi).',
+  '**Saldo dos 8 pregões pós-gap ainda vendedor:** 124 mi em dias de alta contra 326 mi em dias de queda (3 altas, 4 quedas, 1 empate). O peso está concentrado em 27 e 28/10; de 30/10 em diante, o fluxo ficou equilibrado.',
+  '**Fechamento de 06/11 na máxima** (95% do candle) recuperou a VWAP ancorada no clímax (17,07): na média, quem comprou desde o gap voltou ao zero.',
+  '**Leitura Wyckoff:** SC em 26/10, AR em 27/10 (18,31) e ST em 03/11 (16,08, com volume baixo) desenham o início de uma **fase B**. O range de trabalho é **16,08 – 18,31**. Falta saber se a fase B é de acumulação ou de redistribuição: a resposta vem no rompimento.',
+ ],
+ 'perfilNotas': [
+  '**O preço ainda está fora da história.** Só 3,4% do volume de 20 meses foi negociado abaixo de R$ 17,13, quase tudo nos últimos nove pregões. A área de valor de 20 meses (19,38 – 25,12, POC 21,88) segue toda acima.',
+  '**Nasceu um perfil novo embaixo.** Desde o clímax, a área de valor vai de 16,35 a 17,55, com POC em 16,55. É o "chão" que o mercado construiu depois do gap.',
+  '**A VAL de 6 meses desceu para 18,62** com o volume do pós-gap, e surgiu um nó de volume (HVN) em 17,62. Entre 17,55 e 18,31 está a primeira resistência de volume.',
+  '**VWAPs:** clímax 17,07 (recuperada em 06/11) · mínima 16,50 (pivô) · desde o 1º turno 20,76 · 6 meses 20,72 · 2026: 21,97. Quem comprou no ano está em média 22% acima do preço.',
+  '**Retração da queda** de 24,97 até 16,08: 23,6% em 18,18 e 38,2% em 19,48, alinhada com a VAL de 20 meses (19,38).',
+ ],
+ 'perfilFaixas': [{'faixa': f'{a} – {b}', 'pct': p} for a, b, p in [(28,30,5.9),(26,28,6.9),(24,26,15.3),(22,24,20.0),(20,22,33.0),(18,20,13.2),(16,18,5.8)]],
+ 'mapa': [
+  {'preco': '21,88', 'tipo': 'resistencia', 'confluencia': 'POC de 20 meses e VWAP ancorada na máxima de 20 meses'},
+  {'preco': '20,72 – 20,76', 'tipo': 'resistencia', 'confluencia': 'VWAP de 6 meses e VWAP desde o 1º turno'},
+  {'preco': '19,38 – 19,48', 'tipo': 'resistencia', 'confluencia': 'VAL de 20 meses e retração de 38,2% da queda'},
+  {'preco': '18,18 – 18,31', 'tipo': 'resistencia', 'confluencia': 'Reação automática (AR) de 27/10 e retração de 23,6%: topo do range'},
+  {'preco': '17,55 – 17,62', 'tipo': 'resistencia', 'confluencia': 'VAH pós-clímax e HVN de 6 meses'},
+  {'preco': '17,13', 'tipo': 'preco', 'confluencia': 'Fechamento de 06/11, na máxima do dia, logo acima da VWAP do clímax (17,07)'},
+  {'preco': '16,50 – 16,55', 'tipo': 'pivo', 'confluencia': 'VWAP ancorada na mínima e POC pós-clímax'},
+  {'preco': '16,35 – 16,43', 'tipo': 'suporte', 'confluencia': 'VAL pós-clímax e mínima de 06/11'},
+  {'preco': '16,08', 'tipo': 'suporte', 'confluencia': 'Teste secundário de 03/11: fundo do range'},
+  {'preco': '15,23', 'tipo': 'suporte', 'confluencia': 'Extensão de 127,2% da alta de agosto a outubro, único alvo técnico abaixo'},
+ ],
+ 'macro': {
+  'titulo': 'O mercado parou de cair; o BB ficou para trás no repique',
+  'fonte': 'Fechamento de 06/11/2026, TradingView. Nos juros e no dólar, alta aparece em vermelho. A coluna "dia" mostra a variação da semana.',
+  'tabela': [
+   {'ativo': 'Título 10 anos BR (BR10Y)', 'ultimo': '15,14%', 'dia': '−1,0%', 'm1': '+17,0%', 'm3': '+4,9%', 'm6': '+9,2%', 'ano': '+10,1%', 'efeito': 'juro longo recuou de 15,42%', 'inverte': True},
+   {'ativo': 'Dólar (USD/BRL)', 'ultimo': 'R$ 5,51', 'dia': '+2,2%', 'm1': '+9,6%', 'm3': '+7,8%', 'm6': '+12,5%', 'ano': '+0,5%', 'efeito': 'segue pressionado', 'inverte': True},
+   {'ativo': 'Ibovespa', 'ultimo': '168.498', 'dia': '−0,4%', 'm1': '−18,1%', 'm3': '−4,0%', 'm6': '−8,0%', 'ano': '+4,6%', 'efeito': 'abaixo do fechamento de 26/10'},
+   {'ativo': 'Índice Financeiro (IFNC)', 'ultimo': '17.026', 'dia': '+1,2%', 'm1': '−27,9%', 'm3': '−7,4%', 'm6': '−9,1%', 'ano': '−1,6%', 'efeito': 'setor estabilizou'},
+   {'ativo': 'Itaú (ITUB4)', 'ultimo': '40,53', 'dia': '+3,4%', 'm1': '−19,4%', 'm3': '−3,5%', 'm6': '−1,5%', 'ano': '+2,3%', 'efeito': 'ROE 21,5%, P/VP 1,95×'},
+   {'ativo': 'Bradesco (BBDC4)', 'ultimo': '14,20', 'dia': '+1,4%', 'm1': '−37,6%', 'm3': '−20,2%', 'm6': '−23,7%', 'ano': '−22,6%', 'efeito': 'ROE 14,1%, P/VP 0,77×'},
+   {'ativo': 'Banco do Brasil (BBAS3)', 'ultimo': '17,13', 'dia': '+4,7%', 'm1': '−30,1%', 'm3': '−16,0%', 'm6': '−21,8%', 'ano': '−22,3%', 'efeito': 'ROE 6,8%, P/VP 0,54×', 'destaque': True},
+   {'ativo': 'BTG Pactual (BPAC11)', 'ultimo': '55,52', 'dia': '+5,8%', 'm1': '−29,5%', 'm3': '−1,6%', 'm6': '−4,7%', 'ano': '+4,4%', 'efeito': 'maior repique da semana'},
+   {'ativo': 'BB Seguridade (BBSE3)', 'ultimo': '38,24', 'dia': '−8,4%', 'm1': '−4,6%', 'm3': '−1,2%', 'm6': '+11,2%', 'ano': '+5,5%', 'efeito': 'pressão por capital no controlador'},
+  ],
+  'pontos': [
+   '**Copom pausou.** Em 04/11, o Banco Central manteve a Selic em 13,75%, interrompendo cinco cortes seguidos. Juro alto por mais tempo adia a queda da inadimplência, o principal problema do BB.',
+   '**Capital no centro da conversa.** Créditos tributários eram 53% do patrimônio do BB no 2T26 (Goldman Sachs), e o governo tem pouco espaço fiscal para aportar. O Citi vê a BB Seguridade como a primeira fonte de capital, o que explica a queda de 8,4% da BBSE3 na semana.',
+   '**Comando.** A imprensa noticia a possível troca da presidência do banco. Mudança de gestão costuma mudar política de crédito e de dividendos.',
+   '**Juro longo devolveu parte.** O título de 10 anos saiu de 15,42% (26/10) para 15,14%. O dólar, por outro lado, seguiu subindo (R$ 5,51), o que ajuda o produtor exportador a pagar dívidas.',
+  ],
+ },
+ 'micro': {
+  'titulo': 'Balanço de 11/11 com estimativas já cortadas',
+  'fundamentos': [
+   {'nome': 'Valor de mercado', 'valor': 'R$ 94,3 bi'},
+   {'nome': 'P/L · P/VP (TTM)', 'valor': '8,0× · 0,54×'},
+   {'nome': 'ROE (TTM)', 'valor': '6,8%'},
+   {'nome': 'Lucro ajustado 1S26', 'valor': 'R$ 7,3 bi (−34% a/a)'},
+   {'nome': 'ROE 2T26', 'valor': '8,3%'},
+   {'nome': 'Inadimplência 90d total', 'valor': '5,61% (3,96% há 1 ano)'},
+   {'nome': 'PF · agro · PJ', 'valor': '8,41% · 6,27% · 3,18%'},
+   {'nome': 'Pagamentos em dia (BTG)', 'valor': '75% (meta do banco: 90%)'},
+   {'nome': 'Payout 2026', 'valor': '30%'},
+   {'nome': 'Estimativa lucro 3T26', 'valor': 'R$ 3,3 bi (Bloomberg, −24% em semanas)'},
+   {'nome': 'Recomendações recentes', 'valor': 'Citi: venda, alvo R$ 15'},
+  ],
+  'sustentacao': [
+   '**Barra baixa para o balanço.** As estimativas do 3T26 caíram cerca de 24% em poucas semanas. Um número em linha pode ser recebido como alívio.',
+   '**Desconto patrimonial extremo:** 0,54× o patrimônio, contra 0,77× do Bradesco e 1,95× do Itaú.',
+   '**Instrumento híbrido renegociado** com o governo, empurrando pagamentos de R$ 4,2 bi para 2029 e preservando capital em 2026 e 2027.',
+   '**Dólar a R$ 5,51** melhora a receita em reais do produtor exportador, o que ajuda a capacidade de pagamento do agro.',
+  ],
+  'pressao': [
+   '**Inadimplência sem virar.** A taxa de pagamentos em dia parou em 75%, e o programa de renegociação do agro teve adesão menor que a esperada.',
+   '**Risco de capital:** venda de ativos ou revisão dos acordos com a BB Seguridade estão no radar; a diretoria não descarta venda de ativos.',
+   '**Selic parada em 13,75%** e juro longo acima de 15% adiam a melhora do crédito.',
+   '**Governança em transição,** com possível troca de comando.',
+  ],
+  'evento': '**Resultado do 3T26 em 11/11** (teleconferência em 12/11). É o evento que decide o lado do rompimento do range: guidance de lucro de 2026, custo do crédito e nível de capital principal.',
+ },
+ 'estrutura': {
+  'nome': 'Venda de put coberta (caixa reservado)',
+  'racional': 'Com o range montado e a opção no preço justo (implícita de 37%, igual à volatilidade realizada pós-gap), a estrutura transforma o preço-teto em ordem: vende a put de R$ 16,20, abaixo do pivô e logo acima do teste secundário. Se exercida, a compra sai a R$ 15,84 líquidos, abaixo da mínima do ano. Se não, o prêmio de 2,2% em 28 dias úteis fica no caixa. Exige o caixa para comprar 100 ações por contrato.',
+  'vencimento': 'Dezembro/2026 (18/12)',
+  'pernas': [
+   {'op': 'venda', 'tipo': 'put', 'strike': 16.2, 'premio': 0.36, 'qtd': 100, 'codigo': 'BBASX164'},
+  ],
+ },
+ 'plano': {
+  'titulo': 'Teto em R$ 16,60: comprar no pivô, não no repique',
+  'texto': 'O fechamento de 06/11 na máxima é bom sinal, mas a R$ 17,13 o risco até o stop (15,95) é de R$ 1,18 para um ganho de R$ 1,18 até a reação automática: **1:1**. No pivô do range (16,55), a mesma operação entrega **2,9:1** até 18,31. Com o balanço na terça, quem entra antes aceita um evento binário: **meia posição no máximo**.',
+  'tranches': [
+   {'nome': '1 · pivô do range', 'nota': 'até 1/2 da posição', 'entrada': '16,43 – 16,60', 'gatilho': 'Recuo à POC pós-clímax com volume abaixo de 40 mi e fechamento acima de 16,35', 'stop': '15,95', 'alvos': '17,55 · 18,31 · 19,38', 'rr': '1,7 · 2,9 · 4,7'},
+   {'nome': '2 · via opção', 'nota': 'caixa de 1/2 da posição', 'entrada': '15,84 (efetivo)', 'gatilho': 'Venda da put BBASX164 (16,20) a R$ 0,36; exercício só se o preço fechar abaixo de 16,20 em 18/12', 'stop': '15,00 (sobre a ação recebida)', 'alvos': '17,55 · 18,31', 'rr': '2,0 · 2,9'},
+   {'nome': 'Alternativa', 'nota': 'compra por força', 'entrada': '> 18,40', 'gatilho': 'Fechamento acima da AR (18,31) com volume acima de 60 mi (média de 20 dias)', 'stop': '17,45', 'alvos': '19,45 · 20,50', 'rr': '1,1 · 2,2'},
+  ],
+  'nota': 'R/R da tranche 1 calculado a partir de 16,55; da tranche 2, a partir do custo efetivo de 15,84. **Estrutura anterior:** a trava de baixa com call 19,95/21,95 de 26/10 foi aberta com crédito de R$ 0,35 e pode ser desmontada por cerca de R$ 0,10 (BBASL20 a 0,16 e BBASL219 a 0,06). São **71% do ganho máximo** com 28 dias úteis pela frente: vale realizar antes do balanço.',
+ },
+ 'cenarios': {
+  'titulo': 'Base R$ 16,1 – 18,3: o range até o vencimento',
+  'linhas': [
+   {'cenario': 'Baixista', 'prob': '30%', 'faixa': '13,5 – 16,1', 'premissas': '3T26 com corte do guidance de lucro, sinal de captação de capital ou venda de ativos. Perda de 16,08 com volume acima de 60 mi; alvo em 15,23 e abaixo, sem referência de volume.'},
+   {'cenario': 'Base', 'prob': '45%', 'faixa': '16,1 – 18,3', 'premissas': 'Balanço dentro das estimativas já cortadas. O preço trabalha entre o teste secundário e a reação automática, construindo a fase B.'},
+   {'cenario': 'Altista', 'prob': '25%', 'faixa': '18,3 – 19,5', 'premissas': 'Balanço acima da barra baixa, guidance mantido e provisão do agro caindo. Rompimento de 18,31 com volume, alvo na VAL de 20 meses (19,38) e na retração de 38,2% (19,48).'},
+  ],
+  'nota': '* Probabilidades são julgamento do estudo, não saída de modelo. Para referência estatística: a implícita de 37% projeta, até 18/12 (28 dias úteis), R$ 15,14 – 19,38 a 1 desvio-padrão; a volatilidade de 60 dias (83%), inflada pelo gap, projeta R$ 12,99 – 22,59.',
+ },
+ 'gatilhos': {
+  'melhora': ['Fechamento acima de R$ 17,55 (VAH pós-clímax) e da MME 10', 'Rompimento de R$ 18,31 com volume acima de 60 mi', '3T26 com guidance de lucro mantido e capital principal estável', 'Taxa de pagamentos em dia subindo na direção de 90%'],
+  'piora': ['Perda de R$ 16,08 com volume acima de 60 mi', 'Corte do guidance de 2026 ou capital principal abaixo de 11%', 'Anúncio de captação, venda de ativos ou revisão dos acordos com a BB Seguridade em termos ruins para o acionista', 'Inadimplência de pessoa física acima de 8,4%'],
+ },
+ 'fontes': '**Dados:** TradingView via conector Trade (BMFBOVESPA:BBAS3 diário, 430 pregões de 17/fev/25 a 06/nov/26; indicadores D/S; pares e índices); grade de opções do opcoes.net.br (últimos negócios de 06/11/2026, vencimento 18/12); notícias de InfoMoney (06/11), BP Money (27/10) e Poder360 (04/11); fundamentos do 2T26 do balanço do banco. Volume Profile calculado distribuindo o volume de cada pregão uniformemente entre mínima e máxima, área de valor de 70%; perfil pós-clímax com passo de R$ 0,10. Volatilidade implícita calculada por Black-Scholes com Selic de 13,75%. Scripts em `scripts/estudo-2026-11-06/`. **Ressalvas:** a análise antecede o balanço de 11/11, que pode mudar o quadro por inteiro. Probabilidades de cenário são julgamento do estudo. Material educacional do canal Opcionando, não é recomendação de investimento.',
+ 'invalidacao': 'Fechamento diário abaixo de R$ 16,08 com volume acima de 60 mi invalida o range: o teste secundário falhou e o caminho natural é a extensão em R$ 15,23. Na outra ponta, fechamento acima de R$ 18,31 com volume encerra a fase B e muda o cenário para alta.',
+ 'validade': '2026-12-18', 'status': 'Em acompanhamento', 'draft': False,
+}
+body = '''
+## A leitura em uma frase
+
+Em nove pregões, o BB cumpriu os três primeiros passos de um fundo pela leitura Wyckoff: **clímax, reação
+automática e teste secundário**. O teste de 03/11 furou a mínima do clímax com só 15% do volume daquele dia, e
+06/11 fechou na máxima. O range de trabalho é **R$ 16,08 – 18,31**, e quem decide a saída dele é o **balanço de 11/11**.
+
+## O que mudou desde 26/10
+
+A análise anterior ([26/10](/analises/bbas3-2026-10-26/)) descrevia um **candidato a clímax de venda** e listava o
+que faltava para confirmá-lo. De lá para cá:
+
+1. **Reação automática (AR):** em 27/10, o papel abriu em 18,00 e chegou a **18,31**, mas fechou na mínima. A demanda
+   alcançou só a máxima do dia do clímax. É o teto do range.
+2. **Teste secundário (ST):** em 03/11, mínima de **16,08**, R$ 0,40 abaixo do clímax, com **43,7 mi** de ações contra
+   286 mi em 26/10. Furar a mínima com volume baixo é o comportamento clássico de um teste que funcionou: não havia
+   mais quem quisesse vender ali.
+3. **Primeiro sinal de demanda:** em 06/11, alta de 3,9% com fechamento na máxima (17,13), recuperando a VWAP
+   ancorada no clímax. O volume (30,8 mi) ainda é baixo, por isso é só um sinal.
+
+O viés deixa de ser de baixa e passa a **lateral**. Ainda não dá para dizer que é acumulação: a fase B é justamente
+o período em que o mercado testa as duas pontas antes de escolher um lado.
+
+## Por que a venda de put coberta
+
+O balanço de 11/11 é um **evento binário**: pode romper o range para qualquer lado. Comprar a ação a R$ 17,13 antes
+dele é aceitar o risco sem desconto. A venda de put faz o contrário: **define o preço de compra e cobra por isso**.
+
+- **Put vendida em R$ 16,20 (BBASX164) a R$ 0,36:** abaixo do pivô do range e logo acima do teste secundário. Se o
+  preço fechar acima de 16,20 em 18/12, o prêmio fica no caixa: 2,2% em 28 dias úteis.
+- **Se for exercida:** a compra sai a **R$ 15,84 líquidos**, abaixo da mínima do ano. É o cenário em que o balanço
+  decepcionou, e o preço de entrada já embute esse desconto.
+- **Delta de −0,26:** pela grade, cerca de 70% de chance de a put virar pó.
+
+<div class="caixa alerta">
+
+**Prêmios reais da grade de 06/11.** BBASX164 teve 128 negócios no dia, entre as puts mais líquidas do vencimento.
+**A implícita de 37% é igual à volatilidade realizada sem o gap (36%)**: a opção está no preço justo. O HV20 de 126%
+só parece alto por causa de um único pregão. Exige o caixa para comprar 100 ações por contrato vendido.
+
+</div>
+
+## E a trava de baixa de 26/10?
+
+A trava 19,95/21,95 foi aberta com crédito de **R$ 0,35** e hoje custa cerca de **R$ 0,10** para desmontar
+(BBASL20 a 0,16 e BBASL219 a 0,06). São **71% do ganho máximo** com 28 dias úteis e um balanço pela frente. O que
+sobra (R$ 0,10) não paga o risco de um repique até 19,95: **realizar antes de 11/11** é o mais coerente com o plano.
+
+## Plano de acompanhamento
+
+- **Antes do balanço:** recuo a 16,43–16,60 com volume baixo é a zona de compra da tranche 1. Acima de 17,55, não
+  perseguir.
+- **Depois do balanço:** o candle de 12/11 diz o lado. Rompimento de **18,31** com volume acima de 60 mi muda o
+  cenário para alta; perda de **16,08** com volume invalida o range.
+- **Put vendida:** se o preço for a 16,20 antes do vencimento, decidir entre rolar para janeiro ou aceitar o
+  exercício conforme o balanço. Com o preço acima de 17,55, a put perde valor rápido e pode ser recomprada por
+  centavos.
+- **Para a história completa** do banco, dos dividendos e da eleição, leia
+  [O curioso caso de BBAS3](/blog/o-curioso-caso-de-bbas3/).
+'''
+txt = yaml.dump(fm, allow_unicode=True, sort_keys=False, width=4000, default_flow_style=None)
+open('src/content/analises/bbas3-2026-11-06.md', 'w').write('---\n' + txt + '---\n' + body)
+print('ok')

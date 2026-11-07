@@ -202,19 +202,39 @@ decorre dele.
 4. **Capital principal.** Qualquer sinal de venda de ativo, emissão ou mudança nos acordos com a BB Seguridade.
 5. **Quem vai comandar o banco** e qual será a política de crédito do controlador.
 
+## Recorte técnico: o que o gráfico diz agora
+
+<div class="caixa">
+
+**Resumo da [análise técnica de 06/11](/analises/bbas3-2026-11-06/)** · fechamento de R$ 17,13
+
+- **O tombo virou um range.** Depois do clímax de venda de 26/10 (286 milhões de ações), vieram a reação até
+  **R$ 18,31** (27/10) e um teste da mínima em **R$ 16,08** (03/11) com só 15% daquele volume. Pela leitura
+  Wyckoff, é o desenho de quem parou de vender em pânico.
+- **Faixa de trabalho: R$ 16,08 a R$ 18,31.** Acima disso, a próxima barreira fica em R$ 19,38–19,48, o fundo de
+  toda a área de negociação dos últimos 20 meses.
+- **Indicadores:** as médias móveis seguem todas acima do preço e em venda forte; os osciladores saíram do extremo
+  e estão neutros. O IFR não fez nova mínima quando o preço fez.
+- **Preço-teto de entrada: R$ 16,60**, no meio do range. A R$ 17,13, o risco até o stop é igual ao ganho até o topo
+  do range.
+- **Evento:** o balanço de 11/11 decide para que lado o range rompe.
+
+</div>
+
 ## Ângulo Opcionando
 
 Momentos assim são onde as opções mostram seu valor. Comprar a ação "porque caiu muito" é tentar segurar uma faca
 caindo. Com opções, dá para **definir o risco antes de entrar**:
 
-- Na [análise técnica de BBAS3 de 26/10](/analises/bbas3-2026-10-26/), o estudo montou uma estrutura com teto de
-  perda para o cenário de lateralização abaixo da área de valor, e mapeou a zona em que uma compra teria
-  assimetria melhor.
-- Para quem quer **entrar na ação**, a venda de put coberta transforma "quero comprar mais barato" em um preço
-  combinado, recebendo prêmio enquanto espera. Veja a ficha da
+- **Venda de put coberta como preço de compra.** A ficha de 06/11 estuda a venda da put de **R$ 16,20** (BBASX164)
+  a R$ 0,36, com vencimento em 18/12. Se o BB ficar acima de 16,20, o prêmio de 2,2% fica no caixa. Se cair abaixo,
+  a compra sai a **R$ 15,84**, abaixo da mínima do ano. Veja a ficha da
   [venda de put coberta](/estrategias/venda-de-put-coberta/).
-- Lembre que a volatilidade do BB está muito acima do normal. Prêmio alto parece atraente para quem vende, mas
-  reflete risco alto. **Posição menor** do que o habitual.
+- **A estrutura anterior cumpriu o papel.** A trava de baixa da [análise de 26/10](/analises/bbas3-2026-10-26/),
+  montada logo depois do tombo, já capturou cerca de 71% do ganho máximo.
+- **A volatilidade parece maior do que é.** A volatilidade de 20 dias aparece em 126% por causa de um único pregão;
+  sem ele, fica em 36%, igual à que a grade de opções cobra. Prêmio justo, não barato. **Posição menor** do que o
+  habitual, porque o balanço é um evento binário.
 
 ## Resumo
 
