@@ -145,7 +145,7 @@ empresas que precisam investir pesado, não.
 
 O caso do <span class="ticker">BBAS3</span> é uma aula: com a inadimplência alta no agronegócio e o lucro de 2025
 caindo forte, o banco reduziu o payout de 40% para **30%** e manteve esse nível para 2026, priorizando o capital.
-Quem comprou olhando só o yield do passado se surpreendeu.
+Quem comprou olhando só o yield do passado se surpreendeu. A história completa está em [O curioso caso de BBAS3](/blog/o-curioso-caso-de-bbas3/).
 
 ## As armadilhas do dividendo
 
