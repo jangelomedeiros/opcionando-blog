@@ -39,7 +39,7 @@ const niveis = [
 ];
 const nomeTipo = { call: 'Call', put: 'Put', acao: 'Ação' };
 ---
-<Base title={`${d.ticker}: ${d.title}`} description={d.description} type="article"
+<Base title={`${d.ticker}: ${d.title}`} description={d.description} type="article" published={d.data}
   image={d.youtube ? `https://i.ytimg.com/vi/${d.youtube}/hqdefault.jpg` : undefined}>
   <article class="container-larga pagina">
     <p class="sobretitulo"><a href="/analises">Análise técnica dos ativos</a> · <a href={`/analises/ativo/${d.ticker.toLowerCase()}/`}>{d.ticker}</a></p>

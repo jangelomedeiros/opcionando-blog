@@ -1,18 +1,61 @@
 ---
 import '../styles/global.css';
-import { SITE_TITLE } from '../consts';
+import { SITE_TITLE, SITE_DESCRIPTION, LINKS, AUTOR } from '../consts';
 
 interface Props {
   title: string;
   description: string;
   image?: string;
   type?: 'website' | 'article';
+  published?: Date;
+  modified?: Date;
 }
 
-const { title, description, image, type = 'website' } = Astro.props;
+const { title, description, image, type = 'website', published, modified } = Astro.props;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const fullTitle = title === SITE_TITLE ? title : `${title} | ${SITE_TITLE}`;
-const ogImage = image ? new URL(image, Astro.site) : undefined;
+// Sem imagem própria (vídeo), usa a imagem padrão da marca
+const ogImage = new URL(image ?? '/og-padrao.png', Astro.site);
+const imagemPadrao = !image;
+
+// Dados estruturados (schema.org) para o Google entender autor, site e artigos
+const organizacao = {
+  '@type': 'Organization',
+  '@id': new URL('/#organizacao', Astro.site).href,
+  name: SITE_TITLE,
+  url: Astro.site?.href,
+  logo: new URL('/og-padrao.png', Astro.site).href,
+  sameAs: [LINKS.youtube, LINKS.instagram].filter(Boolean),
+};
+const autor = { '@type': 'Person', name: AUTOR, url: new URL('/sobre/', Astro.site).href };
+const grafo: Record<string, unknown>[] = [
+  organizacao,
+  {
+    '@type': 'WebSite',
+    '@id': new URL('/#site', Astro.site).href,
+    name: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+    url: Astro.site?.href,
+    inLanguage: 'pt-BR',
+    publisher: { '@id': organizacao['@id'] },
+  },
+];
+if (type === 'article') {
+  grafo.push({
+    '@type': 'Article',
+    headline: title,
+    description,
+    url: canonicalURL.href,
+    mainEntityOfPage: canonicalURL.href,
+    image: ogImage.href,
+    inLanguage: 'pt-BR',
+    author: autor,
+    publisher: { '@id': organizacao['@id'] },
+    ...(published && { datePublished: published.toISOString() }),
+    ...((modified ?? published) && { dateModified: (modified ?? published)!.toISOString() }),
+  });
+}
+const jsonLd = JSON.stringify({ '@context': 'https://schema.org', '@graph': grafo });
 ---
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -30,8 +73,14 @@ const ogImage = image ? new URL(image, Astro.site) : undefined;
 <meta property="og:url" content={canonicalURL} />
 <meta property="og:title" content={fullTitle} />
 <meta property="og:description" content={description} />
-{ogImage && <meta property="og:image" content={ogImage} />}
-<meta name="twitter:card" content={ogImage ? 'summary_large_image' : 'summary'} />
+<meta property="og:image" content={ogImage} />
+{imagemPadrao && <meta property="og:image:width" content="1200" />}
+{imagemPadrao && <meta property="og:image:height" content="630" />}
+<meta property="og:image:alt" content={fullTitle} />
+{published && <meta property="article:published_time" content={published.toISOString()} />}
+{modified && <meta property="article:modified_time" content={modified.toISOString()} />}
+<meta name="twitter:card" content="summary_large_image" />
+<script type="application/ld+json" set:html={jsonLd} />
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

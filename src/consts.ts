@@ -3,6 +3,9 @@ export const SITE_TITLE = 'Opcionando';
 export const SITE_DESCRIPTION =
   'Educação sobre o mercado de opções para o investidor pessoa física: estratégias, gregas, volatilidade e gestão de risco, sem enrolação.';
 
+// Autor (aparece nos dados estruturados dos artigos)
+export const AUTOR = 'Ângelo Medeiros';
+
 export const LINKS = {
   youtube: 'https://www.youtube.com/@opcionando', // ajuste para o link real do canal
   instagram: '', // deixe vazio para esconder

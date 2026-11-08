@@ -17,7 +17,7 @@ const { artigo, anterior, proximo } = Astro.props;
 const { Content } = await render(artigo);
 const { title, description, ordem, pubDate, updatedDate, youtube } = artigo.data;
 ---
-<Base title={title} description={description} type="article">
+<Base title={title} description={description} type="article" published={pubDate} modified={updatedDate}>
   <article class="container pagina">
     <p class="sobretitulo"><a href="/supercoberta">Supercoberta</a> · Parte {String(ordem).padStart(2, '0')}</p>
     <h1>{title}</h1>

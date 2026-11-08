@@ -17,7 +17,7 @@ const { Content } = await render(post);
 const { title, description, pubDate, updatedDate, pilar, tags, youtube } = post.data;
 const thumb = youtube ? `https://i.ytimg.com/vi/${youtube}/hqdefault.jpg` : undefined;
 ---
-<Base title={title} description={description} image={thumb} type="article">
+<Base title={title} description={description} image={thumb} type="article" published={pubDate} modified={updatedDate}>
   <article class="container post">
     <header>
       <div class="meta">

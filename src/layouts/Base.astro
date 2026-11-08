@@ -8,6 +8,8 @@ interface Props {
   description: string;
   image?: string;
   type?: 'website' | 'article';
+  published?: Date;
+  modified?: Date;
 }
 const props = Astro.props;
 ---
