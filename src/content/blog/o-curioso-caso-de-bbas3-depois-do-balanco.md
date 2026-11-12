@@ -1,6 +1,6 @@
 ---
 title: 'O curioso caso de BBAS3, parte 2: depois do balanço'
-description: 'Lucro de R$ 1,3 bilhão contra R$ 3,5 bilhões esperados, guidance cortado pela metade, payout no mínimo legal e uma queda de 13% na abertura. O balanço que respondeu a pergunta que deixamos no ar, e como o mercado reagiu minuto a minuto.'
+description: 'Lucro de R$ 1,3 bilhão contra R$ 3,5 bilhões esperados, guidance cortado pela metade, payout no mínimo legal uma queda de 13% na abertura e um fechamento em −8,6%. O balanço que respondeu a pergunta que deixamos no ar, e como o mercado reagiu minuto a minuto.'
 pubDate: 2026-11-12
 pilar: 'Fundamentos'
 tags: ['BBAS3', 'bancos', 'dividendos', 'estudo de caso', 'balanço']
@@ -91,7 +91,7 @@ indicava.
 Se dividendo, payout e JCP ainda soam como outra língua, o
 [guia do mundo dos dividendos](/blog/como-funciona-o-mundo-dos-dividendos/) explica cada um.
 
-## Capítulo 7: a quinta-feira, minuto a minuto
+## Capítulo 7: a quinta-feira, do leilão ao fechamento
 
 O BB fechou a quarta-feira a **R$ 16,89**. O que se viu na quinta, pelos gráficos de 5 minutos do TradingView:
 
@@ -100,29 +100,35 @@ O BB fechou a quarta-feira a **R$ 16,89**. O que se viu na quinta, pelos gráfic
 | 10h10 | R$ 15,00 → **14,72** | O primeiro negócio sai só depois das 10h10, sinal de leilão de abertura prolongado. Abre com −11,2% e chega à mínima do dia, **−12,8%**, nos primeiros cinco minutos. Só nesse intervalo, **14,8 milhões** de ações trocam de mãos |
 | 10h40 | R$ 15,60 | Primeiro repique: recupera quase R$ 0,90 da mínima em meia hora |
 | 11h15 | R$ 15,10 | Devolve o repique. Começa uma lateralização entre R$ 15,10 e R$ 15,40 que dura até o começo da tarde |
-| 14h10 | **R$ 15,67** | Máxima do dia, com a ação rondando a casa de −7% |
-| 14h55 | R$ 15,61 | **−7,6%**, com **109 milhões** de ações negociadas |
+| 14h10 e 15h00 | **R$ 15,67** | Máxima do dia, alcançada duas vezes. Nas duas, a ação para no mesmo preço |
+| 15h00 – 17h25 | R$ 15,67 → 15,36 | Devolução lenta: a tarde que parecia de recuperação perde força |
+| **Fechamento** | **R$ 15,43** | **−8,6%**, com **143 milhões** de ações, 4,6 vezes a média do último ano |
 
 Três leituras dessa sequência:
 
-- **O pânico teve hora marcada.** Quase **45% do volume** do dia saiu na primeira hora. Depois, o volume foi
-  minguando. É o comportamento de quem vende porque precisa, não porque descobriu algo novo ao longo do dia.
-- **A tarde foi do comprador.** O preço médio ponderado pelo volume do dia (VWAP) ficou em **R$ 15,31**, e a ação
-  passou a tarde acima dele. Às 14h55, ela tinha recuperado **41% da perda máxima** do dia.
-- **Mas a ação continua no menor nível do ano**, 37% abaixo dos R$ 24,72 da véspera da eleição. Repique dentro de um
-  dia ruim não muda a tendência.
+- **O pânico teve hora marcada.** **34% do volume** do dia saiu na primeira hora. Depois, o volume foi minguando
+  até as 15h. É o comportamento de quem vende porque precisa, não porque descobriu algo novo ao longo do dia.
+- **Houve comprador, mas ele parou num teto.** A ação fechou a 75% do candle e acima do preço médio do dia (VWAP de
+  **R$ 15,35**), recuperando um terço da perda máxima. Mas bateu duas vezes em R$ 15,67 e não passou: é ali que começa
+  o buraco deixado pela abertura, que vai até R$ 16,89.
+- **A última hora voltou a pesar.** As três horas finais concentraram 24% do volume, com o preço escorregando. O
+  repique não convenceu.
 
-E o resto do setor? O choque foi do BB, não dos bancos:
+E a ação continua no **menor nível do ano**: quase 38% abaixo dos R$ 24,72 da véspera da eleição, de volta aos preços de dezembro de 2021 e
+janeiro de 2022.
 
-| Às 14h55 de 12/11 | Variação |
+O resto do setor, no fechamento, mostra que o choque foi do BB, não dos bancos:
+
+| Fechamento de 12/11 | Variação |
 |---|---:|
-| **Banco do Brasil (BBAS3)** | **−7,6%** |
-| BB Seguridade (BBSE3) | −4,4% (chegou a −9% na mínima) |
-| BTG Pactual (BPAC11) | −3,9% |
-| Bradesco (BBDC4) | −1,0% |
-| Itaú (ITUB4) | −0,7% |
-| Santander (SANB11) | **+3,5%** |
+| **Banco do Brasil (BBAS3)** | **−8,6%** |
+| BB Seguridade (BBSE3) | −4,8% (chegou a −9% na mínima) |
+| BTG Pactual (BPAC11) | −3,6% |
+| Índice Financeiro (IFNC) | −2,1% |
 | Ibovespa | −0,6% |
+| Bradesco (BBDC4) | −0,5% |
+| Itaú (ITUB4) | −0,4% |
+| Santander (SANB11) | **+3,4%** |
 
 A queda da **BB Seguridade** é o detalhe mais revelador. Com o capital do controlador apertado, o mercado volta a
 precificar a chance de a seguradora virar fonte de recursos para o banco, seja por dividendos maiores, seja por venda
@@ -134,28 +140,43 @@ Somos um canal de educação, e educação inclui mostrar quando o cenário não
 
 A [análise técnica de 06/11](/analises/bbas3-2026-11-06/) via um range entre **R$ 16,08 e R$ 18,31** e dizia, com
 todas as letras, que **perda de R$ 16,08 com volume acima de 60 milhões invalida o range**. Foi o que aconteceu: a
-ação abriu R$ 1,08 abaixo desse piso, com 109 milhões de ações negociadas até as 14h55. O cenário baixista, ao qual
-a ficha dava 30%, foi o que se materializou.
+ação fechou R$ 0,65 abaixo desse piso, com 143 milhões de ações. O cenário baixista, ao qual a ficha dava 30%, foi o
+que se materializou, e a ficha foi marcada como **invalidada**.
 
 Duas lições ficam:
 
 1. **O balanço era o evento binário, e a ficha dizia isso.** Por isso o plano limitava a entrada a meia posição antes
    de 11/11 e não perseguia preço acima de R$ 17,55.
-2. **A estrutura com opção fez o que se propôs.** A put vendida de R$ 16,20 está dentro do dinheiro. Se for exercida
-   em 18/12, a compra sai a **R$ 15,84 líquidos**, perto do preço de hoje. Isso é bem melhor do que ter comprado a
-   ação a R$ 17,13 na semana passada, mas ainda é uma posição perdedora se o preço não se recuperar. Quem a montou
-   tem de decidir entre aceitar o exercício, rolar para janeiro ou zerar, e essa decisão depende de acreditar ou não
-   na tese de longo prazo.
+2. **A estrutura com opção fez o que se propôs, mas não fez milagre.** A put vendida de R$ 16,20 está dentro do
+   dinheiro. Se for exercida em 18/12, a compra sai a **R$ 15,84 líquidos**, 2,7% acima do fechamento. É bem melhor
+   do que ter comprado a ação a R$ 17,13 na semana passada, mas ainda é uma posição perdedora se o preço não se
+   recuperar.
 
-A ficha técnica será refeita depois do fechamento, com o novo range.
+<div class="caixa">
+
+**A leitura nova, em resumo.** A [análise técnica de 12/11](/analises/bbas3-2026-11-12/) refaz o estudo com o
+fechamento:
+
+- **Viés de baixa retomado.** O range rompeu com gap e volume alto, o que na leitura Wyckoff é sinal de fraqueza, não
+  de pânico isolado.
+- **O buraco virou teto.** O gap de R$ 15,67 a R$ 16,89 é a resistência. No meio dele, entre R$ 16,18 e R$ 16,37,
+  estão o preço médio de quem comprou desde o fim de outubro e a retração de 61,8% da última queda.
+- **O chão a defender é R$ 14,10–14,72**: a mínima do dia, que bateu exatamente no alvo técnico do rompimento
+  (R$ 14,70), e os fundos de dezembro de 2021 e janeiro de 2022. Abaixo dele, o alvo medido é R$ 13,85.
+- **Um ponto a favor:** o IFR diário (25,7) ficou acima da mínima do dia do clímax (24,1), mesmo com o preço mais
+  baixo. É um alerta para não vender no buraco, não um sinal de compra.
+- **Preço-teto de entrada: R$ 14,70**, só no reteste da mínima com volume em queda. A estrutura estudada é uma trava
+  de baixa com calls de R$ 16,45 e R$ 17,45: ganha se o repique parar no gap.
+
+</div>
 
 ## Então, e agora? Oportunidade ou armadilha, de novo
 
 Na parte 1, mostramos que **ROE ÷ P/VP** dá o retorno sobre o preço que você paga. Refazendo a conta:
 
-- **P/VP agora:** cerca de **0,49×**. O mercado paga menos de metade do patrimônio.
-- **ROE dos nove meses:** 6,2% → 6,2% ÷ 0,49 ≈ **12,7% ao ano** sobre o preço. Ainda abaixo da Selic de 13,75%.
-- **ROE do terceiro trimestre:** 2,8% → 2,8% ÷ 0,49 ≈ **5,7% ao ano**. Se esse for o novo normal, a ação não está
+- **P/VP agora:** cerca de **0,48×**. O mercado paga menos de metade do patrimônio.
+- **ROE dos nove meses:** 6,2% → 6,2% ÷ 0,48 ≈ **12,9% ao ano** sobre o preço. Ainda abaixo da Selic de 13,75%.
+- **ROE do terceiro trimestre:** 2,8% → 2,8% ÷ 0,48 ≈ **5,8% ao ano**. Se esse for o novo normal, a ação não está
   barata nem a metade do patrimônio.
 
 Os analistas se dividiram assim:
@@ -189,11 +210,11 @@ um dígito, e o dividendo seguiu o lucro, como sempre segue. **O preço baixo er
 - O guidance de lucro de 2026 caiu **pela metade** (R$ 9 – 11 bi), e o payout foi para o **mínimo de 25%**, sem
   intermediários em 2027.
 - A inadimplência subiu em todas as linhas, e o capital principal ficou em **10,80%**, abaixo da linha de conforto.
-- Na quinta, a ação abriu com **−11%**, chegou a **−12,8%** e passou a tarde perto de **−7,5%**, com 45% do
-  volume na primeira hora.
-- A leitura técnica de 06/11 foi invalidada pela perda de R$ 16,08. A put vendida em R$ 16,20 suavizou o preço de
-  entrada, mas não eliminou a perda.
+- Na quinta, a ação abriu com **−11%**, chegou a **−12,8%**, bateu duas vezes em R$ 15,67 e fechou em
+  **R$ 15,43 (−8,6%)**, com 143 milhões de ações.
+- A leitura técnica de 06/11 foi invalidada pela perda de R$ 16,08. A nova ficha vê **viés de baixa**, com o gap
+  de R$ 15,67–16,89 como teto e R$ 14,10–14,72 como chão.
 
-*Material educacional do canal Opcionando. Não é recomendação de investimento. Pregão de 12/11/2026 descrito até as
-14h55, com dados de 5 minutos do TradingView; o fechamento pode ser diferente. Números do balanço e opiniões de
+*Material educacional do canal Opcionando. Não é recomendação de investimento. Pregão de 12/11/2026 descrito do leilão
+de abertura ao fechamento, com dados de 5 minutos do TradingView. Números do balanço e opiniões de
 analistas de Exame, InfoMoney, Seu Dinheiro, Investidor10 e Money Times.*
