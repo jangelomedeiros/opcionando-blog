@@ -1,6 +1,6 @@
 ---
 title: 'Quem aguenta a crise do crédito? Os bancos da B3 lado a lado'
-description: 'Itaú, BTG, Bradesco, Santander e Banco do Brasil comparados pelo que importa numa crise: quanto lucram, quanto colchão têm e quantos clientes estão deixando de pagar. Cada indicador explicado com uma analogia.'
+description: 'Itaú, BTG, Bradesco, Santander e Banco do Brasil comparados pelo que importa numa crise: quanto lucram, quanto colchão têm e quantos clientes estão deixando de pagar e em quantos anos cada um se paga. Cada indicador explicado com uma analogia.'
 pubDate: 2026-11-12
 pilar: 'Fundamentos'
 tags: ['bancos', 'ITUB4', 'BBDC4', 'SANB11', 'BPAC11', 'BBAS3', 'múltiplos', 'iniciantes']
@@ -216,6 +216,54 @@ mais incerteza. Já o BB, mesmo "pela metade do preço", entrega menos que o Tes
 
 </div>
 
+## Em quantos anos o investimento se paga? (P/L)
+
+Tem um jeito ainda mais intuitivo de olhar o preço de uma ação: perguntar **quantos anos de lucro** são necessários
+para "devolver" o que você pagou por ela.
+
+<div class="caixa">
+
+**P/L = preço da ação ÷ lucro por ação** (ou, para a empresa inteira, valor de mercado ÷ lucro do ano). Pense num
+**imóvel para alugar**: você paga R$ 300 mil e recebe R$ 30 mil de aluguel por ano. Em 10 anos, o aluguel devolveu o
+que você pagou. O P/L desse imóvel é 10. Quanto **menor** o P/L, mais rápido o investimento se paga.
+
+</div>
+
+Fazendo a conta com o lucro dos últimos 12 meses e com o lucro do último trimestre multiplicado por quatro:
+
+| Banco | P/L (lucro de 12 meses) | P/L (3º tri × 4) | Leitura |
+|---|---:|---:|---|
+| Bradesco | **5,9 anos** | 5,4 anos | O que se paga mais rápido |
+| Santander | 8,0 anos | 8,9 anos | Piorando: o lucro recente é menor |
+| Itaú | 10,2 anos | 9,6 anos | Estável: o lucro recente é até maior |
+| BTG | 11,9 anos | 11,1 anos* | O mercado paga pelo crescimento |
+| Banco do Brasil | 7,9 anos | **19,0 anos** | A armadilha da média |
+
+\* Para o BTG, o 2º trimestre × 4, porque o 3º ainda não saiu.
+
+A segunda coluna é a que mais ensina. Olhando só os 12 meses, o **BB parece se pagar em menos de 8 anos**, mais
+rápido que o Itaú. Mas essa conta inclui trimestres antigos, quando o banco ainda lucrava bem. Com o lucro do 3º
+trimestre, o mesmo investimento levaria **19 anos** para se pagar. Pelo guidance do ano (R$ 9 a 11 bilhões), algo
+entre 9 e 11 anos. **O P/L baixo de um lucro que está caindo é uma ilusão de ótica.**
+
+Dois cuidados com o payback pelo P/L:
+
+1. **Ele supõe que o lucro fica parado.** Se o lucro cresce, o investimento se paga antes; se cai, demora mais. É por
+   isso que o mercado aceita pagar 12 anos de lucro pelo BTG, que vem crescendo, e só 6 pelo Bradesco, que ainda
+   precisa provar a recuperação.
+2. **O lucro não cai inteiro no seu bolso.** Voltando ao imóvel: é como se o inquilino depositasse só parte do
+   aluguel na sua conta e usasse o resto para reformar o apartamento. Só o **dividendo** chega até você; o resto o
+   banco reinveste. No Itaú, que distribui cerca de 68% do lucro, o payback **só com dividendos** seria de uns 15 anos.
+   No BB, com payout de 25% e o lucro do guidance, passaria de 35 anos.
+
+<div class="caixa">
+
+**O P/L e o truque do ROE ÷ P/VP são a mesma coisa vista de dois lados.** Inverta o P/L (1 ÷ P/L) e você tem o
+**lucro sobre o preço** que você paga. P/L de 10 é 10% ao ano; P/L de 5 é 20% ao ano. É o mesmo número que sai de
+ROE ÷ P/VP. As pequenas diferenças entre as duas contas neste artigo vêm de períodos de lucro diferentes.
+
+</div>
+
 E os bancos médios? No TradingView, Banrisul (BRSR6) e ABC Brasil (ABCB4) aparecem com ROE perto de 14,5% e preço
 abaixo do patrimônio. São casos para um estudo próprio: bancos menores têm carteiras mais concentradas, e a análise
 pede mais cuidado do que os números agregados mostram.
@@ -225,10 +273,12 @@ pede mais cuidado do que os números agregados mostram.
 Quando sair o próximo resultado, olhe nesta ordem:
 
 1. **ROE acima ou abaixo da Selic?** Abaixo, o banco não está remunerando o risco.
-2. **Capital principal subindo ou caindo?** E, se subiu, foi com lucro ou com dinheiro novo dos acionistas?
-3. **Inadimplência acima de 90 dias:** compare com o trimestre anterior, não só com os outros bancos.
-4. **Custo do crédito (provisões):** cresce mais rápido que a carteira? É sinal de que o banco espera mais perdas.
-5. **Dividendos:** foram mantidos, cortados ou suspensos? Corte de dividendo em banco quase sempre é um aviso
+2. **P/L com o lucro mais recente:** compare o P/L de 12 meses com o do último trimestre × 4. Se o segundo for
+   muito maior, o lucro está caindo e o "barato" é ilusão.
+3. **Capital principal subindo ou caindo?** E, se subiu, foi com lucro ou com dinheiro novo dos acionistas?
+4. **Inadimplência acima de 90 dias:** compare com o trimestre anterior, não só com os outros bancos.
+5. **Custo do crédito (provisões):** cresce mais rápido que a carteira? É sinal de que o banco espera mais perdas.
+6. **Dividendos:** foram mantidos, cortados ou suspensos? Corte de dividendo em banco quase sempre é um aviso
    sobre capital. (Se quiser rever como os dividendos funcionam, leia o
    [guia do mundo dos dividendos](/blog/como-funciona-o-mundo-dos-dividendos/).)
 
@@ -253,6 +303,8 @@ Para quem usa opções, essa comparação muda a escolha da estrutura:
 - **Itaú** é o mais preparado nas três réguas; **BTG** é o mais rentável, mas cresce rápido; **Bradesco** está em
   recuperação, com menos folga; **Santander** está apertado; **BB** é o mais frágil hoje.
 - **P/VP** mostra quanto o mercado paga pelo patrimônio. Banco forte custa caro, banco barato carrega risco.
+- **P/L** mostra em quantos anos o lucro paga a ação. Use o lucro mais recente: com o 3º trimestre, o BB levaria
+  19 anos para se pagar, e não os 8 que a média de 12 meses sugere.
 - Dividir **ROE por P/VP** mostra o retorno sobre o preço que você paga.
 
 *Material educacional do canal Opcionando. Não é recomendação de investimento. Dados dos balanços do 3º trimestre de
