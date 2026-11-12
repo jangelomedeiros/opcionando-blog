@@ -12,8 +12,8 @@ Se você acompanhou [o curioso caso de BBAS3](/blog/o-curioso-caso-de-bbas3/) e 
 [parte 2, depois do balanço](/blog/o-curioso-caso-de-bbas3-depois-do-balanco/), a pergunta natural é: **o problema é
 só do Banco do Brasil, ou todo banco brasileiro está no mesmo barco?**
 
-A resposta curta: o mar está agitado para todos, mas os barcos são muito diferentes. No dia em que o BB caiu 8,6%,
-o Itaú caiu 0,4% e o Santander **subiu** 3,4%. O mercado não estava vendendo "bancos". Estava escolhendo.
+A resposta curta: o mar está agitado para todos, mas os barcos são muito diferentes. No dia em que o BB caiu 8,3%,
+o Itaú e o Bradesco fecharam praticamente estáveis e o Santander **subiu** 3,6%. O mercado não estava vendendo "bancos". Estava escolhendo.
 
 Este artigo mostra como fazer essa escolha. Você não precisa saber de cor o que é ROE ou capital principal: cada
 indicador vem com uma analogia do dia a dia.
@@ -129,6 +129,8 @@ Itaú está em 37,5%: gasta R$ 0,37 para ganhar R$ 1. **Aqui, menor é melhor.**
 
 </div>
 
+**Ficha técnica:** [ITUB4 em 12/11](/analises/itub4-2026-11-12/), range de 38,11 a 42,60 e venda de put no pivô.
+
 ### 2. BTG Pactual (BPAC11): o mais rentável, com uma ressalva
 
 O BTG tem o maior ROE do setor (26,7% no 2º trimestre) e um modelo diferente: ganha muito com gestão de patrimônio,
@@ -139,6 +141,8 @@ A ressalva é a **velocidade**: a carteira de crédito cresceu 24% em 12 meses. 
 bom ou ruim, como uma safra que só se conhece na colheita. O balanço do 3º trimestre ainda não saiu; a prévia do
 Santander projeta lucro perto de R$ 5,2 bilhões, alta de 15% em um ano.
 
+**Ficha técnica:** [BPAC11 em 12/11](/analises/bpac11-2026-11-12/), preço sobre a POC de 12 meses, range de 50 a 58.
+
 ### 3. Bradesco (BBDC4): em recuperação, com menos folga
 
 O Bradesco vem de uma crise própria e entregou o **11º trimestre seguido de melhora**, com lucro de R$ 7,1 bilhões
@@ -147,6 +151,8 @@ O Bradesco vem de uma crise própria e entregou o **11º trimestre seguido de me
 O ponto de atenção é a inadimplência subindo (4,6%). Parte dela tem garantia do governo, mas a tendência é o que o
 mercado vai vigiar. O CEO, Marcelo Noronha, disse que a inadimplência tende a ficar mais apertada em todo o
 sistema financeiro.
+
+**Ficha técnica:** [BBDC4 em 12/11](/analises/bbdc4-2026-11-12/), novo fundo em 13,44 e trava de baixa com put.
 
 ### 4. Santander (SANB11): o mais apertado dos privados
 
@@ -157,11 +163,27 @@ Por que a ação subiu no dia do balanço do BB? Porque o mercado precisava sair
 recebeu parte desse dinheiro. Foi um movimento de fluxo, não uma melhora nos
 números.
 
+**Ficha técnica:** [SANB11 em 12/11](/analises/sanb11-2026-11-12/), alta de 19% chegando na parede de volume.
+
 ### 5. Banco do Brasil (BBAS3): o mais frágil agora
 
 ROE de 2,8% no trimestre, inadimplência de 6,08%, capital abaixo da linha de conforto, lucro cortado pela metade na
 projeção do ano e dividendo reduzido ao mínimo legal. A história completa está nos dois artigos do
 [curioso caso de BBAS3](/blog/o-curioso-caso-de-bbas3-depois-do-balanco/).
+**Ficha técnica:** [BBAS3 em 12/11](/analises/bbas3-2026-11-12/), range rompido pelo balanço, viés de baixa.
+
+
+<div class="caixa">
+
+**Fichas técnicas de 12/11.** Cada banco tem uma análise com gráfico, Volume Profile, níveis, plano de entrada e a
+estrutura de opções que combina com o momento:
+[ITUB4](/analises/itub4-2026-11-12/) ·
+[BPAC11](/analises/bpac11-2026-11-12/) ·
+[BBDC4](/analises/bbdc4-2026-11-12/) ·
+[SANB11](/analises/sanb11-2026-11-12/) ·
+[BBAS3](/analises/bbas3-2026-11-12/)
+
+</div>
 
 ## O resumo em uma tabela
 

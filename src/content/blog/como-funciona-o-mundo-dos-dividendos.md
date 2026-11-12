@@ -174,7 +174,7 @@ Aplicando aos três perfis de pagadora:
 |---|---:|---:|
 | <span class="ticker">BBSE3</span> | ~11% (out/2026) | **~9 anos** |
 | <span class="ticker">ITUB4</span> | ~6% (out/2026) | ~16 anos |
-| <span class="ticker">BBAS3</span> | ~2,9% (projeção de 2026, a R$ 15,43) | **~35 anos** |
+| <span class="ticker">BBAS3</span> | ~2,8% (projeção de 2026, a R$ 15,48) | **~35 anos** |
 
 A conta do BB usa o dividendo que sai do novo guidance (lucro de R$ 9 a 11 bilhões com payout de 25%, perto de
 R$ 0,44 por ação no ano). É o mesmo banco que, pelos dividendos de 2024, se pagaria em menos de 10 anos.
