@@ -16,6 +16,13 @@ Mas aqui vai a parte curiosa: o banco **continua lucrando**. Bilhões por trimes
 eficiências do setor, milhões de clientes, a maior carteira de crédito rural do país. Então por que a ação vale
 hoje **pouco mais da metade** do patrimônio do banco?
 
+<div class="caixa alerta">
+
+**Atualização de 12/11:** o balanço do 3º trimestre saiu, e a história ganhou um novo capítulo. Leia
+[O curioso caso de BBAS3, parte 2: depois do balanço](/blog/o-curioso-caso-de-bbas3-depois-do-balanco/).
+
+</div>
+
 Essa é a história de como um banco lucrativo virou o papel mais castigado da bolsa, contada em quatro capítulos.
 E, no final, a pergunta que todo mundo está fazendo: **é oportunidade de compra?**
 
@@ -248,3 +255,5 @@ caindo. Com opções, dá para **definir o risco antes de entrar**:
 
 *Material educacional do canal Opcionando. Não é recomendação de investimento. Dados do TradingView (fechamento de
 06/11/2026), dos balanços do Banco do Brasil e de reportagens de InfoMoney, BP Money, Forbes, Investidor10 e Poder360.*
+
+**A história continua:** [parte 2, depois do balanço](/blog/o-curioso-caso-de-bbas3-depois-do-balanco/).
