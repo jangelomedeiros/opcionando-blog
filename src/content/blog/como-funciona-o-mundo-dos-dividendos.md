@@ -147,6 +147,61 @@ O caso do <span class="ticker">BBAS3</span> é uma aula: com a inadimplência al
 caindo forte, o banco reduziu o payout de 40% para **30%** e manteve esse nível para 2026, priorizando o capital.
 Quem comprou olhando só o yield do passado se surpreendeu. A história completa está em [O curioso caso de BBAS3](/blog/o-curioso-caso-de-bbas3/).
 
+Em 11/11, com o balanço do 3º trimestre, veio um novo corte: payout de **25%**, o mínimo do estatuto, e nenhum
+pagamento intermediário em 2027. Detalhes na
+[parte 2 do curioso caso](/blog/o-curioso-caso-de-bbas3-depois-do-balanco/).
+
+## Em quantos anos os dividendos devolvem o que você pagou?
+
+O dividend yield responde "quanto eu recebo por ano". Dá para virar a pergunta ao contrário e perguntar **quantos
+anos de dividendos são necessários para recuperar 100% do que você investiu**. É o payback do dividendo.
+
+<div class="caixa">
+
+**Pense num imóvel para alugar.** Você paga R$ 300 mil e recebe R$ 30 mil de aluguel por ano: em 10 anos, o aluguel
+devolveu o que você pagou. Com ações é igual, só que o "aluguel" é o dividendo.
+
+**Anos para se pagar ≈ 1 ÷ dividend yield**
+
+Ação a R$ 40 que paga R$ 2,50 por ano tem DY de 6,25%. Se o dividendo ficar igual, são **16 anos** para os
+dividendos somarem os R$ 40 investidos.
+
+</div>
+
+Aplicando aos três perfis de pagadora:
+
+| Ativo | Dividend yield | Anos para se pagar só com dividendos |
+|---|---:|---:|
+| <span class="ticker">BBSE3</span> | ~11% (out/2026) | **~9 anos** |
+| <span class="ticker">ITUB4</span> | ~6% (out/2026) | ~16 anos |
+| <span class="ticker">BBAS3</span> | ~2,9% (projeção de 2026, a R$ 15,43) | **~35 anos** |
+
+A conta do BB usa o dividendo que sai do novo guidance (lucro de R$ 9 a 11 bilhões com payout de 25%, perto de
+R$ 0,44 por ação no ano). É o mesmo banco que, pelos dividendos de 2024, se pagaria em menos de 10 anos.
+
+Três coisas mudam essa conta:
+
+1. **Dividendo que cresce encurta o prazo.** Se aqueles R$ 2,50 crescerem 5% ao ano, a ação se paga em 13 anos, e
+   não em 16. Crescendo 10% ao ano, em 11. É por isso que empresas que aumentam o dividendo todo ano valem mais que
+   o yield de hoje sugere.
+2. **Dividendo que cai alonga, e muito.** Foi o que aconteceu com o BB: o investimento que se pagaria em menos de 10
+   anos passou a levar mais de 30.
+3. **Reinvestir os dividendos acelera.** Usar cada dividendo para comprar mais ações faz o próximo dividendo ser
+   maior, porque você tem mais ações. É o efeito bola de neve dos juros compostos aplicado à renda.
+
+<div class="caixa">
+
+**A ligação com o P/L.** O P/L diz em quantos anos o **lucro** paga a ação. Mas o lucro não chega inteiro ao seu
+bolso: só a parte distribuída como dividendo. Por isso, **anos só com dividendos ≈ P/L ÷ payout**. O Itaú, com P/L
+perto de 10 e payout de 68%, se pagaria em uns 15 anos só com dividendos, número próximo dos 16 da tabela acima.
+Comparamos o P/L dos bancos em
+[Quem aguenta a crise do crédito?](/blog/quem-aguenta-a-crise-do-credito/).
+
+</div>
+
+E um alerta: payback curto demais pode ser **yield inflado**, a primeira armadilha da lista abaixo. Se uma ação
+promete se pagar em 4 ou 5 anos só com dividendos, a pergunta certa é por que o mercado está vendendo tão barato.
+
 ## As armadilhas do dividendo
 
 1. **Yield inflado pela queda do preço.** Se a ação cai de R$ 40 para R$ 20 porque o negócio piorou, o DY de 6,25%
@@ -242,6 +297,8 @@ líquida.
 - Para receber, basta estar comprado no **fechamento da data-com**.
 - Na **data-ex**, a ação cai mais ou menos o valor pago: dividendo **não é dinheiro grátis**.
 - **DY** mede quanto paga; **payout** mostra se dá para continuar pagando.
+- **1 ÷ DY** mostra em quantos anos os dividendos devolvem o que você pagou, se o dividendo não mudar. Dividendo
+  crescendo encurta o prazo; dividendo caindo alonga.
 - Yield alto demais pede investigação: queda de preço, provento extraordinário ou setor cíclico.
 - Nas opções, a B3 **reduz o strike** na data-ex. Na venda coberta, o dividendo volta pelo strike se houver
   exercício.
