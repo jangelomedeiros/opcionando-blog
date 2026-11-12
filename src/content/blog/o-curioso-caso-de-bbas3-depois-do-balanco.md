@@ -215,6 +215,8 @@ um dígito, e o dividendo seguiu o lucro, como sempre segue. **O preço baixo er
 - A leitura técnica de 06/11 foi invalidada pela perda de R$ 16,08. A nova ficha vê **viés de baixa**, com o gap
   de R$ 15,67–16,89 como teto e R$ 14,10–14,72 como chão.
 
+**Leia também:** [Quem aguenta a crise do crédito? Os bancos da B3 lado a lado](/blog/quem-aguenta-a-crise-do-credito/).
+
 *Material educacional do canal Opcionando. Não é recomendação de investimento. Pregão de 12/11/2026 descrito do leilão
 de abertura ao fechamento, com dados de 5 minutos do TradingView. Números do balanço e opiniões de
 analistas de Exame, InfoMoney, Seu Dinheiro, Investidor10 e Money Times.*
