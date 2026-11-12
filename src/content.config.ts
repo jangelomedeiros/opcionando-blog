@@ -194,4 +194,19 @@ const supercoberta = defineCollection({
   }),
 });
 
-export const collections = { supercoberta, blog, trilha, acoes, estrategias, analises };
+// Seção "Macro e Micro": leitura macro e microeconômica em storytelling, explicando os termos técnicos
+const macro = defineCollection({
+  loader: glob({ base: './src/content/macro', pattern: '**/*.{md,mdx}' }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    edicao: z.number(), // número da edição (1, 2, 3...)
+    pubDate: z.coerce.date(),
+    updatedDate: z.coerce.date().optional(),
+    tags: z.array(z.string()).default([]),
+    youtube: z.string().optional(),
+    draft: z.boolean().default(false),
+  }),
+});
+
+export const collections = { macro, supercoberta, blog, trilha, acoes, estrategias, analises };

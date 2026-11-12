@@ -1,0 +1,50 @@
+---
+// Barras horizontais de variação (%) em torno do zero. Item com `referencia: true` sai em cinza (ex.: Ibovespa).
+interface Item { nome: string; v: number; referencia?: boolean }
+interface Props { itens: Item[]; titulo: string; subtitulo?: string; fonte?: string }
+const { itens, titulo, subtitulo = '', fonte = '' } = Astro.props;
+
+const esq = 260, larg = 420;
+const mn = Math.floor(Math.min(0, ...itens.map((i) => i.v)) / 10) * 10 - 3;
+const mx = Math.ceil(Math.max(0, ...itens.map((i) => i.v)) / 10) * 10 + 5;
+const xs = (v: number) => esq + ((v - mn) / (mx - mn)) * larg;
+const z = xs(0), y0 = 92, alt = 28;
+const H = y0 + itens.length * alt + 14;
+const fmt = (v: number) => `${v > 0 ? '+' : ''}${v.toFixed(1).replace('.', ',')}%`;
+const classe = (i: Item) => (i.referencia ? 'b-ref' : i.v >= 0 ? 'b-pos' : 'b-neg');
+---
+<figure class="grafico-macro">
+  <svg viewBox={`0 0 760 ${H}`} role="img" aria-label={titulo}>
+    <text x="20" y="28" class="t-titulo">{titulo}</text>
+    {subtitulo && <text x="20" y="50" class="t-sub">{subtitulo}</text>}
+    <line x1={z} x2={z} y1={y0 - 16} y2={H - 8} class="eixo" />
+    {itens.map((i, k) => {
+      const yy = y0 + k * alt;
+      return (
+        <g>
+          <text x={esq - 10} y={yy + 4} text-anchor="end" class={i.referencia ? 't-nome forte' : 't-nome'}>{i.nome}</text>
+          <rect x={Math.min(z, xs(i.v))} y={yy - 10} width={Math.abs(xs(i.v) - z)} height="20" rx="3" class={classe(i)}>
+            <title>{`${i.nome}: ${fmt(i.v)}`}</title>
+          </rect>
+          <text x={i.v >= 0 ? xs(i.v) + 6 : z + 6} y={yy + 4} class="t-val">{fmt(i.v)}</text>
+        </g>
+      );
+    })}
+  </svg>
+  {fonte && <figcaption>{fonte}</figcaption>}
+</figure>
+
+<style>
+  .grafico-macro { margin: 1.8rem 0; background: var(--bg-card); border: 1px solid var(--borda); border-radius: var(--raio); padding: 0.8rem 0.6rem 0.6rem; }
+  .grafico-macro svg { width: 100%; height: auto; display: block; font-family: var(--font-texto); }
+  .grafico-macro figcaption { font-size: 0.78rem; color: var(--texto-suave); padding: 0.2rem 0.8rem 0.2rem; }
+  .t-titulo { font-family: var(--font-titulo); font-weight: 700; font-size: 21px; fill: var(--texto); }
+  .t-sub { font-size: 14px; fill: var(--texto-suave); }
+  .t-nome { font-size: 15px; fill: var(--texto-suave); }
+  .t-nome.forte { fill: var(--texto); font-weight: 700; }
+  .t-val { font-size: 15px; fill: var(--texto); }
+  .eixo { stroke: var(--texto-suave); stroke-opacity: 0.6; }
+  .b-pos { fill: var(--destaque); fill-opacity: 0.85; }
+  .b-neg { fill: var(--coral); fill-opacity: 0.75; }
+  .b-ref { fill: var(--texto-suave); fill-opacity: 0.6; }
+</style>

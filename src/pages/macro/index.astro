@@ -1,0 +1,31 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { formatarData } from '../../lib/posts';
+
+// Mais recente primeiro: cada edição é a leitura do cenário naquela data
+const artigos = (await getCollection('macro', ({ data }) => import.meta.env.DEV || !data.draft))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+<Base title="Análise macro e microeconômica" description="O cenário econômico do Brasil e do mundo contado como história: juros, inflação, câmbio, contas públicas e setores da bolsa, com cada termo técnico explicado.">
+  <section class="container-larga pagina">
+    <p class="sobretitulo">O cenário por trás do preço</p>
+    <h1>Análise macro e microeconômica</h1>
+    <p class="intro">
+      Antes de escolher a estrutura de opções, vale entender o tabuleiro. Aqui o cenário econômico vira história:
+      o que dizem o Banco Central e o boletim Focus, o que o mercado já colocou no preço e como isso chega a cada
+      setor da bolsa. Todo termo técnico é explicado no caminho e reunido num glossário ao final.
+    </p>
+    <ul class="grade-cards">
+      {artigos.map((a) => (
+        <li>
+          <a class="card-link" href={`/macro/${a.id}/`}>
+            <span class="selo">Edição {String(a.data.edicao).padStart(2, '0')} · {formatarData(a.data.pubDate)}</span>
+            <span class="titulo">{a.data.title}</span>
+            <span class="resumo">{a.data.description}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+</Base>

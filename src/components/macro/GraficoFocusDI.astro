@@ -1,0 +1,72 @@
+---
+// Selic projetada pelo Focus x taxa média implícita no DI futuro, por ano.
+// Props: linhas = [{ ano, focus, di }], data = texto da data de referência
+interface Linha { ano: string; focus: number; di: number }
+interface Props { linhas: Linha[]; titulo?: string; subtitulo?: string; fonte?: string }
+const {
+  linhas,
+  titulo = 'O mercado cobra juros perto de 15% onde o Focus vê cortes',
+  subtitulo = 'Selic projetada pelo Focus x taxa média implícita nos contratos de DI, % ao ano',
+  fonte = '',
+} = Astro.props;
+
+const W = 760, H = 380, x0 = 140, passo = 250;
+const xi = (i: number) => x0 + i * passo;
+const vals = linhas.flatMap((l) => [l.focus, l.di]);
+const mn = Math.floor(Math.min(...vals) - 1), mx = Math.ceil(Math.max(...vals) + 0.5);
+const y = (v: number) => 320 - ((v - mn) / (mx - mn)) * 220;
+const ticks: number[] = [];
+for (let t = mn; t <= mx; t += 1) if (t % 2 === 0) ticks.push(t);
+const fmt = (v: number) => v.toFixed(2).replace('.', ',') + '%';
+const ult = linhas.at(-1)!;
+const dif = (ult.di - ult.focus).toFixed(1).replace('.', ',');
+const pts = (k: 'focus' | 'di') => linhas.map((l, i) => `${xi(i)},${y(l[k])}`).join(' ');
+const xb = xi(linhas.length - 1) + 34;
+---
+<figure class="grafico-macro">
+  <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-label={titulo}>
+    <text x="20" y="28" class="t-titulo">{titulo}</text>
+    <text x="20" y="50" class="t-sub">{subtitulo}</text>
+    <rect x="20" y="66" width="12" height="12" rx="2" class="c-focus" />
+    <text x="38" y="76" class="t-leg">Focus: Selic no fim do ano</text>
+    <rect x="282" y="66" width="12" height="12" rx="2" class="c-di" />
+    <text x="300" y="76" class="t-leg">DI futuro: taxa média implícita no ano</text>
+    {ticks.map((t) => (
+      <g>
+        <line x1="70" x2="700" y1={y(t)} y2={y(t)} class="grade" />
+        <text x="62" y={y(t) + 4} text-anchor="end" class="t-eixo">{t}%</text>
+      </g>
+    ))}
+    {linhas.map((l, i) => <text x={xi(i)} y="356" text-anchor="middle" class="t-eixo">{l.ano}</text>)}
+    <polyline points={pts('focus')} class="l-focus" />
+    <polyline points={pts('di')} class="l-di" />
+    {linhas.map((l, i) => (
+      <g>
+        <circle cx={xi(i)} cy={y(l.focus)} r="5" class="c-focus"><title>{`Focus ${l.ano}: ${fmt(l.focus)}`}</title></circle>
+        <text x={xi(i)} y={y(l.focus) + 22} text-anchor="middle" class="t-val">{fmt(l.focus)}</text>
+        <circle cx={xi(i)} cy={y(l.di)} r="5" class="c-di"><title>{`DI ${l.ano}: ${fmt(l.di)}`}</title></circle>
+        <text x={xi(i)} y={y(l.di) - 12} text-anchor="middle" class="t-val forte">{fmt(l.di)}</text>
+      </g>
+    ))}
+    <line x1={xb} x2={xb} y1={y(ult.di)} y2={y(ult.focus)} class="ref" />
+    <text x={xb + 8} y={(y(ult.di) + y(ult.focus)) / 2 + 4} class="t-val forte">+{dif} p.p.</text>
+  </svg>
+  {fonte && <figcaption>{fonte}</figcaption>}
+</figure>
+
+<style>
+  .grafico-macro { margin: 1.8rem 0; background: var(--bg-card); border: 1px solid var(--borda); border-radius: var(--raio); padding: 0.8rem 0.6rem 0.6rem; }
+  .grafico-macro svg { width: 100%; height: auto; display: block; font-family: var(--font-texto); }
+  .grafico-macro figcaption { font-size: 0.78rem; color: var(--texto-suave); padding: 0.2rem 0.8rem 0.2rem; }
+  .t-titulo { font-family: var(--font-titulo); font-weight: 700; font-size: 21px; fill: var(--texto); }
+  .t-sub, .t-eixo { font-size: 14px; fill: var(--texto-suave); }
+  .t-leg { font-size: 15px; fill: var(--texto); }
+  .t-val { font-size: 15px; fill: var(--texto); }
+  .t-val.forte { font-weight: 700; }
+  .grade { stroke: var(--borda); }
+  .ref { stroke: var(--texto-suave); stroke-dasharray: 4 3; }
+  .l-focus { fill: none; stroke: var(--texto-suave); stroke-opacity: 0.55; stroke-width: 3; }
+  .l-di { fill: none; stroke: var(--destaque); stroke-width: 3.5; }
+  .c-focus { fill: var(--texto-suave); fill-opacity: 0.7; }
+  .c-di { fill: var(--destaque); }
+</style>
