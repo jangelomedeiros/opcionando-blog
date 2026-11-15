@@ -57,7 +57,15 @@ if (type === 'article') {
 }
 const jsonLd = JSON.stringify({ '@context': 'https://schema.org', '@graph': grafo });
 ---
+<script is:inline>
+  (function () {
+    var salvo = null;
+    try { salvo = localStorage.getItem('opcionando-tema'); } catch (e) {}
+    document.documentElement.dataset.theme = salvo === 'light' ? 'light' : 'dark';
+  })();
+</script>
 <meta charset="utf-8" />
+<meta name="theme-color" content="#0b2329" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 <link rel="sitemap" href="/sitemap-index.xml" />

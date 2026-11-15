@@ -1,0 +1,52 @@
+---
+// Botão de tema: escuro (padrão) ou claro. A escolha fica em localStorage 'opcionando-tema'.
+// O tema inicial é aplicado antes da pintura pelo script inline do BaseHead.
+---
+<button type="button" class="tema" data-tema-toggle aria-label="Mudar para tema claro" aria-pressed="false">
+  <svg class="sol" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+    <circle cx="12" cy="12" r="4.5" fill="currentColor" />
+    <g stroke="currentColor" stroke-width="2" stroke-linecap="round">
+      <line x1="12" y1="1.5" x2="12" y2="4" /><line x1="12" y1="20" x2="12" y2="22.5" />
+      <line x1="1.5" y1="12" x2="4" y2="12" /><line x1="20" y1="12" x2="22.5" y2="12" />
+      <line x1="4.6" y1="4.6" x2="6.4" y2="6.4" /><line x1="17.6" y1="17.6" x2="19.4" y2="19.4" />
+      <line x1="4.6" y1="19.4" x2="6.4" y2="17.6" /><line x1="17.6" y1="6.4" x2="19.4" y2="4.6" />
+    </g>
+  </svg>
+  <svg class="lua" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+    <path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="currentColor" />
+  </svg>
+</button>
+
+<script>
+  const CHAVE = 'opcionando-tema';
+  function aplicar(btn: HTMLButtonElement) {
+    const claro = document.documentElement.dataset.theme === 'light';
+    btn.setAttribute('aria-pressed', String(claro));
+    btn.setAttribute('aria-label', claro ? 'Mudar para tema escuro' : 'Mudar para tema claro');
+  }
+  document.querySelectorAll<HTMLButtonElement>('[data-tema-toggle]').forEach((btn) => {
+    aplicar(btn);
+    btn.addEventListener('click', () => {
+      const novo = document.documentElement.dataset.theme === 'light' ? 'dark' : 'light';
+      document.documentElement.dataset.theme = novo;
+      try { localStorage.setItem(CHAVE, novo); } catch { /* sem armazenamento: vale só nesta visita */ }
+      document.querySelectorAll<HTMLButtonElement>('[data-tema-toggle]').forEach(aplicar);
+    });
+  });
+</script>
+
+<style>
+  .tema {
+    display: grid; place-items: center;
+    width: 36px; height: 36px; padding: 0;
+    border-radius: 999px; border: 1px solid var(--borda);
+    background: var(--superficie); color: var(--titulo);
+    cursor: pointer;
+  }
+  .tema:hover { border-color: var(--marca); color: var(--marca-texto); }
+  .tema:focus-visible { outline: 2px solid var(--marca); outline-offset: 2px; }
+  /* No tema escuro mostra o sol (vai para o claro); no claro, a lua. */
+  .lua { display: none; }
+  :global(:root[data-theme="light"]) .sol { display: none; }
+  :global(:root[data-theme="light"]) .lua { display: block; }
+</style>
