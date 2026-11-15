@@ -10,7 +10,7 @@ test('barra do prêmio: intrínseco em petróleo fixo com texto creme', () => {
 });
 
 test('laboratório: botão "Todas" tem cor própria (--fc), não cai no --destaque', () => {
-  const html = ler('dist/ferramentas/laboratorio/index.html');
+  const html = ler('dist/estrategias/index.html');
   const botoes = html.match(/<button[^>]*class="fbtn[^"]*"[^>]*>/g) ?? [];
   assert.ok(botoes.length > 1, 'filtros não encontrados (rode npm run build)');
   for (const b of botoes) assert.match(b, /--fc:/, b);

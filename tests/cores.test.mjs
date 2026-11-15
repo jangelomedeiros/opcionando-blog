@@ -36,7 +36,8 @@ test('laboratório sem cores fixas', () => {
   const arquivos = [
     join(RAIZ, 'src/lib/laboratorio.ts'),
     join(RAIZ, 'src/styles/laboratorio.css'),
-    ...listar(join(RAIZ, 'src/pages/ferramentas/laboratorio')),
+    ...listar(join(RAIZ, 'src/pages/estrategias')),
+    join(RAIZ, 'src/styles/catalogo.css'),
   ];
   assert.deepEqual(encontrarCoresFixas(arquivos), []);
 });

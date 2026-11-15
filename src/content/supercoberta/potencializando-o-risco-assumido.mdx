@@ -14,7 +14,7 @@ import EscadaRisco from '../../components/risco/EscadaRisco.astro';
 A venda coberta e a PUT garantida são o jeito mais simples de cobrar por esse risco. Mas não são o único,
 nem o mais eficiente. Dá para montar estruturas que usam **exatamente o mesmo risco** e pagam mais por ele. É isso que o Opcionando chama de **Supercoberta**.
 
-Todos os números deste artigo vêm do [Laboratório de estruturas](/ferramentas/laboratorio), com a cadeia de
+Todos os números deste artigo vêm do [Laboratório de estruturas](/estrategias/), com a cadeia de
 <span class="ticker">BBAS3</span> de **02/10/2026**: ação a R$ 23,72 e opções de 19/11 (31 dias úteis).
 Valores por ação; multiplique por 1.000 para ter o resultado por lote de mil.
 
@@ -61,11 +61,11 @@ naquele preço (sem contar a ação pura).
 
 | Estrutura | Crédito | Saída efetiva | Teto atingido em | Ganho máx. | Break-even |
 |---|---:|---:|---:|---:|---:|
-| [Venda coberta](/ferramentas/laboratorio/covered-call/) | 1,49 | 26,53 | 25,04 | 2,81 | **22,23** |
-| [Booster CALL](/ferramentas/laboratorio/booster-call/) | 1,24 | 26,78 | 24,54 | 3,06 | 22,48 |
-| [B2 lado CALL + ação](/ferramentas/laboratorio/b2/) | 0,66 | 27,20 | 24,54 | 3,48 | 23,06 |
-| [B3 2×3 lado CALL + ação](/ferramentas/laboratorio/b3-2x3/) | 0,78 | **27,32** | 24,54 | **3,60** | 22,94 |
-| [Collar](/ferramentas/laboratorio/collar/) (contrapeso) | 0,30 | 25,34 | 25,04 | 1,62 | 23,42 |
+| [Venda coberta](/estrategias/covered-call/) | 1,49 | 26,53 | 25,04 | 2,81 | **22,23** |
+| [Booster CALL](/estrategias/booster-call/) | 1,24 | 26,78 | 24,54 | 3,06 | 22,48 |
+| [B2 lado CALL + ação](/estrategias/b2/) | 0,66 | 27,20 | 24,54 | 3,48 | 23,06 |
+| [B3 2×3 lado CALL + ação](/estrategias/b3-2x3/) | 0,78 | **27,32** | 24,54 | **3,60** | 22,94 |
+| [Collar](/estrategias/collar/) (contrapeso) | 0,30 | 25,34 | 25,04 | 1,62 | 23,42 |
 
 **Como ler:** o Booster CALL é a troca mais equilibrada. Ele abre mão de R$ 0,25 de colchão para vender
 R$ 0,25 mais caro e chega ao teto R$ 0,50 antes. O B3 2×3 é o mais agressivo: vende R$ 0,79 acima da coberta,
@@ -80,14 +80,14 @@ carteira, essa cauda desaparece: a CALL vendida a mais está coberta, e a cauda 
 
 ### Outras estruturas do laboratório que usam a custódia
 
-- **[Financiamento](/ferramentas/laboratorio/financiamento/)**: compra a ação e vende a CALL 22,54 (ITM) a R$ 2,74.
+- **[Financiamento](/estrategias/financiamento/)**: compra a ação e vende a CALL 22,54 (ITM) a R$ 2,74.
   Desembolso de R$ 20,98 e, se exercido, recebe R$ 22,54 (7,4% em 31 dias úteis). É o extremo do colchão:
   troca quase toda a alta por proteção.
-- **[Dividendo sintético](/ferramentas/laboratorio/dividendo-sint/)**: lança a CALL 25,04 sobre só 30% da posição.
+- **[Dividendo sintético](/estrategias/dividendo-sint/)**: lança a CALL 25,04 sobre só 30% da posição.
   Rende R$ 0,45 por ação no ciclo e deixa 70% livres para subir. É a forma mais leve de usar a custódia.
-- **[Booster e Fly sobre custódia](/ferramentas/laboratorio/booster-fly/)**: o Booster 1×2 lastreado na ação, com uma
+- **[Booster e Fly sobre custódia](/estrategias/booster-fly/)**: o Booster 1×2 lastreado na ação, com uma
   CALL 26,79 longa de âncora. Se o papel disparar, a CALL longa devolve convexidade.
-- **[GL short put + booster horizontal](/ferramentas/laboratorio/gl-shortput-booster/)**: a ação cobre a CALL
+- **[GL short put + booster horizontal](/estrategias/gl-shortput-booster/)**: a ação cobre a CALL
   extra de um 3×2 horizontal, e a PUT vendida usa o caixa. Usa os dois riscos de uma vez, com crédito na entrada.
 
 <h2 id="caixa">3. Tenho o caixa: aceito comprar</h2>
@@ -99,17 +99,17 @@ caixa, mas pagam diferente.
 
 | Estrutura | Crédito | Compra efetiva | Ganho máx. (em) | Se o papel subir |
 |---|---:|---:|---:|---:|
-| [PUT garantida](/ferramentas/laboratorio/cash-put/) | 1,19 | 21,35 | 1,19 (≥ 22,54) | **1,19** |
-| [Booster de PUT](/ferramentas/laboratorio/booster-put/) | 1,13 | 21,41 | 2,13 (23,54) | 1,13 |
-| [B2 lado PUT](/ferramentas/laboratorio/b2/) | 0,55 | 20,99 | 2,55 (23,54) | 0,55 |
-| [B3 2×3 lado PUT](/ferramentas/laboratorio/b3-2x3/) | 0,63 | **20,91** | **2,63** (23,54) | 0,63 |
+| [PUT garantida](/estrategias/cash-put/) | 1,19 | 21,35 | 1,19 (≥ 22,54) | **1,19** |
+| [Booster de PUT](/estrategias/booster-put/) | 1,13 | 21,41 | 2,13 (23,54) | 1,13 |
+| [B2 lado PUT](/estrategias/b2/) | 0,55 | 20,99 | 2,55 (23,54) | 0,55 |
+| [B3 2×3 lado PUT](/estrategias/b3-2x3/) | 0,63 | **20,91** | **2,63** (23,54) | 0,63 |
 
 **Como ler:** o Booster de PUT compra o papel praticamente no mesmo preço da PUT garantida (R$ 21,41 contra
 R$ 21,35) e quase dobra o ganho se o papel fechar no miolo. B2 e B3 compram cerca de R$ 0,40 mais barato,
 mas devolvem metade do prêmio se o papel disparar. Para quem quer de fato a ação, isso é aceitável. Para quem
 vende PUT só para renda, o Booster é o limite.
 
-O laboratório traz ainda o **[Booster horizontal de PUT 1,5×1](/ferramentas/laboratorio/booster-horizontal/)**:
+O laboratório traz ainda o **[Booster horizontal de PUT 1,5×1](/estrategias/booster-horizontal/)**:
 vende 1,5 PUT curta e compra 1 PUT longa no mesmo strike, quase a custo zero. O meio contrato a mais é o
 risco assumido, coberto pelo caixa.
 
@@ -126,19 +126,19 @@ pernas vendidas (2 ou 3 lotes). Confira o caixa bloqueado na corretora antes de 
 Várias estruturas que no laboratório aparecem com "risco dominante" ficam **totalmente cobertas** quando a
 perna vendida a mais encontra a ação ou o caixa. É aqui que estão as montagens mais robustas.
 
-- **[Módulo B integrado](/ferramentas/laboratorio/b2/)**: cada lado do B1, B2 ou B3 vende uma opção líquida.
+- **[Módulo B integrado](/estrategias/b2/)**: cada lado do B1, B2 ou B3 vende uma opção líquida.
   O lado CALL usa a ação; o lado PUT usa o caixa. Resultado: teto de venda acima, preço de compra abaixo e o
   miolo turbinado nos dois sentidos.
-- **[Hexabox sem a asa de CALL](/ferramentas/laboratorio/hexabox/)**: com a ação, a CALL longa 24,29 comprada
+- **[Hexabox sem a asa de CALL](/estrategias/hexabox/)**: com a ação, a CALL longa 24,29 comprada
   como asa fica redundante. Trocá-la pela ação transforma o débito de R$ 0,12 em crédito de R$ 1,70, mantendo a asa de PUT.
-- **[Mannerheim coberta](/ferramentas/laboratorio/mannerheim/)**: o risco dominante da Mannerheim é a CALL curta
+- **[Mannerheim coberta](/estrategias/mannerheim/)**: o risco dominante da Mannerheim é a CALL curta
   sem proteção. Com a ação, ela vira uma venda coberta em 23,29 cujo prêmio financia três THL de PUT. As PUTs
   longas passam a proteger o próprio papel.
-- **[TLAD bilateral](/ferramentas/laboratorio/clade/)**: duas curtas e uma longa de cada lado. A curta a mais de
+- **[TLAD bilateral](/estrategias/clade/)**: duas curtas e uma longa de cada lado. A curta a mais de
   CALL se apoia na ação; a de PUT, no caixa. O ciclo de reciclagem roda sem perna descoberta (crédito de R$ 0,95).
-- **[Mônada Básica](/ferramentas/laboratorio/monada-basica-call/)**: vende 1,2 contra 1 comprado. O 0,2 a mais é
+- **[Mônada Básica](/estrategias/monada-basica-call/)**: vende 1,2 contra 1 comprado. O 0,2 a mais é
   exatamente o risco residual que o manual aponta; 0,2 de ação (versão CALL) ou de caixa (versão PUT) o zera.
-- **[Quatermine V2](/ferramentas/laboratorio/quatermine-v2/)**: os boosters horizontais de PUT deixam 1 PUT
+- **[Quatermine V2](/estrategias/quatermine-v2/)**: os boosters horizontais de PUT deixam 1 PUT
   vendida líquida. É uma estrutura de **entrada no papel**. Só faz sentido para quem quer comprar entre 24,79 e 25,79.
 - **Covered strangle**: venda coberta mais PUT garantida (R$ 1,49 + R$ 1,19 = R$ 2,68). É o jeito mais simples
   de usar os dois riscos e serve de benchmark para o Módulo B integrado.
@@ -180,7 +180,7 @@ proteção, segurou a queda. Escolher o degrau da escada é escolher qual desses
 <div class="caixa">
 
 Os números usam o retrato do laboratório de 02/10/2026, no vencimento, sem custos, impostos ou proventos.
-Para os preços de hoje, abra a ficha de cada estrutura no [Laboratório](/ferramentas/laboratorio). Conteúdo
+Para os preços de hoje, abra a ficha de cada estrutura no [Laboratório](/estrategias/). Conteúdo
 educacional; não é recomendação de investimento.
 
 </div>

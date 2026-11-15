@@ -86,7 +86,7 @@ const inicial = lado === 'papel' ? 24.54 : 23.54;
   <ul class="placar">
     {series.map((s) => (
       <li data-item={s.id}>
-        <span class="nome"><i style={`background:${s.cor}`}></i>{s.lab ? <a href={`/ferramentas/laboratorio/${s.lab}/`}>{s.nome}</a> : s.nome}</span>
+        <span class="nome"><i style={`background:${s.cor}`}></i>{s.lab ? <a href={`/estrategias/${s.lab}/`}>{s.nome}</a> : s.nome}</span>
         <b data-valor={s.id}>{res(s, inicial).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</b>
       </li>
     ))}
