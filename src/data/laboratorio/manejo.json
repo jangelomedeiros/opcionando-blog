@@ -48,11 +48,11 @@
      },
      {
       "nome": "Comprar PUT de proteção",
-      "descricao": "Compra uma PUT um strike abaixo do preço atual, no próximo vencimento.",
+      "descricao": "Compra uma PUT um strike abaixo do preço atual, no mesmo vencimento da CALL vendida.",
       "ganha": "Um piso para a perda a partir daqui (vira um collar).",
       "perde": "O custo da PUT, que reduz o resultado se o papel se recuperar.",
       "quando": "Quando a queda pode continuar e você quer limitar o risco sem vender a ação.",
-      "ops": [{ "op": "adicionar", "tipo": "put", "q": 1, "strikePassos": -1 }],
+      "ops": [{ "op": "adicionar", "tipo": "put", "q": 1, "strikePassos": -1, "vencDe": "p2" }],
       "estrutura": "collar"
      },
      {
@@ -107,7 +107,7 @@
      },
      {
       "nome": "Aceitar o exercício",
-      "descricao": "Fica com a ação pelo strike; o custo efetivo é strike − prêmio. Depois, passa a lançar CALL coberta.",
+      "descricao": "Simula o exercício no vencimento: fica com a ação pelo strike, com custo efetivo de strike − prêmio, e depois passa a lançar CALL coberta. Antes do vencimento, encerrar a PUT e comprar a ação custa um pouco mais que o strike, pelo valor de tempo que a PUT ainda tem.",
       "ganha": "A ação pelo preço que você aceitou na montagem.",
       "perde": "A diferença entre o strike e o preço de mercado, se a queda continuar.",
       "quando": "Quando você queria a ação de qualquer forma.",
@@ -184,7 +184,7 @@
     "caminhos": [
      {
       "nome": "Rolar a trava para baixo",
-      "descricao": "Recompra e revende a CALL comprada e as vendidas, dois strikes abaixo.",
+      "descricao": "Vende a CALL comprada, recompra as duas vendidas e monta a mesma trava dois strikes abaixo.",
       "ganha": "Recoloca o miolo perto do preço atual.",
       "perde": "Realiza a perda da trava antiga.",
       "quando": "Quando o papel deve lateralizar no novo patamar.",

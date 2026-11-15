@@ -28,7 +28,13 @@ export function gradeParaManejo(posicao: Posicao, cenario: Cenario, grade: Grade
   const kPernas = posicao.pernas.filter((p) => p.tipo !== 'acao' && p.strike).map((p) => p.strike as number);
   const vPernas = posicao.pernas.filter((p) => p.tipo !== 'acao' && p.venc).map((p) => p.venc as string);
   if (grade) {
+    // Strikes por vencimento: "N strikes acima" anda na escada real daquele vencimento.
+    const porVenc: Record<string, number[]> = {};
+    for (const s of grade.series) (porVenc[s.venc] ??= []).push(s.strike);
+    for (const p of posicao.pernas) if (p.tipo !== 'acao' && p.venc && p.strike) (porVenc[p.venc] ??= []).push(p.strike);
+    const strikesPorVenc = Object.fromEntries(Object.entries(porVenc).map(([v, ks]) => [v, unicosOrdenados(ks)]));
     return {
+      strikesPorVenc,
       strikes: unicosOrdenados([...grade.series.map((s) => s.strike), ...kPernas]),
       vencimentos: [...new Set([...Object.keys(grade.vencimentos).filter((v) => v > cenario.data), ...vPernas])].sort(),
     };

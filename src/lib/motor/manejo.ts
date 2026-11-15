@@ -3,14 +3,19 @@
 // pernas que entram são abertas pelo mesmo valor. Assim o ajuste não cria nem destrói valor no instante.
 import { valorPerna, type Cenario, type Perna, type Posicao } from './posicao.ts';
 
-export interface GradeRef { strikes: number[]; vencimentos: string[] }
+export interface GradeRef {
+  strikes: number[];
+  vencimentos: string[];
+  /** Strikes que existem em cada vencimento (grade real). Sem isso, usa `strikes` para todos. */
+  strikesPorVenc?: Record<string, number[]>;
+}
 
 export type Operacao =
   | { op: 'encerrar'; perna: string }
   | { op: 'rolarStrike'; perna: string; passos: number }
   | { op: 'rolarVencimento'; perna: string; passos: number }
   | { op: 'quantidade'; perna: string; q: number }
-  | { op: 'adicionar'; tipo: 'acao' | 'call' | 'put'; q: number; strikePassos?: number; vencIndice?: number; vol?: number };
+  | { op: 'adicionar'; tipo: 'acao' | 'call' | 'put'; q: number; strikePassos?: number; vencIndice?: number; vencDe?: string; vol?: number };
 
 export interface Ajuste { nome: string; cenario: Cenario; ops: Operacao[] }
 export interface Historico { inicial: Posicao; ajustes: Ajuste[] }
@@ -28,15 +33,18 @@ function proximoNumero(pos: Posicao): number {
   return max + 1;
 }
 
-function indiceStrike(grade: GradeRef, k: number): number {
-  const i = grade.strikes.findIndex((s) => Math.abs(s - k) < IGUAL);
+const strikesDe = (grade: GradeRef, venc?: string) => (venc && grade.strikesPorVenc?.[venc]?.length ? grade.strikesPorVenc[venc] : grade.strikes);
+const maisProximo = (lista: number[], k: number) => lista.reduce((m, x) => (Math.abs(x - k) < Math.abs(m - k) ? x : m));
+
+function indiceStrike(lista: number[], k: number): number {
+  const i = lista.findIndex((s) => Math.abs(s - k) < IGUAL);
   if (i < 0) throw new RangeError(`Rolagem fora da grade: strike ${k} não está na grade`);
   return i;
 }
 
-function strikeATM(grade: GradeRef, spot: number): number {
-  if (!grade.strikes.length) throw new RangeError('Rolagem fora da grade: grade sem strikes');
-  return grade.strikes.reduce((melhor, k) => (Math.abs(k - spot) < Math.abs(melhor - spot) ? k : melhor));
+function strikeATM(lista: number[], spot: number): number {
+  if (!lista.length) throw new RangeError('Rolagem fora da grade: grade sem strikes');
+  return maisProximo(lista, spot);
 }
 
 /**
@@ -50,11 +58,11 @@ export function aplicarAjuste(pos: Posicao, ops: Operacao[], c: Cenario, grade: 
   let fluxo = 0;
   let novas = 0;
 
-  // Procura pelo id exato; se a perna já foi rolada neste ajuste, segue a descendente (`<id>~<n>`).
+  // Procura pelo id exato; se a perna foi rolada (neste ou em outro ajuste), segue a descendente (`<id>~<n>`).
   const achar = (id: string) => {
     let i = pernas.findIndex((p) => p.id === id);
-    if (i < 0) i = pernas.findIndex((p) => p.id === `${idBase(id)}~${numero}`);
-    if (i < 0) throw new Error(`Perna inexistente: ${id}`);
+    if (i < 0) i = pernas.findIndex((p) => idBase(p.id) === idBase(id));
+    if (i < 0) throw new Error(`Perna inexistente: ${id} (essa perna já foi encerrada ou não existe)`);
     return i;
   };
   const encerrar = (i: number) => {
@@ -82,12 +90,13 @@ export function aplicarAjuste(pos: Posicao, ops: Operacao[], c: Cenario, grade: 
         const i = achar(o.perna);
         const p = pernas[i];
         exigirOpcao(p, 'rolarStrike');
-        const destino = indiceStrike(grade, p.strike ?? NaN) + o.passos;
-        if (destino < 0 || destino >= grade.strikes.length) {
+        const lista = strikesDe(grade, p.venc);
+        const destino = indiceStrike(lista, p.strike ?? NaN) + o.passos;
+        if (destino < 0 || destino >= lista.length) {
           throw new RangeError(`Rolagem fora da grade: ${o.passos} passos a partir do strike ${p.strike}`);
         }
         encerrar(i);
-        abrir({ ...p, id: `${idBase(p.id)}~${numero}`, strike: grade.strikes[destino] });
+        abrir({ ...p, id: `${idBase(p.id)}~${numero}`, strike: lista[destino] });
         break;
       }
       case 'rolarVencimento': {
@@ -100,8 +109,12 @@ export function aplicarAjuste(pos: Posicao, ops: Operacao[], c: Cenario, grade: 
         if (destino < 0 || destino >= grade.vencimentos.length) {
           throw new RangeError(`Rolagem fora da grade: ${o.passos} vencimentos a partir de ${p.venc}`);
         }
+        const novoVenc = grade.vencimentos[destino];
+        // Se o strike não existe no novo vencimento, usa o mais próximo que existe.
+        const lista = strikesDe(grade, novoVenc);
+        const k = lista.some((s) => Math.abs(s - (p.strike ?? NaN)) < IGUAL) ? p.strike : maisProximo(lista, p.strike ?? 0);
         encerrar(i);
-        abrir({ ...p, id: `${idBase(p.id)}~${numero}`, venc: grade.vencimentos[destino] });
+        abrir({ ...p, id: `${idBase(p.id)}~${numero}`, venc: novoVenc, strike: k });
         break;
       }
       case 'quantidade': {
@@ -127,14 +140,16 @@ export function aplicarAjuste(pos: Posicao, ops: Operacao[], c: Cenario, grade: 
         const id = `n${numero}-${novas}`;
         if (o.tipo === 'acao') { abrir({ id, tipo: 'acao', q: o.q }); break; }
         const futuros = grade.vencimentos.filter((v) => v > c.data);
-        const venc = futuros[o.vencIndice ?? 0];
+        // vencDe: mesmo vencimento de outra perna (ex.: PUT de proteção junto com a CALL vendida).
+        const venc = o.vencDe ? pernas[achar(o.vencDe)].venc : futuros[o.vencIndice ?? 0];
         if (!venc) throw new RangeError(`Rolagem fora da grade: não há vencimento de índice ${o.vencIndice ?? 0} depois de ${c.data}`);
-        const atm = indiceStrike(grade, strikeATM(grade, c.spot));
+        const lista = strikesDe(grade, venc);
+        const atm = indiceStrike(lista, strikeATM(lista, c.spot));
         const k = atm + (o.strikePassos ?? 0);
-        if (k < 0 || k >= grade.strikes.length) throw new RangeError(`Rolagem fora da grade: ${o.strikePassos} passos a partir do ATM`);
+        if (k < 0 || k >= lista.length) throw new RangeError(`Rolagem fora da grade: ${o.strikePassos} passos a partir do ATM`);
         const vol = o.vol ?? pos.pernas.find((p) => p.tipo !== 'acao' && p.vol)?.vol;
         if (vol === undefined) throw new Error('Informe a vol da perna adicionada');
-        abrir({ id, tipo: o.tipo, q: o.q, strike: grade.strikes[k], venc, vol });
+        abrir({ id, tipo: o.tipo, q: o.q, strike: lista[k], venc, vol });
         break;
       }
     }
