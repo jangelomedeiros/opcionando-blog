@@ -21,9 +21,20 @@ export function ehDiaUtil(iso: string): boolean {
   return dia !== 0 && dia !== 6 && !FERIADOS_B3.has(iso);
 }
 
-/** Dias úteis entre `de` e `ate`, sem incluir nenhuma das duas. 0 se `ate <= de`. */
+const cache = new Map<string, number>();
+
+/** Dias úteis entre `de` e `ate`, sem incluir nenhuma das duas. 0 se `ate <= de`. Resultado em cache. */
 export function diasUteis(de: string, ate: string): number {
   if (ate <= de) return 0;
+  const chave = de + '|' + ate;
+  const salvo = cache.get(chave);
+  if (salvo !== undefined) return salvo;
+  const n = contarDiasUteis(de, ate);
+  cache.set(chave, n);
+  return n;
+}
+
+function contarDiasUteis(de: string, ate: string): number {
   const d = paraData(de);
   let n = 0;
   for (;;) {
