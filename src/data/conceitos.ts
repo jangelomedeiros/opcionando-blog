@@ -21,7 +21,7 @@ export const MODULOS = [
     titulo: 'As gregas ao longo do preço',
     resumo: 'Delta, gama, theta e vega contra o preço do ativo, com o controle de dias até o vencimento.',
     intro: 'As gregas mudam com o preço e com o tempo. Mova os dias para perto do vencimento e veja o gama crescer perto do strike.',
-    semJs: 'O delta vai de 0 a 1 (CALL) ou de −1 a 0 (PUT) conforme a opção entra no dinheiro. O gama tem o pico perto do strike e cresce perto do vencimento. O theta é mais negativo no dinheiro. O vega é maior no dinheiro e em prazos longos.',
+    semJs: 'O delta vai de 0 a 1 (CALL) ou de −1 a 0 (PUT) conforme a opção entra no dinheiro. O gama tem o pico perto do strike e cresce perto do vencimento. O theta é mais negativo no dinheiro (com juros altos, uma PUT bem dentro do dinheiro pode ter theta positivo). O vega é maior no dinheiro e em prazos longos.',
     pratica: 'Perto do vencimento e do strike, pequenos movimentos do ativo mudam muito o delta: é ali que o risco de quem vendeu fica mais nervoso.',
   },
   {
@@ -29,8 +29,8 @@ export const MODULOS = [
     titulo: 'As gregas no tempo',
     resumo: 'Como o delta de uma opção dentro, no e fora do dinheiro se comporta até o vencimento.',
     intro: 'Três opções do mesmo vencimento: uma dentro do dinheiro, uma no dinheiro e uma fora. Veja o que acontece com o delta de cada uma conforme o vencimento chega.',
-    semJs: 'Longe do vencimento, o delta das três fica mais próximo. Perto do vencimento, a opção dentro do dinheiro vai para 1 (age como a ação), a de fora vai para 0, e a do dinheiro fica oscilando em torno de 0,5 até o fim.',
-    pratica: 'Uma opção fora do dinheiro perde sensibilidade ao preço com o tempo; uma dentro do dinheiro vira, na prática, a ação.',
+    semJs: 'Longe do vencimento, o delta das três fica mais próximo. Perto do vencimento, a opção dentro do dinheiro vai para 1 (age como a ação), a de fora vai para 0, e a do dinheiro continua perto de 0,5 até o último pregão (numa PUT, os sinais se invertem: dentro do dinheiro vai para −1).',
+    pratica: 'Uma opção fora do dinheiro perde sensibilidade ao preço com o tempo; uma CALL dentro do dinheiro passa a se comportar como a ação (e uma PUT dentro do dinheiro, como a ação vendida).',
   },
   {
     slug: 'volatilidade' as const,
@@ -38,7 +38,7 @@ export const MODULOS = [
     resumo: 'O efeito da volatilidade implícita no prêmio e a queda da vol depois de um evento.',
     intro: 'Com o mesmo preço e o mesmo prazo, o prêmio muda só porque o mercado mudou a expectativa de oscilação. Simule a vol caindo depois de um balanço.',
     semJs: 'Quanto maior a volatilidade implícita, maior o prêmio. Antes de eventos (balanços, decisões), a vol costuma subir; depois, costuma cair, e o prêmio cai junto, mesmo sem o preço do ativo mudar.',
-    pratica: 'Comprar opção antes de um evento é pagar vol alta; se a vol cair depois, o prêmio cai mesmo com o ativo andando a favor.',
+    pratica: 'Comprar opção antes de um evento é pagar vol alta; se a vol cair depois, o prêmio pode cair mesmo com o ativo andando a favor, quando o movimento não compensa a queda da vol.',
   },
   {
     slug: 'probabilidade' as const,

@@ -10,7 +10,8 @@
 .jp-traj { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; font-size: 0.85rem; color: var(--texto-suave); }
 .jp-traj select { font: 600 0.85rem var(--font-texto); padding: 4px 8px; border-radius: 8px; border: 1px solid var(--borda-forte); background: var(--superficie); color: var(--texto); max-width: 100%; }
 .jp-svg { width: 100%; height: auto; display: block; margin-top: 6px; }
-.jp-svg .g-rot { font-size: 9px; }
+.jp-svg .g-rot { font-size: 11px; }
+@media (max-width: 720px) { .jp-svg .g-rot { font-size: 19px; } }
 .jp-preco { fill: none; stroke: var(--titulo); stroke-width: 2.2; }
 .jp-futuro { fill: none; stroke: var(--texto-suave); stroke-width: 1; opacity: 0.35; }
 .jp-strike { stroke: var(--marca); stroke-dasharray: 4 4; stroke-width: 1.2; }

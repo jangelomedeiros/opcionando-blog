@@ -76,3 +76,28 @@ test('delta no dinheiro fica perto de 0,5 até o fim', () => {
   const [, atm] = deltaNoTempo('call', K, [K * 1.1, K, K * 0.9], 60, V);
   assert.ok(atm.at(-1) >= 0.4 && atm.at(-1) <= 0.6, String(atm.at(-1)));
 });
+
+import { fraseQuedaDeVol, notaExtrinseco, notaTheta, formatarNum } from '../src/lib/conceitos/modulos.ts';
+
+test('frase da queda de vol acompanha o sinal', () => {
+  assert.match(fraseQuedaDeVol(quedaDeVol('call', S, K, T, 0.6, 0.35)), /quem comprou perde; quem vendeu ganha/);
+  assert.match(fraseQuedaDeVol(quedaDeVol('call', S, K, T, 0.35, 0.6)), /quem comprou ganha; quem vendeu perde/);
+  assert.equal(fraseQuedaDeVol(quedaDeVol('call', S, K, T, 0.4, 0.4)), '');
+});
+
+test('notas de juros: extrínseco negativo e theta positivo da PUT funda', () => {
+  assert.match(notaExtrinseco(anatomia('put', K, xs, T, V)), /juros/);
+  assert.equal(notaExtrinseco(anatomia('call', K, xs, T, V)), '');
+  assert.match(notaTheta(gregasAoLongo('put', K, xs, T, V)), /juros/);
+  assert.equal(notaTheta(gregasAoLongo('call', K, xs, T, V)), '');
+});
+
+test('gregas com 0 dias usam o último pregão (gama não some)', () => {
+  assert.ok(Math.max(...gregasAoLongo('call', K, xs, 0, V).map((g) => g.gama)) > 0);
+});
+
+test('formatarNum não mostra −0,00', () => {
+  assert.equal(formatarNum(-0.0004), '0,00');
+  assert.equal(formatarNum(-0.004, 3), '−0,004');
+  assert.equal(formatarNum(-1.234), '−1,23');
+});

@@ -1,14 +1,14 @@
 /** @jsxImportSource preact */
 // Ilha dos módulos de conceitos (spec 5.6). Toda a matemática vem de src/lib/conceitos/modulos.ts (testada).
 import { useEffect, useMemo, useState } from 'preact/hooks';
-import { faixa, anatomia, curvasPorPrazo, gregasAoLongo, deltaNoTempo, premioPorVol, quedaDeVol, densidade, probLucroPosicao } from '../../lib/conceitos/modulos.ts';
+import { faixa, anatomia, curvasPorPrazo, gregasAoLongo, deltaNoTempo, premioPorVol, quedaDeVol, densidade, probLucroPosicao, formatarNum, fraseQuedaDeVol, notaExtrinseco, notaTheta } from '../../lib/conceitos/modulos.ts';
 import { diasUteis } from '../../lib/motor/calendario.ts';
 import { DIAS_UTEIS_ANO } from '../../lib/motor/bs.ts';
 import type { Opcao } from '../../lib/conceitos/jornada.ts';
 
 export type Slug = 'anatomia-do-premio' | 'premio-e-prazo' | 'gregas-ao-longo-do-preco' | 'gregas-no-tempo' | 'volatilidade' | 'probabilidade';
 
-const num = (v: number, d = 2) => (v < 0 ? '−' : '') + Math.abs(v).toLocaleString('pt-BR', { minimumFractionDigits: d, maximumFractionDigits: d });
+const num = formatarNum;
 const pct = (v: number, d = 0) => `${num(v * 100, d)}%`;
 const W = 640, H = 230, L = 50, R = 12, T = 12, B = 28;
 
@@ -32,8 +32,9 @@ function Linhas({ xs, series, marcador, area, rotX, titulo }: { xs: number[]; se
         {series.map((s) => <path class={s.classe} d={path(s.ys)} />)}
         {marcador !== undefined && <line class="g-spot" x1={X(marcador)} x2={X(marcador)} y1={T} y2={H - B} />}
         {ticks.map((x, i) => <text class="g-rot" x={X(x)} y={H - 10} text-anchor={i === 0 ? 'start' : i === 4 ? 'end' : 'middle'}>{rotX(x)}</text>)}
-        <text class="g-rot" x={L - 6} y={Y(hi - f) + 4} text-anchor="end">{num(hi - f)}</text>
-        <text class="g-rot" x={L - 6} y={Y(0) + 4} text-anchor="end">0</text>
+        {Math.abs(hi - f) > (hi - lo) * 0.1 && <text class="g-rot" x={L - 6} y={Y(hi - f) + 4} text-anchor="end">{num(hi - f)}</text>}
+        {Math.abs(lo + f) > (hi - lo) * 0.1 && <text class="g-rot" x={L - 6} y={Y(lo + f) + 4} text-anchor="end">{num(lo + f)}</text>}
+        {Math.abs(hi - f) > (hi - lo) * 0.1 && Math.abs(lo + f) > (hi - lo) * 0.1 && <text class="g-rot" x={L - 6} y={Y(0) + 4} text-anchor="end">0</text>}
       </svg>
       <figcaption class="ge-legenda">{series.map((s) => <span><i class={`md-k ${s.classe}`}></i>{s.nome}</span>)}{area && <span><i class="md-k md-area"></i>distribuição de preços (modelo)</span>}</figcaption>
     </figure>
@@ -73,7 +74,7 @@ export default function Modulo({ modulo, dados }: { modulo: Slug; dados: { call:
     case 'anatomia-do-premio': {
       const a = anatomia(tipo, K, xs, Tano, vol);
       const p = anatomia(tipo, K, [preco], Tano, vol)[0];
-      leitura = `Com o ativo a R$ ${num(preco)}: prêmio R$ ${num(p.valor)} = intrínseco R$ ${num(p.intrinseco)} + extrínseco R$ ${num(p.extrinseco)}.`;
+      leitura = `Com o ativo a R$ ${num(preco)}: prêmio R$ ${num(p.valor)} = intrínseco R$ ${num(p.intrinseco)} ${p.extrinseco < -0.005 ? '−' : '+'} extrínseco R$ ${num(Math.abs(p.extrinseco))}. ${notaExtrinseco(a)}`.trim();
       corpo = <>
         <Linhas xs={xs} titulo="Prêmio, intrínseco e extrínseco contra o preço" marcador={preco} rotX={faixaR}
           series={[{ ys: a.map((x) => x.valor), classe: 'md-s1', nome: 'prêmio' }, { ys: a.map((x) => x.intrinseco), classe: 'md-s2', nome: 'intrínseco' }, { ys: a.map((x) => x.extrinseco), classe: 'md-s3', nome: 'extrínseco (tempo e vol)' }]} />
@@ -100,7 +101,7 @@ export default function Modulo({ modulo, dados }: { modulo: Slug; dados: { call:
     case 'gregas-ao-longo-do-preco': {
       const g = gregasAoLongo(tipo, K, xs, Tano, vol);
       const p = gregasAoLongo(tipo, K, [preco], Tano, vol)[0];
-      leitura = `Com o ativo a R$ ${num(preco)} e ${dias} du: delta ${num(p.delta, 3)}, gama ${num(p.gama, 3)}, theta ${num(p.theta, 3)} por dia útil, vega ${num(p.vega, 3)} por p.p.`;
+      leitura = `Com o ativo a R$ ${num(preco)} e ${dias === 0 ? 'no último pregão' : `${dias} du`}: delta ${num(p.delta, 3)}, gama ${num(p.gama, 3)}, theta ${num(p.theta, 3)} por dia útil, vega ${num(p.vega, 3)} por p.p. ${notaTheta(g)}`.trim();
       const graf = (k: 'delta' | 'gama' | 'theta' | 'vega', nome: string) =>
         <Linhas xs={xs} titulo={`${nome} contra o preço`} marcador={preco} rotX={faixaR} series={[{ ys: g.map((x) => x[k]), classe: 'md-s1', nome }]} />;
       corpo = <>
@@ -125,7 +126,7 @@ export default function Modulo({ modulo, dados }: { modulo: Slug; dados: { call:
       const vols = Array.from({ length: 116 }, (_, i) => 0.05 + i * 0.01);
       const ps = premioPorVol(tipo, op.spot, K, du0 / DIAS_UTEIS_ANO, vols);
       const q = quedaDeVol(tipo, op.spot, K, du0 / DIAS_UTEIS_ANO, vol, volDepois);
-      leitura = `Vol de ${pct(vol)} para ${pct(volDepois)}, com o mesmo preço e o mesmo prazo: o prêmio vai de R$ ${num(q.antes)} para R$ ${num(q.depois)} (${q.perda >= 0 ? 'perde' : 'ganha'} R$ ${num(Math.abs(q.perda))}). Quem comprou sente; quem vendeu embolsa.`;
+      leitura = `Vol de ${pct(vol)} para ${pct(volDepois)}, com o mesmo preço e o mesmo prazo: o prêmio vai de R$ ${num(q.antes)} para R$ ${num(q.depois)} (${q.perda >= 0 ? 'cai' : 'sobe'} R$ ${num(Math.abs(q.perda))}). ${fraseQuedaDeVol(q)}`.trim();
       corpo = <>
         <Linhas xs={vols} titulo="Prêmio contra a volatilidade" marcador={vol} rotX={(v) => pct(v)} series={[{ ys: ps, classe: 'md-s1', nome: 'prêmio' }]} />
         <div class="ge-controles">
@@ -163,12 +164,12 @@ export default function Modulo({ modulo, dados }: { modulo: Slug; dados: { call:
     <div class="md">
       <div class="jp-topo">
         <div class="jp-tipo" role="group" aria-label="Tipo de opção">
-          {(['call', 'put'] as const).map((t) => <button type="button" aria-pressed={tipo === t} onClick={() => { setTipo(t); setPreco(dados[t].spot); }}>{t.toUpperCase()}</button>)}
+          {(['call', 'put'] as const).map((t) => <button type="button" aria-pressed={tipo === t} onClick={() => { setTipo(t); setPreco(dados[t].spot); setVol(Math.round(dados[t].vol * 100) / 100); setVolDepois(Math.max(0.05, Math.round(dados[t].vol * 100 - 15) / 100)); setDias(diasUteis(dados[t].data, dados[t].venc)); setTocando(false); }}>{t.toUpperCase()}</button>)}
         </div>
         <p class="jp-op"><b>{op.ticker}</b> · strike R$ {num(op.strike)} · vence {op.venc.slice(8, 10)}/{op.venc.slice(5, 7)} · vol implícita {pct(op.vol)} (grade de {op.data.slice(8, 10)}/{op.data.slice(5, 7)})</p>
       </div>
       {corpo}
-      <p class="jp-comentario" aria-live="polite">{leitura}</p>
+      <p class="jp-comentario" aria-live={tocando ? 'off' : 'polite'}>{leitura}</p>
     </div>
   );
 }

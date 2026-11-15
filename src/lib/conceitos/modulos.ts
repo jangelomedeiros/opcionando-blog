@@ -21,8 +21,10 @@ export function curvasPorPrazo(tipo: TipoOpcao, K: number, xs: number[], prazosD
 }
 
 export function gregasAoLongo(tipo: TipoOpcao, K: number, xs: number[], T: number, vol: number) {
+  // Com 0 dias, mostra o último pregão (piso de meio dia útil, como o motor): o gama não some de repente.
+  const t = Math.max(T, 0.5 / DIAS_UTEIS_ANO);
   return xs.map((S) => {
-    const g = gregasBS(tipo, S, K, T, vol);
+    const g = gregasBS(tipo, S, K, t, vol);
     return { delta: g.delta, gama: g.gama, theta: g.theta, vega: g.vega };
   });
 }
@@ -65,4 +67,26 @@ export function probLucroPosicao(tipo: TipoOpcao, comprado: boolean, K: number, 
   const xs = Array.from({ length: 6001 }, (_, i) => S * (0.05 + (5.95 * i) / 6000));
   const ys = xs.map((x) => (comprado ? 1 : -1) * (intrinseco(tipo, x, K) - premio));
   return probLucro(xs, ys, densidade(S, xs, T, vol));
+}
+
+/** Número em pt-BR sem "−0,00": arredonda antes de decidir o sinal. */
+export function formatarNum(v: number, d = 2): string {
+  const r = Number(v.toFixed(d));
+  return (r < 0 ? '−' : '') + Math.abs(r).toLocaleString('pt-BR', { minimumFractionDigits: d, maximumFractionDigits: d });
+}
+
+/** Quem ganha e quem perde com a mudança de vol (vazio se a mudança é desprezível). */
+export function fraseQuedaDeVol(q: { perda: number }): string {
+  if (Math.abs(q.perda) < 0.005) return '';
+  return q.perda > 0 ? 'Com a vol caindo, quem comprou perde; quem vendeu ganha.' : 'Com a vol subindo, quem comprou ganha; quem vendeu perde.';
+}
+
+const NOTA_JUROS = 'Com juros altos, uma PUT europeia bem dentro do dinheiro';
+/** Explica o extrínseco negativo (PUT europeia funda com juros altos). */
+export function notaExtrinseco(a: { extrinseco: number }[]): string {
+  return a.some((p) => p.extrinseco < -0.005) ? `${NOTA_JUROS} pode valer menos que o intrínseco: receber o strike só no vencimento custa juros. Por isso o extrínseco fica negativo ali.` : '';
+}
+/** Explica o theta positivo (mesma causa). */
+export function notaTheta(g: { theta: number }[]): string {
+  return g.some((x) => x.theta > 0.0005) ? `${NOTA_JUROS} ganha valor com o tempo (theta positivo): o valor presente do strike cresce conforme o vencimento se aproxima.` : '';
 }
