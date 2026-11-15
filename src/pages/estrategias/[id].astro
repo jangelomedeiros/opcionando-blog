@@ -10,6 +10,8 @@ import GraficoEstrutura from '../../components/catalogo/GraficoEstrutura.tsx';
 import { DISCLAIMER } from '../../consts';
 import { ESTRUTURAS, POPS, FAM_COR, grafico, teoria, hoje, lerMercado, hojeIso, rs, dmyy, qfmt, moneyness } from '../../lib/laboratorio';
 import { lerMercadoCsv, cenarioInicial, comparacaoHoje } from '../../lib/catalogo/converter.ts';
+import { resolverTexto, valoresDaMontagem, valoresDaReferencia } from '../../lib/catalogo/textos.ts';
+import { diasUteis } from '../../lib/motor/calendario.ts';
 import mercadoCsv from '../../data/laboratorio/mercado.csv?raw';
 
 // Fichas editoriais antigas que viraram parte da aba Visão.
@@ -38,6 +40,12 @@ const dados = {
   rotuloComparacao: est.comp_label,
 };
 
+// Textos com marcadores ({p2.k}, {be1}...) preenchidos com a montagem que o gráfico mostra.
+const valores = inicial.fonte === 'mercado' ? valoresDaMontagem(inicial.posicao, inicial.cenario, dados.comparacao) : valoresDaReferencia(est);
+const texto = (t: string) => resolverTexto(t, valores, est.id);
+const racional = texto(est.racional), esperado = texto(est.esperado), notas = est.notas.map(texto);
+const montagem = inicial.posicao.pernas;
+
 const fichas = await getCollection('estrategias', ({ data }) => !data.draft);
 const ficha = fichas.find((f) => f.id === FICHAS[est.id]);
 const Corpo = ficha ? (await render(ficha)).Content : null;
@@ -57,7 +65,7 @@ const descricao = `${est.nome}: gráfico de payoff interativo, gregas, procedime
     <p class="sobretitulo"><a href="/estrategias/">Catálogo de estratégias</a></p>
     <p class="chip-wrap"><span class="chip">{est.familia}</span>{pop?.visao && <span class="visao">{pop.visao}</span>}</p>
     <h1>{est.nome}</h1>
-    <p class="intro">{est.racional}</p>
+    <p class="intro">{racional}</p>
 
     <div class="est-grid">
       <div class="est-esq">
@@ -82,28 +90,28 @@ const descricao = `${est.nome}: gráfico de payoff interativo, gregas, procedime
           <Fragment slot="visao">
             <div class="esperar">
               <h3 class="mini">O que esperar</h3>
-              <p>{est.esperado}</p>
-              {est.notas.length > 0 && <ul class="notas">{est.notas.map((n) => <li>{n}</li>)}</ul>}
+              <p>{esperado}</p>
+              {notas.length > 0 && <ul class="notas">{notas.map((n) => <li>{n}</li>)}</ul>}
             </div>
-            <h3 class="mini">Montagem de referência</h3>
+            <h3 class="mini">{inicial.fonte === 'mercado' ? `Montagem em ${dmyy(inicial.cenario.data)}` : 'Montagem de referência'}</h3>
             <div class="twrap">
               <table class="legs">
                 <thead><tr><th>Lado</th><th>Qtd.</th><th>Instrumento</th><th>Strike</th><th>Prazo</th><th>Prêmio</th></tr></thead>
                 <tbody>
-                  {est.pernas.map((l) => (
+                  {montagem.map((l) => (
                     <tr>
                       <td class={l.q > 0 ? 'buy' : 'sell'}>{l.q > 0 ? 'Comprar' : 'Vender'}</td>
                       <td>{qfmt(l.q)}</td>
-                      <td>{l.t === 'S' ? 'Ação (custódia)' : l.t === 'C' ? 'CALL' : 'PUT'}</td>
-                      <td>{l.t === 'S' ? '—' : <>{rs(l.k!)}<small>{moneyness(l, spot0)}</small></>}</td>
-                      <td>{l.t === 'S' ? '—' : `${l.d} du`}</td>
-                      <td>{rs(l.px)}</td>
+                      <td>{l.tipo === 'acao' ? 'Ação (custódia)' : l.tipo === 'call' ? 'CALL' : 'PUT'}</td>
+                      <td>{l.tipo === 'acao' ? '—' : <>{rs(l.strike!)}<small>{moneyness({ t: l.tipo === 'call' ? 'C' : 'P', k: l.strike! } as any, inicial.cenario.spot)}</small></>}</td>
+                      <td>{l.tipo === 'acao' ? '—' : `${diasUteis(inicial.cenario.data, l.venc!)} du`}</td>
+                      <td>{rs(l.entrada)}</td>
                     </tr>
                   ))}
                 </tbody>
               </table>
             </div>
-            <p class="nota">Exemplo calibrado com BBAS3 a {rs(spot0)} em {dmyy(est.ref.data)}. O que vale é a relação entre os strikes e os prazos.</p>
+            <p class="nota">{inicial.fonte === 'mercado' ? `Preços de ${m.ativo} em ${dmyy(inicial.cenario.data)} (ativo a ${rs(inicial.cenario.spot)}). Os números do texto acompanham esta montagem.` : `Exemplo calibrado com BBAS3 a ${rs(spot0)} em ${dmyy(est.ref.data)}. O que vale é a relação entre os strikes e os prazos.`}</p>
             {ficha && (
               <div class="ficha">
                 <dl>

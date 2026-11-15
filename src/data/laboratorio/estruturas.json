@@ -5,7 +5,7 @@
   "familia": "Base",
   "pop": "covered-call",
   "racional": "Transforma a ação em uma posição com teto de venda conhecido e prêmio recebido. Serve como referência para comparar o Booster de CALL.",
-  "esperado": "Abaixo do strike, acompanha a ação com amortecimento do prêmio. Acima de R$ 25,04, o ganho fica travado; preço efetivo de saída = strike + prêmio.",
+  "esperado": "Abaixo do strike, acompanha a ação com amortecimento do prêmio. Acima de R$ {p2.k}, o ganho fica travado; preço efetivo de saída = strike + prêmio.",
   "notas": [],
   "modo": "expiry",
   "comp_label": null,
@@ -45,7 +45,7 @@
    "sig": 0.5556,
    "d0": 31,
    "openUp": null,
-   "slopeDown": 1.0
+   "slopeDown": 1
   }
  },
  {
@@ -85,7 +85,7 @@
    "sig": 0.5779,
    "d0": 31,
    "openUp": null,
-   "slopeDown": 1.0
+   "slopeDown": 1
   }
  },
  {
@@ -93,8 +93,8 @@
   "nome": "Booster CALL integrado à ação",
   "familia": "Booster",
   "pop": "booster-call",
-  "racional": "Substitui uma covered call simples por uma razão 1×2 integrada à ação. Pela equivalência cardinal, +C23,54 −2C24,54 aponta para uma entrega sintética próxima de C25,54.",
-  "esperado": "Entre R$ 23,54 e R$ 25,54 existe a zona de oportunidade. A partir do miolo, o teto econômico é atingido antes de o papel chegar ao strike cardinal.",
+  "racional": "Substitui uma covered call simples por uma razão 1×2 integrada à ação. Pela equivalência cardinal, +C{p2.k} −2C{p3.k} aponta para uma entrega sintética próxima de C25,54.",
+  "esperado": "Entre R$ {p2.k} e R$ 25,54 existe a zona de oportunidade. A partir do miolo, o teto econômico é atingido antes de o papel chegar ao strike cardinal.",
   "notas": [],
   "modo": "expiry",
   "comp_label": null,
@@ -143,7 +143,7 @@
    "sig": 0.5592,
    "d0": 31,
    "openUp": null,
-   "slopeDown": 1.0
+   "slopeDown": 1
   }
  },
  {
@@ -194,7 +194,7 @@
    "sig": 0.5739,
    "d0": 31,
    "openUp": null,
-   "slopeDown": 1.0
+   "slopeDown": 1
   }
  },
  {
@@ -255,14 +255,14 @@
    "prob": 0.5703,
    "be": [
     21.58,
-    26.0
+    26
    ],
    "best": 3.19,
-   "worst": -6.0,
+   "worst": -6,
    "sig": 0.6593,
    "d0": 8,
    "openUp": "loss",
-   "slopeDown": 1.0
+   "slopeDown": 1
   }
  },
  {
@@ -332,7 +332,7 @@
    "sig": 0.5655,
    "d0": 31,
    "openUp": "loss",
-   "slopeDown": 1.0
+   "slopeDown": 1
   }
  },
  {
@@ -400,7 +400,7 @@
    "sig": 0.5668,
    "d0": 31,
    "openUp": "loss",
-   "slopeDown": 1.0
+   "slopeDown": 1
   }
  },
  {
@@ -468,7 +468,7 @@
    "sig": 0.5669,
    "d0": 31,
    "openUp": "loss",
-   "slopeDown": 1.0
+   "slopeDown": 1
   }
  },
  {
@@ -522,11 +522,11 @@
     23.6
    ],
    "best": 0.74,
-   "worst": 0.0,
+   "worst": 0,
    "sig": 0.6565,
    "d0": 8,
    "openUp": null,
-   "slopeDown": 0.0
+   "slopeDown": 0
   }
  },
  {
@@ -584,7 +584,7 @@
    "sig": 0.5667,
    "d0": 31,
    "openUp": null,
-   "slopeDown": 0.0
+   "slopeDown": 0
   }
  },
  {
@@ -593,7 +593,7 @@
   "familia": "Direcionais",
   "pop": "trava-alta",
   "racional": "Compra CALL mais baixa e vende CALL mais alta para reduzir o custo da tese de alta e limitar simultaneamente ganho e perda.",
-  "esperado": "Perde o débito se o ativo ficar abaixo de R$ 23,54; atinge ganho máximo acima de R$ 24,54.",
+  "esperado": "Perde o débito se o ativo ficar abaixo de R$ {p1.k}; atinge ganho máximo acima de R$ {p2.k}.",
   "notas": [],
   "modo": "expiry",
   "comp_label": null,
@@ -633,7 +633,7 @@
    "sig": 0.6512,
    "d0": 8,
    "openUp": null,
-   "slopeDown": 0.0
+   "slopeDown": 0
   }
  },
  {
@@ -682,7 +682,7 @@
    "sig": 0.6605,
    "d0": 8,
    "openUp": null,
-   "slopeDown": 0.0
+   "slopeDown": 0
   }
  },
  {
@@ -876,7 +876,7 @@
   "pernas": [
    {
     "t": "C",
-    "q": -1.0,
+    "q": -1,
     "k": 23.29,
     "d": 8,
     "px": 1.48,
@@ -885,7 +885,7 @@
    },
    {
     "t": "P",
-    "q": -1.0,
+    "q": -1,
     "k": 23.04,
     "d": 8,
     "px": 1.09,
@@ -894,7 +894,7 @@
    },
    {
     "t": "P",
-    "q": 1.0,
+    "q": 1,
     "k": 23.04,
     "d": 31,
     "px": 1.4,
@@ -903,7 +903,7 @@
    },
    {
     "t": "P",
-    "q": -1.0,
+    "q": -1,
     "k": 23.29,
     "d": 8,
     "px": 0.92,
@@ -912,7 +912,7 @@
    },
    {
     "t": "P",
-    "q": 1.0,
+    "q": 1,
     "k": 23.29,
     "d": 31,
     "px": 1.5,
@@ -921,7 +921,7 @@
    },
    {
     "t": "P",
-    "q": -1.0,
+    "q": -1,
     "k": 23.54,
     "d": 8,
     "px": 1.04,
@@ -930,7 +930,7 @@
    },
    {
     "t": "P",
-    "q": 1.0,
+    "q": 1,
     "k": 23.54,
     "d": 31,
     "px": 1.63,
@@ -942,43 +942,43 @@
   "ref": {
    "data": "2026-10-02",
    "spot": 23.72,
-   "caixa": 0.0
+   "caixa": 0
   },
   "lab_points": [
    {
-    "x": 17.0,
-    "y": 0.0
+    "x": 17,
+    "y": 0
    },
    {
     "x": 17.25,
-    "y": 0.0
+    "y": 0
    },
    {
     "x": 17.5,
-    "y": 0.0
+    "y": 0
    },
    {
     "x": 17.75,
-    "y": 0.0
+    "y": 0
    },
    {
-    "x": 18.0,
-    "y": 0.0
+    "x": 18,
+    "y": 0
    },
    {
     "x": 18.25,
-    "y": 0.0
+    "y": 0
    },
    {
     "x": 18.5,
-    "y": 0.0
+    "y": 0
    },
    {
     "x": 18.75,
-    "y": 0.0
+    "y": 0
    },
    {
-    "x": 19.0,
+    "x": 19,
     "y": 0.028
    },
    {
@@ -994,7 +994,7 @@
     "y": 0.344
    },
    {
-    "x": 20.0,
+    "x": 20,
     "y": 0.5
    },
    {
@@ -1010,7 +1010,7 @@
     "y": 1.065
    },
    {
-    "x": 21.0,
+    "x": 21,
     "y": 1.288
    },
    {
@@ -1026,7 +1026,7 @@
     "y": 2.063
    },
    {
-    "x": 22.0,
+    "x": 22,
     "y": 2.359
    },
    {
@@ -1042,7 +1042,7 @@
     "y": 3.359
    },
    {
-    "x": 23.0,
+    "x": 23,
     "y": 3.729
    },
    {
@@ -1058,7 +1058,7 @@
     "y": 3.111
    },
    {
-    "x": 24.0,
+    "x": 24,
     "y": 2.554
    },
    {
@@ -1074,7 +1074,7 @@
     "y": 0.984
    },
    {
-    "x": 25.0,
+    "x": 25,
     "y": 0.492
    },
    {
@@ -1090,7 +1090,7 @@
     "y": -0.894
    },
    {
-    "x": 26.0,
+    "x": 26,
     "y": -1.329
    },
    {
@@ -1106,7 +1106,7 @@
     "y": -2.56
    },
    {
-    "x": 27.0,
+    "x": 27,
     "y": -2.947
    },
    {
@@ -1122,7 +1122,7 @@
     "y": -4.051
    },
    {
-    "x": 28.0,
+    "x": 28,
     "y": -4.402
    },
    {
@@ -1138,7 +1138,7 @@
     "y": -5.405
    },
    {
-    "x": 29.0,
+    "x": 29,
     "y": -5.688
    },
    {
@@ -1154,7 +1154,7 @@
     "y": -6.46
    },
    {
-    "x": 30.0,
+    "x": 30,
     "y": -6.71
    },
    {
@@ -1170,7 +1170,7 @@
     "y": -7.46
    },
    {
-    "x": 31.0,
+    "x": 31,
     "y": -7.71
    }
   ],
@@ -1185,7 +1185,7 @@
    "sig": 0.6612,
    "d0": 8,
    "openUp": "loss",
-   "slopeDown": 0.0
+   "slopeDown": 0
   },
   "curva_lab": true
  },
@@ -1204,7 +1204,7 @@
   "pernas": [
    {
     "t": "C",
-    "q": -1.0,
+    "q": -1,
     "k": 23.2,
     "d": 4,
     "px": 1.31,
@@ -1213,7 +1213,7 @@
    },
    {
     "t": "C",
-    "q": 1.0,
+    "q": 1,
     "k": 25.04,
     "d": 31,
     "px": 1.49,
@@ -1222,7 +1222,7 @@
    },
    {
     "t": "P",
-    "q": -1.0,
+    "q": -1,
     "k": 23.2,
     "d": 4,
     "px": 0.76,
@@ -1231,7 +1231,7 @@
    },
    {
     "t": "P",
-    "q": 1.0,
+    "q": 1,
     "k": 21.54,
     "d": 31,
     "px": 0.85,
@@ -1240,7 +1240,7 @@
    },
    {
     "t": "P",
-    "q": -1.0,
+    "q": -1,
     "k": 24.7,
     "d": 4,
     "px": 1.58,
@@ -1249,7 +1249,7 @@
    },
    {
     "t": "P",
-    "q": 1.0,
+    "q": 1,
     "k": 22.7,
     "d": 51,
     "px": 1.3,
@@ -1265,7 +1265,7 @@
   },
   "lab_points": [
    {
-    "x": 17.0,
+    "x": 17,
     "y": -3.454
    },
    {
@@ -1281,7 +1281,7 @@
     "y": -3.312
    },
    {
-    "x": 18.0,
+    "x": 18,
     "y": -3.25
    },
    {
@@ -1297,7 +1297,7 @@
     "y": -2.886
    },
    {
-    "x": 19.0,
+    "x": 19,
     "y": -2.74
    },
    {
@@ -1313,7 +1313,7 @@
     "y": -2.221
    },
    {
-    "x": 20.0,
+    "x": 20,
     "y": -2.02
    },
    {
@@ -1329,7 +1329,7 @@
     "y": -1.325
    },
    {
-    "x": 21.0,
+    "x": 21,
     "y": -1.062
    },
    {
@@ -1345,7 +1345,7 @@
     "y": -0.178
    },
    {
-    "x": 22.0,
+    "x": 22,
     "y": 0.149
    },
    {
@@ -1361,7 +1361,7 @@
     "y": 1.225
    },
    {
-    "x": 23.0,
+    "x": 23,
     "y": 1.615
    },
    {
@@ -1377,7 +1377,7 @@
     "y": 1.779
    },
    {
-    "x": 24.0,
+    "x": 24,
     "y": 1.729
    },
    {
@@ -1393,7 +1393,7 @@
     "y": 1.617
    },
    {
-    "x": 25.0,
+    "x": 25,
     "y": 1.373
    },
    {
@@ -1409,7 +1409,7 @@
     "y": 0.717
    },
    {
-    "x": 26.0,
+    "x": 26,
     "y": 0.522
    },
    {
@@ -1425,7 +1425,7 @@
     "y": 0.002
    },
    {
-    "x": 27.0,
+    "x": 27,
     "y": -0.151
    },
    {
@@ -1441,7 +1441,7 @@
     "y": -0.556
    },
    {
-    "x": 28.0,
+    "x": 28,
     "y": -0.674
    },
    {
@@ -1457,7 +1457,7 @@
     "y": -0.975
    },
    {
-    "x": 29.0,
+    "x": 29,
     "y": -1.052
    },
    {
@@ -1473,7 +1473,7 @@
     "y": -1.221
    },
    {
-    "x": 30.0,
+    "x": 30,
     "y": -1.258
    },
    {
@@ -1489,7 +1489,7 @@
     "y": -1.355
    },
    {
-    "x": 31.0,
+    "x": 31,
     "y": -1.383
    }
   ],
@@ -1523,7 +1523,7 @@
   "pernas": [
    {
     "t": "C",
-    "q": 1.0,
+    "q": 1,
     "k": 26.79,
     "d": 31,
     "px": 0.93,
@@ -1541,7 +1541,7 @@
    },
    {
     "t": "P",
-    "q": 1.0,
+    "q": 1,
     "k": 24.79,
     "d": 31,
     "px": 2.28,
@@ -1559,7 +1559,7 @@
    },
    {
     "t": "P",
-    "q": 1.0,
+    "q": 1,
     "k": 25.79,
     "d": 31,
     "px": 2.89,
@@ -1575,7 +1575,7 @@
   },
   "lab_points": [
    {
-    "x": 17.0,
+    "x": 17,
     "y": -8.073
    },
    {
@@ -1591,7 +1591,7 @@
     "y": -7.318
    },
    {
-    "x": 18.0,
+    "x": 18,
     "y": -7.065
    },
    {
@@ -1607,7 +1607,7 @@
     "y": -6.304
    },
    {
-    "x": 19.0,
+    "x": 19,
     "y": -6.048
    },
    {
@@ -1623,7 +1623,7 @@
     "y": -5.274
    },
    {
-    "x": 20.0,
+    "x": 20,
     "y": -5.013
    },
    {
@@ -1639,7 +1639,7 @@
     "y": -4.205
    },
    {
-    "x": 21.0,
+    "x": 21,
     "y": -3.889
    },
    {
@@ -1655,7 +1655,7 @@
     "y": -2.884
    },
    {
-    "x": 22.0,
+    "x": 22,
     "y": -2.487
    },
    {
@@ -1671,7 +1671,7 @@
     "y": -1.209
    },
    {
-    "x": 23.0,
+    "x": 23,
     "y": -0.754
    },
    {
@@ -1687,7 +1687,7 @@
     "y": 0.709
    },
    {
-    "x": 24.0,
+    "x": 24,
     "y": 1.23
    },
    {
@@ -1703,7 +1703,7 @@
     "y": 2.893
    },
    {
-    "x": 25.0,
+    "x": 25,
     "y": 3.146
    },
    {
@@ -1719,7 +1719,7 @@
     "y": 3.813
    },
    {
-    "x": 26.0,
+    "x": 26,
     "y": 3.774
    },
    {
@@ -1735,7 +1735,7 @@
     "y": 3.588
    },
    {
-    "x": 27.0,
+    "x": 27,
     "y": 3.558
    },
    {
@@ -1751,7 +1751,7 @@
     "y": 3.553
    },
    {
-    "x": 28.0,
+    "x": 28,
     "y": 3.579
    },
    {
@@ -1767,7 +1767,7 @@
     "y": 3.735
    },
    {
-    "x": 29.0,
+    "x": 29,
     "y": 3.811
    },
    {
@@ -1783,7 +1783,7 @@
     "y": 4.103
    },
    {
-    "x": 30.0,
+    "x": 30,
     "y": 4.22
    },
    {
@@ -1799,7 +1799,7 @@
     "y": 4.678
    },
    {
-    "x": 31.0,
+    "x": 31,
     "y": 4.851
    }
   ],
@@ -1832,7 +1832,7 @@
   "pernas": [
    {
     "t": "C",
-    "q": 1.0,
+    "q": 1,
     "k": 22.54,
     "d": 8,
     "px": 1.91,
@@ -1841,7 +1841,7 @@
    },
    {
     "t": "C",
-    "q": -2.0,
+    "q": -2,
     "k": 22.79,
     "d": 8,
     "px": 1.82,
@@ -1850,7 +1850,7 @@
    },
    {
     "t": "P",
-    "q": 1.0,
+    "q": 1,
     "k": 24.54,
     "d": 8,
     "px": 1.57,
@@ -1859,7 +1859,7 @@
    },
    {
     "t": "P",
-    "q": -2.0,
+    "q": -2,
     "k": 24.29,
     "d": 8,
     "px": 1.42,
@@ -1868,7 +1868,7 @@
    },
    {
     "t": "C",
-    "q": 1.0,
+    "q": 1,
     "k": 24.29,
     "d": 31,
     "px": 1.82,
@@ -1877,7 +1877,7 @@
    },
    {
     "t": "P",
-    "q": 1.0,
+    "q": 1,
     "k": 22.79,
     "d": 31,
     "px": 1.3,
@@ -1893,7 +1893,7 @@
   },
   "lab_points": [
    {
-    "x": 17.0,
+    "x": 17,
     "y": -1.199
    },
    {
@@ -1909,7 +1909,7 @@
     "y": -1.176
    },
    {
-    "x": 18.0,
+    "x": 18,
     "y": -1.165
    },
    {
@@ -1925,7 +1925,7 @@
     "y": -1.083
    },
    {
-    "x": 19.0,
+    "x": 19,
     "y": -1.022
    },
    {
@@ -1941,7 +1941,7 @@
     "y": -0.788
    },
    {
-    "x": 20.0,
+    "x": 20,
     "y": -0.692
    },
    {
@@ -1957,7 +1957,7 @@
     "y": -0.342
    },
    {
-    "x": 21.0,
+    "x": 21,
     "y": -0.204
    },
    {
@@ -1973,7 +1973,7 @@
     "y": 0.281
    },
    {
-    "x": 22.0,
+    "x": 22,
     "y": 0.466
    },
    {
@@ -1989,7 +1989,7 @@
     "y": 1.307
    },
    {
-    "x": 23.0,
+    "x": 23,
     "y": 1.371
    },
    {
@@ -2005,7 +2005,7 @@
     "y": 1.399
    },
    {
-    "x": 24.0,
+    "x": 24,
     "y": 1.432
    },
    {
@@ -2021,7 +2021,7 @@
     "y": 0.888
    },
    {
-    "x": 25.0,
+    "x": 25,
     "y": 0.716
    },
    {
@@ -2037,12 +2037,12 @@
     "y": 0.258
    },
    {
-    "x": 26.0,
+    "x": 26,
     "y": 0.125
    },
    {
     "x": 26.25,
-    "y": 0.0
+    "y": 0
    },
    {
     "x": 26.5,
@@ -2053,7 +2053,7 @@
     "y": -0.225
    },
    {
-    "x": 27.0,
+    "x": 27,
     "y": -0.325
    },
    {
@@ -2069,7 +2069,7 @@
     "y": -0.586
    },
    {
-    "x": 28.0,
+    "x": 28,
     "y": -0.66
    },
    {
@@ -2085,7 +2085,7 @@
     "y": -0.836
    },
    {
-    "x": 29.0,
+    "x": 29,
     "y": -0.87
    },
    {
@@ -2101,7 +2101,7 @@
     "y": -0.957
    },
    {
-    "x": 30.0,
+    "x": 30,
     "y": -0.981
    },
    {
@@ -2117,7 +2117,7 @@
     "y": -1.043
    },
    {
-    "x": 31.0,
+    "x": 31,
     "y": -1.06
    }
   ],
@@ -2151,7 +2151,7 @@
   "pernas": [
    {
     "t": "C",
-    "q": 1.0,
+    "q": 1,
     "k": 23.79,
     "d": 31,
     "px": 2.04,
@@ -2185,7 +2185,7 @@
   },
   "lab_points": [
    {
-    "x": 17.0,
+    "x": 17,
     "y": -1.507
    },
    {
@@ -2201,7 +2201,7 @@
     "y": -1.327
    },
    {
-    "x": 18.0,
+    "x": 18,
     "y": -1.263
    },
    {
@@ -2217,7 +2217,7 @@
     "y": -1.055
    },
    {
-    "x": 19.0,
+    "x": 19,
     "y": -0.98
    },
    {
@@ -2233,7 +2233,7 @@
     "y": -0.73
    },
    {
-    "x": 20.0,
+    "x": 20,
     "y": -0.639
    },
    {
@@ -2249,7 +2249,7 @@
     "y": -0.334
    },
    {
-    "x": 21.0,
+    "x": 21,
     "y": -0.222
    },
    {
@@ -2265,7 +2265,7 @@
     "y": 0.149
    },
    {
-    "x": 22.0,
+    "x": 22,
     "y": 0.284
    },
    {
@@ -2281,7 +2281,7 @@
     "y": 0.728
    },
    {
-    "x": 23.0,
+    "x": 23,
     "y": 0.889
    },
    {
@@ -2297,7 +2297,7 @@
     "y": 1.409
    },
    {
-    "x": 24.0,
+    "x": 24,
     "y": 1.3
    },
    {
@@ -2313,7 +2313,7 @@
     "y": 0.843
    },
    {
-    "x": 25.0,
+    "x": 25,
     "y": 0.702
    },
    {
@@ -2329,7 +2329,7 @@
     "y": 0.31
    },
    {
-    "x": 26.0,
+    "x": 26,
     "y": 0.19
    },
    {
@@ -2345,7 +2345,7 @@
     "y": -0.145
    },
    {
-    "x": 27.0,
+    "x": 27,
     "y": -0.248
    },
    {
@@ -2361,7 +2361,7 @@
     "y": -0.534
    },
    {
-    "x": 28.0,
+    "x": 28,
     "y": -0.623
    },
    {
@@ -2377,7 +2377,7 @@
     "y": -0.872
    },
    {
-    "x": 29.0,
+    "x": 29,
     "y": -0.95
    },
    {
@@ -2393,7 +2393,7 @@
     "y": -1.17
    },
    {
-    "x": 30.0,
+    "x": 30,
     "y": -1.24
    },
    {
@@ -2409,7 +2409,7 @@
     "y": -1.439
    },
    {
-    "x": 31.0,
+    "x": 31,
     "y": -1.502
    }
   ],
@@ -2443,7 +2443,7 @@
   "pernas": [
    {
     "t": "P",
-    "q": 1.0,
+    "q": 1,
     "k": 23.79,
     "d": 31,
     "px": 1.75,
@@ -2477,7 +2477,7 @@
   },
   "lab_points": [
    {
-    "x": 17.0,
+    "x": 17,
     "y": -1.494
    },
    {
@@ -2493,7 +2493,7 @@
     "y": -1.344
    },
    {
-    "x": 18.0,
+    "x": 18,
     "y": -1.294
    },
    {
@@ -2509,7 +2509,7 @@
     "y": -1.144
    },
    {
-    "x": 19.0,
+    "x": 19,
     "y": -1.094
    },
    {
@@ -2525,7 +2525,7 @@
     "y": -0.92
    },
    {
-    "x": 20.0,
+    "x": 20,
     "y": -0.827
    },
    {
@@ -2541,7 +2541,7 @@
     "y": -0.517
    },
    {
-    "x": 21.0,
+    "x": 21,
     "y": -0.403
    },
    {
@@ -2557,7 +2557,7 @@
     "y": -0.027
    },
    {
-    "x": 22.0,
+    "x": 22,
     "y": 0.11
    },
    {
@@ -2573,7 +2573,7 @@
     "y": 0.558
    },
    {
-    "x": 23.0,
+    "x": 23,
     "y": 0.719
    },
    {
@@ -2589,7 +2589,7 @@
     "y": 1.24
    },
    {
-    "x": 24.0,
+    "x": 24,
     "y": 1.132
    },
    {
@@ -2605,7 +2605,7 @@
     "y": 0.674
    },
    {
-    "x": 25.0,
+    "x": 25,
     "y": 0.533
    },
    {
@@ -2621,7 +2621,7 @@
     "y": 0.139
    },
    {
-    "x": 26.0,
+    "x": 26,
     "y": 0.018
    },
    {
@@ -2637,7 +2637,7 @@
     "y": -0.32
    },
    {
-    "x": 27.0,
+    "x": 27,
     "y": -0.424
    },
    {
@@ -2653,7 +2653,7 @@
     "y": -0.715
    },
    {
-    "x": 28.0,
+    "x": 28,
     "y": -0.805
    },
    {
@@ -2669,7 +2669,7 @@
     "y": -1.058
    },
    {
-    "x": 29.0,
+    "x": 29,
     "y": -1.138
    },
    {
@@ -2685,7 +2685,7 @@
     "y": -1.328
    },
    {
-    "x": 30.0,
+    "x": 30,
     "y": -1.378
    },
    {
@@ -2701,7 +2701,7 @@
     "y": -1.528
    },
    {
-    "x": 31.0,
+    "x": 31,
     "y": -1.578
    }
   ],
@@ -2725,8 +2725,8 @@
   "nome": "Compra de CALL ATM",
   "familia": "Base",
   "pop": "call-compra",
-  "racional": "Direito de comprar BBAS3 a R$ 23,79 até 19/11, pagando R$ 2,04. É a ponta solta de referência para todas as estruturas altistas.",
-  "esperado": "Ganha acima de R$ 25,83 (strike + prêmio). Abaixo de R$ 23,79 perde o prêmio inteiro.",
+  "racional": "Direito de comprar BBAS3 a R$ {p1.k} até 19/11, pagando R$ {p1.px}. É a ponta solta de referência para todas as estruturas altistas.",
+  "esperado": "Ganha acima de R$ {be1} (strike + prêmio). Abaixo de R$ {p1.k} perde o prêmio inteiro.",
   "notas": [],
   "modo": "expiry",
   "comp_label": null,
@@ -2757,7 +2757,7 @@
    "sig": 0.5595,
    "d0": 31,
    "openUp": "gain",
-   "slopeDown": 0.0
+   "slopeDown": 0
   }
  },
  {
@@ -2765,8 +2765,8 @@
   "nome": "Venda de CALL a seco",
   "familia": "Base",
   "pop": "call-venda",
-  "racional": "Lançamento descoberto da CALL 25,04: recebe R$ 1,49 apostando que BBAS3 não passa de R$ 26,53.",
-  "esperado": "Fica com o prêmio abaixo de R$ 25,04. Acima de R$ 26,53 a perda cresce sem limite.",
+  "racional": "Lançamento descoberto da CALL {p1.k}: recebe R$ {p1.px} apostando que BBAS3 não passa de R$ {be1}.",
+  "esperado": "Fica com o prêmio abaixo de R$ {p1.k}. Acima de R$ {be1} a perda cresce sem limite.",
   "notas": [
    "Exige margem. Referência de risco para os hedges do Cap. 11."
   ],
@@ -2799,7 +2799,7 @@
    "sig": 0.5556,
    "d0": 31,
    "openUp": "loss",
-   "slopeDown": 0.0
+   "slopeDown": 0
   }
  },
  {
@@ -2807,8 +2807,8 @@
   "nome": "Compra de PUT ATM",
   "familia": "Base",
   "pop": "put-compra",
-  "racional": "Direito de vender BBAS3 a R$ 23,79 até 19/11, pagando R$ 1,75: seguro ou aposta na queda.",
-  "esperado": "Ganha abaixo de R$ 22,04. Acima de R$ 23,79 perde o prêmio.",
+  "racional": "Direito de vender BBAS3 a R$ {p1.k} até 19/11, pagando R$ {p1.px}: seguro ou aposta na queda.",
+  "esperado": "Ganha abaixo de R$ {be1}. Acima de R$ {p1.k} perde o prêmio.",
   "notas": [],
   "modo": "expiry",
   "comp_label": null,
@@ -2839,7 +2839,7 @@
    "sig": 0.575,
    "d0": 31,
    "openUp": null,
-   "slopeDown": -1.0
+   "slopeDown": -1
   }
  },
  {
@@ -2847,8 +2847,8 @@
   "nome": "Trava de alta com PUT (crédito)",
   "familia": "Direcionais",
   "pop": "trava-alta-put",
-  "racional": "Vende a PUT 23,79 e compra a PUT 23,29 do vencimento de 16/10: recebe crédito apostando que BBAS3 fica acima de R$ 23,79.",
-  "esperado": "Crédito máximo acima de R$ 23,79; perda máxima abaixo de R$ 23,29 (largura de R$ 0,50 menos o crédito).",
+  "racional": "Vende a PUT {p1.k} e compra a PUT {p2.k} do vencimento de 16/10: recebe crédito apostando que BBAS3 fica acima de R$ {p1.k}.",
+  "esperado": "Crédito máximo acima de R$ {p1.k}; perda máxima abaixo de R$ {p2.k} (largura de R$ {p2.k-p1.k} menos o crédito).",
   "notas": [],
   "modo": "expiry",
   "comp_label": null,
@@ -2888,7 +2888,7 @@
    "sig": 0.6623,
    "d0": 8,
    "openUp": null,
-   "slopeDown": 0.0
+   "slopeDown": 0
   }
  },
  {
@@ -2896,8 +2896,8 @@
   "nome": "Trava de baixa com CALL (crédito)",
   "familia": "Direcionais",
   "pop": "trava-baixa-call",
-  "racional": "Vende a CALL 23,79 e compra a CALL 24,54 de 16/10: crédito apostando que BBAS3 não sobe.",
-  "esperado": "Crédito inteiro abaixo de R$ 23,79; perda máxima acima de R$ 24,54.",
+  "racional": "Vende a CALL {p1.k} e compra a CALL {p2.k} de 16/10: crédito apostando que BBAS3 não sobe.",
+  "esperado": "Crédito inteiro abaixo de R$ {p1.k}; perda máxima acima de R$ {p2.k}.",
   "notas": [],
   "modo": "expiry",
   "comp_label": null,
@@ -2937,7 +2937,7 @@
    "sig": 0.6554,
    "d0": 8,
    "openUp": null,
-   "slopeDown": 0.0
+   "slopeDown": 0
   }
  },
  {
@@ -2945,8 +2945,8 @@
   "nome": "Seagull — PUT vendida financia trava de alta",
   "familia": "Direcionais",
   "pop": "seagull",
-  "racional": "A PUT 22,54 vendida paga a trava de alta de CALL 25,04/26,79 e ainda sobra crédito.",
-  "esperado": "Ganha até R$ 1,75 + crédito acima de R$ 26,79; abaixo de R$ 22,54 a PUT vendida assume o risco.",
+  "racional": "A PUT {p1.k} vendida paga a trava de alta de CALL {p2.k}/{p3.k} e ainda sobra crédito.",
+  "esperado": "Ganha até R$ {p3.k-p2.k} + crédito acima de R$ {p3.k}; abaixo de R$ {p1.k} a PUT vendida assume o risco.",
   "notas": [
    "A PUT vendida exige caixa ou garantia."
   ],
@@ -2997,7 +2997,7 @@
    "sig": 0.5605,
    "d0": 31,
    "openUp": null,
-   "slopeDown": 1.0
+   "slopeDown": 1
   }
  },
  {
@@ -3005,8 +3005,8 @@
   "nome": "Fence — defesa financiada da custódia",
   "familia": "Proteção patrimonial",
   "pop": "fence",
-  "racional": "Ação em custódia + CALL 25,04 vendida pagando a trava de baixa de PUT 23,54/22,54.",
-  "esperado": "Protege a correção até R$ 22,54 e trava o ganho acima de R$ 25,04.",
+  "racional": "Ação em custódia + CALL {p2.k} vendida pagando a trava de baixa de PUT {p3.k}/{p4.k}.",
+  "esperado": "Protege a correção até R$ {p4.k} e trava o ganho acima de R$ {p2.k}.",
   "notas": [],
   "modo": "expiry",
   "comp_label": null,
@@ -3064,7 +3064,7 @@
    "sig": 0.569,
    "d0": 31,
    "openUp": null,
-   "slopeDown": 1.0
+   "slopeDown": 1
   }
  },
  {
@@ -3072,8 +3072,8 @@
   "nome": "Straddle comprado ATM",
   "familia": "Volatilidade",
   "pop": "straddle-compra",
-  "racional": "Compra CALL e PUT 23,79 de 19/11: aposta no tamanho do movimento, não na direção.",
-  "esperado": "Ganha fora de R$ 20,00 a R$ 27,58 (strike ± R$ 3,79).",
+  "racional": "Compra CALL e PUT {p1.k} de 19/11: aposta no tamanho do movimento, não na direção.",
+  "esperado": "Ganha fora de R$ {be1} a R$ {be2} (strike ± R$ 3,79).",
   "notas": [],
   "modo": "expiry",
   "comp_label": null,
@@ -3106,7 +3106,7 @@
   "lab_stats": {
    "prob": 0.4194,
    "be": [
-    20.0,
+    20,
     27.58
    ],
    "best": 4.42,
@@ -3114,7 +3114,7 @@
    "sig": 0.5673,
    "d0": 31,
    "openUp": "gain",
-   "slopeDown": -1.0
+   "slopeDown": -1
   }
  },
  {
@@ -3122,8 +3122,8 @@
   "nome": "Strangle comprado",
   "familia": "Volatilidade",
   "pop": "strangle-compra",
-  "racional": "Compra CALL 25,04 e PUT 22,54 de 19/11: mais barato que o straddle, exige movimento maior.",
-  "esperado": "Ganha abaixo de R$ 19,86 ou acima de R$ 27,72.",
+  "racional": "Compra CALL {p1.k} e PUT {p2.k} de 19/11: mais barato que o straddle, exige movimento maior.",
+  "esperado": "Ganha abaixo de R$ {be1} ou acima de R$ {be2}.",
   "notas": [],
   "modo": "expiry",
   "comp_label": null,
@@ -3164,7 +3164,7 @@
    "sig": 0.5667,
    "d0": 31,
    "openUp": "gain",
-   "slopeDown": -1.0
+   "slopeDown": -1
   }
  },
  {
@@ -3172,8 +3172,8 @@
   "nome": "Straddle vendido ATM",
   "familia": "Volatilidade",
   "pop": "straddle-venda",
-  "racional": "Vende CALL e PUT 23,79 de 19/11 e recebe R$ 3,79: aposta em BBAS3 parado.",
-  "esperado": "Ganho máximo em R$ 23,79; perde fora de R$ 20,00–27,58. Exige margem.",
+  "racional": "Vende CALL e PUT {p1.k} de 19/11 e recebe R$ 3,79: aposta em BBAS3 parado.",
+  "esperado": "Ganho máximo em R$ {p1.k}; perde fora de R$ {be1}–{be2}. Exige margem.",
   "notas": [],
   "modo": "expiry",
   "comp_label": null,
@@ -3206,7 +3206,7 @@
   "lab_stats": {
    "prob": 0.5789,
    "be": [
-    20.0,
+    20,
     27.58
    ],
    "best": 3.78,
@@ -3214,7 +3214,7 @@
    "sig": 0.5673,
    "d0": 31,
    "openUp": "loss",
-   "slopeDown": 1.0
+   "slopeDown": 1
   }
  },
  {
@@ -3222,8 +3222,8 @@
   "nome": "Strangle vendido",
   "familia": "Volatilidade",
   "pop": "strangle-venda",
-  "racional": "Vende CALL 25,04 e PUT 22,54 de 19/11: faixa larga de ganho.",
-  "esperado": "Fica com R$ 2,68 entre R$ 22,54 e R$ 25,04; perde fora de R$ 19,86–27,72.",
+  "racional": "Vende CALL {p1.k} e PUT {p2.k} de 19/11: faixa larga de ganho.",
+  "esperado": "Fica com R$ 2,68 entre R$ {p2.k} e R$ {p1.k}; perde fora de R$ {be1}–{be2}.",
   "notas": [],
   "modo": "expiry",
   "comp_label": null,
@@ -3264,7 +3264,7 @@
    "sig": 0.5667,
    "d0": 31,
    "openUp": "loss",
-   "slopeDown": 1.0
+   "slopeDown": 1
   }
  },
  {
@@ -3272,7 +3272,7 @@
   "nome": "Iron condor",
   "familia": "Volatilidade",
   "pop": "condor",
-  "racional": "Strangle vendido 22,54/25,04 protegido pelas pontas 21,54 e 26,79.",
+  "racional": "Strangle vendido {p2.k}/{p3.k} protegido pelas pontas {p1.k} e {p4.k}.",
   "esperado": "Crédito de R$ 0,90 entre os strikes vendidos; perda limitada pelas asas (a de cima é mais larga).",
   "notas": [],
   "modo": "expiry",
@@ -3332,7 +3332,7 @@
    "sig": 0.566,
    "d0": 31,
    "openUp": null,
-   "slopeDown": 0.0
+   "slopeDown": 0
   }
  },
  {
@@ -3340,8 +3340,8 @@
   "nome": "Borboleta clássica de CALL",
   "familia": "Asas / proteção",
   "pop": "borboleta",
-  "racional": "Asas simétricas de R$ 1,25 em torno de R$ 23,79, vencimento 19/11.",
-  "esperado": "Custa R$ 0,15 e paga até R$ 1,10 com BBAS3 em R$ 23,79 no vencimento.",
+  "racional": "Asas simétricas de R$ {p2.k-p1.k} em torno de R$ {p2.k}, vencimento 19/11.",
+  "esperado": "Custa R$ 0,15 e paga até R$ 1,10 com BBAS3 em R$ {p2.k} no vencimento.",
   "notas": [],
   "modo": "expiry",
   "comp_label": null,
@@ -3391,7 +3391,7 @@
    "sig": 0.5592,
    "d0": 31,
    "openUp": null,
-   "slopeDown": 0.0
+   "slopeDown": 0
   }
  },
  {
@@ -3399,10 +3399,10 @@
   "nome": "THL/p com PUT — curva invertida",
   "familia": "Tempo / rolagem",
   "pop": "thl-put",
-  "racional": "Vende a PUT 23,79 de 19/11 (31 du, acima da regra de 22 du) e compra a PUT 23,70 de 18/12.",
+  "racional": "Vende a PUT {p1.k} de 19/11 (31 du, acima da regra de 22 du) e compra a PUT {p2.k} de 18/12.",
   "esperado": "Com a curva de vol invertida pela eleição (57% contra 48%), a THL sai quase de graça: crédito de R$ 0,02.",
   "notas": [
-   "Strikes diferem em R$ 0,09 (23,79 × 23,70): é a série mais próxima disponível em dezembro."
+   "Strikes diferem em R$ {p2.k-p1.k} ({p1.k} × {p2.k}): é a série mais próxima disponível em dezembro."
   ],
   "modo": "mtm",
   "comp_label": null,
@@ -3450,7 +3450,7 @@
   "nome": "THL perene de CALL — proxy",
   "familia": "Tempo / rolagem",
   "pop": "thl-perene",
-  "racional": "Vende a CALL 23,79 de 19/11 e compra a CALL 23,79 de 18/12, a série mais longa da cadeia.",
+  "racional": "Vende a CALL {p1.k} de 19/11 e compra a CALL {p1.k} de 18/12, a série mais longa da cadeia.",
   "esperado": "O POP pede longa de 3 a 6 meses; a cadeia de 02/10 só vai até dezembro (51 du). É um proxy curto.",
   "notas": [],
   "modo": "mtm",
@@ -3500,8 +3500,8 @@
   "nome": "Calendar butterfly de CALL",
   "familia": "Tempo / rolagem",
   "pop": "calendar-butterfly",
-  "racional": "Asas vendidas em 16/10 (22,79 e 24,54) e corpo comprado em 19/11 (2 × 23,79).",
-  "esperado": "Ganho concentrado perto de R$ 23,79 no vencimento curto; o corpo longo segue vivo.",
+  "racional": "Asas vendidas em 16/10 ({p1.k} e {p3.k}) e corpo comprado em 19/11 (2 × {p2.k}).",
+  "esperado": "Ganho concentrado perto de R$ {p2.k} no vencimento curto; o corpo longo segue vivo.",
   "notas": [],
   "modo": "mtm",
   "comp_label": null,
@@ -3559,8 +3559,8 @@
   "nome": "Booster e Fly sobre custódia",
   "familia": "Booster",
   "pop": "booster-fly",
-  "racional": "Booster 1×2 de 16/10 (23,54/24,54) lastreado na ação, com a CALL 26,79 de 19/11 como âncora.",
-  "esperado": "Zona boa entre R$ 23,54 e R$ 25,54; a CALL longa devolve convexidade numa alta forte.",
+  "racional": "Booster 1×2 de 16/10 ({p2.k}/{p3.k}) lastreado na ação, com a CALL {p4.k} de 19/11 como âncora.",
+  "esperado": "Zona boa entre R$ {p2.k} e R$ 25,54; a CALL longa devolve convexidade numa alta forte.",
   "notas": [],
   "modo": "mtm",
   "comp_label": null,
@@ -3626,8 +3626,8 @@
   "nome": "Malha de broken wings 2:3:1",
   "familia": "Asas / proteção",
   "pop": "malha-bw",
-  "racional": "Uma camada da malha: 2 × CALL 23,54, −3 × CALL 24,54, +1 × CALL 26,79 (19/11).",
-  "esperado": "Pico em R$ 24,54; delta estrutural −2×23,54 + 3×24,54 − 26,79 = −0,25.",
+  "racional": "Uma camada da malha: 2 × CALL {p1.k}, −3 × CALL {p2.k}, +1 × CALL {p3.k} (19/11).",
+  "esperado": "Pico em R$ {p2.k}; delta estrutural −2×{p1.k} + 3×{p2.k} − {p3.k} = −0,25.",
   "notas": [],
   "modo": "expiry",
   "comp_label": null,
@@ -3677,7 +3677,7 @@
    "sig": 0.5577,
    "d0": 31,
    "openUp": null,
-   "slopeDown": 0.0
+   "slopeDown": 0
   }
  },
  {
@@ -3685,8 +3685,8 @@
   "nome": "Hyperfly 1-3-2",
   "familia": "Asas / proteção",
   "pop": "hyperfly",
-  "racional": "Razão 1-3-2 (22,54/23,79/24,54) calibrada para delta estrutural quase zero (−0,25).",
-  "esperado": "Custo de R$ 0,02; ganho máximo em R$ 23,79; perda máxima em R$ 24,54.",
+  "racional": "Razão 1-3-2 ({p1.k}/{p2.k}/{p3.k}) calibrada para delta estrutural quase zero (−0,25).",
+  "esperado": "Custo de R$ 0,02; ganho máximo em R$ {p2.k}; perda máxima em R$ {p3.k}.",
   "notas": [],
   "modo": "expiry",
   "comp_label": null,
@@ -3736,7 +3736,7 @@
    "sig": 0.5591,
    "d0": 31,
    "openUp": null,
-   "slopeDown": 0.0
+   "slopeDown": 0
   }
  },
  {
@@ -3744,8 +3744,8 @@
   "nome": "Fly modular com PUT vendida (par binário)",
   "familia": "Asas / proteção",
   "pop": "fly-modular",
-  "racional": "Borboleta 22,54/23,79/25,04 com a PUT 22,54 vendida como par binário: fecha com crédito (ZCC).",
-  "esperado": "Sobe o resultado de toda a curva em R$ 1,19; abaixo de R$ 22,54 a PUT vendida assume o risco.",
+  "racional": "Borboleta {p1.k}/{p2.k}/{p3.k} com a PUT {p1.k} vendida como par binário: fecha com crédito (ZCC).",
+  "esperado": "Sobe o resultado de toda a curva em R$ {p4.px}; abaixo de R$ {p1.k} a PUT vendida assume o risco.",
   "notas": [
    "A PUT vendida exige caixa ou garantia."
   ],
@@ -3805,7 +3805,7 @@
    "sig": 0.5629,
    "d0": 31,
    "openUp": null,
-   "slopeDown": 1.0
+   "slopeDown": 1
   }
  },
  {
@@ -3813,8 +3813,8 @@
   "nome": "Módulo Q — CALL longa contra 2 curtas",
   "familia": "Módulos",
   "pop": "modulo-q",
-  "racional": "Substitui uma CALL ITM por +1 CALL 23,54 de 19/11 contra 2 CALLs 24,54 de 16/10.",
-  "esperado": "Ganho máximo perto de R$ 24,54 no vencimento curto; acima, sobra 1 CALL curta descoberta.",
+  "racional": "Substitui uma CALL ITM por +1 CALL {p1.k} de 19/11 contra 2 CALLs {p2.k} de 16/10.",
+  "esperado": "Ganho máximo perto de R$ {p2.k} no vencimento curto; acima, sobra 1 CALL curta descoberta.",
   "notas": [],
   "modo": "mtm",
   "comp_label": null,
@@ -3863,7 +3863,7 @@
   "nome": "Booster horizontal de PUT 1,5×1",
   "familia": "Booster",
   "pop": "booster-horizontal",
-  "racional": "Fatoração dos prêmios: 1,75 ÷ 1,14 ≈ 1,5. Vende 1,5 PUT 23,79 de 16/10 e compra 1 PUT 23,79 de 19/11.",
+  "racional": "Fatoração dos prêmios: {p2.px} ÷ {p1.px} ≈ 1,5. Vende 1,5 PUT {p1.k} de 16/10 e compra 1 PUT {p1.k} de 19/11.",
   "esperado": "Fecha praticamente a custo zero (débito de R$ 0,04); sobra 0,5 PUT vendida a seco na queda.",
   "notas": [],
   "modo": "mtm",
@@ -3912,7 +3912,7 @@
   "nome": "Linha de Mannerheim (LM)",
   "familia": "Gradiente linear",
   "pop": "linha-mannerheim",
-  "racional": "Venda da PUT 23,79 de 16/10 + 3 THLs de CALL 23,79 (16/10 × 19/11).",
+  "racional": "Venda da PUT {p1.k} de 16/10 + 3 THLs de CALL {p1.k} (16/10 × 19/11).",
   "esperado": "As THLs dominam o centro; a PUT vendida é o risco na queda.",
   "notas": [],
   "modo": "mtm",
@@ -3971,7 +3971,7 @@
   "nome": "GL short put + booster horizontal",
   "familia": "Gradiente linear",
   "pop": "gl-shortput-booster",
-  "racional": "Uma camada da escada no strike 23,79: PUT vendida + 2 CALLs de 19/11 contra 3 de 16/10, com a ação cobrindo a CALL extra.",
+  "racional": "Uma camada da escada no strike {p2.k}: PUT vendida + 2 CALLs de 19/11 contra 3 de 16/10, com a ação cobrindo a CALL extra.",
   "esperado": "Crédito na entrada; o risco é a queda (ação + PUT vendida).",
   "notas": [],
   "modo": "mtm",
@@ -4038,8 +4038,8 @@
   "nome": "Asymmetric wings + diagonal de PUT",
   "familia": "Gradiente linear",
   "pop": "asym-wings-diagonal",
-  "racional": "PUT 24,54 comprada e 2 PUTs 23,79 vendidas em 16/10; a asa de baixo é a PUT 22,70 de dezembro.",
-  "esperado": "Ganho no corpo em R$ 23,79; a PUT longa de dezembro protege a queda e segue viva.",
+  "racional": "PUT {p1.k} comprada e 2 PUTs {p2.k} vendidas em 16/10; a asa de baixo é a PUT {p3.k} de dezembro.",
+  "esperado": "Ganho no corpo em R$ {p2.k}; a PUT longa de dezembro protege a queda e segue viva.",
   "notas": [],
   "modo": "mtm",
   "comp_label": null,
@@ -4097,7 +4097,7 @@
   "nome": "Straddle perene (ZCC)",
   "familia": "Híbridas / hedge",
   "pop": "straddle-perene",
-  "racional": "Straddle 23,79 vendido em 16/10 financiando a CALL 23,79 de 19/11.",
+  "racional": "Straddle {p1.k} vendido em 16/10 financiando a CALL {p1.k} de 19/11.",
   "esperado": "Crédito de R$ 0,33; a CALL longa limita a alta, a queda fica com a PUT vendida.",
   "notas": [],
   "modo": "mtm",
@@ -4155,7 +4155,7 @@
   "nome": "Strangle/P coberto",
   "familia": "Híbridas / hedge",
   "pop": "strangle-p",
-  "racional": "Vende CALL 23,29 e PUT 24,29 de 16/10 e compra a CALL 24,29 de 19/11.",
+  "racional": "Vende CALL {p1.k} e PUT {p2.k} de 16/10 e compra a CALL {p2.k} de 19/11.",
   "esperado": "Crédito de R$ 1,08; o lado que entrar em risco recebe o Booster Reverso como manejo.",
   "notas": [],
   "modo": "mtm",
@@ -4213,7 +4213,7 @@
   "nome": "Box 23,54/24,54",
   "familia": "Proteção patrimonial",
   "pop": "box-perene",
-  "racional": "Trava de alta de CALL + trava de baixa de PUT nos mesmos strikes: recebe exatamente R$ 1,00 no vencimento.",
+  "racional": "Trava de alta de CALL + trava de baixa de PUT nos mesmos strikes: recebe exatamente R$ {p2.k-p1.k} no vencimento.",
   "esperado": "Custo de R$ 0,96 pelos últimos negócios. Pelo book, a taxa tende ao CDI; a diferença aqui é ruído de \"último\".",
   "notas": [
    "\"Último\" não é bid/ask: confira o box no book antes de concluir que existe taxa acima do CDI."
@@ -4265,14 +4265,14 @@
    "caixa": -0.96
   },
   "lab_stats": {
-   "prob": 1.0,
+   "prob": 1,
    "be": [],
    "best": 0.04,
    "worst": 0.04,
    "sig": 0.5672,
    "d0": 31,
    "openUp": null,
-   "slopeDown": 0.0
+   "slopeDown": 0
   }
  },
  {
@@ -4280,7 +4280,7 @@
   "nome": "Box/p diagonal",
   "familia": "Proteção patrimonial",
   "pop": "box-p",
-  "racional": "CALL 23,54 e PUT 24,54 de 19/11 compradas; CALL 24,54 e PUT 23,54 de 16/10 vendidas.",
+  "racional": "CALL {p1.k} e PUT {p2.k} de 19/11 compradas; CALL {p2.k} e PUT {p1.k} de 16/10 vendidas.",
   "esperado": "No vencimento curto as longas seguem vivas; as curtas são roladas.",
   "notas": [],
   "modo": "mtm",
@@ -4348,8 +4348,8 @@
   "nome": "Colar perene — PUT longa de dezembro",
   "familia": "Proteção patrimonial",
   "pop": "colar-perene",
-  "racional": "Ação + PUT 22,70 de 18/12 (base do hedge) financiada pela CALL 25,04 de 19/11.",
-  "esperado": "Piso perto de R$ 22,70 e teto em R$ 25,04 no vencimento de novembro; a PUT segue viva.",
+  "racional": "Ação + PUT {p2.k} de 18/12 (base do hedge) financiada pela CALL {p3.k} de 19/11.",
+  "esperado": "Piso perto de R$ {p2.k} e teto em R$ {p3.k} no vencimento de novembro; a PUT segue viva.",
   "notas": [],
   "modo": "mtm",
   "comp_label": null,
@@ -4406,8 +4406,8 @@
   "nome": "Financiamento — CALL ITM 22,54",
   "familia": "Base",
   "pop": "financiamento",
-  "racional": "Compra BBAS3 a R$ 23,72 e vende a CALL 22,54 de 19/11 a R$ 2,74: desembolso de R$ 20,98.",
-  "esperado": "Se exercido, recebe R$ 22,54: 7,4% em 31 du. Só perde abaixo de R$ 20,98.",
+  "racional": "Compra BBAS3 a R$ {spot} e vende a CALL {p2.k} de 19/11 a R$ {p2.px}: desembolso de R$ {be1}.",
+  "esperado": "Se exercido, recebe R$ {p2.k}: 7,4% em 31 du. Só perde abaixo de R$ {be1}.",
   "notas": [],
   "modo": "expiry",
   "comp_label": null,
@@ -4447,7 +4447,7 @@
    "sig": 0.562,
    "d0": 31,
    "openUp": null,
-   "slopeDown": 1.0
+   "slopeDown": 1
   }
  },
  {
@@ -4455,8 +4455,8 @@
   "nome": "Dividendo sintético — 30% lançado",
   "familia": "Base",
   "pop": "dividendo-sint",
-  "racional": "CALL 25,04 lançada sobre 30% da posição: renda parcial sem travar a alta dos outros 70%.",
-  "esperado": "Renda de R$ 0,45 por ação no ciclo; acima de R$ 25,04, 70% da posição continua subindo.",
+  "racional": "CALL {p2.k} lançada sobre 30% da posição: renda parcial sem travar a alta dos outros 70%.",
+  "esperado": "Renda de R$ 0,45 por ação no ciclo; acima de R$ {p2.k}, 70% da posição continua subindo.",
   "notas": [],
   "modo": "expiry",
   "comp_label": null,
@@ -4496,7 +4496,7 @@
    "sig": 0.5556,
    "d0": 31,
    "openUp": "gain",
-   "slopeDown": 1.0
+   "slopeDown": 1
   }
  },
  {
@@ -4504,7 +4504,7 @@
   "nome": "Crédito de Anakha — semanal",
   "familia": "Mônadas",
   "pop": "anakha",
-  "racional": "Straddle curto na semanal de 09/10 (23,20) com a CALL 24,54 de 16/10 cobrindo a alta.",
+  "racional": "Straddle curto na semanal de 09/10 ({p1.k}) com a CALL {p3.k} de 16/10 cobrindo a alta.",
   "esperado": "Crédito de R$ 1,16 na entrada; o POP manda recomprar alguns dias depois, sem esperar o vencimento.",
   "notas": [
    "A PUT vendida fica a descoberto."
@@ -4557,7 +4557,7 @@
    "sig": 0.7819,
    "d0": 4,
    "openUp": null,
-   "slopeDown": 1.0
+   "slopeDown": 1
   }
  },
  {
@@ -4565,7 +4565,7 @@
   "nome": "Hedge — Inverse Line",
   "familia": "Hedge · ajustes",
   "pop": "hedge-inverse",
-  "racional": "CALL 23,79 vendida ameaçada: recompra a CALL e vende a PUT do mesmo strike.",
+  "racional": "CALL {p1.k} vendida ameaçada: recompra a CALL e vende a PUT do mesmo strike.",
   "esperado": "A posição vira PUT vendida: o risco migra da alta para a queda.",
   "notas": [],
   "modo": "expiry",
@@ -4625,7 +4625,7 @@
    "sig": 0.6596,
    "d0": 8,
    "openUp": null,
-   "slopeDown": 1.0
+   "slopeDown": 1
   }
  },
  {
@@ -4633,8 +4633,8 @@
   "nome": "Hedge — Straddle dinâmico",
   "familia": "Hedge · ajustes",
   "pop": "hedge-straddle-din",
-  "racional": "Recompra a CALL 23,29 vendida e vende CALL e PUT 24,54.",
-  "esperado": "Straddle vendido um degrau acima: ganho máximo em R$ 24,54.",
+  "racional": "Recompra a CALL {p1.k} vendida e vende CALL e PUT {p3.k}.",
+  "esperado": "Straddle vendido um degrau acima: ganho máximo em R$ {p3.k}.",
   "notas": [],
   "modo": "expiry",
   "comp_label": "posição original (antes do ajuste)",
@@ -4703,7 +4703,7 @@
    "sig": 0.6559,
    "d0": 8,
    "openUp": "loss",
-   "slopeDown": 1.0
+   "slopeDown": 1
   }
  },
  {
@@ -4711,7 +4711,7 @@
   "nome": "Hedge — Booster horizontal",
   "familia": "Hedge · ajustes",
   "pop": "hedge-booster-h",
-  "racional": "Soma −2 PUTs 23,79 de 16/10 e +1 PUT de 19/11 à CALL vendida.",
+  "racional": "Soma −2 PUTs {p1.k} de 16/10 e +1 PUT de 19/11 à CALL vendida.",
   "esperado": "Mais crédito e delta positivo; o risco passa a ser a queda forte.",
   "notas": [],
   "modo": "mtm",
@@ -4936,7 +4936,7 @@
   "nome": "Hedge — Booster vertical",
   "familia": "Hedge · ajustes",
   "pop": "hedge-booster-v",
-  "racional": "Soma o booster de PUT 24,54/23,79 (mesmo vencimento) à CALL vendida.",
+  "racional": "Soma o booster de PUT {p2.k}/{p1.k} (mesmo vencimento) à CALL vendida.",
   "esperado": "Crédito extra e delta positivo; queda forte vira o risco.",
   "notas": [],
   "modo": "expiry",
@@ -4997,7 +4997,7 @@
    "sig": 0.66,
    "d0": 8,
    "openUp": "loss",
-   "slopeDown": 1.0
+   "slopeDown": 1
   }
  },
  {
@@ -5005,7 +5005,7 @@
   "nome": "Hedge — Assimétrico (PUT vendida)",
   "familia": "Hedge · ajustes",
   "pop": "hedge-assimetrico",
-  "racional": "PUT 23,79 vendida ameaçada: vende a CALL 23,79 e compra 2 CALLs 24,29 de 19/11.",
+  "racional": "PUT {p1.k} vendida ameaçada: vende a CALL {p1.k} e compra 2 CALLs {p3.k} de 19/11.",
   "esperado": "A alta passa a pagar; a queda continua com a PUT.",
   "notas": [],
   "modo": "mtm",
@@ -5058,7 +5058,7 @@
   "lab_stats": {
    "prob": 0.5808,
    "be": [
-    23.0
+    23
    ],
    "best": 6.1455,
    "worst": -9.0451,
@@ -5073,7 +5073,7 @@
   "nome": "Hedge — Straddle HA (PUT vendida)",
   "familia": "Hedge · ajustes",
   "pop": "hedge-straddle-ha",
-  "racional": "PUT 23,79 vendida + CALL 23,79 vendida + 2 CALLs 25,04 de 19/11.",
+  "racional": "PUT {p1.k} vendida + CALL {p1.k} vendida + 2 CALLs {p3.k} de 19/11.",
   "esperado": "Straddle parcialmente coberto: a alta forte vira ganho.",
   "notas": [],
   "modo": "mtm",
