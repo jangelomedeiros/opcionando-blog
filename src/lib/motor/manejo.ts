@@ -50,8 +50,10 @@ export function aplicarAjuste(pos: Posicao, ops: Operacao[], c: Cenario, grade: 
   let fluxo = 0;
   let novas = 0;
 
+  // Procura pelo id exato; se a perna já foi rolada neste ajuste, segue a descendente (`<id>~<n>`).
   const achar = (id: string) => {
-    const i = pernas.findIndex((p) => p.id === id);
+    let i = pernas.findIndex((p) => p.id === id);
+    if (i < 0) i = pernas.findIndex((p) => p.id === `${idBase(id)}~${numero}`);
     if (i < 0) throw new Error(`Perna inexistente: ${id}`);
     return i;
   };

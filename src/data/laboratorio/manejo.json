@@ -1,0 +1,204 @@
+{
+ "covered-call": {
+  "revisado": false,
+  "fonte": "Rascunho do Claude a partir do POP",
+  "cenarios": [
+   {
+    "nome": "Subiu e passou do strike antes do vencimento",
+    "sinais": "A ação está acima do strike da CALL vendida e a CALL já tem pouco valor extrínseco.",
+    "pesa": "Se você ainda quer ficar com a ação e se a rolagem sai a crédito ou a débito.",
+    "caminhos": [
+     {
+      "nome": "Rolar para cima e para frente",
+      "descricao": "Recompra a CALL vendida e vende outra dois strikes acima, no vencimento seguinte.",
+      "ganha": "Teto mais alto e mais prazo para o papel trabalhar.",
+      "perde": "Pode sair a débito e mantém o capital preso por mais tempo.",
+      "quando": "Quando a visão continua de alta e a rolagem não compromete o crédito acumulado.",
+      "ops": [{ "op": "rolarStrike", "perna": "p2", "passos": 2 }, { "op": "rolarVencimento", "perna": "p2", "passos": 1 }]
+     },
+     {
+      "nome": "Deixar exercer",
+      "descricao": "Não faz nada: no vencimento, a ação é vendida pelo strike.",
+      "ganha": "O ganho máximo da estrutura: strike + prêmio.",
+      "perde": "A alta acima do strike e a posição na ação.",
+      "quando": "Quando o preço de saída já era aceitável na montagem."
+     },
+     {
+      "nome": "Encerrar tudo",
+      "descricao": "Recompra a CALL e vende a ação agora.",
+      "ganha": "Libera o capital antes do vencimento.",
+      "perde": "O prêmio que ainda restava na CALL.",
+      "quando": "Quando falta pouco a ganhar até o vencimento e há um uso melhor para o capital.",
+      "ops": [{ "op": "encerrar", "perna": "p2" }, { "op": "encerrar", "perna": "p1" }]
+     }
+    ]
+   },
+   {
+    "nome": "Caiu forte",
+    "sinais": "A ação caiu bem abaixo do preço de compra e a CALL vendida perdeu quase todo o valor.",
+    "pesa": "Se a tese na ação continua de pé e quanto você aceita travar de preço de venda.",
+    "caminhos": [
+     {
+      "nome": "Rolar para baixo",
+      "descricao": "Recompra a CALL barata e vende outra dois strikes abaixo, recebendo mais prêmio.",
+      "ganha": "Mais prêmio para amortecer a queda.",
+      "perde": "Trava um preço de venda mais baixo; se a ação voltar a subir, o teto atrapalha.",
+      "quando": "Quando o objetivo é renda e você aceita vender mais barato.",
+      "ops": [{ "op": "rolarStrike", "perna": "p2", "passos": -2 }]
+     },
+     {
+      "nome": "Comprar PUT de proteção",
+      "descricao": "Compra uma PUT um strike abaixo do preço atual, no próximo vencimento.",
+      "ganha": "Um piso para a perda a partir daqui (vira um collar).",
+      "perde": "O custo da PUT, que reduz o resultado se o papel se recuperar.",
+      "quando": "Quando a queda pode continuar e você quer limitar o risco sem vender a ação.",
+      "ops": [{ "op": "adicionar", "tipo": "put", "q": 1, "strikePassos": -1 }],
+      "estrutura": "collar"
+     },
+     {
+      "nome": "Esperar",
+      "descricao": "Mantém a estrutura e deixa a CALL virar pó.",
+      "ganha": "O prêmio inteiro da CALL e a ação livre para relançar depois.",
+      "perde": "Nenhuma proteção adicional contra mais queda.",
+      "quando": "Quando a queda é vista como ruído dentro da tese."
+     }
+    ]
+   },
+   {
+    "nome": "Lateral perto do vencimento",
+    "sinais": "A ação está perto do preço de compra e a CALL já perdeu boa parte do prêmio.",
+    "pesa": "Quanto do prêmio já foi capturado (o POP sugere recomprar com 70% a 80%).",
+    "caminhos": [
+     {
+      "nome": "Relançar no próximo vencimento",
+      "descricao": "Recompra a CALL e vende o mesmo strike no vencimento seguinte.",
+      "ganha": "Um novo prêmio sobre a mesma ação.",
+      "perde": "O pouco prêmio que ainda restava até o vencimento atual.",
+      "quando": "Quando o objetivo é renda recorrente sobre a carteira.",
+      "ops": [{ "op": "rolarVencimento", "perna": "p2", "passos": 1 }]
+     },
+     {
+      "nome": "Deixar virar pó",
+      "descricao": "Não faz nada e espera o vencimento.",
+      "ganha": "Todo o prêmio da CALL.",
+      "perde": "Fica exposto a um movimento brusco nos últimos dias.",
+      "quando": "Quando faltam poucos dias e o strike está longe."
+     }
+    ]
+   }
+  ]
+ },
+ "cash-put": {
+  "revisado": false,
+  "fonte": "Rascunho do Claude a partir do POP",
+  "cenarios": [
+   {
+    "nome": "Caiu abaixo do strike",
+    "sinais": "A ação está abaixo do strike da PUT vendida; o exercício fica provável.",
+    "pesa": "Se você ainda quer comprar a ação por esse preço e se a rolagem sai a crédito.",
+    "caminhos": [
+     {
+      "nome": "Rolar para baixo e para frente",
+      "descricao": "Recompra a PUT e vende outra dois strikes abaixo, no vencimento seguinte.",
+      "ganha": "Um preço de compra mais baixo e mais prazo.",
+      "perde": "Pode sair a débito e mantém o caixa reservado por mais tempo.",
+      "quando": "Quando a queda não muda a tese, mas o preço atual de compra parece alto.",
+      "ops": [{ "op": "rolarStrike", "perna": "p1", "passos": -2 }, { "op": "rolarVencimento", "perna": "p1", "passos": 1 }]
+     },
+     {
+      "nome": "Aceitar o exercício",
+      "descricao": "Fica com a ação pelo strike; o custo efetivo é strike − prêmio. Depois, passa a lançar CALL coberta.",
+      "ganha": "A ação pelo preço que você aceitou na montagem.",
+      "perde": "A diferença entre o strike e o preço de mercado, se a queda continuar.",
+      "quando": "Quando você queria a ação de qualquer forma.",
+      "ops": [{ "op": "encerrar", "perna": "p1" }, { "op": "adicionar", "tipo": "acao", "q": 1 }],
+      "estrutura": "covered-call"
+     },
+     {
+      "nome": "Encerrar com prejuízo",
+      "descricao": "Recompra a PUT e libera o caixa.",
+      "ganha": "Para a perda aqui e devolve a liberdade ao capital.",
+      "perde": "Realiza o prejuízo agora.",
+      "quando": "Quando a tese da compra deixou de valer."
+     ,
+      "ops": [{ "op": "encerrar", "perna": "p1" }]
+     }
+    ]
+   },
+   {
+    "nome": "Subiu",
+    "sinais": "A ação subiu e a PUT vendida perdeu boa parte do valor.",
+    "pesa": "Quanto do prêmio já foi capturado (o POP sugere recomprar com 50% a 70%).",
+    "caminhos": [
+     {
+      "nome": "Recomprar e embolsar",
+      "descricao": "Recompra a PUT barata e encerra a operação.",
+      "ganha": "A maior parte do prêmio, com o caixa livre antes do vencimento.",
+      "perde": "O pouco prêmio que ainda restava.",
+      "quando": "Quando já capturou a maior parte do prêmio.",
+      "ops": [{ "op": "encerrar", "perna": "p1" }]
+     },
+     {
+      "nome": "Rolar para cima",
+      "descricao": "Recompra a PUT e vende outra dois strikes acima, recebendo mais prêmio.",
+      "ganha": "Mais prêmio e um preço de compra mais perto do mercado.",
+      "perde": "Aumenta a chance de exercício num preço mais alto.",
+      "quando": "Quando a ação continua sendo uma compra desejada mais acima.",
+      "ops": [{ "op": "rolarStrike", "perna": "p1", "passos": 2 }]
+     }
+    ]
+   }
+  ]
+ },
+ "booster-call": {
+  "revisado": false,
+  "fonte": "Rascunho do Claude a partir do POP",
+  "cenarios": [
+   {
+    "nome": "Subiu além do strike vendido",
+    "sinais": "A ação passou do strike das duas CALLs vendidas; o ganho chegou ao teto.",
+    "pesa": "Se ainda há espaço para subir e quanto do miolo já foi capturado.",
+    "caminhos": [
+     {
+      "nome": "Realizar no miolo",
+      "descricao": "Encerra a CALL comprada e as duas vendidas, e fica só com a ação.",
+      "ganha": "Trava o ganho do booster e devolve a alta livre à ação.",
+      "perde": "O valor de tempo que as vendidas ainda dariam.",
+      "quando": "Quando o objetivo do booster já foi atingido.",
+      "ops": [{ "op": "encerrar", "perna": "p2" }, { "op": "encerrar", "perna": "p3" }]
+     },
+     {
+      "nome": "Rolar as vendidas para cima",
+      "descricao": "Recompra as duas CALLs vendidas e vende outras duas, dois strikes acima.",
+      "ganha": "Teto mais alto para a estrutura.",
+      "perde": "Costuma sair a débito.",
+      "quando": "Quando a alta continua forte e você quer participar mais.",
+      "ops": [{ "op": "rolarStrike", "perna": "p3", "passos": 2 }]
+     }
+    ]
+   },
+   {
+    "nome": "Caiu",
+    "sinais": "A ação caiu abaixo do strike da CALL comprada; o booster perdeu valor.",
+    "pesa": "O booster é peça da carteira, não uma operação isolada (POP).",
+    "caminhos": [
+     {
+      "nome": "Rolar a trava para baixo",
+      "descricao": "Recompra e revende a CALL comprada e as vendidas, dois strikes abaixo.",
+      "ganha": "Recoloca o miolo perto do preço atual.",
+      "perde": "Realiza a perda da trava antiga.",
+      "quando": "Quando o papel deve lateralizar no novo patamar.",
+      "ops": [{ "op": "rolarStrike", "perna": "p2", "passos": -2 }, { "op": "rolarStrike", "perna": "p3", "passos": -2 }]
+     },
+     {
+      "nome": "Manter como peça da carteira",
+      "descricao": "Não faz nada; a ação segue como posição principal.",
+      "ganha": "Nenhum custo de ajuste.",
+      "perde": "O booster pode virar pó.",
+      "quando": "Quando a queda é pequena perto do horizonte da carteira."
+     }
+    ]
+   }
+  ]
+ }
+}

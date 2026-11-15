@@ -88,3 +88,10 @@ test('reconstruir encadeia ajustes e desfazer = remover o último', () => {
   assert.deepEqual(dois.fluxos, [passo1.fluxo, passo2.fluxo]);
   assert.deepEqual(reconstruir({ inicial: trava(), ajustes: [a1] }, grade).posicao, passo1.posicao);
 });
+
+test('no mesmo ajuste, o id original segue a perna depois de rolada', () => {
+  const { posicao } = aplicarAjuste(trava(), [{ op: 'rolarStrike', perna: 'c16', passos: 2 }, { op: 'rolarVencimento', perna: 'c16', passos: 1 }], C2, grade);
+  const nova = posicao.pernas.find((p) => p.q < 0);
+  assert.equal(nova.strike, 17);
+  assert.equal(nova.venc, '2026-12-23');
+});
