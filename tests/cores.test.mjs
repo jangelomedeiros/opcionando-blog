@@ -63,3 +63,8 @@ test('payoffs usam as áreas de lucro/prejuízo do tema e a linha "hoje" em âmb
   assert.match(calc, /\.rot-spot\) \{ fill: var\(--hoje\)/);
   assert.match(est, /\.pos \{ fill: var\(--lucro-area\); \} \.neg \{ fill: var\(--prejuizo-area\); \}/);
 });
+
+test('laboratório: coluna única no celular não estoura a largura (minmax(0,1fr))', () => {
+  const css = readFileSync(join(RAIZ, 'src/styles/laboratorio.css'), 'utf8');
+  assert.match(css, /@media\(max-width:820px\)\{\.lab \.duo\{grid-template-columns:minmax\(0,1fr\)\}\}/);
+});

@@ -7,7 +7,7 @@
 .lab .sec h2 .n{flex:none;display:grid;place-items:center;width:2rem;height:2rem;border-radius:50%;background:var(--fc,var(--petroleo));color:var(--texto-sobre-marca);font-size:1rem}
 .lab h3.mini{font-size:.8rem;text-transform:uppercase;letter-spacing:.1em;color:var(--marca-texto);margin:0 0 .3rem;font-family:var(--font-texto);font-weight:700}
 .lab .duo{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:20px;align-items:start}
-@media(max-width:820px){.lab .duo{grid-template-columns:1fr}}
+@media(max-width:820px){.lab .duo{grid-template-columns:minmax(0,1fr)}}
 .lab .fig{background:var(--bg-card);border:1px solid var(--borda);border-radius:var(--raio);padding:10px}
 .lab .cap{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:.78rem;color:var(--texto-suave);padding:4px 6px}
 .lab .cap i{display:inline-block;width:16px;height:3px;margin-right:5px;vertical-align:middle;border-radius:2px}
