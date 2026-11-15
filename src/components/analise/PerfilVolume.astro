@@ -82,24 +82,24 @@ for (const r of rotulos) if (Math.abs(r.py - yHoje) < 13) r.py = r.py < yHoje ? 
   svg { width: 100%; height: auto; display: block; }
   .rot { fill: var(--texto-suave); font-family: var(--font-mono); font-size: 12px; }
   .rot-eixo { fill: var(--texto-suave); font-size: 11px; }
-  .area-valor { fill: rgba(14,74,85,0.07); }
-  .faixa { fill: rgba(242,105,77,0.10); stroke: rgba(242,105,77,0.5); stroke-dasharray: 3 3; }
-  .b20 { fill: rgba(14,74,85,0.55); }
-  .b6 { fill: rgba(242,105,77,0.85); }
-  @media (prefers-color-scheme: dark) { .b20 { fill: rgba(127,198,209,0.5); } .area-valor { fill: rgba(127,198,209,0.07); } }
+  .area-valor { fill: color-mix(in srgb, var(--destaque) 7%, transparent); }
+  .faixa { fill: color-mix(in srgb, var(--marca) 10%, transparent); stroke: color-mix(in srgb, var(--marca) 50%, transparent); stroke-dasharray: 3 3; }
+  .b20 { fill: color-mix(in srgb, var(--destaque) 55%, transparent); }
+  .b6 { fill: color-mix(in srgb, var(--marca) 85%, transparent); }
+  .b20 { fill: color-mix(in srgb, var(--destaque) 50%, transparent); } .area-valor { fill: color-mix(in srgb, var(--destaque) 7%, transparent); }
   .linha line { stroke-width: 1.4; }
   .linha text { font-size: 11.5px; font-weight: 600; font-family: var(--font-mono); }
-  .linha.poc line { stroke: var(--petroleo); } .linha.poc text { fill: var(--destaque); }
-  .linha.va line { stroke: var(--petroleo); stroke-dasharray: 4 3; } .linha.va text { fill: var(--texto-suave); }
+  .linha.poc line { stroke: var(--destaque); } .linha.poc text { fill: var(--destaque); }
+  .linha.va line { stroke: var(--destaque); stroke-dasharray: 4 3; } .linha.va text { fill: var(--texto-suave); }
   .linha.poc6 line { stroke: var(--coral); stroke-dasharray: 4 3; } .linha.poc6 text { fill: var(--coral); }
   .linha.marca line { stroke: var(--grafite-suave); stroke-dasharray: 1 3; } .linha.marca text { fill: var(--texto-suave); font-weight: 500; }
   .preco line { stroke: var(--grafite); stroke-width: 2; }
-  @media (prefers-color-scheme: dark) { .preco line { stroke: var(--texto); } }
-  .preco rect { fill: var(--grafite); }
-  .preco text { fill: #fff; font-family: var(--font-mono); font-size: 11.5px; font-weight: 600; }
+  .preco line { stroke: var(--texto); }
+  .preco rect { fill: var(--titulo); }
+  .preco text { fill: var(--fundo); font-family: var(--font-mono); font-size: 11.5px; font-weight: 600; }
   .leg { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 0.78rem; color: var(--texto-suave); padding: 0.3rem 0.3rem 0; }
   .lg { display: inline-block; width: 14px; height: 10px; vertical-align: middle; margin-right: 5px; border-radius: 2px; }
-  .lg.b20 { background: rgba(14,74,85,0.55); } .lg.b6 { background: rgba(242,105,77,0.85); }
-  .lg.av { background: rgba(14,74,85,0.12); border: 1px solid rgba(14,74,85,0.3); }
-  .lg.fx { background: rgba(242,105,77,0.12); border: 1px dashed rgba(242,105,77,0.6); }
+  .lg.b20 { background: color-mix(in srgb, var(--destaque) 55%, transparent); } .lg.b6 { background: color-mix(in srgb, var(--marca) 85%, transparent); }
+  .lg.av { background: color-mix(in srgb, var(--destaque) 12%, transparent); border: 1px solid color-mix(in srgb, var(--destaque) 30%, transparent); }
+  .lg.fx { background: color-mix(in srgb, var(--marca) 12%, transparent); border: 1px dashed color-mix(in srgb, var(--marca) 60%, transparent); }
 </style>

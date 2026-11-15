@@ -40,3 +40,26 @@ test('laboratório sem cores fixas', () => {
   ];
   assert.deepEqual(encontrarCoresFixas(arquivos), []);
 });
+
+import { listarArquivos } from '../scripts/checar-cores.mjs';
+import { readFileSync } from 'node:fs';
+
+test('src inteiro sem cores fixas', () => {
+  const r = encontrarCoresFixas(listarArquivos(join(RAIZ, 'src')));
+  assert.deepEqual(r.map((o) => `${o.arquivo.replace(RAIZ, '')}:${o.linha}`), []);
+});
+
+test('nenhum prefers-color-scheme em src', () => {
+  const achados = listarArquivos(join(RAIZ, 'src')).filter((f) => readFileSync(f, 'utf8').includes('prefers-color-scheme'));
+  assert.deepEqual(achados.map((f) => f.replace(RAIZ, '')), []);
+});
+
+test('payoffs usam as áreas de lucro/prejuízo do tema e a linha "hoje" em âmbar', () => {
+  const calc = readFileSync(join(RAIZ, 'src/pages/ferramentas/calculadora-de-payoff.astro'), 'utf8');
+  const est = readFileSync(join(RAIZ, 'src/components/analise/PayoffEstrutura.astro'), 'utf8');
+  assert.match(calc, /\.area-pos\) \{ fill: var\(--lucro-area\)/);
+  assert.match(calc, /\.area-neg\) \{ fill: var\(--prejuizo-area\)/);
+  assert.match(calc, /\.spot\) \{ stroke: var\(--hoje\)/);
+  assert.match(calc, /\.rot-spot\) \{ fill: var\(--hoje\)/);
+  assert.match(est, /\.pos \{ fill: var\(--lucro-area\); \} \.neg \{ fill: var\(--prejuizo-area\); \}/);
+});

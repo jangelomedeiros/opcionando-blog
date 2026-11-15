@@ -44,18 +44,18 @@ const area = (f: (y: number) => number) =>
 <style>
   .payoff { background: var(--bg-card); border: 1px solid var(--borda); border-radius: var(--raio); padding: 0.8rem; }
   svg { width: 100%; height: auto; display: block; }
-  .pos { fill: rgba(31,138,91,0.16); } .neg { fill: rgba(214,69,69,0.14); }
+  .pos { fill: var(--lucro-area); } .neg { fill: var(--prejuizo-area); }
   .zero { stroke: var(--texto-suave); stroke-width: 1.2; }
   .spot { stroke: var(--coral); stroke-dasharray: 4 4; }
   .rot-spot { fill: var(--coral); font-size: 11px; font-weight: 600; }
   .rot { fill: var(--texto-suave); font-family: var(--font-mono); font-size: 11px; }
-  .linha { fill: none; stroke: var(--petroleo); stroke-width: 2.5; }
-  @media (prefers-color-scheme: dark) { .linha { stroke: #7fc6d1; } }
+  .linha { fill: none; stroke: var(--destaque); stroke-width: 2.5; }
+  .linha { stroke: var(--destaque); }
   .be { fill: var(--bg-card); stroke: var(--coral); stroke-width: 2.5; }
   dl { margin: 0.6rem 0 0.8rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 8px; }
   dl div { background: var(--giz); border-radius: 10px; padding: 0.45rem 0.6rem; }
-  @media (prefers-color-scheme: dark) { dl div { background: #0e262c; } }
+  dl div { background: var(--superficie-2); }
   dt { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--texto-suave); font-weight: 600; }
   dd { margin: 0; font-family: var(--font-mono); font-weight: 600; font-size: 0.92rem; color: var(--destaque); }
-  dd.g { color: #1f8a5b; } dd.p { color: #d64545; }
+  dd.g { color: var(--lucro-texto); } dd.p { color: var(--prejuizo-texto); }
 </style>

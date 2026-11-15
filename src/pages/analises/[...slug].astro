@@ -303,12 +303,12 @@ const nomeTipo = { call: 'Call', put: 'Put', acao: 'Ação' };
 <style>
   .sobretitulo a { color: var(--coral); text-decoration: none; }
   .linha-ticker { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; margin-top: 0.6rem; }
-  .ticker { font-family: var(--font-mono); font-weight: 700; font-size: 1.5rem; color: #fff; background: var(--petroleo); padding: 2px 12px; border-radius: 10px; }
+  .ticker { font-family: var(--font-mono); font-weight: 700; font-size: 1.5rem; color: var(--creme); background: var(--petroleo); padding: 2px 12px; border-radius: 10px; }
   .empresa { color: var(--texto-suave); font-weight: 500; }
   .status { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; padding: 3px 10px; border-radius: 999px; }
-  .status.ativa { background: #d9f2e6; color: #166b46; }
+  .status.ativa { background: color-mix(in srgb, var(--lucro) 18%, var(--superficie)); color: var(--lucro-texto); }
   .status.encerrada { background: var(--borda); color: var(--texto-suave); }
-  .status.invalidada { background: #fbe0e0; color: #a83232; }
+  .status.invalidada { background: color-mix(in srgb, var(--prejuizo) 18%, var(--superficie)); color: var(--prejuizo-texto); }
   h1 { margin-top: 0.4em; }
   .ficha {
     display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1px;
@@ -323,8 +323,8 @@ const nomeTipo = { call: 'Call', put: 'Put', acao: 'Ação' };
   .niveis div { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; }
   .niveis span { margin-right: 4px; }
   .niveis b { font-family: var(--font-mono); font-size: 0.88rem; padding: 2px 8px; border-radius: 6px; }
-  .res b { background: #fbe0e0; color: #a83232; }
-  .rng b { background: rgba(14,74,85,0.1); color: var(--destaque); }
+  .res b { background: color-mix(in srgb, var(--prejuizo) 18%, var(--superficie)); color: var(--prejuizo-texto); }
+  .rng b { background: color-mix(in srgb, var(--destaque) 10%, transparent); color: var(--destaque); }
   .bloco { margin: 2.2rem 0; }
   .eyebrow {
     font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 700; color: var(--coral);
@@ -333,7 +333,7 @@ const nomeTipo = { call: 'Call', put: 'Put', acao: 'Ação' };
   .tabela-wrap { overflow-x: auto; border: 1px solid var(--borda); border-radius: var(--raio); background: var(--bg-card); }
   .tabela-wrap table { display: table; width: 100%; margin: 0; font-size: 0.9rem; }
   .tabela-wrap th { background: var(--giz); font-size: 0.78rem; }
-  @media (prefers-color-scheme: dark) { .tabela-wrap th { background: #0e262c; } }
+  .tabela-wrap th { background: var(--superficie-2); }
   .tabela-wrap td { white-space: normal; vertical-align: top; }
   .num { font-family: var(--font-mono); white-space: nowrap !important; }
   .ind { table-layout: fixed; min-width: 760px; }
@@ -341,7 +341,7 @@ const nomeTipo = { call: 'Call', put: 'Put', acao: 'Ação' };
   .ind td.num { white-space: normal !important; font-size: 0.84rem; line-height: 1.45; }
   .mapa { min-width: 520px; }
   .sinal { font-size: 0.8rem; }
-  .sinal.alta { color: #1f8a5b; } .sinal.baixa { color: #d64545; } .sinal.neutro { color: var(--texto-suave); }
+  .sinal.alta { color: var(--lucro-texto); } .sinal.baixa { color: var(--prejuizo-texto); } .sinal.neutro { color: var(--texto-suave); }
   .eventos { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
   .eventos li { display: grid; grid-template-columns: 92px 1fr; gap: 12px; background: var(--bg-card); border: 1px solid var(--borda); border-left: 4px solid var(--petroleo); border-radius: 10px; padding: 0.6rem 0.8rem; }
   .eventos .data { font-family: var(--font-mono); font-weight: 600; color: var(--coral); font-size: 0.88rem; }
@@ -351,11 +351,11 @@ const nomeTipo = { call: 'Call', put: 'Put', acao: 'Ação' };
   .vp-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: 18px; align-items: start; }
   @media (max-width: 900px) { .vp-grid { grid-template-columns: 1fr; } }
   .mapa .pill { display: inline-block; font-size: 0.72rem; font-weight: 600; padding: 2px 8px; border-radius: 999px; white-space: nowrap; }
-  .pill.resistencia { background: #fbe0e0; color: #a83232; } .pill.suporte { background: #d9f2e6; color: #166b46; }
-  .pill.pivo { background: var(--giz); color: var(--texto); border: 1px solid var(--borda); } .pill.vazio { background: #fff4d6; color: #8a6400; }
-  .pill.preco { background: var(--petroleo); color: #fff; }
-  .mapa tr.preco td { background: rgba(14,74,85,0.08); font-weight: 600; }
-  .sup b { background: #d9f2e6; color: #166b46; }
+  .pill.resistencia { background: color-mix(in srgb, var(--prejuizo) 18%, var(--superficie)); color: var(--prejuizo-texto); } .pill.suporte { background: color-mix(in srgb, var(--lucro) 18%, var(--superficie)); color: var(--lucro-texto); }
+  .pill.pivo { background: var(--giz); color: var(--texto); border: 1px solid var(--borda); } .pill.vazio { background: color-mix(in srgb, var(--hoje) 20%, var(--superficie)); color: var(--atencao-texto); }
+  .pill.preco { background: var(--petroleo); color: var(--creme); }
+  .mapa tr.preco td { background: color-mix(in srgb, var(--destaque) 8%, transparent); font-weight: 600; }
+  .sup b { background: color-mix(in srgb, var(--lucro) 18%, var(--superficie)); color: var(--lucro-texto); }
   .corpo { display: grid; grid-template-columns: minmax(0, 1fr) minmax(300px, 400px); gap: 28px; align-items: start; }
   @media (max-width: 900px) { .corpo { grid-template-columns: 1fr; } }
   .texto h2:first-child { margin-top: 0.6em; }
@@ -364,32 +364,32 @@ const nomeTipo = { call: 'Call', put: 'Put', acao: 'Ação' };
   @media (max-width: 900px) { .lateral { position: static; } }
   .lateral section { border-radius: var(--raio); padding: 1rem 1.1rem; }
   .estrutura { background: var(--petroleo); color: var(--creme); }
-  .estrutura .rot { color: #cfe0e2; }
-  .estrutura h2 { color: #fff; margin: 0.2em 0 0.3em; font-size: 1.5rem; border: none; padding: 0; }
-  .racional { font-size: 0.93rem; line-height: 1.55; color: #e3eced; margin: 0 0 0.6rem; }
+  .estrutura .rot { color: color-mix(in srgb, var(--creme) 85%, transparent); }
+  .estrutura h2 { color: var(--creme); margin: 0.2em 0 0.3em; font-size: 1.5rem; border: none; padding: 0; }
+  .racional { font-size: 0.93rem; line-height: 1.55; color: color-mix(in srgb, var(--creme) 85%, transparent); margin: 0 0 0.6rem; }
   .venc { font-size: 0.9rem; margin: 0 0 0.6rem; }
   .estrutura table { display: table; width: 100%; font-size: 0.85rem; margin: 0.4rem 0 0.9rem; table-layout: fixed; }
   .estrutura th, .estrutura td { padding: 0.45em 0.35em; min-width: 0; }
   .estrutura th:first-child, .estrutura td:first-child { width: 38%; }
-  .estrutura th { color: #cfe0e2; font-size: 0.75rem; border-color: rgba(255,255,255,0.2); }
-  .estrutura td { border-color: rgba(255,255,255,0.15); white-space: normal; font-family: var(--font-mono); }
+  .estrutura th { color: color-mix(in srgb, var(--creme) 85%, transparent); font-size: 0.75rem; border-color: color-mix(in srgb, var(--creme) 20%, transparent); }
+  .estrutura td { border-color: color-mix(in srgb, var(--creme) 15%, transparent); white-space: normal; font-family: var(--font-mono); }
   .lateral, .texto { min-width: 0; }
   .estrutura td:first-child { font-family: var(--font-texto); }
-  .estrutura td small { display: block; font-family: var(--font-mono); color: #cfe0e2; font-size: 0.72rem; }
-  .estrutura td .compra { color: #7be0ad; font-weight: 600; }
-  .estrutura td .venda { color: #ffb4a6; font-weight: 600; }
+  .estrutura td small { display: block; font-family: var(--font-mono); color: color-mix(in srgb, var(--creme) 85%, transparent); font-size: 0.72rem; }
+  .estrutura td .compra { color: color-mix(in srgb, var(--lucro) 55%, var(--creme)); font-weight: 600; }
+  .estrutura td .venda { color: color-mix(in srgb, var(--prejuizo) 50%, var(--creme)); font-weight: 600; }
   .estrutura :global(.payoff) { color: var(--texto); }
-  .invalida { background: #fbe0e0; color: #6b1f1f; }
-  .invalida .rot { color: #a83232; }
+  .invalida { background: color-mix(in srgb, var(--prejuizo) 18%, var(--superficie)); color: var(--prejuizo-texto); }
+  .invalida .rot { color: var(--prejuizo-texto); }
   .invalida p:last-child, .resultado p:last-child { margin: 0.3rem 0 0; font-size: 0.95rem; line-height: 1.5; }
   .resultado { background: var(--bg-card); border: 2px solid var(--petroleo); }
   .outras ul { padding-left: 1.2rem; }
   .veredito { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin: 1rem 0 1.4rem; }
   .vcard { background: var(--bg-card); border: 1px solid var(--borda); border-radius: var(--raio); padding: 0.8rem 1rem; display: grid; gap: 4px; align-content: start; }
-  .vcard.chave { border: 2px solid var(--coral); background: rgba(242,105,77,0.08); }
+  .vcard.chave { border: 2px solid var(--coral); background: color-mix(in srgb, var(--marca) 8%, transparent); }
   .vcard span { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600; color: var(--texto-suave); }
   .vcard b { font-family: var(--font-mono); font-size: 1.35rem; color: var(--destaque); }
-  .vcard b.alta { color: #1f8a5b; } .vcard b.baixa { color: #d64545; } .vcard b.neutro { color: #b7791f; }
+  .vcard b.alta { color: var(--lucro-texto); } .vcard b.baixa { color: var(--prejuizo-texto); } .vcard b.neutro { color: var(--atencao-texto); }
   .vcard small { font-size: 0.84rem; line-height: 1.45; color: var(--texto-suave); }
   .tit-bloco { margin: 0.2em 0 0.7em; border: none; padding: 0; font-size: 1.45rem; }
   .nota-bloco { font-size: 0.9rem; color: var(--texto-suave); margin: 0.7rem 0 0; line-height: 1.55; max-width: 80ch; }
@@ -403,8 +403,8 @@ const nomeTipo = { call: 'Call', put: 'Put', acao: 'Ação' };
   .faixa i { display: block; height: 10px; border-radius: 3px; background: var(--petroleo); opacity: 0.7; }
   .faixa b { text-align: right; color: var(--texto); }
   .vp-notas .topicos { margin-top: 0; }
-  .macro { min-width: 780px; } .macro tr.destaque td { background: rgba(242,105,77,0.08); font-weight: 600; }
-  td.neg, .neg { color: #c0392b; } td.pos, .pos { color: #1f8a5b; }
+  .macro { min-width: 780px; } .macro tr.destaque td { background: color-mix(in srgb, var(--marca) 8%, transparent); font-weight: 600; }
+  td.neg, .neg { color: var(--prejuizo-texto); } td.pos, .pos { color: var(--lucro-texto); }
   .micro-grid { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: 20px; align-items: start; }
   @media (max-width: 900px) { .micro-grid { grid-template-columns: 1fr; } }
   .micro-grid h3 { margin: 0 0 0.2em; font-size: 1.05rem; } .micro-grid h3 + .topicos { margin-top: 0.3rem; margin-bottom: 1rem; }
@@ -413,7 +413,7 @@ const nomeTipo = { call: 'Call', put: 'Put', acao: 'Ação' };
   .plano { min-width: 780px; } .plano td small { display: block; font-size: 0.78rem; color: var(--texto-suave); }
   .cen { min-width: 640px; }
   .pill-cen { display: inline-block; font-size: 0.75rem; font-weight: 700; padding: 2px 9px; border-radius: 999px; }
-  .pill-cen.baixista { background: #fbe0e0; color: #a83232; } .pill-cen.base { background: var(--giz); color: #8a6400; border: 1px solid var(--borda); } .pill-cen.altista { background: #d9f2e6; color: #166b46; }
+  .pill-cen.baixista { background: color-mix(in srgb, var(--prejuizo) 18%, var(--superficie)); color: var(--prejuizo-texto); } .pill-cen.base { background: var(--giz); color: var(--atencao-texto); border: 1px solid var(--borda); } .pill-cen.altista { background: color-mix(in srgb, var(--lucro) 18%, var(--superficie)); color: var(--lucro-texto); }
   .gatilhos { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
   @media (max-width: 760px) { .gatilhos { grid-template-columns: 1fr; } }
   .gatilhos h3 { margin: 0; font-size: 1.05rem; } .gatilhos .topicos { margin-top: 0.4rem; }

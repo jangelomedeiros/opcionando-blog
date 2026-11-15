@@ -81,14 +81,14 @@ const S0 = 38, K = 40, P = 0.8, CAPITAL = 1000;
     position: relative; width: 70px; height: 190px; border-radius: 10px 10px 6px 6px;
     background: var(--giz); border: 2px solid var(--borda); display: flex; align-items: flex-end; overflow: hidden; margin: 6px 0;
   }
-  @media (prefers-color-scheme: dark) { .tubo { background: #0e262c; } }
+  .tubo { background: var(--superficie-2); }
   .tubo i { display: block; width: 100%; transition: height .2s; background: var(--petroleo); }
-  .tubo i.pos { background: linear-gradient(to top, var(--petroleo), #2fae73); }
-  .tubo i.neg { background: #e06060; }
+  .tubo i.pos { background: linear-gradient(to top, var(--petroleo), var(--lucro)); }
+  .tubo i.neg { background: var(--prejuizo); }
   .base { position: absolute; left: 0; right: 0; bottom: calc(1000 / 8000 * 100%); border-top: 2px dashed var(--coral); }
   .final { font-family: var(--font-mono); font-weight: 600; font-size: 1.1rem; }
   .ret { font-family: var(--font-mono); font-weight: 700; font-size: 1.3rem; }
-  .ret.pos { color: #1f8a5b; }
-  .ret.neg { color: #d64545; }
+  .ret.pos { color: var(--lucro-texto); }
+  .ret.neg { color: var(--prejuizo-texto); }
   .moral { margin: 1rem 0 0; font-size: 0.95rem; line-height: 1.55; background: var(--coral-suave); padding: 0.7rem 0.9rem; border-radius: 10px; }
 </style>

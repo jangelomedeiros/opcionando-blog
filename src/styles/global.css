@@ -198,7 +198,7 @@ h2[id], h3[id] { scroll-margin-top: 1rem; }
   border: 1px solid var(--borda); border-top: 5px solid var(--coral); border-radius: var(--raio);
   padding: 1rem 1.1rem; font-size: 0.95rem; line-height: 1.5;
 }
-.quatro-jeitos > div:nth-child(2n) { border-top-color: var(--petroleo); }
+.quatro-jeitos > div:nth-child(2n) { border-top-color: var(--destaque); }
 .quatro-jeitos span { display: block; font-size: 2rem; }
 .quatro-jeitos b { display: block; margin-bottom: 0.2rem; font-family: var(--font-titulo); color: var(--destaque); font-size: 1.15rem; }
 

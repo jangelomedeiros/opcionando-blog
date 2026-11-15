@@ -25,7 +25,7 @@ const pontos = Array.from({ length: 100 }, (_, i) => i < ganhaComprador);
   }
   .grade .c { background: var(--coral); }
   .grade .v { background: var(--petroleo); }
-  @media (prefers-color-scheme: dark) { .grade .v { background: #7fc6d1; } }
+  .grade .v { background: var(--destaque); }
   @keyframes surge { from { transform: scale(0); } to { transform: scale(1); } }
   @media (prefers-reduced-motion: reduce) { .grade span { animation: none; } }
   .placar { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
@@ -33,7 +33,7 @@ const pontos = Array.from({ length: 100 }, (_, i) => i < ganhaComprador);
   .lado { border-radius: 12px; padding: 0.7rem 0.9rem; display: flex; flex-direction: column; gap: 2px; }
   .comp { background: var(--coral-suave); border-left: 5px solid var(--coral); }
   .vend { background: var(--giz); border-left: 5px solid var(--petroleo); }
-  @media (prefers-color-scheme: dark) { .vend { background: #0e262c; } }
+  .vend { background: var(--superficie-2); }
   .lado b { font-family: var(--font-mono); font-size: 1.6rem; }
   .comp b { color: var(--coral); }
   .vend b { color: var(--destaque); }

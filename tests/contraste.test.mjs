@@ -11,10 +11,12 @@ const TEXTO = [ // mínimo 4,5
   ['--texto-suave', '--superficie'], ['--titulo', '--fundo'], ['--destaque', '--fundo'],
   ['--marca-texto', '--fundo'], ['--texto-sobre-marca', '--marca'],
   ['--lucro-texto', '--superficie'], ['--prejuizo-texto', '--superficie'],
+  ['--atencao-texto', '--superficie'],
 ];
 const GRAFICO = [ // mínimo 3
   ['--lucro', '--superficie'], ['--prejuizo', '--superficie'], ['--hoje', '--superficie'],
   ['--borda-forte', '--superficie'], ['--marca', '--fundo'],
+  ['--serie-a', '--superficie'], ['--serie-b', '--superficie'],
 ];
 
 function checar(pares, minimo) {

@@ -401,7 +401,7 @@ import Base from '../../layouts/Base.astro';
   select:focus, input:focus, :global(.perna select:focus), :global(.perna input:focus) { outline: none; border-color: var(--coral); }
   .painel > * { min-width: 0; }
   :global(.campos label) { min-width: 0; }
-  :global(input.invalido) { border-color: #d64545 !important; background: #fdecec; }
+  :global(input.invalido) { border-color: var(--prejuizo) !important; background: color-mix(in srgb, var(--prejuizo) 12%, var(--superficie)); }
 
   .painel { display: grid; grid-template-columns: minmax(280px, 380px) 1fr; gap: 20px; align-items: start; }
   @media (max-width: 860px) { .painel { grid-template-columns: 1fr; } }
@@ -435,8 +435,8 @@ import Base from '../../layouts/Base.astro';
   :global(.kpi) { background: var(--bg-card); border: 1px solid var(--borda); border-radius: 12px; padding: 0.6rem 0.8rem; }
   :global(.kpi span) { display: block; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--texto-suave); font-weight: 600; }
   :global(.kpi strong) { font-family: var(--font-mono); font-size: 1rem; color: var(--destaque); }
-  :global(.kpi.ganho strong) { color: #1f8a5b; }
-  :global(.kpi.perda strong) { color: #d64545; }
+  :global(.kpi.ganho strong) { color: var(--lucro-texto); }
+  :global(.kpi.perda strong) { color: var(--prejuizo-texto); }
   :global(.vazio) { color: var(--texto-suave); }
 
   .grafico-wrap { position: relative; background: var(--bg-card); border: 1px solid var(--borda); border-radius: var(--raio); padding: 6px; }
@@ -446,26 +446,26 @@ import Base from '../../layouts/Base.astro';
   :global(#grafico .zero) { stroke: var(--texto-suave); stroke-width: 1.5; }
   :global(#grafico .rot) { fill: var(--texto-suave); font-family: var(--font-mono); font-size: 11px; }
   :global(#grafico .titulo-eixo) { fill: var(--texto-suave); font-size: 12px; }
-  :global(#grafico .area-pos) { fill: rgba(31,138,91,0.16); }
-  :global(#grafico .area-neg) { fill: rgba(214,69,69,0.14); }
-  :global(#grafico .linha) { fill: none; stroke: var(--petroleo); stroke-width: 3; stroke-linejoin: round; }
-  :global(#grafico .spot) { stroke: var(--coral); stroke-width: 1.5; stroke-dasharray: 5 4; }
-  :global(#grafico .rot-spot) { fill: var(--coral); font-size: 12px; font-weight: 600; }
+  :global(#grafico .area-pos) { fill: var(--lucro-area); }
+  :global(#grafico .area-neg) { fill: var(--prejuizo-area); }
+  :global(#grafico .linha) { fill: none; stroke: var(--destaque); stroke-width: 3; stroke-linejoin: round; }
+  :global(#grafico .spot) { stroke: var(--hoje); stroke-width: 1.5; stroke-dasharray: 5 4; }
+  :global(#grafico .rot-spot) { fill: var(--hoje); font-size: 12px; font-weight: 600; }
   :global(#grafico .be) { fill: var(--bg-card); stroke: var(--coral); stroke-width: 2.5; }
   :global(#grafico .cursor) { stroke: var(--texto-suave); stroke-dasharray: 2 3; }
   :global(#grafico .ponto) { fill: var(--coral); }
-  @media (prefers-color-scheme: dark) { :global(#grafico .linha) { stroke: #7fc6d1; } }
+  :global(#grafico .linha) { stroke: var(--destaque); }
 
   .dica {
     position: absolute; top: 10px; transform: translateX(-50%); pointer-events: none;
-    background: var(--grafite); color: #fff; font-size: 0.82rem; line-height: 1.4;
+    background: var(--superficie-2); color: var(--texto); border: 1px solid var(--borda); font-size: 0.82rem; line-height: 1.4;
     padding: 6px 10px; border-radius: 8px; white-space: nowrap;
   }
-  :global(.dica .pos) { color: #7be0ad; }
-  :global(.dica .neg) { color: #ff9a8a; }
+  :global(.dica .pos) { color: var(--lucro-texto); }
+  :global(.dica .neg) { color: var(--prejuizo-texto); }
   .legenda { font-size: 0.82rem; color: var(--texto-suave); margin-top: 0.5rem; }
 
   :global(#tabela table) { display: table; max-width: 560px; }
-  :global(#tabela td.pos) { color: #1f8a5b; font-weight: 600; }
-  :global(#tabela td.neg) { color: #d64545; font-weight: 600; }
+  :global(#tabela td.pos) { color: var(--lucro-texto); font-weight: 600; }
+  :global(#tabela td.neg) { color: var(--prejuizo-texto); font-weight: 600; }
 </style>

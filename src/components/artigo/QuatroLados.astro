@@ -62,7 +62,7 @@ const PUT = { k: 36, p: 0.7 };
     background: var(--petroleo); color: var(--creme);
   }
   .topo strong { font-family: var(--font-titulo); font-size: 1.2rem; color: var(--creme); }
-  .topo p { margin: 0.2rem 0 0; font-size: 0.85rem; color: #cfe0e2; }
+  .topo p { margin: 0.2rem 0 0; font-size: 0.85rem; color: color-mix(in srgb, var(--creme) 85%, transparent); }
   .controle { display: flex; align-items: center; gap: 10px; margin-top: 1rem; font-size: 0.85rem; white-space: nowrap; }
   input[type=range] { flex: 1; accent-color: var(--coral); height: 28px; min-width: 0; }
   .preco { text-align: center; font-size: 1rem; margin: 0.3rem 0 0.9rem; }
@@ -73,18 +73,18 @@ const PUT = { k: 36, p: 0.7 };
     display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center;
     border: 3px solid transparent; transition: border-color .2s, transform .2s;
   }
-  .card.ganha { border-color: #2fae73; transform: translateY(-2px); }
-  .card.perde { border-color: #e06060; }
+  .card.ganha { border-color: var(--lucro); transform: translateY(-2px); }
+  .card.perde { border-color: var(--prejuizo); }
   .ico { font-size: 1.6rem; }
   .nome { font-size: 0.88rem; }
   .nome b { color: var(--destaque); }
   .valor { font-family: var(--font-mono); font-weight: 600; font-size: 1.05rem; }
-  .ganha .valor { color: #1f8a5b; }
-  .perde .valor { color: #d64545; }
+  .ganha .valor { color: var(--lucro-texto); }
+  .perde .valor { color: var(--prejuizo-texto); }
   .barra { position: relative; width: 100%; height: 8px; background: var(--borda); border-radius: 4px; overflow: hidden; }
   .barra::after { content: ''; position: absolute; left: 50%; top: 0; bottom: 0; width: 2px; background: var(--texto-suave); }
-  .barra i { position: absolute; top: 0; bottom: 0; background: #2fae73; transition: width .15s, left .15s; }
-  .perde .barra i { background: #e06060; }
-  .veredito { margin: 1rem 0 0; font-size: 0.95rem; line-height: 1.55; background: rgba(255,255,255,0.08); padding: 0.7rem 0.9rem; border-radius: 10px; }
+  .barra i { position: absolute; top: 0; bottom: 0; background: var(--lucro); transition: width .15s, left .15s; }
+  .perde .barra i { background: var(--prejuizo); }
+  .veredito { margin: 1rem 0 0; font-size: 0.95rem; line-height: 1.55; background: color-mix(in srgb, var(--creme) 8%, transparent); padding: 0.7rem 0.9rem; border-radius: 10px; }
   .veredito :global(b) { color: var(--coral); }
 </style>
