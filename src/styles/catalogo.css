@@ -80,6 +80,20 @@
 .rbtn.on { background: var(--destaque); border-color: var(--destaque); color: var(--fundo); }
 li[hidden] { display: none; }
 .ge-dica { margin: 0 0 4px; font-size: 0.8rem; color: var(--texto-suave); }
+.ge-erro { margin: 8px 0 0; padding: 8px 12px; border-radius: 10px; background: color-mix(in srgb, var(--prejuizo) 14%, var(--superficie)); color: var(--texto); font-size: 0.85rem; }
+.ge-ajustes { margin-top: 10px; padding: 10px 12px; border-radius: 12px; border: 1px solid var(--borda-forte); font-size: 0.85rem; }
+.ge-ajustes ol { margin: 4px 0 6px; padding-left: 1.2rem; }
+.ge-ajustes .pos { color: var(--lucro-texto); } .ge-ajustes .neg { color: var(--prejuizo-texto); }
+.ge-antes { margin: 0 0 8px; color: var(--texto-suave); }
+.ge-botoes { display: flex; gap: 8px; flex-wrap: wrap; }
+.ge-livre { margin-top: 12px; border-top: 1px solid var(--borda); padding-top: 8px; font-size: 0.85rem; }
+.ge-livre summary { cursor: pointer; font-weight: 600; color: var(--titulo); }
+.ge-pernas { list-style: none; padding: 0; margin: 8px 0; display: grid; gap: 6px; }
+.ge-pernas li { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px; align-items: center; background: var(--superficie-2); border-radius: 8px; padding: 6px 8px; }
+.ge-acoes { display: flex; flex-wrap: wrap; gap: 4px; }
+.ge-acoes button, .ge-novo select { font: 600 0.75rem var(--font-texto); padding: 3px 8px; border-radius: 999px; border: 1px solid var(--borda-forte); background: var(--superficie); color: var(--texto); cursor: pointer; }
+.ge-acoes button:hover { border-color: var(--marca); }
+.ge-novo { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
 .ficha { margin: 1.4rem 0; border: 1px solid var(--borda); border-radius: var(--raio); background: var(--superficie); overflow: hidden; }
 .ficha dl { margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
 .ficha dl div { padding: 0.7rem 1rem; border-bottom: 1px solid var(--borda); border-right: 1px solid var(--borda); }

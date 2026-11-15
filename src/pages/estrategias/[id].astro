@@ -14,6 +14,8 @@ import { resolverTexto, valoresDaMontagem, valoresDaReferencia, textoUsaMontagem
 import { posicaoReferencia } from '../../lib/catalogo/converter.ts';
 import { diasUteis } from '../../lib/motor/calendario.ts';
 import mercadoCsv from '../../data/laboratorio/mercado.csv?raw';
+import GRADE from '../../data/grades/bbas3-2026-11-13.json';
+import { gradeParaManejo } from '../../lib/catalogo/gradeManejo.ts';
 
 // Fichas editoriais antigas que viraram parte da aba Visão.
 const FICHAS: Record<string, string> = { 'covered-call': 'venda-coberta', 'cash-put': 'venda-de-put-coberta' };
@@ -39,6 +41,8 @@ const dados = {
   comparacao: inicial.fonte === 'mercado' ? comparacaoHoje(est, m) : null,
   rotulo: est.nome,
   rotuloComparacao: est.comp_label,
+  // Grade real quando o gráfico usa o mercado; sintética quando usa o exemplo de referência.
+  grade: gradeParaManejo(inicial.posicao, inicial.cenario, inicial.fonte === 'mercado' ? GRADE : null),
 };
 
 // Textos com marcadores ({p2.k}, {be1}...) preenchidos com a montagem que o gráfico mostra.
