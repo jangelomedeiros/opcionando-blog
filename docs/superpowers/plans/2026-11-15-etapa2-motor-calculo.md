@@ -72,7 +72,7 @@
   - `ehDiaUtil(iso: string): boolean`;
   - `diasUteis(de: string, ate: string): number` (sem incluir nenhuma das duas datas; `0` se `ate <= de`);
   - `somarDiasUteis(de: string, n: number): string` (o n-ésimo dia útil depois de `de`).
-- Produz o arquivo de amostra `{ data, spot, r, vencimentos: Record<iso, du>, series: Serie[] }`, com `Serie = { ticker, tipo: 'call'|'put', strike, venc, du, ultimo, vol, delta, gama, theta, vega }`. Os valores de `vol`, `delta`, `gama`, `theta` e `vega` vêm crus do opcoes.net.br (vol em fração, gama dividido pelo spot, vega por 1,0 de vol, theta por dia útil).
+- Produz o arquivo de amostra `{ data, spot, r, vencimentos: Record<iso, du>, series: Serie[] }`, com `Serie = { ticker, tipo: 'call'|'put', strike, venc, du, ultimo, vol, delta, gama, theta, vega }`. Os valores de `vol`, `delta`, `gama`, `theta` e `vega` vêm crus do opcoes.net.br (vol em fração, gama padrão (Δ por R$ 1), vega por 1,0 de vol, theta por dia útil).
 
 - [ ] **Passo 1: Criar o branch.** Rode `git switch visual-novo && git switch -c motor-calculo`.
 
