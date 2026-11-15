@@ -16,6 +16,7 @@ import { diasUteis } from '../../lib/motor/calendario.ts';
 import mercadoCsv from '../../data/laboratorio/mercado.csv?raw';
 import GRADE from '../../data/grades/bbas3-2026-11-13.json';
 import { gradeParaManejo } from '../../lib/catalogo/gradeManejo.ts';
+import MANEJO from '../../data/laboratorio/manejo.json';
 
 // Fichas editoriais antigas que viraram parte da aba Visão.
 const FICHAS: Record<string, string> = { 'covered-call': 'venda-coberta', 'cash-put': 'venda-de-put-coberta' };
@@ -53,6 +54,10 @@ const visao = usarAtual ? { posicao: inicial.posicao, cenario: inicial.cenario }
 const texto = (t: string) => resolverTexto(t, valores, est.id);
 const racional = texto(est.racional), esperado = texto(est.esperado), notas = est.notas.map(texto);
 const montagem = visao.posicao.pernas;
+
+// Cenários de manejo (rascunhos aparecem com faixa até o dono revisar).
+const manejo = (MANEJO as Record<string, any>)[est.id] ?? null;
+const nomeDe = (id: string) => ESTRUTURAS.find((e) => e.id === id)?.nome ?? id;
 
 const fichas = await getCollection('estrategias', ({ data }) => !data.draft);
 const ficha = fichas.find((f) => f.id === FICHAS[est.id]);
@@ -160,6 +165,35 @@ const descricao = `${est.nome}: gráfico de payoff interativo, gregas, procedime
           </Fragment>
 
           <Fragment slot="manejo">
+            {manejo && (
+              <div class="manejo">
+                {!manejo.revisado && <p class="manejo-rascunho" role="note">Rascunho em revisão pelo autor: os caminhos ainda podem mudar.</p>}
+                <p class="nota">Uma trilha, não um trilho: cada cenário traz caminhos possíveis, o que cada um ganha e perde. Posicione o preço, os dias e a vol no gráfico e use "Simular no gráfico" para ver a estrutura depois do ajuste.</p>
+                {manejo.cenarios.map((c: any) => (
+                  <section class="manejo-cenario">
+                    <h3>{c.nome}</h3>
+                    <p class="manejo-sinais"><b>Sinais:</b> {c.sinais}</p>
+                    <ul class="manejo-caminhos">
+                      {c.caminhos.map((p: any) => (
+                        <li>
+                          <strong>{p.nome}</strong>
+                          <p>{p.descricao}</p>
+                          <dl>
+                            <div><dt>Ganha</dt><dd>{p.ganha}</dd></div>
+                            <div><dt>Perde</dt><dd>{p.perde}</dd></div>
+                            <div><dt>Quando faz sentido</dt><dd>{p.quando}</dd></div>
+                          </dl>
+                          {p.estrutura && <p class="manejo-link">Veja também: <a href={`/estrategias/${p.estrutura}/`}>{nomeDe(p.estrutura)}</a></p>}
+                          {p.ops?.length > 0 && <button type="button" class="simular" data-nome={p.nome} data-ops={JSON.stringify(p.ops)} hidden>Simular no gráfico</button>}
+                        </li>
+                      ))}
+                    </ul>
+                    <p class="manejo-pesa"><b>O que pesa na escolha:</b> {c.pesa}</p>
+                  </section>
+                ))}
+                <p class="fonte">Fonte: {manejo.fonte}</p>
+              </div>
+            )}
             {pop ? (
               <div class="pgrid">
                 <div class="pb wide"><h3 class="mini">Manejo</h3><p>{pop.manejo}</p></div>
@@ -202,4 +236,15 @@ const descricao = `${est.nome}: gráfico de payoff interativo, gregas, procedime
     <p class="aviso-legal">{DISCLAIMER}</p>
   </section>
   <script is:inline src="/lab-idade.js" defer></script>
+  <script is:inline>
+    // Botões "Simular no gráfico": só aparecem com JavaScript; mandam o ajuste para o gráfico.
+    document.querySelectorAll('button.simular').forEach(function (b) {
+      b.hidden = false;
+      b.addEventListener('click', function () {
+        window.dispatchEvent(new CustomEvent('opcionando:manejo', { detail: { nome: b.getAttribute('data-nome'), ops: JSON.parse(b.getAttribute('data-ops')) } }));
+        var g = document.querySelector('.est-esq');
+        if (g && window.innerWidth <= 820) g.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+  </script>
 </Base>

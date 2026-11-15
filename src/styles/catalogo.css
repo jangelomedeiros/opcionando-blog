@@ -93,6 +93,19 @@ li[hidden] { display: none; }
 .ge-acoes { display: flex; flex-wrap: wrap; gap: 4px; }
 .ge-acoes button, .ge-novo select { font: 600 0.75rem var(--font-texto); padding: 3px 8px; border-radius: 999px; border: 1px solid var(--borda-forte); background: var(--superficie); color: var(--texto); cursor: pointer; }
 .ge-acoes button:hover { border-color: var(--marca); }
+.manejo-rascunho { margin: 0 0 0.8rem; padding: 8px 12px; border-radius: 10px; border: 1px dashed var(--hoje); color: var(--texto); background: color-mix(in srgb, var(--hoje) 12%, var(--superficie)); font-size: 0.85rem; }
+.manejo-cenario { margin: 1.2rem 0 1.6rem; }
+.manejo-cenario h3 { margin: 0 0 0.3rem; font-size: 1.1rem; }
+.manejo-sinais, .manejo-pesa { font-size: 0.92rem; margin: 0.3rem 0; }
+.manejo-caminhos { list-style: none; padding: 0; margin: 0.6rem 0; display: grid; gap: 10px; }
+.manejo-caminhos li { background: var(--superficie); border: 1px solid var(--borda); border-radius: 12px; padding: 10px 12px; }
+.manejo-caminhos p { margin: 0.2rem 0 0.4rem; font-size: 0.92rem; }
+.manejo-caminhos dl { margin: 0; display: grid; gap: 4px; font-size: 0.85rem; }
+.manejo-caminhos dt { display: inline; font-weight: 700; color: var(--texto-suave); }
+.manejo-caminhos dt::after { content: ': '; }
+.manejo-caminhos dd { display: inline; margin: 0; }
+.manejo-link { font-size: 0.85rem; }
+button.simular { margin-top: 8px; font: 600 0.82rem var(--font-texto); padding: 6px 14px; border-radius: 999px; border: 1px solid var(--marca); background: var(--marca); color: var(--texto-sobre-marca); cursor: pointer; }
 .ge-novo { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
 .ficha { margin: 1.4rem 0; border: 1px solid var(--borda); border-radius: var(--raio); background: var(--superficie); overflow: hidden; }
 .ficha dl { margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
