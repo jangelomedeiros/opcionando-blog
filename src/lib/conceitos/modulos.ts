@@ -29,7 +29,8 @@ export function gregasAoLongo(tipo: TipoOpcao, K: number, xs: number[], T: numbe
 
 /** Para cada spot, o delta de `duMax` dias úteis até 0 (vencimento). */
 export function deltaNoTempo(tipo: TipoOpcao, K: number, spots: number[], duMax: number, vol: number): number[][] {
-  return spots.map((S) => Array.from({ length: duMax + 1 }, (_, i) => gregasBS(tipo, S, K, (duMax - i) / DIAS_UTEIS_ANO, vol).delta));
+  // Piso de meio dia útil no último ponto (como o motor): no próprio pregão do vencimento ainda há negociação.
+  return spots.map((S) => Array.from({ length: duMax + 1 }, (_, i) => gregasBS(tipo, S, K, Math.max(duMax - i, 0.5) / DIAS_UTEIS_ANO, vol).delta));
 }
 
 export function premioPorVol(tipo: TipoOpcao, S: number, K: number, T: number, vols: number[]): number[] {
@@ -57,4 +58,11 @@ export function probLucro(xs: number[], ys: number[], dens: number[]): number {
     p += ((a + b) / 2) * (xs[i] - xs[i - 1]);
   }
   return p;
+}
+
+/** Probabilidade (do modelo) de uma opção comprada ou vendida terminar no lucro, numa faixa ampla de preços (0,05× a 6× o spot). */
+export function probLucroPosicao(tipo: TipoOpcao, comprado: boolean, K: number, premio: number, S: number, T: number, vol: number): number {
+  const xs = Array.from({ length: 6001 }, (_, i) => S * (0.05 + (5.95 * i) / 6000));
+  const ys = xs.map((x) => (comprado ? 1 : -1) * (intrinseco(tipo, x, K) - premio));
+  return probLucro(xs, ys, densidade(S, xs, T, vol));
 }

@@ -62,3 +62,17 @@ test('densidade integra ~1 e probLucro bate com N(d2)', () => {
   const pv = probLucro(amplo, ys.map((y) => -y), densidade(S, amplo, T, V));
   assert.ok(Math.abs(p + pv - 1) < 0.01);
 });
+
+import { probLucroPosicao } from '../src/lib/conceitos/modulos.ts';
+
+test('probabilidade comprado + vendido = 100% mesmo com vol alta', () => {
+  for (const v of [0.2, 0.6, 1.2]) for (const tipo of ['call', 'put']) {
+    const c = probLucroPosicao(tipo, true, K, 0.71, S, T, v), d = probLucroPosicao(tipo, false, K, 0.71, S, T, v);
+    assert.ok(Math.abs(c + d - 1) < 0.005, `${tipo} vol ${v}: ${c} + ${d}`);
+  }
+});
+
+test('delta no dinheiro fica perto de 0,5 até o fim', () => {
+  const [, atm] = deltaNoTempo('call', K, [K * 1.1, K, K * 0.9], 60, V);
+  assert.ok(atm.at(-1) >= 0.4 && atm.at(-1) <= 0.6, String(atm.at(-1)));
+});

@@ -1,11 +1,12 @@
 ---
 import Base from '../../layouts/Base.astro';
+import { MODULOS } from '../../data/conceitos.ts';
 ---
-<Base title="Conceitos de opções na prática" description="Laboratório de conceitos do Opcionando: o prêmio pelos dois lados, o tempo, a volatilidade e o preço, numa operação real.">
+<Base title="Conceitos de opções na prática" description="Laboratório de conceitos do Opcionando: o prêmio pelos dois lados, o tempo, a volatilidade, as gregas e a probabilidade, numa operação real.">
   <section class="container-larga pagina">
     <p class="sobretitulo">Conceitos</p>
     <h1>Conceitos na prática</h1>
-    <p class="intro">Teoria de opções tem em todo lugar. Aqui cada conceito aparece numa operação concreta, com preço real, e você vê o que acontece com os dois lados da mesa enquanto o mercado anda.</p>
+    <p class="intro">Teoria de opções tem em todo lugar. Aqui cada conceito aparece numa operação concreta, com preço real, e você mexe nos controles para ver o que acontece.</p>
     <ul class="grade-cards">
       <li>
         <a class="card-link" href="/conceitos/jornada-do-premio/">
@@ -13,12 +14,14 @@ import Base from '../../layouts/Base.astro';
           <span class="resumo">Uma opção real de BBAS3, comprador e vendedor, dia a dia: quanto do resultado veio do preço, do tempo e da volatilidade.</span>
         </a>
       </li>
-      <li>
-        <div class="card-link em-breve">
-          <span class="titulo">Em breve</span>
-          <span class="resumo">Gregas ao longo do preço, o efeito da volatilidade e a probabilidade desenhada sobre o payoff.</span>
-        </div>
-      </li>
+      {MODULOS.map((m) => (
+        <li>
+          <a class="card-link" href={`/conceitos/${m.slug}/`}>
+            <span class="titulo">{m.titulo}</span>
+            <span class="resumo">{m.resumo}</span>
+          </a>
+        </li>
+      ))}
     </ul>
   </section>
 </Base>

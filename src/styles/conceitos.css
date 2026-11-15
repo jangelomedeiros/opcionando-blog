@@ -38,3 +38,16 @@
 .jp-lado .neg, .jp-res.neg { color: var(--prejuizo-texto); }
 .jp-comentario { margin: 12px 0 0; padding: 10px 12px; border-radius: 12px; border-left: 4px solid var(--hoje); background: var(--superficie-2); font-size: 0.92rem; }
 .jp-estatico p { margin: 0.4rem 0; }
+
+/* Módulos de conceitos */
+.md-fig { margin: 10px 0 0; }
+.md-grade { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+@media (max-width: 720px) { .md-grade { grid-template-columns: minmax(0, 1fr); } }
+.md-s1 { fill: none; stroke: var(--titulo); stroke-width: 2.4; }
+.md-s2 { fill: none; stroke: var(--hoje); stroke-width: 2; }
+.md-s3 { fill: none; stroke: var(--destaque); stroke-width: 2; stroke-dasharray: 5 3; }
+.md-fundo { fill: none; stroke: var(--texto-suave); stroke-width: 1.2; opacity: 0.45; }
+.md-area { fill: color-mix(in srgb, var(--destaque) 22%, transparent); stroke: none; }
+.md-k { display: inline-block; width: 18px; height: 0; margin-right: 6px; vertical-align: middle; border-top: 3px solid; }
+.md-k.md-s1 { border-color: var(--titulo); } .md-k.md-s2 { border-color: var(--hoje); } .md-k.md-s3 { border-color: var(--destaque); border-top-style: dashed; }
+.md-k.md-fundo { border-color: var(--texto-suave); opacity: 0.6; } .md-k.md-area { height: 8px; border: none; background: color-mix(in srgb, var(--destaque) 30%, transparent); }
