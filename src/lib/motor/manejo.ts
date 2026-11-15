@@ -18,6 +18,16 @@ export interface Historico { inicial: Posicao; ajustes: Ajuste[] }
 const IGUAL = 1e-9;
 const idBase = (id: string) => id.split('~')[0];
 
+/** Próximo número de ajuste, a partir dos ids já usados (`<id>~<n>` e `n<n>-<k>`). */
+function proximoNumero(pos: Posicao): number {
+  let max = 0;
+  for (const p of pos.pernas) {
+    const m = p.id.match(/~(\d+)$/) ?? p.id.match(/^n(\d+)-\d+$/);
+    if (m) max = Math.max(max, Number(m[1]));
+  }
+  return max + 1;
+}
+
 function indiceStrike(grade: GradeRef, k: number): number {
   const i = grade.strikes.findIndex((s) => Math.abs(s - k) < IGUAL);
   if (i < 0) throw new RangeError(`Rolagem fora da grade: strike ${k} não está na grade`);
@@ -31,10 +41,10 @@ function strikeATM(grade: GradeRef, spot: number): number {
 
 /**
  * Aplica as operações em sequência sobre uma cópia da posição.
- * `numero` identifica o ajuste nos ids das pernas novas (`<id>~<numero>`).
+ * `numero` identifica o ajuste nos ids das pernas novas (`<id>~<numero>`); sem ele, usa o próximo livre.
  * Se qualquer operação falhar, lança o erro e nada é alterado.
  */
-export function aplicarAjuste(pos: Posicao, ops: Operacao[], c: Cenario, grade: GradeRef, numero = 1): { posicao: Posicao; fluxo: number } {
+export function aplicarAjuste(pos: Posicao, ops: Operacao[], c: Cenario, grade: GradeRef, numero = proximoNumero(pos)): { posicao: Posicao; fluxo: number } {
   const pernas: Perna[] = pos.pernas.map((p) => ({ ...p }));
   let realizado = pos.realizado;
   let fluxo = 0;

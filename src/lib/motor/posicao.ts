@@ -23,12 +23,18 @@ export interface Posicao { pernas: Perna[]; realizado: number }
 export interface GregasPosicao { delta: number; gama: number; theta: number; vega: number }
 
 const ZERO: GregasPosicao = { delta: 0, gama: 0, theta: 0, vega: 0 };
+const MEIO_DIA = 0.5;
+export const VOL_MINIMA = 0.005;
 
 function gregasPerna(p: Perna, c: Cenario) {
   if (p.tipo === 'acao') return { preco: c.spot, delta: 1, gama: 0, theta: 0, vega: 0 };
   const K = p.strike ?? 0;
-  const T = p.venc && c.data < p.venc ? diasUteis(c.data, p.venc) / DIAS_UTEIS_ANO : 0;
-  const vol = Math.max((p.vol ?? 0) + (c.choqueVol ?? 0) / 100, 0);
+  // Antes do vencimento, piso de meio dia útil: na véspera ainda há o pregão do vencimento
+  // (a contagem de dias úteis não inclui as pontas, então daria 0 um dia antes).
+  const T = p.venc && c.data < p.venc ? Math.max(diasUteis(c.data, p.venc), MEIO_DIA) / DIAS_UTEIS_ANO : 0;
+  // Choque de vol com piso: uma opção com vol nunca cai para o intrínseco não descontado (evita salto de preço).
+  const base = p.vol ?? 0;
+  const vol = base > 0 ? Math.max(base + (c.choqueVol ?? 0) / 100, VOL_MINIMA) : 0;
   return gregasBS(p.tipo, c.spot, K, T, vol, c.r ?? SELIC_PADRAO);
 }
 
