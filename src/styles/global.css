@@ -204,7 +204,7 @@ h2[id], h3[id] { scroll-margin-top: 1rem; }
 
 .barra-premio { display: flex; border-radius: var(--raio); overflow: hidden; margin: 1.2rem 0 0.4rem; min-height: 96px; }
 .barra-premio > div { display: flex; flex-direction: column; justify-content: center; padding: 0.7rem 0.9rem; color: var(--texto-sobre-marca); line-height: 1.3; min-width: 0; }
-.barra-premio .int { background: var(--destaque); }
+.barra-premio .int { background: var(--petroleo); color: var(--creme); }
 .barra-premio .ext { background: var(--marca); }
 .barra-premio b { font-family: var(--font-titulo); font-size: 1rem; }
 .barra-premio span { font-family: var(--font-mono); font-size: 1.3rem; font-weight: 600; }

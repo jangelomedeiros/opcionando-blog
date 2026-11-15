@@ -22,7 +22,7 @@ const comReais = itens.filter((i) => i.tem).length;
     <p class="nota">{comReais > 0 ? `${comReais} estruturas já com preços reais carregados.` : 'Preços reais ainda não carregados.'} Os exemplos teóricos usam BBAS3 como ativo-base.</p>
 
     <div class="filtros" role="group" aria-label="Filtrar por família">
-      <button type="button" class="fbtn on" data-f="">Todas</button>
+      <button type="button" class="fbtn on" data-f="" style="--fc:var(--marca)">Todas</button>
       {fams.map((f) => <button type="button" class="fbtn" data-f={f} style={`--fc:${FAM_COR[f]}`}>{f}</button>)}
     </div>
 
