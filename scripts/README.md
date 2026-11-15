@@ -17,3 +17,9 @@ Rodar sempre da raiz do repositório (`python3 scripts/arquivo.py`). Dependênci
 Os arquivos `estudo-2026-10-26/c_*.py` são o registro de como cada análise de 26/10 foi escrita: servem de modelo para as próximas.
 
 Em `dados-brutos/2026-10-26/ohlcv/`, os arquivos `old_*.json` têm os 299 primeiros pregões e os demais os 123 últimos; `old_t.json` e `t.json` são os carimbos de tempo.
+
+## Grade de opções e preços do catálogo (só biblioteca padrão)
+
+1. `python -I scripts/importar_grade.py PLANILHA.xlsx src/data/grades/bbas3-AAAA-MM-DD.json` — guarda a grade completa do opcoes.net.br por data (histórico).
+2. `python -I scripts/atualizar_mercado.py src/data/grades/bbas3-AAAA-MM-DD.json` — remonta as 62 estruturas na grade e regrava `src/data/laboratorio/mercado.csv`.
+3. `npm run build && npm test` — confere que todas as pernas existem na grade e que nada ficou vencido.

@@ -7,7 +7,7 @@ import { metricasVencimento } from '../src/lib/motor/metricas.ts';
 
 const ler = (p) => readFileSync(new URL(`../${p}`, import.meta.url), 'utf8');
 const ESTRUTURAS = JSON.parse(ler('src/data/laboratorio/estruturas.json'));
-const m = lerMercadoCsv(ler('src/data/laboratorio/mercado.csv'));
+const m = lerMercadoCsv(ler('tests/fixtures/mercado-2026-10-27.csv'));
 const est = (id) => ESTRUTURAS.find((e) => e.id === id);
 
 test('lerMercadoCsv lê metadados e linhas', () => {
