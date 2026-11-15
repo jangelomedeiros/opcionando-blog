@@ -37,7 +37,9 @@ export default function GraficoEstrutura({ dados }: { dados: DadosGrafico }) {
   const g = gregasPosicao(posicao, cen);
   const m = base.metricas;
 
-  const { X, Y } = escalas(base.xs, [base.yv, yh, ...(base.yc ? [base.yc] : [])], CAIXA);
+  const { X, Y, yMin, yMax } = escalas(base.xs, [base.yv, yh, ...(base.yc ? [base.yc] : [])], CAIXA);
+  const ticksY = [yMax * 0.85, yMin * 0.85].filter((y) => Math.abs(y) > (yMax - yMin) * 0.12);
+  const classeRes = Math.abs(res) < 0.005 ? 'neutro' : res > 0 ? 'pos' : 'neg';
   const pts = (ys: number[]) => base.xs.map((x, i) => [x, ys[i]] as Ponto);
   const segs = segmentosPorSinal(base.xs, base.yv);
   const lo = base.xs[0], hi = base.xs[base.xs.length - 1];
@@ -55,7 +57,8 @@ export default function GraficoEstrutura({ dados }: { dados: DadosGrafico }) {
         <path class="g-hoje" d={caminho(pts(yh), X, Y)} />
         <line class="g-spot" x1={X(preco)} x2={X(preco)} y1={CAIXA.T} y2={CAIXA.H - CAIXA.B} />
         <circle class="g-ponto" cx={X(preco)} cy={Y(res)} r="4.5" />
-        {ticksX.map((x) => <text class="g-rot" x={X(x)} y={CAIXA.H - 12} text-anchor="middle">{num(x)}</text>)}
+        {ticksX.map((x, i) => <text class="g-rot" x={X(x)} y={CAIXA.H - 12} text-anchor={i === 0 ? 'start' : i === ticksX.length - 1 ? 'end' : 'middle'}>{num(x)}</text>)}
+        {ticksY.map((y) => <text class="g-rot" x={CAIXA.L - 6} y={Y(y) + 4} text-anchor="end">{sinal(y)}{num(y)}</text>)}
         <text class="g-rot" x={CAIXA.L - 6} y={Y(0) + 4} text-anchor="end">0</text>
       </svg>
       <p class="ge-legenda">
@@ -83,7 +86,7 @@ export default function GraficoEstrutura({ dados }: { dados: DadosGrafico }) {
       </div>
 
       <div class="ge-painel">
-        <div class={`ge-res ${res >= 0 ? 'pos' : 'neg'}`} aria-live="polite">
+        <div class={`ge-res ${classeRes}`} aria-live="polite">
           <span>Resultado neste cenário</span>
           <b>{reais(res)}</b>
           <small>por unidade · {reais(res * 100)} por lote de 100</small>

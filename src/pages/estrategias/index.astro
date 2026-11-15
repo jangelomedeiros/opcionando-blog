@@ -1,50 +1,57 @@
 ---
-import { getCollection } from 'astro:content';
+import '../../styles/laboratorio.css';
 import Base from '../../layouts/Base.astro';
-import { ESTRATEGIAS_PLANEJADAS } from '../../data/planejamento';
+import { DISCLAIMER } from '../../consts';
+import { ESTRUTURAS, POPS, FAM_COR, FAM_ORDEM, grafico, teoria, lerMercado, hoje, hojeIso } from '../../lib/laboratorio';
 
-const publicadas = await getCollection('estrategias', ({ data }) => import.meta.env.DEV || !data.draft);
-const porSlug = new Map(publicadas.map((e) => [e.id, e]));
-const extras = publicadas.filter((e) => !ESTRATEGIAS_PLANEJADAS.some((p) => p.slug === e.id));
-const lista = [
-  ...ESTRATEGIAS_PLANEJADAS.map((p) => ({ slug: p.slug, title: p.title, e: porSlug.get(p.slug) })),
-  ...extras.map((e) => ({ slug: e.id, title: e.data.title, e })),
-].sort((a, b) => Number(!a.e) - Number(!b.e));
+const { meta, mercado } = lerMercado();
+const hj = hojeIso();
+const itens = ESTRUTURAS.map((e) => {
+  const { spot0, at, comp0 } = teoria(e);
+  const h = hoje(e, meta, mercado, hj);
+  return { e, svg: grafico(at, spot0, { mini: true, comp: comp0 }), tem: h.tem, visao: POPS[e.pop]?.visao ?? '' };
+});
+const fams = FAM_ORDEM.filter((f) => itens.some((i) => i.e.familia === f));
+const comReais = itens.filter((i) => i.tem).length;
 ---
-<Base title="Estratégias" description="Fichas das estratégias com opções: montagem, payoff, ganho e perda máximos, ponto de equilíbrio e quando usar cada uma.">
-  <section class="container-larga pagina">
-    <p class="sobretitulo">Biblioteca</p>
-    <h1>Estratégias</h1>
-    <p class="intro">
-      Toda estratégia aqui segue a mesma ficha: qual é a visão de mercado, como montar, quanto pode
-      ganhar, quanto pode perder e onde fica o ponto de equilíbrio. Cada uma abre direto na
-      calculadora de payoff para você testar com os seus números.
-    </p>
-    <ul class="grade-cards">
-      {lista.map(({ slug, title, e }) => (
-        <li>
-          {e ? (
-            <a class="card-link" href={`/estrategias/${slug}/`}>
-              <span class="selos">
-                <span class="selo">{e.data.visao}</span>
-                <span class="selo coral">{e.data.objetivo}</span>
-                <span class="selo neutro">{e.data.nivel}</span>
-              </span>
-              <span class="titulo">{e.data.title}</span>
-              <span class="resumo">{e.data.description}</span>
-            </a>
-          ) : (
-            <div class="card-link em-breve">
-              <span class="selo neutro">Em breve</span>
-              <span class="titulo">{title}</span>
-            </div>
-          )}
-        </li>
-      ))}
-    </ul>
-  </section>
-</Base>
+<Base title="Catálogo de estratégias com opções" description="62 estruturas com opções na B3, cada uma com gráfico de payoff interativo, gregas, procedimento operacional (POP), manejo e montagem com preços reais de mercado.">
+  <section class="container-larga pagina lab">
+    <p class="sobretitulo">Estratégias</p>
+    <h1>Catálogo de estratégias</h1>
+    <p class="intro">{ESTRUTURAS.length} estruturas com opções sobre ações da B3. Cada uma tem um gráfico interativo (mova o preço, os dias e a volatilidade e veja o resultado mudar), as gregas, o procedimento operacional (POP), o manejo e a pergunta que importa: como montar isso hoje, com os preços reais do mercado?</p>
+    <p class="nota">{comReais > 0 ? `${comReais} estruturas já com preços reais carregados.` : 'Preços reais ainda não carregados.'} Os exemplos teóricos usam BBAS3 como ativo-base.</p>
 
-<style>
-  .selos { display: flex; gap: 6px; flex-wrap: wrap; }
-</style>
+    <div class="filtros" role="group" aria-label="Filtrar por família">
+      <button type="button" class="fbtn on" data-f="" style="--fc:var(--marca)">Todas</button>
+      {fams.map((f) => <button type="button" class="fbtn" data-f={f} style={`--fc:${FAM_COR[f]}`}>{f}</button>)}
+    </div>
+
+    {fams.map((f) => (
+      <section class="familia" data-fam={f}>
+        <h2 style={`--fc:${FAM_COR[f]}`}>{f}</h2>
+        <ul class="lab-grid">
+          {itens.filter((i) => i.e.familia === f).map((i) => (
+            <li>
+              <a class="lab-card" href={`/estrategias/${i.e.id}/`} style={`--fc:${FAM_COR[f]}`}>
+                <Fragment set:html={i.svg} />
+                <span class="titulo">{i.e.nome}</span>
+                {i.visao && <span class="resumo">{i.visao}</span>}
+                {i.tem && <span class="selo coral">com preços reais</span>}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))}
+    <p class="aviso-legal">{DISCLAIMER}</p>
+  </section>
+  <script is:inline>
+    document.querySelectorAll('.fbtn').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var f = b.getAttribute('data-f');
+        document.querySelectorAll('.fbtn').forEach(function (x) { x.classList.toggle('on', x === b); });
+        document.querySelectorAll('.familia').forEach(function (s) { s.hidden = !!f && s.getAttribute('data-fam') !== f; });
+      });
+    });
+  </script>
+</Base>

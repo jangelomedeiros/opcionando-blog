@@ -1,0 +1,167 @@
+---
+import '../../styles/laboratorio.css';
+import '../../styles/catalogo.css';
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Metricas from '../../components/laboratorio/Metricas.astro';
+import BlocoHoje from '../../components/laboratorio/BlocoHoje.astro';
+import Abas from '../../components/catalogo/Abas.astro';
+import GraficoEstrutura from '../../components/catalogo/GraficoEstrutura.tsx';
+import { DISCLAIMER } from '../../consts';
+import { ESTRUTURAS, POPS, FAM_COR, grafico, teoria, hoje, lerMercado, hojeIso, rs, dmyy, qfmt, moneyness } from '../../lib/laboratorio';
+import { lerMercadoCsv, cenarioInicial, comparacaoHoje } from '../../lib/catalogo/converter.ts';
+import mercadoCsv from '../../data/laboratorio/mercado.csv?raw';
+
+// Fichas editoriais antigas que viraram parte da aba Visão.
+const FICHAS: Record<string, string> = { 'covered-call': 'venda-coberta', 'cash-put': 'venda-de-put-coberta' };
+
+export function getStaticPaths() {
+  return ESTRUTURAS.map((e, i) => ({ params: { id: e.id }, props: { est: e, i } }));
+}
+const { est, i } = Astro.props;
+const { meta, mercado } = lerMercado();
+const pop = POPS[est.pop];
+const { spot0, at, comp0 } = teoria(est);
+const h = hoje(est, meta, mercado, hojeIso());
+const cor = FAM_COR[est.familia] ?? 'var(--marca)';
+const ant = i > 0 ? ESTRUTURAS[i - 1] : null;
+const prox = i < ESTRUTURAS.length - 1 ? ESTRUTURAS[i + 1] : null;
+const mesma = ESTRUTURAS.filter((e) => e.familia === est.familia && e.id !== est.id).slice(0, 6);
+
+const m = lerMercadoCsv(mercadoCsv);
+const inicial = cenarioInicial(est, m);
+const dados = {
+  posicao: inicial.posicao,
+  cenario: inicial.cenario,
+  comparacao: inicial.fonte === 'mercado' ? comparacaoHoje(est, m) : null,
+  rotulo: est.nome,
+  rotuloComparacao: est.comp_label,
+};
+
+const fichas = await getCollection('estrategias', ({ data }) => !data.draft);
+const ficha = fichas.find((f) => f.id === FICHAS[est.id]);
+const Corpo = ficha ? (await render(ficha)).Content : null;
+const youtube = ficha?.data.youtube;
+
+const abas = [
+  { id: 'visao', rotulo: 'Visão' },
+  { id: 'pop', rotulo: 'POP' },
+  { id: 'manejo', rotulo: 'Manejo' },
+  ...(youtube ? [{ id: 'video', rotulo: 'Vídeo' }] : []),
+  { id: 'hoje', rotulo: 'Hoje' },
+];
+const descricao = `${est.nome}: gráfico de payoff interativo, gregas, procedimento operacional (POP), manejo e como montar hoje com preços reais de BBAS3.`;
+---
+<Base title={`${est.nome} | Catálogo de estratégias`} description={descricao}>
+  <section class="container-larga pagina lab est" style={`--fc:${cor}`}>
+    <p class="sobretitulo"><a href="/estrategias/">Catálogo de estratégias</a></p>
+    <p class="chip-wrap"><span class="chip">{est.familia}</span>{pop?.visao && <span class="visao">{pop.visao}</span>}</p>
+    <h1>{est.nome}</h1>
+    <p class="intro">{est.racional}</p>
+
+    <div class="est-grid">
+      <div class="est-esq">
+        <div class="fig est-fig">
+          <GraficoEstrutura client:visible dados={dados} />
+          <noscript>
+            <Fragment set:html={grafico(at, spot0, { comp: comp0, rotSpot: `ref. ${dmyy(est.ref.data).slice(0, 5)}` })} />
+            <Metricas a={at} />
+          </noscript>
+        </div>
+        <p class="nota">
+          {inicial.fonte === 'mercado'
+            ? `Começa com os preços reais de ${m.ativo} em ${dmyy(m.data)} (ativo a ${rs(m.spot)}). Mova os controles para simular outros cenários.`
+            : `Começa com o exemplo calibrado de ${dmyy(est.ref.data)} (ativo a ${rs(spot0)}).`}
+          {' '}Modelo Black-Scholes com Selic de 15% a.a.; não considera custos, impostos, dividendos nem exercício antecipado.
+        </p>
+      </div>
+
+      <div class="est-dir">
+        <Abas abas={abas} nome={est.id}>
+          <Fragment slot="visao">
+            <div class="esperar">
+              <h3 class="mini">O que esperar</h3>
+              <p>{est.esperado}</p>
+              {est.notas.length > 0 && <ul class="notas">{est.notas.map((n) => <li>{n}</li>)}</ul>}
+            </div>
+            <h3 class="mini">Montagem de referência</h3>
+            <div class="twrap">
+              <table class="legs">
+                <thead><tr><th>Lado</th><th>Qtd.</th><th>Instrumento</th><th>Strike</th><th>Prazo</th><th>Prêmio</th></tr></thead>
+                <tbody>
+                  {est.pernas.map((l) => (
+                    <tr>
+                      <td class={l.q > 0 ? 'buy' : 'sell'}>{l.q > 0 ? 'Comprar' : 'Vender'}</td>
+                      <td>{qfmt(l.q)}</td>
+                      <td>{l.t === 'S' ? 'Ação (custódia)' : l.t === 'C' ? 'CALL' : 'PUT'}</td>
+                      <td>{l.t === 'S' ? '—' : <>{rs(l.k!)}<small>{moneyness(l, spot0)}</small></>}</td>
+                      <td>{l.t === 'S' ? '—' : `${l.d} du`}</td>
+                      <td>{rs(l.px)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <p class="nota">Exemplo calibrado com BBAS3 a {rs(spot0)} em {dmyy(est.ref.data)}. O que vale é a relação entre os strikes e os prazos.</p>
+            {Corpo && <div class="conteudo ficha-corpo"><Corpo /></div>}
+          </Fragment>
+
+          <Fragment slot="pop">
+            {pop ? (
+              <div class="pop">
+                <div class="pgrid">
+                  <div class="pb"><h3 class="mini">Objetivo</h3><p>{pop.objetivo}</p></div>
+                  <div class="pb"><h3 class="mini">Contexto de entrada</h3><p>{pop.contexto}</p></div>
+                  <div class="pb wide"><h3 class="mini">Janela e custo</h3><p>{pop.janela}</p></div>
+                  <div class="pb wide"><h3 class="mini">Montagem, passo a passo</h3><ol>{pop.montagem.map((x) => <li>{x}</li>)}</ol></div>
+                  {pop.regra && <div class="pb wide rule"><h3 class="mini">Regra de escolha</h3><p>{pop.regra}</p></div>}
+                  <div class="pb wide">
+                    <h3 class="mini">Checklist antes de enviar a ordem</h3>
+                    <ul class="chk">{pop.checklist.map((x) => <li><i></i>{x}</li>)}</ul>
+                  </div>
+                </div>
+                <p class="fonte">Fonte: {pop.fonte}</p>
+              </div>
+            ) : <p class="nota">Esta estrutura ainda não tem POP publicado.</p>}
+          </Fragment>
+
+          <Fragment slot="manejo">
+            {pop ? (
+              <div class="pgrid">
+                <div class="pb wide"><h3 class="mini">Manejo</h3><p>{pop.manejo}</p></div>
+                {pop.saida && <div class="pb wide"><h3 class="mini">Saída e stop</h3><p>{pop.saida}</p></div>}
+                <div class="pb wide risk"><h3 class="mini">Risco principal</h3><p>{pop.risco}</p></div>
+              </div>
+            ) : <p class="nota">Manejo ainda não publicado.</p>}
+            <p class="nota">Em breve: cenários de manejo simuláveis no gráfico, com as novas áreas de lucro e prejuízo depois de cada ajuste.</p>
+          </Fragment>
+
+          {youtube && (
+            <Fragment slot="video">
+              <div class="video-embed">
+                <iframe src={`https://www.youtube-nocookie.com/embed/${youtube}`} title={`Vídeo: ${est.nome}`} loading="lazy" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              </div>
+            </Fragment>
+          )}
+
+          <Fragment slot="hoje">
+            <BlocoHoje est={est} h={h} at={at} />
+          </Fragment>
+        </Abas>
+      </div>
+    </div>
+
+    {mesma.length > 0 && (
+      <>
+        <h2 class="rel">Mais em {est.familia}</h2>
+        <ul class="rel-list">{mesma.map((e) => <li><a href={`/estrategias/${e.id}/`}>{e.nome}</a></li>)}</ul>
+      </>
+    )}
+    <nav class="prox-ant" aria-label="Navegação entre estruturas">
+      {ant ? <a href={`/estrategias/${ant.id}/`}>← {ant.nome}</a> : <span></span>}
+      {prox ? <a href={`/estrategias/${prox.id}/`}>{prox.nome} →</a> : <span></span>}
+    </nav>
+    <p class="aviso-legal">{DISCLAIMER}</p>
+  </section>
+  <script is:inline src="/lab-idade.js" defer></script>
+</Base>
