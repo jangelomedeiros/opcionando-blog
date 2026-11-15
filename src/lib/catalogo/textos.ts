@@ -8,6 +8,18 @@ import type { EstruturaJson } from './converter.ts';
 export interface ValorPerna { k: number | null; px: number }
 export interface Valores { spot: number; pernas: ValorPerna[]; comparacao: ValorPerna[]; be: number[] }
 
+/** Número, percentual, data, prazo em du ou mês escrito direto no texto (fica preso ao exemplo de 02/10). */
+export const NUMERO_FIXO = /\d+,\d+|\d+\s*%|\b\d{1,2}\/\d{1,2}\b|\b\d+\s*du\b|(?<!\p{L})(janeiro|fevereiro|março|abril|maio|junho|julho|agosto|setembro|outubro|novembro|dezembro)(?!\p{L})/iu;
+
+/**
+ * O texto pode usar os números da montagem atual? Só se a página usa o mercado, nenhum número/data ficou fixo
+ * e nenhum marcador foi escolhido entre mais de um candidato. Caso contrário, texto e tabela mostram o exemplo de 02/10.
+ */
+export function textoUsaMontagemAtual(e: { racional: string; esperado: string; notas: string[]; marcadores_ambiguos?: number }, fonte: 'mercado' | 'referencia'): boolean {
+  if (fonte !== 'mercado' || (e.marcadores_ambiguos ?? 0) > 0) return false;
+  return !NUMERO_FIXO.test([e.racional, e.esperado, ...e.notas].join(' '));
+}
+
 export const formatar = (v: number) =>
   v.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 

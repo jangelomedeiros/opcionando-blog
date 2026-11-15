@@ -26,18 +26,24 @@ function candidatos(v) {
 }
 
 const estruturas = JSON.parse(readFileSync(ORIGEM, 'utf8'));
+// Preserva campos acrescentados depois da migração (ex.: rótulos nivel/objetivo).
+const atuais = existsSync(DESTINO) ? Object.fromEntries(JSON.parse(readFileSync(DESTINO, 'utf8')).map((e) => [e.id, e])) : {};
 const linhas = [];
 for (const e of estruturas) {
+  for (const campo of ['nivel', 'objetivo']) if (atuais[e.id]?.[campo]) e[campo] = atuais[e.id][campo];
+  let ambiguos = 0;
   const cand = candidatos(valoresDaReferencia(e));
   const marcar = (texto) => texto.replace(/\d+,\d{2}/g, (n) => {
     const servem = [...new Set(cand.filter(([, x]) => formatar(x) === n).map(([m]) => m))];
     if (!servem.length) { linhas.push(`| ${e.id} | ${n} | — | sem correspondência: continua fixo |`); return n; }
+    if (servem.length > 1) ambiguos++;
     linhas.push(`| ${e.id} | ${n} | \`{${servem[0]}}\` | ${servem.length > 1 ? `conferir (também serviria: ${servem.slice(1).map((s) => `\`{${s}}\``).join(', ')})` : 'ok'} |`);
     return `{${servem[0]}}`;
   });
   e.racional = marcar(e.racional);
   e.esperado = marcar(e.esperado);
   e.notas = e.notas.map(marcar);
+  e.marcadores_ambiguos = ambiguos;
 }
 writeFileSync(DESTINO, JSON.stringify(estruturas, null, 1) + '\n');
 
@@ -47,6 +53,11 @@ const secao1 = `## 1. Números dos textos que viraram marcadores
 Os textos das estruturas (racional, "o que esperar" e notas) citavam os números do exemplo de 02/10/2026.
 Agora cada número vira um marcador que a página preenche com a montagem atual (grade mais recente).
 **Nenhuma palavra mudou**: com os valores de 02/10, os marcadores reproduzem o texto original.
+
+**Quando a página usa os números atuais:** só se a remontagem preservou o desenho da estrutura e o texto não tem
+nenhum número, percentual, data ou mês fixo nem marcador "conferir". Nos outros casos, o texto e a tabela da aba Visão
+mostram o exemplo de 02/10 (com a nota "Exemplo calibrado") e só o gráfico usa a grade mais recente. Para uma estrutura
+passar a usar os números atuais, reescreva os trechos fixos dela (veja as linhas "sem correspondência" e "conferir").
 
 - **ok**: só um valor da montagem servia.
 - **conferir**: mais de um valor servia; foi usado o primeiro. Confira se o sentido é esse.

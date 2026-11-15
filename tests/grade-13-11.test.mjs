@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { lerMercadoCsv, cenarioInicial } from '../src/lib/catalogo/converter.ts';
+import { lerMercadoCsv, cenarioInicial, posicaoHoje, remontagemCoerente } from '../src/lib/catalogo/converter.ts';
 import { resultado } from '../src/lib/motor/posicao.ts';
 import { metricasVencimento } from '../src/lib/motor/metricas.ts';
 import { diasUteis } from '../src/lib/motor/calendario.ts';
@@ -58,7 +58,7 @@ test('quantidades e hedges preservados', () => {
 test('cenário inicial de todas fecha em zero na entrada', () => {
   for (const e of ESTRUTURAS) {
     const { posicao, cenario, fonte } = cenarioInicial(e, m);
-    assert.equal(fonte, 'mercado', e.id);
+    assert.equal(fonte, remontagemCoerente(e, posicaoHoje(e, m).posicao) ? 'mercado' : 'referencia', e.id);
     const r = resultado(posicao, cenario);
     assert.ok(Math.abs(r) < 0.05, `${e.id}: ${r}`);
     const mt = metricasVencimento(posicao);

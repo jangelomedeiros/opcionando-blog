@@ -89,8 +89,30 @@ export function comparacaoHoje(est: EstruturaJson, m: Mercado): Posicao | null {
   return pernas.length ? { realizado: 0, pernas } : null;
 }
 
+const sinal = (x: number) => (Math.abs(x) < 1e-9 ? 0 : Math.sign(x));
+
+/**
+ * A remontagem preserva o desenho da referência? Para todo par de pernas de opção, a ordem (ou igualdade)
+ * dos strikes e dos vencimentos tem de ser a mesma. Grades com poucos strikes podem desmanchar o desenho
+ * (ex.: borboleta virando trava, THL sem o mesmo strike); nesse caso a página usa a referência.
+ */
+export function remontagemCoerente(est: EstruturaJson, atual: Posicao): boolean {
+  const ref = est.pernas;
+  if (ref.length !== atual.pernas.length) return false;
+  for (let i = 0; i < ref.length; i++) {
+    for (let j = i + 1; j < ref.length; j++) {
+      const [a, b, x, y] = [ref[i], ref[j], atual.pernas[i], atual.pernas[j]];
+      if (a.t === 'S' || b.t === 'S') continue;
+      if (sinal((a.k ?? 0) - (b.k ?? 0)) !== sinal((x.strike ?? 0) - (y.strike ?? 0))) return false;
+      const vr = (a.exp ?? '').localeCompare(b.exp ?? ''), va = (x.venc ?? '').localeCompare(y.venc ?? '');
+      if (Math.sign(vr) !== Math.sign(va)) return false;
+    }
+  }
+  return true;
+}
+
 export function cenarioInicial(est: EstruturaJson, m: Mercado): Inicial {
   const hoje = posicaoHoje(est, m);
-  if (hoje) return { ...hoje, fonte: 'mercado' };
+  if (hoje && remontagemCoerente(est, hoje.posicao)) return { ...hoje, fonte: 'mercado' };
   return { ...posicaoReferencia(est), fonte: 'referencia' };
 }

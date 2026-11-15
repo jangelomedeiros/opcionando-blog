@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { lerMercadoCsv, posicaoReferencia, cenarioInicial } from '../src/lib/catalogo/converter.ts';
+import { lerMercadoCsv, posicaoReferencia, cenarioInicial, posicaoHoje, remontagemCoerente } from '../src/lib/catalogo/converter.ts';
 import { resultado, primeiroVencimento } from '../src/lib/motor/posicao.ts';
 import { metricasVencimento } from '../src/lib/motor/metricas.ts';
 
@@ -20,11 +20,11 @@ test('lerMercadoCsv lê metadados e linhas', () => {
   assert.deepEqual([c.tipo, c.q, c.strike, c.venc, c.preco, c.vol], ['call', -1, 18.45, '2026-12-18', 0.74, 0.4511]);
 });
 
-test('as 62 estruturas têm cenário inicial do mercado', () => {
+test('as 62 estruturas usam o mercado se a remontagem for coerente, senão a referência', () => {
   assert.equal(ESTRUTURAS.length, 62);
   for (const e of ESTRUTURAS) {
     const { posicao, cenario, fonte } = cenarioInicial(e, m);
-    assert.equal(fonte, 'mercado', e.id);
+    assert.equal(fonte, remontagemCoerente(e, posicaoHoje(e, m).posicao) ? 'mercado' : 'referencia', e.id);
     const r = resultado(posicao, cenario);
     assert.ok(Number.isFinite(r) && Math.abs(r) < 0.05, `${e.id}: ${r}`);
   }

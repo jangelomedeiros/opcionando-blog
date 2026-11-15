@@ -6,6 +6,11 @@ Os textos das estruturas (racional, "o que esperar" e notas) citavam os números
 Agora cada número vira um marcador que a página preenche com a montagem atual (grade mais recente).
 **Nenhuma palavra mudou**: com os valores de 02/10, os marcadores reproduzem o texto original.
 
+**Quando a página usa os números atuais:** só se a remontagem preservou o desenho da estrutura e o texto não tem
+nenhum número, percentual, data ou mês fixo nem marcador "conferir". Nos outros casos, o texto e a tabela da aba Visão
+mostram o exemplo de 02/10 (com a nota "Exemplo calibrado") e só o gráfico usa a grade mais recente. Para uma estrutura
+passar a usar os números atuais, reescreva os trechos fixos dela (veja as linhas "sem correspondência" e "conferir").
+
 - **ok**: só um valor da montagem servia.
 - **conferir**: mais de um valor servia; foi usado o primeiro. Confira se o sentido é esse.
 - **sem correspondência**: o número não vem direto da montagem; continua fixo e pode ficar desatualizado. Reescreva à mão se precisar.
