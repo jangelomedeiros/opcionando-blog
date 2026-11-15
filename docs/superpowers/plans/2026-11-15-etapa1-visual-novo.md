@@ -55,7 +55,7 @@
 
 ---
 
-### Tarefa 1: Tokens dos dois temas, com contraste testado
+### Task 1 (Tarefa 1): Tokens dos dois temas, com contraste testado
 
 **Arquivos:**
 - Criar: `src/styles/tokens.css`, `scripts/lib/contraste.mjs`, `tests/contraste.test.mjs`
@@ -128,7 +128,7 @@ Mais um detalhe: o bloco `:root` declara `color-scheme: dark`, e o bloco claro d
 
 ---
 
-### Tarefa 2: Mecanismo de tema, estilos base, cabeçalho e rodapé
+### Task 2 (Tarefa 2): Mecanismo de tema, estilos base, cabeçalho e rodapé
 
 **Arquivos:**
 - Criar: `src/components/TemaToggle.astro`, `tests/html.test.mjs`
@@ -180,7 +180,7 @@ Mais um detalhe: o bloco `:root` declara `color-scheme: dark`, e o bloco claro d
 
 ---
 
-### Tarefa 3: Verificador de cores fixas e migração do Laboratório
+### Task 3 (Tarefa 3): Verificador de cores fixas e migração do Laboratório
 
 **Arquivos:**
 - Criar: `scripts/checar-cores.mjs`, `src/lib/familias.ts`, `tests/cores.test.mjs`, `tests/familias.test.mjs`
@@ -234,7 +234,7 @@ Mais um detalhe: o bloco `:root` declara `color-scheme: dark`, e o bloco claro d
 
 ---
 
-### Tarefa 4: Migrar todos os outros componentes e páginas
+### Task 4 (Tarefa 4): Migrar todos os outros componentes e páginas
 
 **Arquivos (modificar, todos os que hoje têm cor fixa):**
 - `src/pages/analises/[...slug].astro` (cerca de 39 ocorrências), `src/pages/analises/index.astro`, `src/pages/analises/ativo/[ticker].astro`
@@ -292,7 +292,7 @@ Mais um detalhe: o bloco `:root` declara `color-scheme: dark`, e o bloco claro d
 
 ---
 
-### Tarefa 5: Revisão final e prévia para o dono
+### Task 5 (Tarefa 5): Revisão final e prévia para o dono
 
 **Arquivos:** nenhum novo. Só ajustes que a revisão encontrar.
 
