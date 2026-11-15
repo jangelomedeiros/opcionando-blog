@@ -10,7 +10,7 @@ import { opcaoDaGrade, diasDaOpcao, trajetoriaCenario, trechosHistoricos, type T
 
 const call = opcaoDaGrade(GRADE as any, 'call');
 const put = opcaoDaGrade(GRADE as any, 'put');
-const dias = diasDaOpcao(call) - 1; // número de passos: o último é o vencimento
+const dias = diasDaOpcao(call); // um passo por pregão até o vencimento (inclusive)
 const reais = trechosHistoricos(CANDLES as any, dias, call.spot).map((t) => ({ ...t, grupo: 'real' as const }));
 const CEN: [TipoCenario, string][] = [
   ['alta-lenta', 'Alta lenta (+8% até o vencimento)'],
@@ -33,7 +33,7 @@ const dataBr = (iso: string) => `${iso.slice(8, 10)}/${iso.slice(5, 7)}/${iso.sl
       <noscript>
         <div class="jp-estatico">
           <p><b>{call.ticker}</b>: CALL de BBAS3, strike R$ {br(call.strike)}, vencimento {dataBr(call.venc)}. Prêmio de entrada R$ {br(call.premio)} em {dataBr(call.data)} (ação a R$ {br(call.spot)}).</p>
-          <p><b>Comprador</b>: paga R$ {br(call.premio)} e ganha o direito de comprar a ação a R$ {br(call.strike)}. Ganha se a alta superar o prêmio; o tempo trabalha contra ele.</p>
+          <p><b>Comprador</b>: paga R$ {br(call.premio)} e ganha o direito de comprar a ação a R$ {br(call.strike)}. No vencimento, só termina no lucro se a ação passar de R$ {br(call.strike + call.premio)} (strike + prêmio); até lá, o tempo trabalha contra ele.</p>
           <p><b>Vendedor</b>: recebe R$ {br(call.premio)} e assume a obrigação de vender a R$ {br(call.strike)}. O tempo trabalha a favor; uma alta forte trabalha contra.</p>
           <p>Ative o JavaScript para fazer o tempo correr e ver a decomposição do resultado dia a dia.</p>
         </div>

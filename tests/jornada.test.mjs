@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { opcaoDaGrade, trajetoriaCenario, trechosHistoricos, jornada, comentario } from '../src/lib/conceitos/jornada.ts';
+import { opcaoDaGrade, diasDaOpcao, trajetoriaCenario, trechosHistoricos, jornada, comentario, equacaoValor } from '../src/lib/conceitos/jornada.ts';
 
 const ler = (p) => readFileSync(new URL(`../${p}`, import.meta.url), 'utf8');
 const GRADE = JSON.parse(ler('src/data/grades/bbas3-2026-11-13.json'));
@@ -9,7 +9,7 @@ const CANDLES = JSON.parse(ler('src/data/candles/bbas3-2026-11-12.json'));
 const CENARIOS = ['alta-lenta', 'queda-brusca', 'lateral', 'gap-balanco'];
 const perto = (a, b, tol, msg = '') => assert.ok(Math.abs(a - b) <= tol, `${msg} ${a} vs ${b}`);
 const call = opcaoDaGrade(GRADE, 'call'), put = opcaoDaGrade(GRADE, 'put');
-const DIAS = GRADE.vencimentos[call.venc];
+const DIAS = diasDaOpcao(call);
 
 test('opção da grade: ATM de 18/12 com prêmio real e jornada começa no prêmio', () => {
   assert.equal(call.venc, '2026-12-18');
@@ -81,4 +81,23 @@ test('comentário', () => {
     const { preco, tempo, vol } = d.contrib;
     if (d.n > 0 && Math.abs(tempo) > Math.abs(preco) && Math.abs(tempo) > Math.abs(vol)) assert.match(c, /tempo/, c);
   }
+});
+
+test('a jornada passa por todos os pregões até o vencimento', () => {
+  const datas = jornada(call, trajetoriaCenario('lateral', call.spot, DIAS)).map((d) => d.data);
+  assert.equal(new Set(datas).size, datas.length);
+  assert.ok(datas.includes('2026-12-17'));
+  assert.equal(datas.at(-1), '2026-12-18');
+});
+
+test('trechos históricos não se repetem', () => {
+  const t = trechosHistoricos(CANDLES, DIAS, 15.1);
+  const assinaturas = t.map((x) => x.precos.map((p) => p.toFixed(4)).join());
+  assert.equal(new Set(assinaturas).size, t.length);
+});
+
+test('equação do valor fecha mesmo com extrínseco negativo', () => {
+  const d = { valor: 4.538, intrinseco: 4.556, extrinseco: 4.538 - 4.556 };
+  assert.equal(equacaoValor(d), 'R$ 4,54 = 4,56 − 0,02');
+  assert.equal(equacaoValor({ valor: 0.71, intrinseco: 0, extrinseco: 0.71 }), 'R$ 0,71 = 0,00 + 0,71');
 });

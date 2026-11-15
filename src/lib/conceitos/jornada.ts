@@ -52,15 +52,26 @@ export function trechosHistoricos(candles: { d: string; c: number }[], dias: num
   if (!inicios.length) return [];
   const ret = (s: number) => c[s + dias] / c[s] - 1;
   const amp = (s: number) => { const w = c.slice(s, s + dias + 1); return (Math.max(...w) - Math.min(...w)) / c[s]; };
-  const escolher = (f: (s: number) => number, max: boolean) => inicios.reduce((m, s) => ((max ? f(s) > f(m) : f(s) < f(m)) ? s : m));
+  // Cada trecho escolhido exclui os que se sobrepõem a ele em mais da metade (não repete trajetória).
+  const usados: number[] = [];
+  const livre = (s: number) => usados.every((u) => Math.abs(u - s) > dias / 2);
+  const escolher = (f: (s: number) => number, max: boolean): number | null => {
+    const cand = inicios.filter(livre);
+    if (!cand.length) return null;
+    const s = cand.reduce((m, x) => ((max ? f(x) > f(m) : f(x) < f(m)) ? x : m));
+    usados.push(s);
+    return s;
+  };
   const periodo = (s: number) => `${dataBr(candles[s].d)} a ${dataBr(candles[s + dias].d)}`;
   const montar = (id: string, nome: string, s: number): Trecho => ({ id, nome: `${nome} (${periodo(s)}/${candles[s + dias].d.slice(2, 4)})`, precos: c.slice(s, s + dias + 1).map((x) => (spot * x) / c[s]) });
-  return [
-    montar('maior-alta', 'Maior alta', escolher(ret, true)),
-    montar('maior-queda', 'Maior queda', escolher(ret, false)),
-    montar('mais-lateral', 'Mais lateral', escolher(amp, false)),
-    montar('mais-recente', 'Mais recente', inicios[inicios.length - 1]),
+  const recente = (s: number) => s; // o mais recente é o de maior início ainda livre
+  const escolhas: [string, string, number | null][] = [
+    ['maior-alta', 'Maior alta', escolher(ret, true)],
+    ['maior-queda', 'Maior queda', escolher(ret, false)],
+    ['mais-lateral', 'Menor oscilação', escolher(amp, false)],
+    ['mais-recente', 'Mais recente', escolher(recente, true)],
   ];
+  return escolhas.filter((e): e is [string, string, number] => e[2] !== null).map(([id, nome, s]) => montar(id, nome, s));
 }
 
 export function jornada(op: Opcao, precos: number[], choqueVol = 0): Dia[] {
@@ -84,6 +95,12 @@ export function jornada(op: Opcao, precos: number[], choqueVol = 0): Dia[] {
     dias.push({ n, data, spot, du: diasUteis(data, op.venc), valor, intrinseco, extrinseco: valor - intrinseco, comprador, vendedor: -comprador, contrib: { ...acum } });
   });
   return dias;
+}
+
+/** "R$ valor = intrínseco ± extrínseco" (o extrínseco de uma PUT europeia funda pode ser negativo com juros altos). */
+export function equacaoValor(d: { valor: number; intrinseco: number; extrinseco: number }): string {
+  const ext = d.extrinseco;
+  return `R$ ${brl(d.valor)} = ${brl(d.intrinseco)} ${ext < -0.005 ? '−' : '+'} ${brl(ext < -0.005 ? ext : Math.max(ext, 0))}`;
 }
 
 /** Frase curta, descritiva (nunca prescreve), do ponto de vista dos dois lados. */

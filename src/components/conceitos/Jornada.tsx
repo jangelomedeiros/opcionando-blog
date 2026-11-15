@@ -2,7 +2,7 @@
 // Ilha da Jornada do prêmio: uma opção, os dois lados da mesa, o mercado andando dia a dia.
 // A matemática vem de src/lib/conceitos/jornada.ts (testada).
 import { useEffect, useMemo, useState } from 'preact/hooks';
-import { jornada, comentario, type Opcao } from '../../lib/conceitos/jornada.ts';
+import { jornada, comentario, equacaoValor, type Opcao } from '../../lib/conceitos/jornada.ts';
 
 export interface Trajetoria { id: string; nome: string; grupo: 'real' | 'cenario'; precos: number[] }
 export interface DadosJornada { call: Opcao; put: Opcao; trajetorias: Trajetoria[] }
@@ -111,7 +111,7 @@ export default function Jornada({ dados }: { dados: DadosJornada }) {
       </div>
 
       <div class="jp-bloco">
-        <p class="jp-titulo">Valor da opção: <span class="k-int">intrínseco</span> + <span class="k-ext">extrínseco (tempo e vol)</span> · hoje R$ {num(d.valor)} = {num(d.intrinseco)} + {num(Math.max(d.extrinseco, 0))}</p>
+        <p class="jp-titulo">Valor da opção: <span class="k-int">intrínseco</span> + <span class="k-ext">extrínseco (tempo e vol)</span> · hoje {equacaoValor(d)}{d.extrinseco < -0.005 ? ' (com juros altos, uma PUT europeia funda pode valer menos que o intrínseco)' : ''}</p>
         <svg class="jp-svg" viewBox={`0 0 ${W} ${H}`} role="img" aria-label="Valor da opção ao longo dos dias">
           <path class="jp-futuro" d={linha(dias.map((x) => [ev.X(x.n), ev.Y(x.valor)]))} />
           <path class="jp-ext" d={areaExt} />

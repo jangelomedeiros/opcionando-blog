@@ -26,3 +26,11 @@ test('menu ganha Conceitos e mantém os itens', () => {
   assert.match(nav, /href="\/conceitos"/);
   for (const x of ['/comece-aqui', '/acoes', '/analises', '/macro', '/estrategias', '/supercoberta', '/ferramentas', '/estudos', '/glossario', '/artigos']) assert.ok(nav.includes(`href="${x}"`), x);
 });
+
+test('sem JavaScript, o equilíbrio do comprador é strike + prêmio', () => {
+  const op = opcaoDaGrade(GRADE, 'call');
+  const be = (op.strike + op.premio).toFixed(2).replace('.', ',');
+  const ns = ler('dist/conceitos/jornada-do-premio/index.html').match(/<noscript>([\s\S]*?)<\/noscript>/)[1];
+  assert.ok(ns.includes(be), be);
+  assert.doesNotMatch(ns, /alta superar o prêmio/);
+});
