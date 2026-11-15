@@ -1,5 +1,6 @@
 ---
 import '../../styles/laboratorio.css';
+import '../../styles/catalogo.css';
 import Base from '../../layouts/Base.astro';
 import { DISCLAIMER } from '../../consts';
 import { ESTRUTURAS, POPS, FAM_COR, FAM_ORDEM, grafico, teoria, lerMercado, hoje, hojeIso } from '../../lib/laboratorio';
@@ -11,6 +12,8 @@ const itens = ESTRUTURAS.map((e) => {
   const h = hoje(e, meta, mercado, hj);
   return { e, svg: grafico(at, spot0, { mini: true, comp: comp0 }), tem: h.tem, visao: POPS[e.pop]?.visao ?? '' };
 });
+const NIVEIS = ['Iniciante', 'Intermediário', 'Avançado'];
+const OBJETIVOS = ['Renda', 'Direcional', 'Proteção', 'Volatilidade', 'Ajuste'];
 const fams = FAM_ORDEM.filter((f) => itens.some((i) => i.e.familia === f));
 const comReais = itens.filter((i) => i.tem).length;
 ---
@@ -25,17 +28,28 @@ const comReais = itens.filter((i) => i.tem).length;
       <button type="button" class="fbtn on" data-f="" style="--fc:var(--marca)">Todas</button>
       {fams.map((f) => <button type="button" class="fbtn" data-f={f} style={`--fc:${FAM_COR[f]}`}>{f}</button>)}
     </div>
+    <div class="filtros filtros-rotulo" role="group" aria-label="Filtrar por nível">
+      <span class="filtro-nome">Nível</span>
+      <button type="button" class="rbtn on" data-nivel="" style="--fc:var(--destaque)">Todos</button>
+      {NIVEIS.map((n) => <button type="button" class="rbtn" data-nivel={n} style="--fc:var(--destaque)">{n}</button>)}
+    </div>
+    <div class="filtros filtros-rotulo" role="group" aria-label="Filtrar por objetivo">
+      <span class="filtro-nome">Objetivo</span>
+      <button type="button" class="rbtn on" data-objetivo="" style="--fc:var(--destaque)">Todos</button>
+      {OBJETIVOS.map((o) => <button type="button" class="rbtn" data-objetivo={o} style="--fc:var(--destaque)">{o}</button>)}
+    </div>
 
     {fams.map((f) => (
       <section class="familia" data-fam={f}>
         <h2 style={`--fc:${FAM_COR[f]}`}>{f}</h2>
         <ul class="lab-grid">
           {itens.filter((i) => i.e.familia === f).map((i) => (
-            <li>
-              <a class="lab-card" href={`/estrategias/${i.e.id}/`} style={`--fc:${FAM_COR[f]}`}>
+            <li data-nivel={i.e.nivel} data-objetivo={i.e.objetivo}>
+              <a class="lab-card" href={`/estrategias/${i.e.id}/`} data-nivel={i.e.nivel} data-objetivo={i.e.objetivo} style={`--fc:${FAM_COR[f]}`}>
                 <Fragment set:html={i.svg} />
                 <span class="titulo">{i.e.nome}</span>
                 {i.visao && <span class="resumo">{i.visao}</span>}
+                <span class="resumo rotulos">{i.e.nivel} · {i.e.objetivo}</span>
                 {i.tem && <span class="selo coral">com preços reais</span>}
               </a>
             </li>
@@ -46,12 +60,29 @@ const comReais = itens.filter((i) => i.tem).length;
     <p class="aviso-legal">{DISCLAIMER}</p>
   </section>
   <script is:inline>
-    document.querySelectorAll('.fbtn').forEach(function (b) {
-      b.addEventListener('click', function () {
-        var f = b.getAttribute('data-f');
-        document.querySelectorAll('.fbtn').forEach(function (x) { x.classList.toggle('on', x === b); });
-        document.querySelectorAll('.familia').forEach(function (s) { s.hidden = !!f && s.getAttribute('data-fam') !== f; });
+    // Filtros combinados: família, nível e objetivo. Sem JavaScript, tudo aparece.
+    var ativo = { f: '', nivel: '', objetivo: '' };
+    function aplicar() {
+      document.querySelectorAll('.familia').forEach(function (s) {
+        var visiveis = 0;
+        s.querySelectorAll('li[data-nivel]').forEach(function (li) {
+          var ok = (!ativo.nivel || li.getAttribute('data-nivel') === ativo.nivel) && (!ativo.objetivo || li.getAttribute('data-objetivo') === ativo.objetivo);
+          li.hidden = !ok; if (ok) visiveis++;
+        });
+        s.hidden = (!!ativo.f && s.getAttribute('data-fam') !== ativo.f) || visiveis === 0;
       });
-    });
+    }
+    function ligar(sel, attr, chave) {
+      document.querySelectorAll(sel).forEach(function (b) {
+        b.addEventListener('click', function () {
+          ativo[chave] = b.getAttribute(attr);
+          document.querySelectorAll(sel).forEach(function (x) { x.classList.toggle('on', x === b); x.setAttribute('aria-pressed', String(x === b)); });
+          aplicar();
+        });
+      });
+    }
+    ligar('.fbtn', 'data-f', 'f');
+    ligar('.rbtn[data-nivel]', 'data-nivel', 'nivel');
+    ligar('.rbtn[data-objetivo]', 'data-objetivo', 'objetivo');
   </script>
 </Base>

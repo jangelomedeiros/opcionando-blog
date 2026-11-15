@@ -73,6 +73,12 @@
 .abas-painel[hidden] { display: none; }
 .abas-painel > :first-child { margin-top: 0; }
 .ficha-corpo { margin-top: 1.6rem; }
+.chip-rotulo { display: inline-block; margin-left: 8px; font-size: 0.72rem; font-weight: 600; padding: 1px 9px; border-radius: 999px; border: 1px solid var(--borda-forte); color: var(--texto); }
+.filtros-rotulo { align-items: center; margin-top: -0.4rem; }
+.filtro-nome { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--texto-suave); margin-right: 4px; }
+.rbtn { font: 600 .8rem var(--font-texto); padding: 4px 12px; border-radius: 999px; border: 1px solid var(--borda-forte); background: transparent; color: var(--texto); cursor: pointer; }
+.rbtn.on { background: var(--destaque); border-color: var(--destaque); color: var(--fundo); }
+li[hidden] { display: none; }
 .ge-dica { margin: 0 0 4px; font-size: 0.8rem; color: var(--texto-suave); }
 .ficha { margin: 1.4rem 0; border: 1px solid var(--borda); border-radius: var(--raio); background: var(--superficie); overflow: hidden; }
 .ficha dl { margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }

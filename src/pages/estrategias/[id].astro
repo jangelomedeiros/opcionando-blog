@@ -63,7 +63,7 @@ const descricao = `${est.nome}: gráfico de payoff interativo, gregas, procedime
 <Base title={`${est.nome} | Catálogo de estratégias`} description={descricao}>
   <section class="container-larga pagina lab est" style={`--fc:${cor}`}>
     <p class="sobretitulo"><a href="/estrategias/">Catálogo de estratégias</a></p>
-    <p class="chip-wrap"><span class="chip">{est.familia}</span>{pop?.visao && <span class="visao">{pop.visao}</span>}</p>
+    <p class="chip-wrap"><span class="chip">{est.familia}</span><span class="chip-rotulo">{est.nivel}</span><span class="chip-rotulo">{est.objetivo}</span>{pop?.visao && <span class="visao">{pop.visao}</span>}</p>
     <h1>{est.nome}</h1>
     <p class="intro">{racional}</p>
 

@@ -33,6 +33,8 @@ export interface Estrutura {
   lab_points?: { x: number; y: number }[];
   lab_stats: { prob: number; be: number[]; best: number; worst: number; sig?: number; openUp?: string | null };
   curva_lab?: boolean;
+  nivel: 'Iniciante' | 'Intermediário' | 'Avançado';
+  objetivo: 'Renda' | 'Direcional' | 'Proteção' | 'Volatilidade' | 'Ajuste';
 }
 export interface Pop {
   nome: string; fam: string; visao: string; objetivo: string; contexto: string; janela: string;

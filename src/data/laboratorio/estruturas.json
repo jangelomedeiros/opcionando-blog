@@ -46,7 +46,9 @@
    "d0": 31,
    "openUp": null,
    "slopeDown": 1
-  }
+  },
+  "nivel": "Iniciante",
+  "objetivo": "Renda"
  },
  {
   "id": "cash-put",
@@ -86,7 +88,9 @@
    "d0": 31,
    "openUp": null,
    "slopeDown": 1
-  }
+  },
+  "nivel": "Iniciante",
+  "objetivo": "Renda"
  },
  {
   "id": "booster-call",
@@ -144,7 +148,9 @@
    "d0": 31,
    "openUp": null,
    "slopeDown": 1
-  }
+  },
+  "nivel": "Intermediário",
+  "objetivo": "Renda"
  },
  {
   "id": "booster-put",
@@ -195,7 +201,9 @@
    "d0": 31,
    "openUp": null,
    "slopeDown": 1
-  }
+  },
+  "nivel": "Intermediário",
+  "objetivo": "Renda"
  },
  {
   "id": "b1",
@@ -263,7 +271,9 @@
    "d0": 8,
    "openUp": "loss",
    "slopeDown": 1
-  }
+  },
+  "nivel": "Avançado",
+  "objetivo": "Renda"
  },
  {
   "id": "b2",
@@ -333,7 +343,9 @@
    "d0": 31,
    "openUp": "loss",
    "slopeDown": 1
-  }
+  },
+  "nivel": "Avançado",
+  "objetivo": "Renda"
  },
  {
   "id": "b3-2x3",
@@ -401,7 +413,9 @@
    "d0": 31,
    "openUp": "loss",
    "slopeDown": 1
-  }
+  },
+  "nivel": "Avançado",
+  "objetivo": "Renda"
  },
  {
   "id": "b3-3x4",
@@ -469,7 +483,9 @@
    "d0": 31,
    "openUp": "loss",
    "slopeDown": 1
-  }
+  },
+  "nivel": "Avançado",
+  "objetivo": "Renda"
  },
  {
   "id": "bwb",
@@ -527,7 +543,9 @@
    "d0": 8,
    "openUp": null,
    "slopeDown": 0
-  }
+  },
+  "nivel": "Avançado",
+  "objetivo": "Volatilidade"
  },
  {
   "id": "collar",
@@ -585,7 +603,9 @@
    "d0": 31,
    "openUp": null,
    "slopeDown": 0
-  }
+  },
+  "nivel": "Intermediário",
+  "objetivo": "Proteção"
  },
  {
   "id": "bull-spread",
@@ -634,7 +654,9 @@
    "d0": 8,
    "openUp": null,
    "slopeDown": 0
-  }
+  },
+  "nivel": "Intermediário",
+  "objetivo": "Direcional"
  },
  {
   "id": "bear-put-spread",
@@ -683,7 +705,9 @@
    "d0": 8,
    "openUp": null,
    "slopeDown": 0
-  }
+  },
+  "nivel": "Intermediário",
+  "objetivo": "Direcional"
  },
  {
   "id": "thl-call",
@@ -733,7 +757,9 @@
    "d0": 18,
    "openUp": null,
    "slopeDown": 0.002
-  }
+  },
+  "nivel": "Avançado",
+  "objetivo": "Renda"
  },
  {
   "id": "clade",
@@ -801,7 +827,9 @@
    "d0": 8,
    "openUp": "loss",
    "slopeDown": 1.031
-  }
+  },
+  "nivel": "Avançado",
+  "objetivo": "Renda"
  },
  {
   "id": "straddle-long-put",
@@ -859,7 +887,9 @@
    "d0": 8,
    "openUp": "loss",
    "slopeDown": 0.035
-  }
+  },
+  "nivel": "Avançado",
+  "objetivo": "Volatilidade"
  },
  {
   "id": "mannerheim",
@@ -1187,7 +1217,9 @@
    "openUp": "loss",
    "slopeDown": 0
   },
-  "curva_lab": true
+  "curva_lab": true,
+  "nivel": "Avançado",
+  "objetivo": "Volatilidade"
  },
  {
   "id": "quatermine-v1",
@@ -1506,7 +1538,9 @@
    "openUp": "loss",
    "slopeDown": 0.204
   },
-  "curva_lab": true
+  "curva_lab": true,
+  "nivel": "Avançado",
+  "objetivo": "Volatilidade"
  },
  {
   "id": "quatermine-v2",
@@ -1815,7 +1849,9 @@
    "openUp": "gain",
    "slopeDown": 1.008
   },
-  "curva_lab": true
+  "curva_lab": true,
+  "nivel": "Avançado",
+  "objetivo": "Volatilidade"
  },
  {
   "id": "hexabox",
@@ -2134,7 +2170,9 @@
    "openUp": "loss",
    "slopeDown": 0.034
   },
-  "curva_lab": true
+  "curva_lab": true,
+  "nivel": "Avançado",
+  "objetivo": "Volatilidade"
  },
  {
   "id": "monada-basica-call",
@@ -2426,7 +2464,9 @@
    "openUp": "loss",
    "slopeDown": 0.244
   },
-  "curva_lab": true
+  "curva_lab": true,
+  "nivel": "Avançado",
+  "objetivo": "Volatilidade"
  },
  {
   "id": "monada-basica-put",
@@ -2718,7 +2758,9 @@
    "openUp": "loss",
    "slopeDown": 0.2
   },
-  "curva_lab": true
+  "curva_lab": true,
+  "nivel": "Avançado",
+  "objetivo": "Volatilidade"
  },
  {
   "id": "call-compra",
@@ -2758,7 +2800,9 @@
    "d0": 31,
    "openUp": "gain",
    "slopeDown": 0
-  }
+  },
+  "nivel": "Iniciante",
+  "objetivo": "Direcional"
  },
  {
   "id": "call-venda",
@@ -2800,7 +2844,9 @@
    "d0": 31,
    "openUp": "loss",
    "slopeDown": 0
-  }
+  },
+  "nivel": "Avançado",
+  "objetivo": "Renda"
  },
  {
   "id": "put-compra",
@@ -2840,7 +2886,9 @@
    "d0": 31,
    "openUp": null,
    "slopeDown": -1
-  }
+  },
+  "nivel": "Iniciante",
+  "objetivo": "Proteção"
  },
  {
   "id": "trava-alta-put",
@@ -2889,7 +2937,9 @@
    "d0": 8,
    "openUp": null,
    "slopeDown": 0
-  }
+  },
+  "nivel": "Intermediário",
+  "objetivo": "Direcional"
  },
  {
   "id": "trava-baixa-call",
@@ -2938,7 +2988,9 @@
    "d0": 8,
    "openUp": null,
    "slopeDown": 0
-  }
+  },
+  "nivel": "Intermediário",
+  "objetivo": "Direcional"
  },
  {
   "id": "seagull",
@@ -2998,7 +3050,9 @@
    "d0": 31,
    "openUp": null,
    "slopeDown": 1
-  }
+  },
+  "nivel": "Intermediário",
+  "objetivo": "Direcional"
  },
  {
   "id": "fence",
@@ -3065,7 +3119,9 @@
    "d0": 31,
    "openUp": null,
    "slopeDown": 1
-  }
+  },
+  "nivel": "Intermediário",
+  "objetivo": "Proteção"
  },
  {
   "id": "straddle-compra",
@@ -3115,7 +3171,9 @@
    "d0": 31,
    "openUp": "gain",
    "slopeDown": -1
-  }
+  },
+  "nivel": "Intermediário",
+  "objetivo": "Volatilidade"
  },
  {
   "id": "strangle-compra",
@@ -3165,7 +3223,9 @@
    "d0": 31,
    "openUp": "gain",
    "slopeDown": -1
-  }
+  },
+  "nivel": "Intermediário",
+  "objetivo": "Volatilidade"
  },
  {
   "id": "straddle-venda",
@@ -3215,7 +3275,9 @@
    "d0": 31,
    "openUp": "loss",
    "slopeDown": 1
-  }
+  },
+  "nivel": "Avançado",
+  "objetivo": "Volatilidade"
  },
  {
   "id": "strangle-venda",
@@ -3265,7 +3327,9 @@
    "d0": 31,
    "openUp": "loss",
    "slopeDown": 1
-  }
+  },
+  "nivel": "Avançado",
+  "objetivo": "Volatilidade"
  },
  {
   "id": "condor",
@@ -3333,7 +3397,9 @@
    "d0": 31,
    "openUp": null,
    "slopeDown": 0
-  }
+  },
+  "nivel": "Intermediário",
+  "objetivo": "Volatilidade"
  },
  {
   "id": "borboleta",
@@ -3392,7 +3458,9 @@
    "d0": 31,
    "openUp": null,
    "slopeDown": 0
-  }
+  },
+  "nivel": "Intermediário",
+  "objetivo": "Volatilidade"
  },
  {
   "id": "thl-put",
@@ -3443,7 +3511,9 @@
    "d0": 31,
    "openUp": null,
    "slopeDown": 0.003
-  }
+  },
+  "nivel": "Avançado",
+  "objetivo": "Renda"
  },
  {
   "id": "thl-perene",
@@ -3493,7 +3563,9 @@
    "d0": 31,
    "openUp": null,
    "slopeDown": 0.003
-  }
+  },
+  "nivel": "Avançado",
+  "objetivo": "Renda"
  },
  {
   "id": "calendar-butterfly",
@@ -3552,7 +3624,9 @@
    "d0": 8,
    "openUp": "loss",
    "slopeDown": 0.029
-  }
+  },
+  "nivel": "Avançado",
+  "objetivo": "Renda"
  },
  {
   "id": "booster-fly",
@@ -3619,7 +3693,9 @@
    "d0": 8,
    "openUp": "gain",
    "slopeDown": 1.002
-  }
+  },
+  "nivel": "Avançado",
+  "objetivo": "Renda"
  },
  {
   "id": "malha-bw",
@@ -3678,7 +3754,9 @@
    "d0": 31,
    "openUp": null,
    "slopeDown": 0
-  }
+  },
+  "nivel": "Avançado",
+  "objetivo": "Volatilidade"
  },
  {
   "id": "hyperfly",
@@ -3737,7 +3815,9 @@
    "d0": 31,
    "openUp": null,
    "slopeDown": 0
-  }
+  },
+  "nivel": "Avançado",
+  "objetivo": "Volatilidade"
  },
  {
   "id": "fly-modular",
@@ -3806,7 +3886,9 @@
    "d0": 31,
    "openUp": null,
    "slopeDown": 1
-  }
+  },
+  "nivel": "Avançado",
+  "objetivo": "Volatilidade"
  },
  {
   "id": "modulo-q",
@@ -3856,7 +3938,9 @@
    "d0": 8,
    "openUp": "loss",
    "slopeDown": 0.018
-  }
+  },
+  "nivel": "Avançado",
+  "objetivo": "Renda"
  },
  {
   "id": "booster-horizontal",
@@ -3905,7 +3989,9 @@
    "d0": 8,
    "openUp": null,
    "slopeDown": 0.517
-  }
+  },
+  "nivel": "Avançado",
+  "objetivo": "Renda"
  },
  {
   "id": "linha-mannerheim",
@@ -3964,7 +4050,9 @@
    "d0": 8,
    "openUp": "loss",
    "slopeDown": 1.043
-  }
+  },
+  "nivel": "Avançado",
+  "objetivo": "Direcional"
  },
  {
   "id": "gl-shortput-booster",
@@ -4031,7 +4119,9 @@
    "d0": 8,
    "openUp": "loss",
    "slopeDown": 2.029
-  }
+  },
+  "nivel": "Avançado",
+  "objetivo": "Direcional"
  },
  {
   "id": "asym-wings-diagonal",
@@ -4090,7 +4180,9 @@
    "d0": 8,
    "openUp": null,
    "slopeDown": 0.058
-  }
+  },
+  "nivel": "Avançado",
+  "objetivo": "Direcional"
  },
  {
   "id": "straddle-perene",
@@ -4148,7 +4240,9 @@
    "d0": 8,
    "openUp": null,
    "slopeDown": 1.014
-  }
+  },
+  "nivel": "Avançado",
+  "objetivo": "Volatilidade"
  },
  {
   "id": "strangle-p",
@@ -4206,7 +4300,9 @@
    "d0": 8,
    "openUp": null,
    "slopeDown": 1.011
-  }
+  },
+  "nivel": "Avançado",
+  "objetivo": "Renda"
  },
  {
   "id": "box-perene",
@@ -4273,7 +4369,9 @@
    "d0": 31,
    "openUp": null,
    "slopeDown": 0
-  }
+  },
+  "nivel": "Avançado",
+  "objetivo": "Renda"
  },
  {
   "id": "box-p",
@@ -4341,7 +4439,9 @@
    "d0": 8,
    "openUp": "loss",
    "slopeDown": 0.028
-  }
+  },
+  "nivel": "Avançado",
+  "objetivo": "Renda"
  },
  {
   "id": "colar-perene",
@@ -4399,7 +4499,9 @@
    "d0": 31,
    "openUp": null,
    "slopeDown": 0.009
-  }
+  },
+  "nivel": "Intermediário",
+  "objetivo": "Proteção"
  },
  {
   "id": "financiamento",
@@ -4448,7 +4550,9 @@
    "d0": 31,
    "openUp": null,
    "slopeDown": 1
-  }
+  },
+  "nivel": "Iniciante",
+  "objetivo": "Renda"
  },
  {
   "id": "dividendo-sint",
@@ -4497,7 +4601,9 @@
    "d0": 31,
    "openUp": "gain",
    "slopeDown": 1
-  }
+  },
+  "nivel": "Iniciante",
+  "objetivo": "Renda"
  },
  {
   "id": "anakha",
@@ -4558,7 +4664,9 @@
    "d0": 4,
    "openUp": null,
    "slopeDown": 1
-  }
+  },
+  "nivel": "Avançado",
+  "objetivo": "Renda"
  },
  {
   "id": "hedge-inverse",
@@ -4626,7 +4734,9 @@
    "d0": 8,
    "openUp": null,
    "slopeDown": 1
-  }
+  },
+  "nivel": "Avançado",
+  "objetivo": "Ajuste"
  },
  {
   "id": "hedge-straddle-din",
@@ -4704,7 +4814,9 @@
    "d0": 8,
    "openUp": "loss",
    "slopeDown": 1
-  }
+  },
+  "nivel": "Avançado",
+  "objetivo": "Ajuste"
  },
  {
   "id": "hedge-booster-h",
@@ -4773,7 +4885,9 @@
    "d0": 8,
    "openUp": "loss",
    "slopeDown": 1.017
-  }
+  },
+  "nivel": "Avançado",
+  "objetivo": "Ajuste"
  },
  {
   "id": "hedge-calendar-line",
@@ -4851,7 +4965,9 @@
    "d0": 8,
    "openUp": "loss",
    "slopeDown": 1.014
-  }
+  },
+  "nivel": "Avançado",
+  "objetivo": "Ajuste"
  },
  {
   "id": "hedge-mannerheim",
@@ -4929,7 +5045,9 @@
    "d0": 8,
    "openUp": "loss",
    "slopeDown": 1.043
-  }
+  },
+  "nivel": "Avançado",
+  "objetivo": "Ajuste"
  },
  {
   "id": "hedge-booster-v",
@@ -4998,7 +5116,9 @@
    "d0": 8,
    "openUp": "loss",
    "slopeDown": 1
-  }
+  },
+  "nivel": "Avançado",
+  "objetivo": "Ajuste"
  },
  {
   "id": "hedge-assimetrico",
@@ -5066,7 +5186,9 @@
    "d0": 8,
    "openUp": "gain",
    "slopeDown": 1.021
-  }
+  },
+  "nivel": "Avançado",
+  "objetivo": "Ajuste"
  },
  {
   "id": "hedge-straddle-ha",
@@ -5134,6 +5256,8 @@
    "d0": 8,
    "openUp": "gain",
    "slopeDown": 1.012
-  }
+  },
+  "nivel": "Avançado",
+  "objetivo": "Ajuste"
  }
 ]

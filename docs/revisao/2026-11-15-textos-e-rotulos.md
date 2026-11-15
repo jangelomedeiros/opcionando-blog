@@ -185,3 +185,71 @@ Agora cada número vira um marcador que a página preenche com a montagem atual 
 | hedge-straddle-ha | 23,79 | `{p1.k}` | conferir (também serviria: `{p2.k}`, `{c1.k}`) |
 | hedge-straddle-ha | 25,04 | `{p3.k}` | ok |
 
+## 2. Rótulos de nível e objetivo (rascunho)
+
+Rascunho do Claude para os filtros do catálogo, a partir da família e do racional de cada estrutura. **Revise e corrija direto em `src/data/laboratorio/estruturas.json`** (campos `nivel` e `objetivo`).
+
+| Estrutura | Nível | Objetivo | Motivo |
+|---|---|---|---|
+| covered-call | Iniciante | Renda | Base: renda sobre ações em carteira |
+| cash-put | Iniciante | Renda | Base: prêmio para esperar comprar |
+| booster-call | Intermediário | Renda | Booster |
+| booster-put | Intermediário | Renda | Booster |
+| b1 | Avançado | Renda | Módulos |
+| b2 | Avançado | Renda | Módulos |
+| b3-2x3 | Avançado | Renda | Módulos |
+| b3-3x4 | Avançado | Renda | Módulos |
+| bwb | Avançado | Volatilidade | asas |
+| collar | Intermediário | Proteção | proteção financiada |
+| bull-spread | Intermediário | Direcional | trava |
+| bear-put-spread | Intermediário | Direcional | trava |
+| thl-call | Avançado | Renda | tempo |
+| clade | Avançado | Renda | tempo |
+| straddle-long-put | Avançado | Volatilidade | híbrida |
+| mannerheim | Avançado | Volatilidade | Mônadas |
+| quatermine-v1 | Avançado | Volatilidade | Mônadas |
+| quatermine-v2 | Avançado | Volatilidade | Mônadas |
+| hexabox | Avançado | Volatilidade | Mônadas |
+| monada-basica-call | Avançado | Volatilidade | Mônadas |
+| monada-basica-put | Avançado | Volatilidade | Mônadas |
+| call-compra | Iniciante | Direcional | compra simples de alta |
+| call-venda | Avançado | Renda | venda a seco: risco ilimitado |
+| put-compra | Iniciante | Proteção | seguro da carteira |
+| trava-alta-put | Intermediário | Direcional | trava de crédito |
+| trava-baixa-call | Intermediário | Direcional | trava de crédito |
+| seagull | Intermediário | Direcional | trava financiada |
+| fence | Intermediário | Proteção | proteção financiada |
+| straddle-compra | Intermediário | Volatilidade | compra de vol |
+| strangle-compra | Intermediário | Volatilidade | compra de vol |
+| straddle-venda | Avançado | Volatilidade | venda de vol: risco ilimitado |
+| strangle-venda | Avançado | Volatilidade | venda de vol: risco ilimitado |
+| condor | Intermediário | Volatilidade | venda de vol com asas |
+| borboleta | Intermediário | Volatilidade | borboleta clássica |
+| thl-put | Avançado | Renda | tempo |
+| thl-perene | Avançado | Renda | tempo |
+| calendar-butterfly | Avançado | Renda | tempo |
+| booster-fly | Avançado | Renda | Booster + borboleta |
+| malha-bw | Avançado | Volatilidade | asas |
+| hyperfly | Avançado | Volatilidade | asas |
+| fly-modular | Avançado | Volatilidade | asas |
+| modulo-q | Avançado | Renda | Módulos |
+| booster-horizontal | Avançado | Renda | dois vencimentos |
+| linha-mannerheim | Avançado | Direcional | gradiente |
+| gl-shortput-booster | Avançado | Direcional | gradiente |
+| asym-wings-diagonal | Avançado | Direcional | gradiente |
+| straddle-perene | Avançado | Volatilidade | híbrida |
+| strangle-p | Avançado | Renda | híbrida coberta |
+| box-perene | Avançado | Renda | box: resultado travado |
+| box-p | Avançado | Renda | box diagonal |
+| colar-perene | Intermediário | Proteção | proteção longa |
+| financiamento | Iniciante | Renda | variação da venda coberta |
+| dividendo-sint | Iniciante | Renda | venda coberta parcial |
+| anakha | Avançado | Renda | crédito semanal |
+| hedge-inverse | Avançado | Ajuste | manejo de opção vendida |
+| hedge-straddle-din | Avançado | Ajuste | manejo de opção vendida |
+| hedge-booster-h | Avançado | Ajuste | manejo de opção vendida |
+| hedge-calendar-line | Avançado | Ajuste | manejo de opção vendida |
+| hedge-mannerheim | Avançado | Ajuste | manejo de opção vendida |
+| hedge-booster-v | Avançado | Ajuste | manejo de opção vendida |
+| hedge-assimetrico | Avançado | Ajuste | manejo de opção vendida |
+| hedge-straddle-ha | Avançado | Ajuste | manejo de opção vendida |
