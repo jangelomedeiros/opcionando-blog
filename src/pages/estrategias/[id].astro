@@ -62,7 +62,7 @@ const descricao = `${est.nome}: gráfico de payoff interativo, gregas, procedime
     <div class="est-grid">
       <div class="est-esq">
         <div class="fig est-fig">
-          <GraficoEstrutura client:visible dados={dados} />
+          <GraficoEstrutura client:only="preact" dados={dados} />
           <noscript>
             <Fragment set:html={grafico(at, spot0, { comp: comp0, rotSpot: `ref. ${dmyy(est.ref.data).slice(0, 5)}` })} />
             <Metricas a={at} />
@@ -70,10 +70,11 @@ const descricao = `${est.nome}: gráfico de payoff interativo, gregas, procedime
         </div>
         <p class="nota">
           {inicial.fonte === 'mercado'
-            ? `Começa com os preços reais de ${m.ativo} em ${dmyy(m.data)} (ativo a ${rs(m.spot)}). Mova os controles para simular outros cenários.`
+            ? `Começa com os preços reais de ${m.ativo} em ${dmyy(m.data)} (ativo a ${rs(m.spot)}).`
             : `Começa com o exemplo calibrado de ${dmyy(est.ref.data)} (ativo a ${rs(spot0)}).`}
           {' '}Modelo Black-Scholes com Selic de 15% a.a.; não considera custos, impostos, dividendos nem exercício antecipado.
         </p>
+        {est.modo === 'mtm' && <p class="nota">Curva no primeiro vencimento. As pernas mais longas são avaliadas por Black-Scholes, com a vol de entrada congelada.</p>}
       </div>
 
       <div class="est-dir">
@@ -103,6 +104,23 @@ const descricao = `${est.nome}: gráfico de payoff interativo, gregas, procedime
               </table>
             </div>
             <p class="nota">Exemplo calibrado com BBAS3 a {rs(spot0)} em {dmyy(est.ref.data)}. O que vale é a relação entre os strikes e os prazos.</p>
+            {ficha && (
+              <div class="ficha">
+                <dl>
+                  <div><dt>Visão de mercado</dt><dd>{ficha.data.visao}</dd></div>
+                  <div><dt>Objetivo</dt><dd>{ficha.data.objetivo}</dd></div>
+                  <div><dt>Nível</dt><dd>{ficha.data.nivel}</dd></div>
+                  <div><dt>Ganho máximo</dt><dd>{ficha.data.ganhoMaximo}</dd></div>
+                  <div><dt>Perda máxima</dt><dd>{ficha.data.perdaMaxima}</dd></div>
+                  <div><dt>Ponto de equilíbrio</dt><dd>{ficha.data.breakeven}</dd></div>
+                </dl>
+                <div class="ficha-montagem">
+                  <strong>Montagem</strong>
+                  <ol>{ficha.data.montagem.map((x) => <li>{x}</li>)}</ol>
+                  {ficha.data.preset && <a class="botao" href={`/ferramentas/calculadora-de-payoff?preset=${ficha.data.preset}`}>Testar na calculadora de payoff →</a>}
+                </div>
+              </div>
+            )}
             {Corpo && <div class="conteudo ficha-corpo"><Corpo /></div>}
           </Fragment>
 
@@ -146,6 +164,10 @@ const descricao = `${est.nome}: gráfico de payoff interativo, gregas, procedime
 
           <Fragment slot="hoje">
             <BlocoHoje est={est} h={h} at={at} />
+            <div class="caixa alerta" style="margin-top:1.4rem">
+              <strong>Teste com os seus números.</strong> Monte esta estrutura perna por perna na <a href="/ferramentas/calculadora-de-payoff">calculadora de payoff</a>.
+              <br /><small>* Probabilidade de lucro estimada pelo modelo (lognormal, Black-Scholes, carry zero, VI das pernas do primeiro vencimento). Não considera custos, impostos, margem, dividendos nem exercício antecipado. Preços de &quot;último negócio&quot; não são bid/ask: confira o book antes de enviar qualquer ordem.</small>
+            </div>
           </Fragment>
         </Abas>
       </div>

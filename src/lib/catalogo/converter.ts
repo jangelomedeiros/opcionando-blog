@@ -16,7 +16,9 @@ export interface Inicial { posicao: Posicao; cenario: Cenario; fonte: 'mercado' 
 
 const num = (s: string | undefined): number | null => {
   const t = (s ?? '').trim();
-  return t === '' ? null : Number(t.replace(/\./g, '').replace(',', '.'));
+  if (t === '') return null;
+  // "17,38" e "1.234,56" usam vírgula decimal; "-1.6" (quantidades) usa ponto decimal.
+  return Number(t.includes(',') ? t.replace(/\./g, '').replace(',', '.') : t);
 };
 const TIPO = { AÇÃO: 'acao', CALL: 'call', PUT: 'put' } as const;
 

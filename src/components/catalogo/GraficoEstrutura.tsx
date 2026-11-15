@@ -67,6 +67,7 @@ export default function GraficoEstrutura({ dados }: { dados: DadosGrafico }) {
         {base.yc && <span><i class="k-comp"></i>{dados.rotuloComparacao || 'posição original'}</span>}
       </p>
 
+      <p class="ge-dica">Mova os controles para simular outros cenários.</p>
       <div class="ge-controles">
         <label>
           <span>Preço do ativo <b>R$ {num(preco)}</b></span>
