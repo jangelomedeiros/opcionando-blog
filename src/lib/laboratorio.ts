@@ -47,12 +47,7 @@ export interface MercadoMeta { data?: string; ativo?: string; spot?: string; fon
 export const ESTRUTURAS = estruturasJson as unknown as Estrutura[];
 export const POPS = popsJson as unknown as Record<string, Pop>;
 
-export const FAM_COR: Record<string, string> = {
-  'Base': '#0f4a50', 'Direcionais': '#2d6fb0', 'Proteção patrimonial': '#3fa66b', 'Volatilidade': '#8e5bb5',
-  'Tempo / rolagem': '#7c7767', 'Asas / proteção': '#c98a1b', 'Booster': '#e8553f', 'Módulos': '#1e8c93',
-  'Híbridas / hedge': '#b24a6b', 'Gradiente linear': '#5a7d2a', 'Hedge · ajustes': '#4c5e9e', 'Mônadas': '#0b3b40',
-};
-export const FAM_ORDEM = Object.keys(FAM_COR);
+export { FAM_COR, FAM_ORDEM } from './familias';
 
 // ------------------------------------------------------------------ formatação
 export function br(v: number, d = 2, sign = false): string {

@@ -14,7 +14,7 @@ const { meta, mercado } = lerMercado();
 const pop = POPS[est.pop];
 const { spot0, at, comp0 } = teoria(est);
 const h = hoje(est, meta, mercado, hojeIso());
-const cor = FAM_COR[est.familia] ?? '#0b3b40';
+const cor = FAM_COR[est.familia] ?? 'var(--destaque)';
 const ant = i > 0 ? ESTRUTURAS[i - 1] : null;
 const prox = i < ESTRUTURAS.length - 1 ? ESTRUTURAS[i + 1] : null;
 const mesma = ESTRUTURAS.filter((e) => e.familia === est.familia && e.id !== est.id).slice(0, 6);
