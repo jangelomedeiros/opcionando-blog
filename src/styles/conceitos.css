@@ -1,0 +1,40 @@
+/* Jornada do prêmio. Só tokens. */
+.jp-fig { padding: 14px; margin-top: 1.2rem; }
+.jp-topo { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; }
+.jp-tipo { display: flex; gap: 6px; }
+.jp-tipo button { font: 700 0.85rem var(--font-texto); padding: 5px 14px; border-radius: 999px; border: 1px solid var(--borda-forte); background: var(--superficie-2); color: var(--texto); cursor: pointer; }
+.jp-tipo button[aria-pressed="true"] { background: var(--marca); border-color: var(--marca); color: var(--texto-sobre-marca); }
+.jp-op { margin: 0; font-size: 0.9rem; color: var(--texto-suave); }
+.jp-op b { color: var(--titulo); font-family: var(--font-mono); }
+.jp-bloco { margin-top: 12px; padding: 10px 12px; border-radius: 12px; background: var(--superficie-2); }
+.jp-traj { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; font-size: 0.85rem; color: var(--texto-suave); }
+.jp-traj select { font: 600 0.85rem var(--font-texto); padding: 4px 8px; border-radius: 8px; border: 1px solid var(--borda-forte); background: var(--superficie); color: var(--texto); max-width: 100%; }
+.jp-svg { width: 100%; height: auto; display: block; margin-top: 6px; }
+.jp-svg .g-rot { font-size: 9px; }
+.jp-preco { fill: none; stroke: var(--titulo); stroke-width: 2.2; }
+.jp-futuro { fill: none; stroke: var(--texto-suave); stroke-width: 1; opacity: 0.35; }
+.jp-strike { stroke: var(--marca); stroke-dasharray: 4 4; stroke-width: 1.2; }
+.jp-int { fill: color-mix(in srgb, var(--hoje) 55%, transparent); }
+.jp-ext { fill: color-mix(in srgb, var(--destaque) 40%, transparent); }
+.jp-premio { stroke: var(--texto-suave); stroke-dasharray: 5 4; }
+.k-int { color: var(--hoje); font-weight: 700; }
+.k-ext { color: var(--destaque); font-weight: 700; }
+.jp-titulo { margin: 0; font-size: 0.85rem; color: var(--texto-suave); }
+.jp-tempo { display: grid; grid-template-columns: auto 1fr; gap: 6px 12px; align-items: center; margin-top: 8px; font-size: 0.85rem; color: var(--texto-suave); }
+.jp-tempo label { display: grid; gap: 2px; }
+.jp-tempo label:last-child { grid-column: 1 / -1; }
+.jp-tempo b { color: var(--titulo); font-family: var(--font-mono); }
+.jp-tempo input[type="range"] { width: 100%; accent-color: var(--marca); }
+.jp-lados { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 12px; }
+@media (max-width: 620px) { .jp-lados { grid-template-columns: minmax(0, 1fr); } }
+.jp-lado { display: grid; gap: 2px; padding: 10px 12px; border-radius: 12px; background: var(--superficie); border: 1px solid var(--borda); border-top: 3px solid var(--destaque); }
+.jp-vendedor { border-top-color: var(--marca); }
+.jp-lado b { color: var(--titulo); }
+.jp-lado small { color: var(--texto-suave); font-size: 0.75rem; }
+.jp-res { font: 700 1.4rem var(--font-mono); color: var(--titulo); }
+.jp-lado ul { list-style: none; padding: 0; margin: 6px 0 0; display: grid; gap: 2px; font-size: 0.85rem; }
+.jp-lado li { display: flex; justify-content: space-between; gap: 8px; }
+.jp-lado .pos, .jp-res.pos { color: var(--lucro-texto); }
+.jp-lado .neg, .jp-res.neg { color: var(--prejuizo-texto); }
+.jp-comentario { margin: 12px 0 0; padding: 10px 12px; border-radius: 12px; border-left: 4px solid var(--hoje); background: var(--superficie-2); font-size: 0.92rem; }
+.jp-estatico p { margin: 0.4rem 0; }
