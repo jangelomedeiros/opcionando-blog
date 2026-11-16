@@ -3,8 +3,9 @@
 // e grava src/data/laboratorio/mercado.csv, src/data/laboratorio/validacao.json e o relatório de validação.
 //
 // Uso: node scripts/otimizar_montagens.mjs src/data/grades/bbas3-AAAA-MM-DD.json src/data/candles/bbas3-AAAA-MM-DD.json [relatorio.md]
-import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
+import { readFileSync, writeFileSync } from 'node:fs';
 import { registroDe } from '../src/lib/otimizacao/diario.ts';
+import { gravarRegistro } from './lib/diario-arquivo.mjs';
 import { volRealizada, seriesDaGrade, otimizar, janela } from '../src/lib/otimizacao/otimizar.ts';
 import { metricasVencimento } from '../src/lib/motor/metricas.ts';
 import { gregasPosicao } from '../src/lib/motor/posicao.ts';
@@ -22,7 +23,9 @@ const ler = (p) => JSON.parse(readFileSync(p, 'utf8'));
 // Sem argumentos, usa a grade e os candles apontados por src/data/laboratorio/fontes.json.
 // Argumentos valem a partir da pasta atual; sem eles, os caminhos de fontes.json (relativos à raiz do repositório).
 const FONTES = ler(daRaiz('src/data/laboratorio/fontes.json'));
-const [gradeArg, candlesArg, relArg] = process.argv.slice(2);
+// --regravar-diario: sobrescreve o registro do diário de uma data já gravada (por padrão, o original é preservado).
+const REGRAVAR = process.argv.includes('--regravar-diario');
+const [gradeArg, candlesArg, relArg] = process.argv.slice(2).filter((a) => !a.startsWith('--'));
 const gradeArq = gradeArg ? resolverArg(gradeArg) : daRaiz(FONTES.grade);
 const candlesArq = candlesArg ? resolverArg(candlesArg) : daRaiz(FONTES.candles);
 const G = ler(gradeArq), C = ler(candlesArq);
@@ -111,8 +114,8 @@ const ivs = validacao.map((v) => v.contexto.ivAtm);
 const mercadoInfo = { data, ativo: G.ativo, spot, sigma, sigmaEstresse, ...hv, tendencia, m20: ult.m20, m50: ult.m50, m200: ult.m200, ivMin: Math.min(...ivs), ivMax: Math.max(...ivs) };
 writeFileSync(new URL('src/data/laboratorio/validacao.json', RAIZ), JSON.stringify({ mercado: mercadoInfo, estruturas: validacao }, null, 1) + '\n');
 // Diário do operador: um registro por grade, para conferir os vereditos no vencimento (/estrategias/diario/).
-mkdirSync(new URL('src/data/diario/', RAIZ), { recursive: true });
-writeFileSync(new URL(`src/data/diario/${data}.json`, RAIZ), JSON.stringify(registroDe({ mercado: mercadoInfo, estruturas: validacao }), null, 1) + '\n');
+const diario = gravarRegistro(daRaiz(`src/data/diario/${data}.json`), registroDe({ mercado: mercadoInfo, estruturas: validacao }), { regravar: REGRAVAR });
+if (diario === 'preservado') console.warn(`! diário de ${data} já existia com outros vereditos: mantido o original (use --regravar-diario para sobrescrever).`);
 
 // Relatório
 const nome = Object.fromEntries(E.map((e) => [e.id, e.nome]));

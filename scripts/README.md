@@ -22,7 +22,7 @@ Em `dados-brutos/2026-10-26/ohlcv/`, os arquivos `old_*.json` têm os 299 primei
 
 **Um comando:** `node scripts/nova_grade.mjs PLANILHA.xlsx dados-brutos/AAAA-MM-DD/ohlcv/BBAS3.json` faz os passos abaixo em ordem (importa a grade, gera os candles do OHLCV do TradingView, aponta `src/data/laboratorio/fontes.json` para os dois, otimiza, builda e testa) e para no primeiro erro. Com `--plano`, só lista os passos. O OHLCV diário vem do conector TradingView (formato de colunas `t, o, h, l, c, v`), com pelo menos 323 pregões para a média de 200.
 
-**Diário do operador:** cada execução do otimizador grava `src/data/diario/AAAA-MM-DD.json` (os vereditos daquela grade). A página `/estrategias/diario/` confere cada montagem no 1º vencimento pelo fechamento dos candles em uso; ou seja, a apuração avança sozinha quando chegam candles novos (nova grade, ou só `atualizar_candles.mjs` + `fontes.json`). Não regrave o registro de uma data antiga depois de mudar o otimizador: o diário vale pelo que foi recomendado no dia.
+**Diário do operador:** cada execução do otimizador grava `src/data/diario/AAAA-MM-DD.json` (os vereditos daquela grade). A página `/estrategias/diario/` confere cada montagem no 1º vencimento pelo fechamento dos candles em uso; ou seja, a apuração avança sozinha quando chegam candles novos (nova grade, ou só `atualizar_candles.mjs` + `fontes.json`). O registro de uma data já gravada não é sobrescrito: o diário vale pelo que foi recomendado no dia. Para regravar de propósito, use `--regravar-diario`.
 
 Passo a passo, se preferir:
 
