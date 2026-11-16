@@ -13,14 +13,13 @@ import { gradeParaManejo } from '../src/lib/catalogo/gradeManejo.ts';
 import { iniciar, aplicar } from '../src/lib/catalogo/simulacao.ts';
 import { VEREDITO } from '../src/lib/otimizacao/validacao.ts';
 
-const [gradeArq, candlesArq, relArq = 'docs/revisao/2026-11-16-validacao-estruturas.md'] = process.argv.slice(2);
-if (!gradeArq || !candlesArq) {
-  console.error('Uso: node scripts/otimizar_montagens.mjs GRADE.json CANDLES.json [RELATORIO.md]');
-  process.exit(1);
-}
 const RAIZ = new URL('../', import.meta.url);
-const ler = (p) => JSON.parse(readFileSync(p, 'utf8'));
+const ler = (p) => JSON.parse(readFileSync(new URL(p, RAIZ), 'utf8'));
+// Sem argumentos, usa a grade e os candles apontados por src/data/laboratorio/fontes.json.
+const FONTES = ler('src/data/laboratorio/fontes.json');
+const [gradeArq = FONTES.grade, candlesArq = FONTES.candles, relArqOpt] = process.argv.slice(2);
 const G = ler(gradeArq), C = ler(candlesArq);
+const relArq = relArqOpt ?? `docs/revisao/${G.data}-validacao-estruturas.md`;
 const E = ler(new URL('src/data/laboratorio/estruturas.json', RAIZ));
 const MANEJO = ler(new URL('src/data/laboratorio/manejo.json', RAIZ));
 const spot = Math.round(G.spot * 100) / 100, data = G.data;
@@ -101,7 +100,8 @@ const cab = [
   '# tipo: AÇÃO, CALL ou PUT. qtd: positivo compra, negativo venda. vencimento: AAAA-MM-DD. origem: ultimo ou teorico. grupo: principal ou comparacao.',
   'estrutura;grupo;tipo;qtd;ticker;strike;vencimento;preco;vi;negocios;origem'];
 writeFileSync(new URL('src/data/laboratorio/mercado.csv', RAIZ), '﻿' + [...cab, ...linhas].join('\r\n') + '\r\n'); // CRLF, como o arquivo original
-const mercadoInfo = { data, ativo: G.ativo, spot, sigma, sigmaEstresse, ...hv, tendencia, m20: ult.m20, m50: ult.m50, m200: ult.m200 };
+const ivs = validacao.map((v) => v.contexto.ivAtm);
+const mercadoInfo = { data, ativo: G.ativo, spot, sigma, sigmaEstresse, ...hv, tendencia, m20: ult.m20, m50: ult.m50, m200: ult.m200, ivMin: Math.min(...ivs), ivMax: Math.max(...ivs) };
 writeFileSync(new URL('src/data/laboratorio/validacao.json', RAIZ), JSON.stringify({ mercado: mercadoInfo, estruturas: validacao }, null, 1) + '\n');
 
 // Relatório
@@ -109,7 +109,7 @@ const nome = Object.fromEntries(E.map((e) => [e.id, e.nome]));
 const VER = VEREDITO;
 const cont = (v) => validacao.filter((x) => x.veredito === v).length;
 // Conclusão derivada dos números (o relatório é regerado a cada grade).
-const ivMin = Math.min(...validacao.map((v) => v.contexto.ivAtm)), ivMax = Math.max(...validacao.map((v) => v.contexto.ivAtm));
+const { ivMin, ivMax } = mercadoInfo;
 const conclusaoVol = ivMin > sigma ? 'a implícita está acima da realizada sem gaps, então **a vantagem estatística hoje é de quem vende vol**'
   : ivMax < sigma ? 'a implícita está abaixo da realizada sem gaps, então **a vantagem estatística hoje é de quem compra vol**'
   : 'a implícita cruza a realizada sem gaps: **não há vantagem clara para vender nem para comprar vol**';

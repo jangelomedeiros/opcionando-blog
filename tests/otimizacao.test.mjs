@@ -7,7 +7,8 @@ import { diasUteis } from '../src/lib/motor/calendario.ts';
 import { deltaEstrutural, creditoEntrada } from '../src/lib/catalogo/protocolo.ts';
 
 const ler = (p) => readFileSync(new URL(`../${p}`, import.meta.url), 'utf8');
-const GRADE = JSON.parse(ler('src/data/grades/bbas3-2026-11-13.json'));
+const FONTES = JSON.parse(ler('src/data/laboratorio/fontes.json'));
+const GRADE = JSON.parse(ler(FONTES.grade));
 const ESTRUTURAS = JSON.parse(ler('src/data/laboratorio/estruturas.json'));
 const est = (id) => ESTRUTURAS.find((e) => e.id === id);
 const SERIES = seriesDaGrade(GRADE);

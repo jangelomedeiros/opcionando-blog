@@ -4,8 +4,7 @@ import '../../styles/conceitos.css';
 import Base from '../../layouts/Base.astro';
 import Jornada from '../../components/conceitos/Jornada.tsx';
 import { DISCLAIMER } from '../../consts';
-import GRADE from '../../data/grades/bbas3-2026-11-13.json';
-import CANDLES from '../../data/candles/bbas3-2026-11-12.json';
+import { GRADE, CANDLES } from '../../lib/fontes.ts';
 import { opcaoDaGrade, diasDaOpcao, trajetoriaCenario, trechosHistoricos, type TipoCenario } from '../../lib/conceitos/jornada.ts';
 
 const call = opcaoDaGrade(GRADE as any, 'call');

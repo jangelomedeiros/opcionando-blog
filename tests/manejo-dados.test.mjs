@@ -6,9 +6,10 @@ import { aplicarAjuste } from '../src/lib/motor/manejo.ts';
 import { resultado } from '../src/lib/motor/posicao.ts';
 
 const ler = (p) => readFileSync(new URL(`../${p}`, import.meta.url), 'utf8');
+const FONTES = JSON.parse(ler('src/data/laboratorio/fontes.json'));
 const MANEJO = JSON.parse(ler('src/data/laboratorio/manejo.json'));
 const ESTRUTURAS = JSON.parse(ler('src/data/laboratorio/estruturas.json'));
-const GRADE = JSON.parse(ler('src/data/grades/bbas3-2026-11-13.json'));
+const GRADE = JSON.parse(ler(FONTES.grade));
 const m = lerMercadoCsv(ler('src/data/laboratorio/mercado.csv'));
 const OPS = ['encerrar', 'rolarStrike', 'rolarVencimento', 'quantidade', 'adicionar'];
 const ids = new Set(ESTRUTURAS.map((e) => e.id));

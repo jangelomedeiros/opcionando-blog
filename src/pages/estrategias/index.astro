@@ -3,15 +3,20 @@ import '../../styles/laboratorio.css';
 import '../../styles/catalogo.css';
 import Base from '../../layouts/Base.astro';
 import { DISCLAIMER } from '../../consts';
-import { ESTRUTURAS, POPS, FAM_COR, FAM_ORDEM, grafico, teoria, lerMercado, hoje, hojeIso } from '../../lib/laboratorio';
+import { ESTRUTURAS, POPS, FAM_COR, FAM_ORDEM, grafico, teoria, lerMercado, hoje, hojeIso, dmyy } from '../../lib/laboratorio';
+import VALIDACAO from '../../data/laboratorio/validacao.json';
+import { VEREDITO } from '../../lib/otimizacao/validacao.ts';
 
 const { meta, mercado } = lerMercado();
 const hj = hojeIso();
 const itens = ESTRUTURAS.map((e) => {
   const { spot0, at, comp0 } = teoria(e);
   const h = hoje(e, meta, mercado, hj);
-  return { e, svg: grafico(at, spot0, { mini: true, comp: comp0 }), tem: h.tem, visao: POPS[e.pop]?.visao ?? '' };
+  const v = (VALIDACAO as any).estruturas.find((x: any) => x.id === e.id);
+  return { e, svg: grafico(at, spot0, { mini: true, comp: comp0 }), tem: h.tem, visao: POPS[e.pop]?.visao ?? '', veredito: v?.veredito ?? '' };
 });
+const SELO: Record<string, [string, string]> = { montar: ['ok', 'Montar'], 'montar-com-ressalva': ['meio', 'Com ressalva'], 'nao-montar': ['nao', 'Não montar'] };
+const dataGrade = (VALIDACAO as any).mercado.data;
 const NIVEIS = ['Iniciante', 'Intermediário', 'Avançado'];
 const OBJETIVOS = ['Renda', 'Direcional', 'Proteção', 'Volatilidade', 'Ajuste'];
 const fams = FAM_ORDEM.filter((f) => itens.some((i) => i.e.familia === f));
@@ -22,7 +27,7 @@ const comReais = itens.filter((i) => i.tem).length;
     <p class="sobretitulo">Estratégias</p>
     <h1>Catálogo de estratégias</h1>
     <p class="intro">{ESTRUTURAS.length} estruturas com opções sobre ações da B3. Cada uma tem um gráfico interativo (mova o preço, os dias e a volatilidade e veja o resultado mudar), as gregas, o procedimento operacional (POP), o manejo e a pergunta que importa: como montar isso hoje, com os preços reais do mercado?</p>
-    <p class="nota">{comReais > 0 ? `${comReais} estruturas já com preços reais carregados.` : 'Preços reais ainda não carregados.'} Os exemplos teóricos usam BBAS3 como ativo-base.</p>
+    <p class="nota">{comReais > 0 ? `${comReais} estruturas montadas com a grade de BBAS3 de ${dmyy(dataGrade)}` : 'Preços reais ainda não carregados'}; o selo em cada cartão é o veredito do operador para hoje. Veja o contexto e a lista por veredito em <a href="/estrategias/hoje/">Hoje no mercado</a>.</p>
 
     <div class="filtros" role="group" aria-label="Filtrar por família">
       <button type="button" class="fbtn on" aria-pressed="true" data-f="" style="--fc:var(--marca)">Todas</button>
@@ -39,19 +44,25 @@ const comReais = itens.filter((i) => i.tem).length;
       {OBJETIVOS.map((o) => <button type="button" class="rbtn" aria-pressed="false" data-objetivo={o} style="--fc:var(--destaque)">{o}</button>)}
     </div>
 
+    <div class="filtros filtros-rotulo" role="group" aria-label="Filtrar pelo veredito de hoje">
+      <span class="filtro-nome">Hoje</span>
+      <button type="button" class="rbtn on" aria-pressed="true" data-veredito="" style="--fc:var(--destaque)">Todos</button>
+      {Object.entries(SELO).map(([v, [, rotulo]]) => <button type="button" class="rbtn" aria-pressed="false" data-veredito={v} style="--fc:var(--destaque)">{rotulo}</button>)}
+    </div>
+
     <p class="filtro-vazio" role="status" hidden>Nenhuma estrutura com essa combinação de filtros. <button type="button" class="ge-reset" data-limpar>Limpar filtros</button></p>
     {fams.map((f) => (
       <section class="familia" data-fam={f}>
         <h2 style={`--fc:${FAM_COR[f]}`}>{f}</h2>
         <ul class="lab-grid">
           {itens.filter((i) => i.e.familia === f).map((i) => (
-            <li data-nivel={i.e.nivel} data-objetivo={i.e.objetivo}>
-              <a class="lab-card" href={`/estrategias/${i.e.id}/`} data-nivel={i.e.nivel} data-objetivo={i.e.objetivo} style={`--fc:${FAM_COR[f]}`}>
+            <li data-nivel={i.e.nivel} data-objetivo={i.e.objetivo} data-veredito={i.veredito}>
+              <a class="lab-card" href={`/estrategias/${i.e.id}/`} data-nivel={i.e.nivel} data-objetivo={i.e.objetivo} data-veredito={i.veredito} style={`--fc:${FAM_COR[f]}`}>
                 <Fragment set:html={i.svg} />
                 <span class="titulo">{i.e.nome}</span>
                 {i.visao && <span class="resumo">{i.visao}</span>}
                 <span class="resumo rotulos">{i.e.nivel} · {i.e.objetivo}</span>
-                {i.tem && <span class="selo coral">com preços reais</span>}
+                {SELO[i.veredito] && <span class={`selo veredito ${SELO[i.veredito][0]}`} title={VEREDITO[i.veredito]}>{SELO[i.veredito][1]}</span>}
               </a>
             </li>
           ))}
@@ -62,13 +73,13 @@ const comReais = itens.filter((i) => i.tem).length;
   </section>
   <script is:inline>
     // Filtros combinados: família, nível e objetivo. Sem JavaScript, tudo aparece.
-    var ativo = { f: '', nivel: '', objetivo: '' };
+    var ativo = { f: '', nivel: '', objetivo: '', veredito: '' };
     function aplicar() {
       var total = 0;
       document.querySelectorAll('.familia').forEach(function (s) {
         var visiveis = 0;
         s.querySelectorAll('li[data-nivel]').forEach(function (li) {
-          var ok = (!ativo.nivel || li.getAttribute('data-nivel') === ativo.nivel) && (!ativo.objetivo || li.getAttribute('data-objetivo') === ativo.objetivo);
+          var ok = (!ativo.nivel || li.getAttribute('data-nivel') === ativo.nivel) && (!ativo.objetivo || li.getAttribute('data-objetivo') === ativo.objetivo) && (!ativo.veredito || li.getAttribute('data-veredito') === ativo.veredito);
           li.hidden = !ok; if (ok) visiveis++;
         });
         s.hidden = (!!ativo.f && s.getAttribute('data-fam') !== ativo.f) || visiveis === 0;
@@ -77,7 +88,7 @@ const comReais = itens.filter((i) => i.tem).length;
       document.querySelector('.filtro-vazio').hidden = total > 0;
     }
     document.querySelector('[data-limpar]').addEventListener('click', function () {
-      ['.fbtn[data-f=""]', '.rbtn[data-nivel=""]', '.rbtn[data-objetivo=""]'].forEach(function (s) { document.querySelector(s).click(); });
+      ['.fbtn[data-f=""]', '.rbtn[data-nivel=""]', '.rbtn[data-objetivo=""]', '.rbtn[data-veredito=""]'].forEach(function (s) { document.querySelector(s).click(); });
     });
     function ligar(sel, attr, chave) {
       document.querySelectorAll(sel).forEach(function (b) {
@@ -91,5 +102,6 @@ const comReais = itens.filter((i) => i.tem).length;
     ligar('.fbtn', 'data-f', 'f');
     ligar('.rbtn[data-nivel]', 'data-nivel', 'nivel');
     ligar('.rbtn[data-objetivo]', 'data-objetivo', 'objetivo');
+    ligar('.rbtn[data-veredito]', 'data-veredito', 'veredito');
   </script>
 </Base>

@@ -8,8 +8,9 @@ import { iniciar, aplicar } from '../src/lib/catalogo/simulacao.ts';
 import { aplicarAjuste } from '../src/lib/motor/manejo.ts';
 
 const ler = (p) => readFileSync(new URL(`../${p}`, import.meta.url), 'utf8');
+const FONTES = JSON.parse(ler('src/data/laboratorio/fontes.json'));
 const ESTRUTURAS = JSON.parse(ler('src/data/laboratorio/estruturas.json'));
-const GRADE = JSON.parse(ler('src/data/grades/bbas3-2026-11-13.json'));
+const GRADE = JSON.parse(ler(FONTES.grade));
 const MANEJO = JSON.parse(ler('src/data/laboratorio/manejo.json'));
 const m = lerMercadoCsv(ler('src/data/laboratorio/mercado.csv'));
 const montar = (id) => {

@@ -1,0 +1,72 @@
+---
+// Painel "Hoje no mercado": o contexto do dia e as 62 estruturas agrupadas pelo veredito do operador.
+import '../../styles/laboratorio.css';
+import '../../styles/catalogo.css';
+import Base from '../../layouts/Base.astro';
+import { DISCLAIMER } from '../../consts';
+import { ESTRUTURAS, FAM_COR, rs, pct, dmyy } from '../../lib/laboratorio';
+import { GRADE } from '../../lib/fontes.ts';
+import VALIDACAO from '../../data/laboratorio/validacao.json';
+import { resumoMercado, VEREDITO } from '../../lib/otimizacao/validacao.ts';
+import { janelaHole } from '../../lib/catalogo/protocolo.ts';
+
+const M = (VALIDACAO as any).mercado;
+const resumo = resumoMercado(M);
+const porId = Object.fromEntries(ESTRUTURAS.map((e) => [e.id, e]));
+const GRUPOS = [
+  { v: 'montar', titulo: VEREDITO.montar, cls: 'ok', texto: 'Valor esperado positivo e probabilidade de lucro de pelo menos 50% com a vol realizada.' },
+  { v: 'montar-com-ressalva', titulo: VEREDITO['montar-com-ressalva'], cls: 'meio', texto: 'Valor esperado positivo, mas probabilidade de lucro abaixo de 50%: ganha pouco muitas vezes ou muito poucas vezes.' },
+  { v: 'nao-montar', titulo: VEREDITO['nao-montar'], cls: 'nao', texto: 'Nenhuma montagem com valor esperado positivo hoje. A página mostra a melhor disponível, com o aviso.' },
+].map((g) => ({ ...g, itens: (VALIDACAO as any).estruturas.filter((x: any) => x.veredito === g.v).sort((a: any, b: any) => b.lucro.ev / Math.max(-b.lucro.risco, 0.05) - a.lucro.ev / Math.max(-a.lucro.risco, 0.05)) }));
+// Primeiro vencimento mensal (terceira sexta-feira) e a janela do efeito hole.
+const mensal = Object.entries(GRADE.vencimentos as Record<string, number>).find(([v]) => { const d = new Date(`${v}T12:00:00Z`); return d.getUTCDay() === 5 && d.getUTCDate() >= 15 && d.getUTCDate() <= 21; });
+const hole = mensal ? { venc: mensal[0], du: mensal[1], ...janelaHole(mensal[1]) } : null;
+const perna = (p: any) => (p.tipo === 'acao' ? `${p.q > 0 ? '+' : ''}${p.q} ação` : `${p.q > 0 ? '+' : ''}${p.q} ${p.tipo === 'call' ? 'CALL' : 'PUT'} ${rs(p.strike)}${p.origem === 'teorico' ? '*' : ''}`);
+const vies = (x: any) => (x.contexto.vies === 'neutra' ? 'neutra' : `${x.contexto.vies}${x.contexto.aFavorDaTendencia === null ? '' : x.contexto.aFavorDaTendencia ? ' · a favor' : ' · contra'}`);
+---
+<Base title="Hoje no mercado | Catálogo de estratégias" description={`BBAS3 em ${dmyy(M.data)}: tendência, vol implícita × realizada e as 62 estruturas do catálogo agrupadas pelo veredito do operador (montar, com ressalva, não montar).`}>
+  <section class="container-larga pagina lab hoje">
+    <p class="sobretitulo"><a href="/estrategias/">Catálogo de estratégias</a></p>
+    <h1>Hoje no mercado</h1>
+    <p class="intro">{M.ativo} na grade de {dmyy(M.data)}: o contexto do dia e as {(VALIDACAO as any).estruturas.length} estruturas agrupadas pelo veredito do operador. Uma trilha, não um trilho: o veredito é um ponto de partida, não uma ordem.</p>
+
+    <div class="hoje-mercado">
+      <dl class="validacao-grid">
+        <div><dt>Tendência</dt><dd>{resumo.tendencia}</dd></div>
+        <div><dt>Vol realizada</dt><dd>{resumo.vol}</dd></div>
+        <div><dt>Vol implícita</dt><dd>{resumo.implicita} {resumo.conclusao}</dd></div>
+        {hole && <div><dt>Efeito hole</dt><dd>Vencimento mensal em {dmyy(hole.venc)}, a {hole.du} du: <b>{hole.nome}</b>. {hole.texto} Veja o <a href="/estrategias/protocolo-de-manejo/">protocolo de manejo</a>.</dd></div>}
+      </dl>
+      <p class="nota">Critério: maior valor esperado por risco sob a vol realizada de 120 pregões sem os dois maiores gaps, dentro do desenho e das regras do POP de cada estrutura, só onde todos os caminhos de manejo aplicam na grade. Nada aqui prevê direção. Preços de último negócio: conferir no book antes de enviar a ordem.</p>
+    </div>
+
+    {GRUPOS.map((g) => (
+      <section class={`hoje-grupo ${g.cls}`}>
+        <h2>{g.titulo} ({g.itens.length})</h2>
+        <p class="nota">{g.texto}</p>
+        <ul class="hoje-lista">
+          {g.itens.map((x: any) => {
+            const e = porId[x.id];
+            return (
+              <li style={`--fc:${FAM_COR[e.familia] ?? 'var(--marca)'}`}>
+                <a class="hoje-nome" href={`/estrategias/${x.id}/`}>{e.nome}</a>
+                <span class="hoje-fam">{e.familia}</span>
+                <span class="hoje-montagem">{x.montagem.pernas.map(perna).join(' / ')} <small>({x.montagem.du1} du)</small></span>
+                <span class="hoje-numeros">
+                  <b>{x.montagem.credito >= 0 ? `crédito ${rs(x.montagem.credito)}` : `débito ${rs(-x.montagem.credito)}`}</b>
+                  {' · '}VE <b class={x.lucro.ev > 0 ? 'pos' : 'neg'}>{rs(x.lucro.ev, 3, true)}</b>
+                  {' · '}lucro em <b>{pct(x.lucro.prob)}</b>
+                  {' · '}pior caso {x.lucro.perdaMax === null ? `ilimitado (${rs(x.lucro.risco)} na faixa)` : rs(x.lucro.perdaMax)}
+                  {' · '}{vies(x)} · {x.contexto.vendeVol ? 'vende vol' : 'compra vol'}
+                </span>
+                {x.avisos.length > 0 && <span class="hoje-avisos">{x.avisos.join('; ')}.</span>}
+              </li>
+            );
+          })}
+        </ul>
+      </section>
+    ))}
+    <p class="nota">* preço teórico (série sem negócio no dia). O detalhe de cada estrutura, com o gráfico e o simulador de manejo, está na página dela, na aba Visão.</p>
+    <p class="aviso-legal">{DISCLAIMER}</p>
+  </section>
+</Base>

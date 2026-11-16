@@ -4,7 +4,7 @@ Gerado por `scripts/otimizar_montagens.mjs`. Critério em `docs/superpowers/spec
 
 ## Mercado
 
-- BBAS3 a R$ 15,10; médias de 20, 50 e 200: R$ 19,28, R$ 21,48, R$ 21,91 — tendência **baixa**.
+- BBAS3 a R$ 15,10; médias de 20, 50 e 200: R$ 18,85, R$ 21,35, R$ 21,86 — tendência **baixa**.
 - Vol realizada: HV20 128%, HV60 84%, HV120 62% (com os gaps de −34,7% em 26/10 e 10,4% em 05/10).
 - Sem os 2 maiores gaps: **33%** em 120 pregões (base do valor esperado) e 39% em 60 (estresse).
 - Vol implícita ATM entre 34% e 45% nos vencimentos usados: a implícita está acima da realizada sem gaps, então **a vantagem estatística hoje é de quem vende vol**.

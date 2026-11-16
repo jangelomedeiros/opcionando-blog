@@ -7,7 +7,8 @@ import { metricasVencimento } from '../src/lib/motor/metricas.ts';
 import { diasUteis } from '../src/lib/motor/calendario.ts';
 
 const ler = (p) => readFileSync(new URL(`../${p}`, import.meta.url), 'utf8');
-const grade = JSON.parse(ler('src/data/grades/bbas3-2026-11-13.json'));
+const FONTES = JSON.parse(ler('src/data/laboratorio/fontes.json'));
+const grade = JSON.parse(ler(FONTES.grade));
 const ESTRUTURAS = JSON.parse(ler('src/data/laboratorio/estruturas.json'));
 const m = lerMercadoCsv(ler('src/data/laboratorio/mercado.csv'));
 const opcoes = m.linhas.filter((l) => l.tipo !== 'acao');
@@ -25,10 +26,10 @@ test('mercado.csv é de 13/11 e cobre as 62 estruturas', () => {
   assert.deepEqual(sem.map((e) => e.id), []);
 });
 
-test('toda perna existe na grade e vence depois de 13/11', () => {
+test('toda perna existe na grade e vence depois da data da grade', () => {
   const chave = (venc, tipo, k) => `${venc}|${tipo}|${k.toFixed(2)}`;
   const existe = new Set(grade.series.map((s) => chave(s.venc, s.tipo, s.strike)));
-  const fora = opcoes.filter((l) => !existe.has(chave(l.venc, l.tipo, l.strike)) || !(l.venc > '2026-11-13'));
+  const fora = opcoes.filter((l) => !existe.has(chave(l.venc, l.tipo, l.strike)) || !(l.venc > grade.data));
   assert.deepEqual(fora.map((l) => `${l.estrutura} ${l.ticker}`), []);
 });
 
