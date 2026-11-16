@@ -32,6 +32,7 @@ const porVenc = (xs: any[]) => [...new Set(xs.map((x) => x.venc1))].sort().map((
         <div><dt>Recomendadas</dt><dd>{placar.montar.n === 0 ? 'Nenhuma apurada ainda.' : <>{placar.montar.acertos} de {placar.montar.n} deram lucro ({pct(placar.montar.acertos / placar.montar.n)}). Resultado somado {rs(placar.montar.resultado, 2, true)} por unidade, contra {rs(placar.montar.ev, 2, true)} de valor esperado.</>}</dd></div>
         <div><dt>Evitadas</dt><dd>{placar.evitadas.n === 0 ? 'Nenhuma apurada ainda.' : <>{placar.evitadas.acertos} de {placar.evitadas.n} teriam perdido: o "não montar" acertou {pct(placar.evitadas.acertos / placar.evitadas.n)} das vezes. Resultado que teriam dado: {rs(placar.evitadas.resultado, 2, true)}.</>}</dd></div>
       </dl>
+      <p class="nota">O que fazer em cada vencimento (encerrar, exercer, manejar) está no <a href="/estrategias/estudo/">Estudo dos vencimentos</a>.</p>
       <p class="nota">Resultado por unidade no 1º vencimento, pelo fechamento do dia: pernas que vencem valem o intrínseco; as mais longas são marcadas por Black-Scholes com a vol de entrada. Preços de entrada são os de último negócio da grade, sem custos nem book. Um vencimento não prova nada: o placar vale pela soma de muitos.</p>
     </div>
 

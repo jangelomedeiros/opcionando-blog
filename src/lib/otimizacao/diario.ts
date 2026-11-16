@@ -24,7 +24,8 @@ export function registroDe(v: any): Registro {
   };
 }
 
-function posicao(r: Registro, e: EstruturaRegistro): Posicao {
+/** Posição de entrada de uma estrutura do registro (pernas pelo preço do dia, vol ancorada nele). */
+export function posicaoDoRegistro(r: { data: string; spot: number }, e: { pernas: PernaRegistro[] }): Posicao {
   return {
     realizado: 0,
     pernas: e.pernas.map((p, i): Perna => {
@@ -42,7 +43,7 @@ export function apurar(r: Registro, candles: { d: string; c: number }[]): Apurac
   return r.estruturas.map((e) => {
     const c = fech.get(e.venc1);
     if (c === undefined) return { ...e, data: r.data, status: 'pendente', fechamento: null, resultado: null, acerto: null };
-    const res = resultado(posicao(r, e), { data: e.venc1, spot: c });
+    const res = resultado(posicaoDoRegistro(r, e), { data: e.venc1, spot: c });
     // "Montar" acerta quando dá lucro; "não montar" acerta quando a montagem teria perdido (ou empatado).
     const acerto = e.veredito === 'nao-montar' ? res <= 0 : res > 0;
     return { ...e, data: r.data, status: 'apurado', fechamento: c, resultado: res, acerto };

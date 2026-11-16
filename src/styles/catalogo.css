@@ -190,3 +190,20 @@ button.ver-traj[hidden] { display: none; }
 .hoje-lista li.diario-erro { border-left-color: var(--prejuizo); }
 .hoje-lista li.diario-pendente { border-left-color: var(--borda-forte); }
 .hoje-grupo h3.mini { margin: 1.2rem 0 0; }
+
+/* Estudo dos vencimentos */
+.estudo { margin: 14px 0; padding: 12px 14px; border-radius: 12px; border: 1px solid var(--borda); border-left: 5px solid var(--borda-forte); background: var(--bg-card); }
+.estudo.ok { border-left-color: var(--lucro); }
+.estudo.nao { border-left-color: var(--prejuizo); }
+.estudo h3 { margin: 0 0 6px; font-size: 1.05rem; }
+.estudo .pos { color: var(--lucro-texto); } .estudo .neg { color: var(--prejuizo-texto); }
+.estudo-exercicio { margin: 6px 0; padding-left: 1.1rem; font-size: 0.88rem; }
+.estudo-tab td, .estudo-tab th { font-size: 0.84rem; vertical-align: top; }
+.estudo-tab tr.sugerida td { background: color-mix(in srgb, var(--lucro) 10%, transparent); }
+.estudo-tab small { color: var(--lucro-texto); font-weight: 700; margin-left: 4px; }
+.estudo-tab td:nth-child(2), .estudo-tab td:nth-child(3), .estudo-tab td:nth-child(4) { white-space: nowrap; }
+.plano-estrutura { margin: 6px 0; padding: 8px 12px; border-radius: 10px; border: 1px solid var(--borda); background: var(--bg-card); }
+.plano-estrutura summary { cursor: pointer; font-size: 0.9rem; }
+.plano-resumo { display: block; color: var(--texto-suave); font-size: 0.8rem; margin-top: 2px; }
+.plano-estrutura .estudo-tab .pos { color: var(--lucro-texto); } .plano-estrutura .estudo-tab .neg { color: var(--prejuizo-texto); }
+.plano-estrutura .estudo-tab td:nth-child(1), .plano-estrutura .estudo-tab td:nth-child(2), .plano-estrutura .estudo-tab td:nth-child(3), .plano-estrutura .estudo-tab td:nth-child(6), .plano-estrutura .estudo-tab td:nth-child(7), .plano-estrutura .estudo-tab td:nth-child(8) { white-space: nowrap; }
