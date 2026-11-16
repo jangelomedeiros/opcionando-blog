@@ -5,7 +5,8 @@ import { readFileSync } from 'node:fs';
 import { opcaoDaGrade } from '../src/lib/conceitos/jornada.ts';
 
 const ler = (p) => readFileSync(new URL(`../${p}`, import.meta.url), 'utf8');
-const GRADE = JSON.parse(ler('src/data/grades/bbas3-2026-11-13.json'));
+const FONTES = JSON.parse(ler('src/data/laboratorio/fontes.json'));
+const GRADE = JSON.parse(ler(FONTES.grade));
 
 test('/conceitos/ lista a Jornada', () => {
   assert.match(ler('dist/conceitos/index.html'), /href="\/conceitos\/jornada-do-premio\/"/);

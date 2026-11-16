@@ -20,6 +20,10 @@ Em `dados-brutos/2026-10-26/ohlcv/`, os arquivos `old_*.json` têm os 299 primei
 
 ## Grade de opções e preços do catálogo (só biblioteca padrão)
 
+**Um comando:** `node scripts/nova_grade.mjs PLANILHA.xlsx dados-brutos/AAAA-MM-DD/ohlcv/BBAS3.json` faz os passos abaixo em ordem (importa a grade, gera os candles do OHLCV do TradingView, aponta `src/data/laboratorio/fontes.json` para os dois, otimiza, builda e testa) e para no primeiro erro. Com `--plano`, só lista os passos. O OHLCV diário vem do conector TradingView (formato de colunas `t, o, h, l, c, v`), com pelo menos 323 pregões para a média de 200.
+
+Passo a passo, se preferir:
+
 1. `python -I scripts/importar_grade.py PLANILHA.xlsx src/data/grades/bbas3-AAAA-MM-DD.json` — guarda a grade completa do opcoes.net.br por data (histórico).
 2. `node scripts/otimizar_montagens.mjs src/data/grades/bbas3-AAAA-MM-DD.json src/data/candles/bbas3-AAAA-MM-DD.json` — monta as 62 estruturas na grade da forma otimizada (desenho e regras do POP, maior valor esperado por risco com a vol realizada, manejo aplicável) e regrava `src/data/laboratorio/mercado.csv`, `src/data/laboratorio/validacao.json` (caixa "Validação do operador") e o relatório `docs/revisao/AAAA-MM-DD-validacao-estruturas.md` (a seção "Leitura do operador" é preservada). Critério em `docs/superpowers/specs/2026-11-16-otimizacao-montagens-design.md`.
 3. `npm run build && npm test` — confere que todas as pernas existem na grade, que nada ficou vencido e que `validacao.json` bate com `mercado.csv`.

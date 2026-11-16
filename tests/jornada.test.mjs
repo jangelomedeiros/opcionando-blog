@@ -4,8 +4,9 @@ import { readFileSync } from 'node:fs';
 import { opcaoDaGrade, diasDaOpcao, trajetoriaCenario, trechosHistoricos, jornada, comentario, equacaoValor } from '../src/lib/conceitos/jornada.ts';
 
 const ler = (p) => readFileSync(new URL(`../${p}`, import.meta.url), 'utf8');
-const GRADE = JSON.parse(ler('src/data/grades/bbas3-2026-11-13.json'));
-const CANDLES = JSON.parse(ler('src/data/candles/bbas3-2026-11-12.json'));
+const FONTES = JSON.parse(ler('src/data/laboratorio/fontes.json'));
+const GRADE = JSON.parse(ler(FONTES.grade));
+const CANDLES = JSON.parse(ler(FONTES.candles));
 const CENARIOS = ['alta-lenta', 'queda-brusca', 'lateral', 'gap-balanco'];
 const perto = (a, b, tol, msg = '') => assert.ok(Math.abs(a - b) <= tol, `${msg} ${a} vs ${b}`);
 const call = opcaoDaGrade(GRADE, 'call'), put = opcaoDaGrade(GRADE, 'put');

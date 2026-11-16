@@ -26,6 +26,28 @@ export function fraseDinamica(g: GregasV): string {
   return partes.join('; ') + '.';
 }
 
+export interface MercadoV {
+  data: string; ativo: string; spot: number; sigma: number; sigmaEstresse: number; hv20: number; hv60: number; hv120: number;
+  tendencia: 'alta' | 'baixa' | 'lateral'; m20: number; m50: number; m200: number; ivMin: number; ivMax: number;
+}
+
+/** Frases do painel "Hoje no mercado": tendência, vol realizada, implícita e a conclusão (vende/compra vol). */
+export function resumoMercado(m: MercadoV): { tendencia: string; vol: string; implicita: string; conclusao: string } {
+  const rs = (v: number) => `R$ ${v.toFixed(2).replace('.', ',')}`;
+  const medias = `médias de 20, 50 e 200 em ${rs(m.m20)}, ${rs(m.m50)} e ${rs(m.m200)}`;
+  const tendencia = m.tendencia === 'lateral'
+    ? `${m.ativo} a ${rs(m.spot)}, entre as ${medias}: mercado lateral, sem tendência definida.`
+    : `${m.ativo} a ${rs(m.spot)}, ${m.tendencia === 'baixa' ? 'abaixo' : 'acima'} das ${medias}: tendência de ${m.tendencia}.`;
+  const vol = `Vol realizada HV20 ${pct(m.hv20)}, HV60 ${pct(m.hv60)}, HV120 ${pct(m.hv120)}; sem os dois maiores gaps, ${pct(m.sigma)} em 120 pregões (base do valor esperado) e ${pct(m.sigmaEstresse)} em 60 (estresse).`;
+  const implicita = `Vol implícita ATM entre ${pct(m.ivMin)} e ${pct(m.ivMax)} nos vencimentos usados.`;
+  const conclusao = m.ivMin > m.sigma
+    ? 'A implícita está acima da realizada sem gaps: a vantagem estatística hoje é de quem vende vol, desde que o mercado não repita o gap.'
+    : m.ivMax < m.sigma
+      ? 'A implícita está abaixo da realizada sem gaps: a vantagem estatística hoje é de quem compra vol.'
+      : 'A implícita cruza a realizada sem gaps: não há vantagem clara para vender nem para comprar vol.';
+  return { tendencia, vol, implicita, conclusao };
+}
+
 /** O momento do mercado contra a visão da montagem: tendência × viés e implícita × realizada. */
 export function fraseContexto(c: ContextoV): string {
   const tend = c.tendencia === 'lateral' ? 'mercado lateral' : `tendência de ${c.tendencia} (preço ${c.tendencia === 'baixa' ? 'abaixo' : 'acima'} das médias de 20, 50 e 200)`;

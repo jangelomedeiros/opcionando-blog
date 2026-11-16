@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { fraseDinamica, fraseContexto, VEREDITO } from '../src/lib/otimizacao/validacao.ts';
+import { fraseDinamica, fraseContexto, resumoMercado, VEREDITO } from '../src/lib/otimizacao/validacao.ts';
 import { lerMercadoCsv } from '../src/lib/catalogo/converter.ts';
 
 const ler = (p) => readFileSync(new URL(`../${p}`, import.meta.url), 'utf8');
@@ -76,4 +76,19 @@ test('fraseContexto em mercado lateral não fala em a favor ou contra a tendênc
   assert.doesNotMatch(f, /contra a tendência|a favor da tendência/);
   assert.match(f, /30%.*abaixo.*33%/);
   for (const v of V.estruturas) if (v.contexto.tendencia === 'lateral') assert.equal(v.contexto.aFavorDaTendencia, null, v.id);
+});
+
+test('resumoMercado: frases do painel "Hoje no mercado" derivadas dos números', () => {
+  const m = { data: '2026-11-13', ativo: 'BBAS3', spot: 15.1, sigma: 0.332, sigmaEstresse: 0.389, hv20: 1.28, hv60: 0.84, hv120: 0.62, tendencia: 'baixa', m20: 19.28, m50: 21.48, m200: 21.91, ivMin: 0.34, ivMax: 0.45 };
+  const r = resumoMercado(m);
+  assert.match(r.tendencia, /abaixo das médias de 20, 50 e 200/);
+  assert.match(r.tendencia, /baixa/);
+  assert.match(r.vol, /HV20 128%/);
+  assert.match(r.vol, /33%/);
+  assert.match(r.implicita, /34% e 45%/);
+  assert.match(r.conclusao, /vende vol/);
+  const lateral = resumoMercado({ ...m, tendencia: 'lateral', ivMin: 0.3, ivMax: 0.36 });
+  assert.match(lateral.tendencia, /lateral/);
+  assert.match(lateral.conclusao, /não há vantagem clara/);
+  assert.match(resumoMercado({ ...m, ivMin: 0.2, ivMax: 0.3 }).conclusao, /compra vol/);
 });
