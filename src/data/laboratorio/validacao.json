@@ -1,0 +1,4715 @@
+{
+ "mercado": {
+  "data": "2026-11-13",
+  "ativo": "BBAS3",
+  "spot": 15.1,
+  "sigma": 0.3300445670896653,
+  "sigmaEstresse": 0.392716024891605,
+  "hv20": 1.2815287450105977,
+  "hv60": 0.8418634949077155,
+  "hv120": 0.6191152440519514,
+  "tendencia": "baixa",
+  "m20": 19.28,
+  "m50": 21.48,
+  "m200": 21.91
+ },
+ "estruturas": [
+  {
+   "id": "covered-call",
+   "veredito": "montar",
+   "avisos": [
+    "vantagem frágil: some com a vol do estresse"
+   ],
+   "montagem": {
+    "pernas": [
+     {
+      "tipo": "acao",
+      "q": 1,
+      "ticker": "BBAS3",
+      "strike": null,
+      "venc": null,
+      "preco": 15.1,
+      "origem": "ultimo",
+      "negocios": null
+     },
+     {
+      "tipo": "call",
+      "q": -1,
+      "ticker": "BBASL158",
+      "strike": 15.7,
+      "venc": "2026-12-18",
+      "preco": 0.51,
+      "origem": "ultimo",
+      "negocios": 408
+     }
+    ],
+    "credito": 0.51,
+    "du1": 23,
+    "janela": [
+     20,
+     45
+    ],
+    "deltaEstrutural": null,
+    "candidatas": 11
+   },
+   "lucro": {
+    "ev": 0.07548583650198176,
+    "prob": 0.6636805627985297,
+    "risco": -10.06,
+    "evEstresse": -0.03673163362265486,
+    "probEstresse": 0.6321967210141448,
+    "ganhoMax": 1.1100000000000012,
+    "perdaMax": -14.59,
+    "equilibrios": [
+     14.59
+    ]
+   },
+   "contexto": {
+    "tendencia": "baixa",
+    "vies": "altista",
+    "aFavorDaTendencia": false,
+    "ivAtm": 0.3716671668435446,
+    "volRealizada": 0.3300445670896653,
+    "vendeVol": true,
+    "aFavorDaVol": true
+   },
+   "dinamica": {
+    "delta": 0.566869899774048,
+    "gama": -0.231529227353787,
+    "theta": 0.018115205961700416,
+    "vega": -0.01794286939672147
+   }
+  },
+  {
+   "id": "cash-put",
+   "veredito": "montar",
+   "avisos": [],
+   "montagem": {
+    "pernas": [
+     {
+      "tipo": "put",
+      "q": -1,
+      "ticker": "BBASX13",
+      "strike": 13.95,
+      "venc": "2026-12-18",
+      "preco": 0.25,
+      "origem": "ultimo",
+      "negocios": 133
+     }
+    ],
+    "credito": 0.25,
+    "du1": 23,
+    "janela": [
+     20,
+     45
+    ],
+    "deltaEstrutural": null,
+    "candidatas": 9
+   },
+   "lucro": {
+    "ev": 0.11378188190819752,
+    "prob": 0.851465968571936,
+    "risco": -9.17,
+    "evEstresse": 0.0382586075101817,
+    "probEstresse": 0.8048057500360828,
+    "ganhoMax": 0.25,
+    "perdaMax": -13.7,
+    "equilibrios": [
+     13.7
+    ]
+   },
+   "contexto": {
+    "tendencia": "baixa",
+    "vies": "altista",
+    "aFavorDaTendencia": false,
+    "ivAtm": 0.3716671668435446,
+    "volRealizada": 0.3300445670896653,
+    "vendeVol": true,
+    "aFavorDaVol": true
+   },
+   "dinamica": {
+    "delta": 0.21413121302447347,
+    "gama": -0.15135283245456113,
+    "theta": 0.010131579364843452,
+    "vega": -0.013297930107272704
+   }
+  },
+  {
+   "id": "booster-call",
+   "veredito": "montar",
+   "avisos": [
+    "vantagem frágil: some com a vol do estresse"
+   ],
+   "montagem": {
+    "pernas": [
+     {
+      "tipo": "acao",
+      "q": 1,
+      "ticker": "BBAS3",
+      "strike": null,
+      "venc": null,
+      "preco": 15.1,
+      "origem": "ultimo",
+      "negocios": null
+     },
+     {
+      "tipo": "call",
+      "q": 1,
+      "ticker": "BBASL145",
+      "strike": 14.45,
+      "venc": "2026-12-18",
+      "preco": 1.15,
+      "origem": "ultimo",
+      "negocios": 27
+     },
+     {
+      "tipo": "call",
+      "q": -2,
+      "ticker": "BBASL150",
+      "strike": 14.95,
+      "venc": "2026-12-18",
+      "preco": 0.87,
+      "origem": "ultimo",
+      "negocios": 313
+     }
+    ],
+    "credito": 0.5900000000000001,
+    "du1": 23,
+    "janela": [
+     20,
+     45
+    ],
+    "deltaEstrutural": null,
+    "candidatas": 39
+   },
+   "lucro": {
+    "ev": 0.11850965710635064,
+    "prob": 0.695370282634809,
+    "risco": -9.98,
+    "evEstresse": -0.005173973985507896,
+    "probEstresse": 0.6598813552570184,
+    "ganhoMax": 0.9400000000000048,
+    "perdaMax": -14.51,
+    "equilibrios": [
+     14.48
+    ]
+   },
+   "contexto": {
+    "tendencia": "baixa",
+    "vies": "altista",
+    "aFavorDaTendencia": false,
+    "ivAtm": 0.3716671668435446,
+    "volRealizada": 0.3300445670896653,
+    "vendeVol": true,
+    "aFavorDaVol": true
+   },
+   "dinamica": {
+    "delta": 0.5111846448601545,
+    "gama": -0.2432858920569416,
+    "theta": 0.02080989122102069,
+    "vega": -0.01978591469343361
+   }
+  },
+  {
+   "id": "booster-put",
+   "veredito": "montar",
+   "avisos": [],
+   "montagem": {
+    "pernas": [
+     {
+      "tipo": "put",
+      "q": 1,
+      "ticker": "BBASM163",
+      "strike": 16.2,
+      "venc": "2027-01-15",
+      "preco": 1.25,
+      "origem": "ultimo",
+      "negocios": 30
+     },
+     {
+      "tipo": "put",
+      "q": -2,
+      "ticker": "BBASM15",
+      "strike": 14.7,
+      "venc": "2027-01-15",
+      "preco": 0.55,
+      "origem": "ultimo",
+      "negocios": 78
+     }
+    ],
+    "credito": -0.1499999999999999,
+    "du1": 39,
+    "janela": [
+     20,
+     45
+    ],
+    "deltaEstrutural": null,
+    "candidatas": 39
+   },
+   "lucro": {
+    "ev": 0.16692906997199475,
+    "prob": 0.5005208312842102,
+    "risco": -8.819999999999999,
+    "evEstresse": 0.03900069856479016,
+    "probEstresse": 0.43838413008921906,
+    "ganhoMax": 1.35,
+    "perdaMax": -13.349999999999998,
+    "equilibrios": [
+     13.35,
+     16.05
+    ]
+   },
+   "contexto": {
+    "tendencia": "baixa",
+    "vies": "neutra",
+    "aFavorDaTendencia": null,
+    "ivAtm": 0.34422027692020474,
+    "volRealizada": 0.3300445670896653,
+    "vendeVol": true,
+    "aFavorDaVol": true
+   },
+   "dinamica": {
+    "delta": 0.07020653468676619,
+    "gama": -0.1404082569558055,
+    "theta": 0.010398358574202921,
+    "vega": -0.02074801517280169
+   }
+  },
+  {
+   "id": "b1",
+   "veredito": "montar",
+   "avisos": [],
+   "montagem": {
+    "pernas": [
+     {
+      "tipo": "call",
+      "q": 1,
+      "ticker": "BBASL13",
+      "strike": 13.95,
+      "venc": "2026-12-18",
+      "preco": 1.52,
+      "origem": "ultimo",
+      "negocios": 16
+     },
+     {
+      "tipo": "call",
+      "q": -2,
+      "ticker": "BBASL14",
+      "strike": 14.7,
+      "venc": "2026-12-18",
+      "preco": 1.11,
+      "origem": "ultimo",
+      "negocios": 101
+     },
+     {
+      "tipo": "put",
+      "q": 1,
+      "ticker": "BBASX155",
+      "strike": 15.45,
+      "venc": "2026-12-18",
+      "preco": 0.76,
+      "origem": "ultimo",
+      "negocios": 240
+     },
+     {
+      "tipo": "put",
+      "q": -2,
+      "ticker": "BBASX14",
+      "strike": 14.7,
+      "venc": "2026-12-18",
+      "preco": 0.45,
+      "origem": "ultimo",
+      "negocios": 179
+     }
+    ],
+    "credito": 0.8400000000000002,
+    "du1": 23,
+    "janela": [
+     12,
+     24
+    ],
+    "deltaEstrutural": null,
+    "candidatas": 18
+   },
+   "lucro": {
+    "ev": 0.44518714983541796,
+    "prob": 0.6704660220385145,
+    "risco": -21.459999999999997,
+    "evEstresse": 0.2183686363725319,
+    "probEstresse": 0.6017307693401617,
+    "ganhoMax": 2.3400000000000003,
+    "perdaMax": null,
+    "equilibrios": [
+     13.11,
+     16.29
+    ]
+   },
+   "contexto": {
+    "tendencia": "baixa",
+    "vies": "baixista",
+    "aFavorDaTendencia": true,
+    "ivAtm": 0.3716671668435446,
+    "volRealizada": 0.3300445670896653,
+    "vendeVol": true,
+    "aFavorDaVol": true
+   },
+   "dinamica": {
+    "delta": -0.2967624870063186,
+    "gama": -0.3895092293694593,
+    "theta": 0.03863996563738119,
+    "vega": -0.03714783752216686
+   }
+  },
+  {
+   "id": "b2",
+   "veredito": "montar",
+   "avisos": [
+    "nenhuma montagem fecha a custo zero hoje: regra do POP relaxada",
+    "vantagem frágil: some com a vol do estresse"
+   ],
+   "montagem": {
+    "pernas": [
+     {
+      "tipo": "call",
+      "q": 1,
+      "ticker": "BBASA151",
+      "strike": 13.7,
+      "venc": "2027-01-15",
+      "preco": 1.85,
+      "origem": "ultimo",
+      "negocios": 14
+     },
+     {
+      "tipo": "call",
+      "q": -2,
+      "ticker": "BBASA161",
+      "strike": 15.7,
+      "venc": "2027-01-15",
+      "preco": 0.68,
+      "origem": "ultimo",
+      "negocios": 35
+     },
+     {
+      "tipo": "put",
+      "q": 1,
+      "ticker": "BBASM181",
+      "strike": 16.7,
+      "venc": "2027-01-15",
+      "preco": 1.63,
+      "origem": "ultimo",
+      "negocios": 9
+     },
+     {
+      "tipo": "put",
+      "q": -2,
+      "ticker": "BBASM15",
+      "strike": 14.7,
+      "venc": "2027-01-15",
+      "preco": 0.55,
+      "origem": "ultimo",
+      "negocios": 78
+     }
+    ],
+    "credito": -1.02,
+    "du1": 39,
+    "janela": [
+     30,
+     45
+    ],
+    "deltaEstrutural": null,
+    "candidatas": 2
+   },
+   "lucro": {
+    "ev": 0.1846189279758501,
+    "prob": 0.5436066626224171,
+    "risco": -21.069999999999993,
+    "evEstresse": -0.15377292506219997,
+    "probEstresse": 0.46990637163516186,
+    "ganhoMax": 1.9800000000000002,
+    "perdaMax": null,
+    "equilibrios": [
+     13.71,
+     16.69
+    ]
+   },
+   "contexto": {
+    "tendencia": "baixa",
+    "vies": "neutra",
+    "aFavorDaTendencia": null,
+    "ivAtm": 0.34422027692020474,
+    "volRealizada": 0.3300445670896653,
+    "vendeVol": true,
+    "aFavorDaVol": true
+   },
+   "dinamica": {
+    "delta": -0.09830078864684766,
+    "gama": -0.4402499700688141,
+    "theta": 0.02770702745607586,
+    "vega": -0.05638635141423527
+   }
+  },
+  {
+   "id": "b3-2x3",
+   "veredito": "montar",
+   "avisos": [
+    "vantagem frágil: some com a vol do estresse"
+   ],
+   "montagem": {
+    "pernas": [
+     {
+      "tipo": "call",
+      "q": 2,
+      "ticker": "BBASA161",
+      "strike": 15.7,
+      "venc": "2027-01-15",
+      "preco": 0.68,
+      "origem": "ultimo",
+      "negocios": 35
+     },
+     {
+      "tipo": "call",
+      "q": -3,
+      "ticker": "BBASA160",
+      "strike": 15.95,
+      "venc": "2027-01-15",
+      "preco": 0.59,
+      "origem": "ultimo",
+      "negocios": 42
+     },
+     {
+      "tipo": "put",
+      "q": 2,
+      "ticker": "BBASM160",
+      "strike": 15.95,
+      "venc": "2027-01-15",
+      "preco": 1.1,
+      "origem": "ultimo",
+      "negocios": 52
+     },
+     {
+      "tipo": "put",
+      "q": -3,
+      "ticker": "BBASM161",
+      "strike": 15.7,
+      "venc": "2027-01-15",
+      "preco": 1,
+      "origem": "ultimo",
+      "negocios": 38
+     }
+    ],
+    "credito": 1.2099999999999997,
+    "du1": 39,
+    "janela": [
+     25,
+     60
+    ],
+    "deltaEstrutural": null,
+    "candidatas": 13
+   },
+   "lucro": {
+    "ev": 0.2091164589632145,
+    "prob": 0.6314404798301909,
+    "risco": -20.089999999999993,
+    "evEstresse": -0.08601231496045636,
+    "probEstresse": 0.5510846213733025,
+    "ganhoMax": 1.7099999999999997,
+    "perdaMax": null,
+    "equilibrios": [
+     13.99,
+     17.66
+    ]
+   },
+   "contexto": {
+    "tendencia": "baixa",
+    "vies": "neutra",
+    "aFavorDaTendencia": null,
+    "ivAtm": 0.34422027692020474,
+    "volRealizada": 0.3300445670896653,
+    "vendeVol": true,
+    "aFavorDaVol": true
+   },
+   "dinamica": {
+    "delta": 0.07675704874922795,
+    "gama": -0.3548201755503357,
+    "theta": 0.021162256581753656,
+    "vega": -0.046993070442493845
+   }
+  },
+  {
+   "id": "b3-3x4",
+   "veredito": "montar",
+   "avisos": [
+    "vantagem frágil: some com a vol do estresse"
+   ],
+   "montagem": {
+    "pernas": [
+     {
+      "tipo": "call",
+      "q": 3,
+      "ticker": "BBASA161",
+      "strike": 15.7,
+      "venc": "2027-01-15",
+      "preco": 0.68,
+      "origem": "ultimo",
+      "negocios": 35
+     },
+     {
+      "tipo": "call",
+      "q": -4,
+      "ticker": "BBASA160",
+      "strike": 15.95,
+      "venc": "2027-01-15",
+      "preco": 0.59,
+      "origem": "ultimo",
+      "negocios": 42
+     },
+     {
+      "tipo": "put",
+      "q": 3,
+      "ticker": "BBASM160",
+      "strike": 15.95,
+      "venc": "2027-01-15",
+      "preco": 1.1,
+      "origem": "ultimo",
+      "negocios": 52
+     },
+     {
+      "tipo": "put",
+      "q": -4,
+      "ticker": "BBASM161",
+      "strike": 15.7,
+      "venc": "2027-01-15",
+      "preco": 1,
+      "origem": "ultimo",
+      "negocios": 38
+     }
+    ],
+    "credito": 1.0199999999999996,
+    "du1": 39,
+    "janela": [
+     25,
+     60
+    ],
+    "deltaEstrutural": null,
+    "candidatas": 13
+   },
+   "lucro": {
+    "ev": 0.26337973216807475,
+    "prob": 0.6314404798301909,
+    "risco": -20.02999999999999,
+    "evEstresse": -0.0317490417555949,
+    "probEstresse": 0.5510846213733025,
+    "ganhoMax": 1.7699999999999996,
+    "perdaMax": null,
+    "equilibrios": [
+     13.93,
+     17.72
+    ]
+   },
+   "contexto": {
+    "tendencia": "baixa",
+    "vies": "neutra",
+    "aFavorDaTendencia": null,
+    "ivAtm": 0.34422027692020474,
+    "volRealizada": 0.3300445670896653,
+    "vendeVol": true,
+    "aFavorDaVol": true
+   },
+   "dinamica": {
+    "delta": 0.07352927473968585,
+    "gama": -0.34231709639493035,
+    "theta": 0.021991856264124823,
+    "vega": -0.04697401114602749
+   }
+  },
+  {
+   "id": "bwb",
+   "veredito": "montar",
+   "avisos": [],
+   "montagem": {
+    "pernas": [
+     {
+      "tipo": "call",
+      "q": 1,
+      "ticker": "BBASL145",
+      "strike": 14.45,
+      "venc": "2026-12-18",
+      "preco": 1.15,
+      "origem": "ultimo",
+      "negocios": 27
+     },
+     {
+      "tipo": "call",
+      "q": -2,
+      "ticker": "BBASL14",
+      "strike": 14.7,
+      "venc": "2026-12-18",
+      "preco": 1.11,
+      "origem": "ultimo",
+      "negocios": 101
+     },
+     {
+      "tipo": "call",
+      "q": 1,
+      "ticker": "BBASL153",
+      "strike": 15.2,
+      "venc": "2026-12-18",
+      "preco": 0.71,
+      "origem": "ultimo",
+      "negocios": 318
+     }
+    ],
+    "credito": 0.3600000000000003,
+    "du1": 23,
+    "janela": [
+     23,
+     45
+    ],
+    "deltaEstrutural": -0.25,
+    "candidatas": 34
+   },
+   "lucro": {
+    "ev": 0.24187404858732486,
+    "prob": 1,
+    "risco": 0,
+    "evEstresse": 0.24307619481222542,
+    "probEstresse": 1,
+    "ganhoMax": 0.6100000000000003,
+    "perdaMax": 0,
+    "equilibrios": []
+   },
+   "contexto": {
+    "tendencia": "baixa",
+    "vies": "neutra",
+    "aFavorDaTendencia": null,
+    "ivAtm": 0.3716671668435446,
+    "volRealizada": 0.3300445670896653,
+    "vendeVol": true,
+    "aFavorDaVol": true
+   },
+   "dinamica": {
+    "delta": -0.02477533648253616,
+    "gama": 0.06839522058572528,
+    "theta": 0.005728105316016849,
+    "vega": -0.0004994335512305617
+   }
+  },
+  {
+   "id": "collar",
+   "veredito": "nao-montar",
+   "avisos": [
+    "nenhuma montagem tem valor esperado positivo com a vol realizada de hoje"
+   ],
+   "montagem": {
+    "pernas": [
+     {
+      "tipo": "acao",
+      "q": 1,
+      "ticker": "BBAS3",
+      "strike": null,
+      "venc": null,
+      "preco": 15.1,
+      "origem": "ultimo",
+      "negocios": null
+     },
+     {
+      "tipo": "call",
+      "q": -1,
+      "ticker": "BBASL158",
+      "strike": 15.7,
+      "venc": "2026-12-18",
+      "preco": 0.51,
+      "origem": "ultimo",
+      "negocios": 408
+     },
+     {
+      "tipo": "put",
+      "q": 1,
+      "ticker": "BBASX150",
+      "strike": 14.95,
+      "venc": "2026-12-18",
+      "preco": 0.53,
+      "origem": "ultimo",
+      "negocios": 386
+     }
+    ],
+    "credito": -0.020000000000000018,
+    "du1": 23,
+    "janela": [
+     20,
+     45
+    ],
+    "deltaEstrutural": null,
+    "candidatas": 48
+   },
+   "lucro": {
+    "ev": -0.02105548263062479,
+    "prob": 0.5271557540359603,
+    "risco": -0.1700000000000026,
+    "evEstresse": -0.023377926257964865,
+    "probEstresse": 0.5158848520302473,
+    "ganhoMax": 0.5800000000000012,
+    "perdaMax": -0.1700000000000026,
+    "equilibrios": [
+     15.12
+    ]
+   },
+   "contexto": {
+    "tendencia": "baixa",
+    "vies": "altista",
+    "aFavorDaTendencia": false,
+    "ivAtm": 0.3716671668435446,
+    "volRealizada": 0.3300445670896653,
+    "vendeVol": true,
+    "aFavorDaVol": true
+   },
+   "dinamica": {
+    "delta": 0.1700673159744921,
+    "gama": -0.012117872315084072,
+    "theta": 0.0072715077560800145,
+    "vega": -0.00035607652979382023
+   }
+  },
+  {
+   "id": "bull-spread",
+   "veredito": "nao-montar",
+   "avisos": [
+    "nenhuma montagem tem valor esperado positivo com a vol realizada de hoje"
+   ],
+   "montagem": {
+    "pernas": [
+     {
+      "tipo": "call",
+      "q": 1,
+      "ticker": "BBASK155W4",
+      "strike": 15.5,
+      "venc": "2026-11-27",
+      "preco": 0.28,
+      "origem": "ultimo",
+      "negocios": 59
+     },
+     {
+      "tipo": "call",
+      "q": -1,
+      "ticker": "BBASK160W4",
+      "strike": 16,
+      "venc": "2026-11-27",
+      "preco": 0.14,
+      "origem": "ultimo",
+      "negocios": 11
+     }
+    ],
+    "credito": -0.14,
+    "du1": 8,
+    "janela": [
+     6,
+     12
+    ],
+    "deltaEstrutural": 0.5,
+    "candidatas": 3
+   },
+   "lucro": {
+    "ev": -0.012502447360047658,
+    "prob": 0.2802421625562296,
+    "risco": -0.14,
+    "evEstresse": 0.0027177755816157334,
+    "probEstresse": 0.30871362228930477,
+    "ganhoMax": 0.3600000000000012,
+    "perdaMax": -0.14,
+    "equilibrios": [
+     15.64
+    ]
+   },
+   "contexto": {
+    "tendencia": "baixa",
+    "vies": "altista",
+    "aFavorDaTendencia": false,
+    "ivAtm": 0.4026017273019168,
+    "volRealizada": 0.3300445670896653,
+    "vendeVol": false,
+    "aFavorDaVol": false
+   },
+   "dinamica": {
+    "delta": 0.15809007453463392,
+    "gama": 0.07562275939407603,
+    "theta": -0.006295669134080299,
+    "vega": 0.0020846472924111424
+   }
+  },
+  {
+   "id": "bear-put-spread",
+   "veredito": "montar",
+   "avisos": [],
+   "montagem": {
+    "pernas": [
+     {
+      "tipo": "put",
+      "q": 1,
+      "ticker": "BBASW160W4",
+      "strike": 16,
+      "venc": "2026-11-27",
+      "preco": 0.94,
+      "origem": "ultimo",
+      "negocios": 9
+     },
+     {
+      "tipo": "put",
+      "q": -1,
+      "ticker": "BBASW155W4",
+      "strike": 15.5,
+      "venc": "2026-11-27",
+      "preco": 0.64,
+      "origem": "ultimo",
+      "negocios": 14
+     }
+    ],
+    "credito": -0.29999999999999993,
+    "du1": 8,
+    "janela": [
+     6,
+     12
+    ],
+    "deltaEstrutural": 0.5,
+    "candidatas": 3
+   },
+   "lucro": {
+    "ev": 0.0701271549257293,
+    "prob": 0.7197578374437704,
+    "risco": -0.29999999999999993,
+    "evEstresse": 0.054906931984066376,
+    "probEstresse": 0.6912863777106952,
+    "ganhoMax": 0.20000000000000107,
+    "perdaMax": -0.29999999999999993,
+    "equilibrios": [
+     15.7
+    ]
+   },
+   "contexto": {
+    "tendencia": "baixa",
+    "vies": "baixista",
+    "aFavorDaTendencia": true,
+    "ivAtm": 0.4026017273019168,
+    "volRealizada": 0.3300445670896653,
+    "vendeVol": true,
+    "aFavorDaVol": true
+   },
+   "dinamica": {
+    "delta": -0.18773345487671933,
+    "gama": -0.0411380838202276,
+    "theta": 0.011539347189629467,
+    "vega": -0.002551480971307361
+   }
+  },
+  {
+   "id": "thl-call",
+   "veredito": "montar",
+   "avisos": [],
+   "montagem": {
+    "pernas": [
+     {
+      "tipo": "call",
+      "q": 1,
+      "ticker": "BBASA15",
+      "strike": 14.7,
+      "venc": "2027-01-15",
+      "preco": 1.21,
+      "origem": "ultimo",
+      "negocios": 35
+     },
+     {
+      "tipo": "call",
+      "q": -1,
+      "ticker": "BBASL14",
+      "strike": 14.7,
+      "venc": "2026-12-18",
+      "preco": 1.11,
+      "origem": "ultimo",
+      "negocios": 101
+     }
+    ],
+    "credito": -0.09999999999999987,
+    "du1": 23,
+    "janela": [
+     23,
+     60
+    ],
+    "deltaEstrutural": null,
+    "candidatas": 4
+   },
+   "lucro": {
+    "ev": 0.14518613093341792,
+    "prob": 0.9046560312320259,
+    "risco": -0.10000000000000031,
+    "evEstresse": 0.12377470716754124,
+    "probEstresse": 0.8604403484173426,
+    "ganhoMax": 0.453326375279542,
+    "perdaMax": -0.10000000000000031,
+    "equilibrios": [
+     13.43
+    ]
+   },
+   "contexto": {
+    "tendencia": "baixa",
+    "vies": "neutra",
+    "aFavorDaTendencia": null,
+    "ivAtm": 0.3716671668435446,
+    "volRealizada": 0.3300445670896653,
+    "vendeVol": false,
+    "aFavorDaVol": false
+   },
+   "dinamica": {
+    "delta": 0.024121396380283877,
+    "gama": -0.008998055701402025,
+    "theta": 0.006450137951791023,
+    "vega": 0.00454239570434712
+   }
+  },
+  {
+   "id": "clade",
+   "veredito": "montar",
+   "avisos": [],
+   "montagem": {
+    "pernas": [
+     {
+      "tipo": "call",
+      "q": 3,
+      "ticker": "BBASA15",
+      "strike": 14.7,
+      "venc": "2027-01-15",
+      "preco": 1.21,
+      "origem": "ultimo",
+      "negocios": 35
+     },
+     {
+      "tipo": "call",
+      "q": -4,
+      "ticker": "BBASL14",
+      "strike": 14.7,
+      "venc": "2026-12-18",
+      "preco": 1.11,
+      "origem": "ultimo",
+      "negocios": 101
+     },
+     {
+      "tipo": "put",
+      "q": 3,
+      "ticker": "BBASM15",
+      "strike": 14.7,
+      "venc": "2027-01-15",
+      "preco": 0.55,
+      "origem": "ultimo",
+      "negocios": 78
+     },
+     {
+      "tipo": "put",
+      "q": -4,
+      "ticker": "BBASX14",
+      "strike": 14.7,
+      "venc": "2026-12-18",
+      "preco": 0.45,
+      "origem": "ultimo",
+      "negocios": 179
+     }
+    ],
+    "credito": 0.9600000000000004,
+    "du1": 23,
+    "janela": [
+     23,
+     60
+    ],
+    "deltaEstrutural": null,
+    "candidatas": 4
+   },
+   "lucro": {
+    "ev": 0.8654714021445103,
+    "prob": 0.6558461603840424,
+    "risco": -21.698002592572,
+    "evEstresse": 0.5204840663072564,
+    "probEstresse": 0.5789952751710906,
+    "ganhoMax": 4.039668095836084,
+    "perdaMax": null,
+    "equilibrios": [
+     13.43,
+     16.39
+    ]
+   },
+   "contexto": {
+    "tendencia": "baixa",
+    "vies": "baixista",
+    "aFavorDaTendencia": true,
+    "ivAtm": 0.3716671668435446,
+    "volRealizada": 0.3300445670896653,
+    "vendeVol": true,
+    "aFavorDaVol": true
+   },
+   "dinamica": {
+    "delta": -0.21146422049556213,
+    "gama": -0.5348827525917987,
+    "theta": 0.06389234225525078,
+    "vega": -0.005308751055667388
+   }
+  },
+  {
+   "id": "straddle-long-put",
+   "veredito": "montar",
+   "avisos": [],
+   "montagem": {
+    "pernas": [
+     {
+      "tipo": "put",
+      "q": 1,
+      "ticker": "BBASP149",
+      "strike": 14.82,
+      "venc": "2027-04-16",
+      "preco": 0.73,
+      "origem": "ultimo",
+      "negocios": 9
+     },
+     {
+      "tipo": "call",
+      "q": -1,
+      "ticker": "BBASK155W4",
+      "strike": 15.5,
+      "venc": "2026-11-27",
+      "preco": 0.28,
+      "origem": "ultimo",
+      "negocios": 59
+     },
+     {
+      "tipo": "put",
+      "q": -1,
+      "ticker": "BBASW155W4",
+      "strike": 15.5,
+      "venc": "2026-11-27",
+      "preco": 0.64,
+      "origem": "ultimo",
+      "negocios": 14
+     }
+    ],
+    "credito": 0.19000000000000006,
+    "du1": 8,
+    "janela": [
+     6,
+     13
+    ],
+    "deltaEstrutural": null,
+    "candidatas": 23
+   },
+   "lucro": {
+    "ev": 0.15343924612703616,
+    "prob": 0.6704194767256074,
+    "risco": -22.05999963140276,
+    "evEstresse": 0.04328856071274395,
+    "probEstresse": 0.5873906113266669,
+    "ganhoMax": 0.778780331988029,
+    "perdaMax": null,
+    "equilibrios": [
+     14.31,
+     16.13
+    ]
+   },
+   "contexto": {
+    "tendencia": "baixa",
+    "vies": "baixista",
+    "aFavorDaTendencia": true,
+    "ivAtm": 0.4026017273019168,
+    "volRealizada": 0.3300445670896653,
+    "vendeVol": false,
+    "aFavorDaVol": false
+   },
+   "dinamica": {
+    "delta": -0.11100113383946386,
+    "gama": -0.5945872335376838,
+    "theta": 0.04801884470052946,
+    "vega": 0.013239225659371396
+   }
+  },
+  {
+   "id": "mannerheim",
+   "veredito": "montar",
+   "avisos": [
+    "desenho adaptado à grade: vencimento longo livre e strikes a até 10% da moneyness da referência",
+    "fora da janela do POP: a grade não tem os strikes do desenho nos vencimentos da janela",
+    "sem montagem só com séries negociadas no dia: usa preço teórico em parte das pernas"
+   ],
+   "montagem": {
+    "pernas": [
+     {
+      "tipo": "call",
+      "q": -1,
+      "ticker": "BBASL14",
+      "strike": 14.7,
+      "venc": "2026-12-18",
+      "preco": 1.11,
+      "origem": "ultimo",
+      "negocios": 101
+     },
+     {
+      "tipo": "put",
+      "q": -1,
+      "ticker": "BBASX151",
+      "strike": 13.7,
+      "venc": "2026-12-18",
+      "preco": 0.2,
+      "origem": "ultimo",
+      "negocios": 76
+     },
+     {
+      "tipo": "put",
+      "q": 1,
+      "ticker": "BBASM151",
+      "strike": 13.7,
+      "venc": "2027-01-15",
+      "preco": 0.27,
+      "origem": "ultimo",
+      "negocios": 94
+     },
+     {
+      "tipo": "put",
+      "q": -1,
+      "ticker": "BBASX14",
+      "strike": 14.7,
+      "venc": "2026-12-18",
+      "preco": 0.45,
+      "origem": "ultimo",
+      "negocios": 179
+     },
+     {
+      "tipo": "put",
+      "q": 1,
+      "ticker": "BBASM15",
+      "strike": 14.7,
+      "venc": "2027-01-15",
+      "preco": 0.55,
+      "origem": "ultimo",
+      "negocios": 78
+     },
+     {
+      "tipo": "put",
+      "q": -1,
+      "ticker": "BBASX158",
+      "strike": 15.7,
+      "venc": "2026-12-18",
+      "preco": 0.9,
+      "origem": "ultimo",
+      "negocios": 311
+     },
+     {
+      "tipo": "put",
+      "q": 1,
+      "ticker": "BBASM161",
+      "strike": 15.7,
+      "venc": "2027-01-15",
+      "preco": 1,
+      "origem": "ultimo",
+      "negocios": 38
+     }
+    ],
+    "credito": 0.8399999999999999,
+    "du1": 23,
+    "janela": [
+     6,
+     13
+    ],
+    "deltaEstrutural": null,
+    "candidatas": 13
+   },
+   "lucro": {
+    "ev": 0.2866010294259167,
+    "prob": 0.7095567610142607,
+    "risco": -22.209999999999997,
+    "evEstresse": 0.1273029556199693,
+    "probEstresse": 0.6848867297276205,
+    "ganhoMax": 1.5415035565973545,
+    "perdaMax": null,
+    "equilibrios": [
+     16.03
+    ]
+   },
+   "contexto": {
+    "tendencia": "baixa",
+    "vies": "baixista",
+    "aFavorDaTendencia": true,
+    "ivAtm": 0.3716671668435446,
+    "volRealizada": 0.3300445670896653,
+    "vendeVol": true,
+    "aFavorDaVol": true
+   },
+   "dinamica": {
+    "delta": -0.605741380439736,
+    "gama": -0.28903633699238823,
+    "theta": 0.03134321330606495,
+    "vega": -0.0018047345054627226
+   }
+  },
+  {
+   "id": "quatermine-v1",
+   "veredito": "montar",
+   "avisos": [],
+   "montagem": {
+    "pernas": [
+     {
+      "tipo": "call",
+      "q": -1,
+      "ticker": "BBASK151",
+      "strike": 15.04,
+      "venc": "2026-11-19",
+      "preco": 0.33,
+      "origem": "ultimo",
+      "negocios": 593
+     },
+     {
+      "tipo": "call",
+      "q": 1,
+      "ticker": "BBASL160",
+      "strike": 15.95,
+      "venc": "2026-12-18",
+      "preco": 0.4,
+      "origem": "ultimo",
+      "negocios": 474
+     },
+     {
+      "tipo": "put",
+      "q": -1,
+      "ticker": "BBASW151",
+      "strike": 15.04,
+      "venc": "2026-11-19",
+      "preco": 0.26,
+      "origem": "ultimo",
+      "negocios": 378
+     },
+     {
+      "tipo": "put",
+      "q": 1,
+      "ticker": "BBASX143",
+      "strike": 14.2,
+      "venc": "2026-12-18",
+      "preco": 0.3,
+      "origem": "ultimo",
+      "negocios": 261
+     },
+     {
+      "tipo": "put",
+      "q": -1,
+      "ticker": "BBASW159",
+      "strike": 15.79,
+      "venc": "2026-11-19",
+      "preco": 0.75,
+      "origem": "ultimo",
+      "negocios": 227
+     },
+     {
+      "tipo": "put",
+      "q": 1,
+      "ticker": "BBASM15",
+      "strike": 14.7,
+      "venc": "2027-01-15",
+      "preco": 0.55,
+      "origem": "ultimo",
+      "negocios": 78
+     }
+    ],
+    "credito": 0.08999999999999997,
+    "du1": 3,
+    "janela": [
+     3,
+     8
+    ],
+    "deltaEstrutural": null,
+    "candidatas": 17
+   },
+   "lucro": {
+    "ev": 0.14486558827025675,
+    "prob": 0.7495241497336785,
+    "risco": -2.3027724585316527,
+    "evEstresse": 0.07586900145980546,
+    "probEstresse": 0.6936465952681266,
+    "ganhoMax": 0.46299482757471694,
+    "perdaMax": -2.3027724585316527,
+    "equilibrios": [
+     14.76,
+     16.4
+    ]
+   },
+   "contexto": {
+    "tendencia": "baixa",
+    "vies": "altista",
+    "aFavorDaTendencia": false,
+    "ivAtm": 0.4470383055824641,
+    "volRealizada": 0.3300445670896653,
+    "vendeVol": false,
+    "aFavorDaVol": false
+   },
+   "dinamica": {
+    "delta": 0.46038394143787476,
+    "gama": -0.879794373532894,
+    "theta": 0.09254094763982805,
+    "vega": 0.035867829876022175
+   }
+  },
+  {
+   "id": "quatermine-v2",
+   "veredito": "montar",
+   "avisos": [
+    "fora da janela do POP: a grade não tem os strikes do desenho nos vencimentos da janela"
+   ],
+   "montagem": {
+    "pernas": [
+     {
+      "tipo": "call",
+      "q": 1,
+      "ticker": "BBASA178",
+      "strike": 17.7,
+      "venc": "2027-01-15",
+      "preco": 0.22,
+      "origem": "ultimo",
+      "negocios": 3
+     },
+     {
+      "tipo": "put",
+      "q": -1.6,
+      "ticker": "BBASX164",
+      "strike": 16.2,
+      "venc": "2026-12-18",
+      "preco": 1.25,
+      "origem": "ultimo",
+      "negocios": 227
+     },
+     {
+      "tipo": "put",
+      "q": 1,
+      "ticker": "BBASM163",
+      "strike": 16.2,
+      "venc": "2027-01-15",
+      "preco": 1.25,
+      "origem": "ultimo",
+      "negocios": 30
+     },
+     {
+      "tipo": "put",
+      "q": -1.4,
+      "ticker": "BBASX170",
+      "strike": 16.95,
+      "venc": "2026-12-18",
+      "preco": 1.82,
+      "origem": "ultimo",
+      "negocios": 144
+     },
+     {
+      "tipo": "put",
+      "q": 1,
+      "ticker": "BBASM170",
+      "strike": 16.95,
+      "venc": "2027-01-15",
+      "preco": 1.75,
+      "origem": "ultimo",
+      "negocios": 17
+     }
+    ],
+    "credito": 1.3280000000000003,
+    "du1": 23,
+    "janela": [
+     6,
+     13
+    ],
+    "deltaEstrutural": null,
+    "candidatas": 6
+   },
+   "lucro": {
+    "ev": 0.1863873759039881,
+    "prob": 0.5271557540359603,
+    "risco": -10.936664717828526,
+    "evEstresse": 0.13607362923406802,
+    "probEstresse": 0.5158848520302473,
+    "ganhoMax": null,
+    "perdaMax": -15.440114717828525,
+    "equilibrios": [
+     15.17
+    ]
+   },
+   "contexto": {
+    "tendencia": "baixa",
+    "vies": "altista",
+    "aFavorDaTendencia": false,
+    "ivAtm": 0.3716671668435446,
+    "volRealizada": 0.3300445670896653,
+    "vendeVol": false,
+    "aFavorDaVol": false
+   },
+   "dinamica": {
+    "delta": 1.0117981133179073,
+    "gama": -0.07828615520728571,
+    "theta": 0.002264986007433783,
+    "vega": 0.013334171752051587
+   }
+  },
+  {
+   "id": "hexabox",
+   "veredito": "montar",
+   "avisos": [
+    "fora da janela do POP: a grade não tem os strikes do desenho nos vencimentos da janela"
+   ],
+   "montagem": {
+    "pernas": [
+     {
+      "tipo": "call",
+      "q": 1,
+      "ticker": "BBASL145",
+      "strike": 14.45,
+      "venc": "2026-12-18",
+      "preco": 1.15,
+      "origem": "ultimo",
+      "negocios": 27
+     },
+     {
+      "tipo": "call",
+      "q": -2,
+      "ticker": "BBASL14",
+      "strike": 14.7,
+      "venc": "2026-12-18",
+      "preco": 1.11,
+      "origem": "ultimo",
+      "negocios": 101
+     },
+     {
+      "tipo": "put",
+      "q": 1,
+      "ticker": "BBASX158",
+      "strike": 15.7,
+      "venc": "2026-12-18",
+      "preco": 0.9,
+      "origem": "ultimo",
+      "negocios": 311
+     },
+     {
+      "tipo": "put",
+      "q": -2,
+      "ticker": "BBASX155",
+      "strike": 15.45,
+      "venc": "2026-12-18",
+      "preco": 0.76,
+      "origem": "ultimo",
+      "negocios": 240
+     },
+     {
+      "tipo": "call",
+      "q": 1,
+      "ticker": "BBASA154",
+      "strike": 15.45,
+      "venc": "2027-01-15",
+      "preco": 0.78,
+      "origem": "ultimo",
+      "negocios": 856
+     },
+     {
+      "tipo": "put",
+      "q": 1,
+      "ticker": "BBASM15",
+      "strike": 14.7,
+      "venc": "2027-01-15",
+      "preco": 0.55,
+      "origem": "ultimo",
+      "negocios": 78
+     }
+    ],
+    "credito": 0.3600000000000003,
+    "du1": 23,
+    "janela": [
+     6,
+     13
+    ],
+    "deltaEstrutural": null,
+    "candidatas": 6
+   },
+   "lucro": {
+    "ev": 0.31089064037445235,
+    "prob": 0.835566225056729,
+    "risco": -0.27066580247600047,
+    "evEstresse": 0.25460386303699845,
+    "probEstresse": 0.7705576970661143,
+    "ganhoMax": 0.8912119273783352,
+    "perdaMax": -0.27066580247600047,
+    "equilibrios": [
+     13.79,
+     18.94
+    ]
+   },
+   "contexto": {
+    "tendencia": "baixa",
+    "vies": "neutra",
+    "aFavorDaTendencia": null,
+    "ivAtm": 0.3716671668435446,
+    "volRealizada": 0.3300445670896653,
+    "vendeVol": false,
+    "aFavorDaVol": false
+   },
+   "dinamica": {
+    "delta": 0.06725890867827466,
+    "gama": -0.03807582210279864,
+    "theta": 0.01380639794932895,
+    "vega": 0.008405339728778376
+   }
+  },
+  {
+   "id": "monada-basica-call",
+   "veredito": "montar",
+   "avisos": [
+    "fora da janela do POP: a grade não tem os strikes do desenho nos vencimentos da janela"
+   ],
+   "montagem": {
+    "pernas": [
+     {
+      "tipo": "call",
+      "q": 1,
+      "ticker": "BBASA15",
+      "strike": 14.7,
+      "venc": "2027-01-15",
+      "preco": 1.21,
+      "origem": "ultimo",
+      "negocios": 35
+     },
+     {
+      "tipo": "call",
+      "q": -1.2,
+      "ticker": "BBASL14",
+      "strike": 14.7,
+      "venc": "2026-12-18",
+      "preco": 1.11,
+      "origem": "ultimo",
+      "negocios": 101
+     },
+     {
+      "tipo": "put",
+      "q": -0.2,
+      "ticker": "BBASX14",
+      "strike": 14.7,
+      "venc": "2026-12-18",
+      "preco": 0.45,
+      "origem": "ultimo",
+      "negocios": 179
+     }
+    ],
+    "credito": 0.21200000000000013,
+    "du1": 23,
+    "janela": [
+     6,
+     13
+    ],
+    "deltaEstrutural": null,
+    "candidatas": 4
+   },
+   "lucro": {
+    "ev": 0.20253410172429145,
+    "prob": 0.712107138181994,
+    "risco": -4.267334197524001,
+    "evEstresse": 0.13948921390451272,
+    "probEstresse": 0.6358462707059701,
+    "ganhoMax": 0.765326375279542,
+    "perdaMax": null,
+    "equilibrios": [
+     13.27,
+     16.58
+    ]
+   },
+   "contexto": {
+    "tendencia": "baixa",
+    "vies": "neutra",
+    "aFavorDaTendencia": null,
+    "ivAtm": 0.3716671668435446,
+    "volRealizada": 0.3300445670896653,
+    "vendeVol": true,
+    "aFavorDaVol": true
+   },
+   "dinamica": {
+    "delta": -0.03596287235137356,
+    "gama": -0.08715570405107964,
+    "theta": 0.012917837406539042,
+    "vega": -0.002214516221574624
+   }
+  },
+  {
+   "id": "monada-basica-put",
+   "veredito": "montar",
+   "avisos": [
+    "fora da janela do POP: a grade não tem os strikes do desenho nos vencimentos da janela"
+   ],
+   "montagem": {
+    "pernas": [
+     {
+      "tipo": "put",
+      "q": 1,
+      "ticker": "BBASM15",
+      "strike": 14.7,
+      "venc": "2027-01-15",
+      "preco": 0.55,
+      "origem": "ultimo",
+      "negocios": 78
+     },
+     {
+      "tipo": "put",
+      "q": -1.2,
+      "ticker": "BBASX14",
+      "strike": 14.7,
+      "venc": "2026-12-18",
+      "preco": 0.45,
+      "origem": "ultimo",
+      "negocios": 179
+     },
+     {
+      "tipo": "call",
+      "q": -0.2,
+      "ticker": "BBASL14",
+      "strike": 14.7,
+      "venc": "2026-12-18",
+      "preco": 1.11,
+      "origem": "ultimo",
+      "negocios": 101
+     }
+    ],
+    "credito": 0.21200000000000002,
+    "du1": 23,
+    "janela": [
+     6,
+     13
+    ],
+    "deltaEstrutural": null,
+    "candidatas": 4
+   },
+   "lucro": {
+    "ev": 0.1050723559208365,
+    "prob": 0.6278957485396898,
+    "risco": -4.397999999999999,
+    "evEstresse": 0.039243643776896577,
+    "probEstresse": 0.5540840191696838,
+    "ganhoMax": 0.6852296566658194,
+    "perdaMax": null,
+    "equilibrios": [
+     13.53,
+     16.2
+    ]
+   },
+   "contexto": {
+    "tendencia": "baixa",
+    "vies": "neutra",
+    "aFavorDaTendencia": null,
+    "ivAtm": 0.3716671668435446,
+    "volRealizada": 0.3300445670896653,
+    "vendeVol": true,
+    "aFavorDaVol": true
+   },
+   "dinamica": {
+    "delta": -0.05455329072436635,
+    "gama": -0.11719109626274579,
+    "theta": 0.010535509830127224,
+    "vega": -0.001807371438955087
+   }
+  },
+  {
+   "id": "call-compra",
+   "veredito": "montar-com-ressalva",
+   "avisos": [
+    "valor esperado positivo, mas probabilidade de lucro abaixo de 50%"
+   ],
+   "montagem": {
+    "pernas": [
+     {
+      "tipo": "call",
+      "q": 1,
+      "ticker": "BBASA154",
+      "strike": 15.45,
+      "venc": "2027-01-15",
+      "preco": 0.78,
+      "origem": "ultimo",
+      "negocios": 856
+     }
+    ],
+    "credito": -0.78,
+    "du1": 39,
+    "janela": [
+     20,
+     45
+    ],
+    "deltaEstrutural": null,
+    "candidatas": 10
+   },
+   "lucro": {
+    "ev": 0.003825549498929659,
+    "prob": 0.3280512762646097,
+    "risco": -0.78,
+    "evEstresse": 0.151941484039956,
+    "probEstresse": 0.3457113903225586,
+    "ganhoMax": null,
+    "perdaMax": -0.78,
+    "equilibrios": [
+     16.23
+    ]
+   },
+   "contexto": {
+    "tendencia": "baixa",
+    "vies": "altista",
+    "aFavorDaTendencia": false,
+    "ivAtm": 0.34422027692020474,
+    "volRealizada": 0.3300445670896653,
+    "vendeVol": false,
+    "aFavorDaVol": false
+   },
+   "dinamica": {
+    "delta": 0.5266809263801608,
+    "gama": 0.20400916311478814,
+    "theta": -0.014226616712621412,
+    "vega": 0.023645381980267857
+   }
+  },
+  {
+   "id": "call-venda",
+   "veredito": "montar",
+   "avisos": [
+    "vantagem frágil: some com a vol do estresse"
+   ],
+   "montagem": {
+    "pernas": [
+     {
+      "tipo": "call",
+      "q": -1,
+      "ticker": "BBASL158",
+      "strike": 15.7,
+      "venc": "2026-12-18",
+      "preco": 0.51,
+      "origem": "ultimo",
+      "negocios": 408
+     }
+    ],
+    "credito": 0.51,
+    "du1": 23,
+    "janela": [
+     20,
+     45
+    ],
+    "deltaEstrutural": null,
+    "candidatas": 11
+   },
+   "lucro": {
+    "ev": 0.07543673177114202,
+    "prob": 0.7391386187265008,
+    "risco": -21.539999999999992,
+    "evEstresse": -0.036780738353498155,
+    "probEstresse": 0.7108502373342532,
+    "ganhoMax": 0.51,
+    "perdaMax": null,
+    "equilibrios": [
+     16.21
+    ]
+   },
+   "contexto": {
+    "tendencia": "baixa",
+    "vies": "baixista",
+    "aFavorDaTendencia": true,
+    "ivAtm": 0.3716671668435446,
+    "volRealizada": 0.3300445670896653,
+    "vendeVol": true,
+    "aFavorDaVol": true
+   },
+   "dinamica": {
+    "delta": -0.433130100225952,
+    "gama": -0.231529227353787,
+    "theta": 0.018115205961700416,
+    "vega": -0.01794286939672147
+   }
+  },
+  {
+   "id": "put-compra",
+   "veredito": "nao-montar",
+   "avisos": [
+    "nenhuma montagem tem valor esperado positivo com a vol realizada de hoje"
+   ],
+   "montagem": {
+    "pernas": [
+     {
+      "tipo": "put",
+      "q": 1,
+      "ticker": "BBASM154",
+      "strike": 15.45,
+      "venc": "2027-01-15",
+      "preco": 0.85,
+      "origem": "ultimo",
+      "negocios": 1010
+     }
+    ],
+    "credito": -0.85,
+    "du1": 39,
+    "janela": [
+     20,
+     45
+    ],
+    "deltaEstrutural": null,
+    "candidatas": 10
+   },
+   "lucro": {
+    "ev": -0.07075327117023367,
+    "prob": 0.3552451737582709,
+    "risco": -0.85,
+    "evEstresse": 0.07736266557594917,
+    "probEstresse": 0.3861863839964238,
+    "ganhoMax": 14.6,
+    "perdaMax": -0.85,
+    "equilibrios": [
+     14.6
+    ]
+   },
+   "contexto": {
+    "tendencia": "baixa",
+    "vies": "baixista",
+    "aFavorDaTendencia": true,
+    "ivAtm": 0.34422027692020474,
+    "volRealizada": 0.3300445670896653,
+    "vendeVol": false,
+    "aFavorDaVol": false
+   },
+   "dinamica": {
+    "delta": -0.47093212844002685,
+    "gama": 0.18606458751270044,
+    "theta": -0.006169439363693851,
+    "vega": 0.02363546678324309
+   }
+  },
+  {
+   "id": "trava-alta-put",
+   "veredito": "montar-com-ressalva",
+   "avisos": [
+    "valor esperado positivo, mas probabilidade de lucro abaixo de 50%"
+   ],
+   "montagem": {
+    "pernas": [
+     {
+      "tipo": "put",
+      "q": -1,
+      "ticker": "BBASW155W4",
+      "strike": 15.5,
+      "venc": "2026-11-27",
+      "preco": 0.64,
+      "origem": "ultimo",
+      "negocios": 14
+     },
+     {
+      "tipo": "put",
+      "q": 1,
+      "ticker": "BBASW150W4",
+      "strike": 15,
+      "venc": "2026-11-27",
+      "preco": 0.34,
+      "origem": "ultimo",
+      "negocios": 52
+     }
+    ],
+    "credito": 0.3,
+    "du1": 8,
+    "janela": [
+     6,
+     12
+    ],
+    "deltaEstrutural": -0.5,
+    "candidatas": 1
+   },
+   "lucro": {
+    "ev": 0.028835624780852942,
+    "prob": 0.44771857889636335,
+    "risco": -0.20000000000000018,
+    "evEstresse": 0.030303494484404447,
+    "probEstresse": 0.45195280438149765,
+    "ganhoMax": 0.3,
+    "perdaMax": -0.20000000000000107,
+    "equilibrios": [
+     15.2
+    ]
+   },
+   "contexto": {
+    "tendencia": "baixa",
+    "vies": "altista",
+    "aFavorDaTendencia": false,
+    "ivAtm": 0.4026017273019168,
+    "volRealizada": 0.3300445670896653,
+    "vendeVol": false,
+    "aFavorDaVol": false
+   },
+   "dinamica": {
+    "delta": 0.17561921885569387,
+    "gama": 0.029012200219189488,
+    "theta": -0.00014915583910134547,
+    "vega": 0.00011294130214646765
+   }
+  },
+  {
+   "id": "trava-baixa-call",
+   "veredito": "montar",
+   "avisos": [],
+   "montagem": {
+    "pernas": [
+     {
+      "tipo": "call",
+      "q": -1,
+      "ticker": "BBASK150W4",
+      "strike": 15,
+      "venc": "2026-11-27",
+      "preco": 0.53,
+      "origem": "ultimo",
+      "negocios": 12
+     },
+     {
+      "tipo": "call",
+      "q": 1,
+      "ticker": "BBASK155W4",
+      "strike": 15.5,
+      "venc": "2026-11-27",
+      "preco": 0.28,
+      "origem": "ultimo",
+      "negocios": 59
+     }
+    ],
+    "credito": 0.25,
+    "du1": 8,
+    "janela": [
+     6,
+     12
+    ],
+    "deltaEstrutural": -0.5,
+    "candidatas": 3
+   },
+   "lucro": {
+    "ev": 0.023539667653465407,
+    "prob": 0.5522814211036366,
+    "risco": -0.2500000000000009,
+    "evEstresse": 0.02207179794991415,
+    "probEstresse": 0.5480471956185023,
+    "ganhoMax": 0.25,
+    "perdaMax": -0.2500000000000009,
+    "equilibrios": [
+     15.25
+    ]
+   },
+   "contexto": {
+    "tendencia": "baixa",
+    "vies": "baixista",
+    "aFavorDaTendencia": true,
+    "ivAtm": 0.4026017273019168,
+    "volRealizada": 0.3300445670896653,
+    "vendeVol": true,
+    "aFavorDaVol": true
+   },
+   "dinamica": {
+    "delta": -0.18369519436103948,
+    "gama": 0.01232310237307832,
+    "theta": 0.003376711543473229,
+    "vega": -0.00019539179647511812
+   }
+  },
+  {
+   "id": "seagull",
+   "veredito": "montar",
+   "avisos": [],
+   "montagem": {
+    "pernas": [
+     {
+      "tipo": "put",
+      "q": -1,
+      "ticker": "BBASX13",
+      "strike": 13.95,
+      "venc": "2026-12-18",
+      "preco": 0.25,
+      "origem": "ultimo",
+      "negocios": 133
+     },
+     {
+      "tipo": "call",
+      "q": 1,
+      "ticker": "BBASL165",
+      "strike": 16.45,
+      "venc": "2026-12-18",
+      "preco": 0.24,
+      "origem": "ultimo",
+      "negocios": 385
+     },
+     {
+      "tipo": "call",
+      "q": -1,
+      "ticker": "BBASL180",
+      "strike": 17.45,
+      "venc": "2026-12-18",
+      "preco": 0.11,
+      "origem": "ultimo",
+      "negocios": 116
+     }
+    ],
+    "credito": 0.12000000000000001,
+    "du1": 23,
+    "janela": [
+     20,
+     45
+    ],
+    "deltaEstrutural": null,
+    "candidatas": 104
+   },
+   "lucro": {
+    "ev": 0.12729552715013698,
+    "prob": 0.8299935258234721,
+    "risco": -9.3,
+    "evEstresse": 0.0875993456403338,
+    "probEstresse": 0.783612165130399,
+    "ganhoMax": 1.120000000000008,
+    "perdaMax": -13.83,
+    "equilibrios": [
+     13.83
+    ]
+   },
+   "contexto": {
+    "tendencia": "baixa",
+    "vies": "altista",
+    "aFavorDaTendencia": false,
+    "ivAtm": 0.3716671668435446,
+    "volRealizada": 0.3300445670896653,
+    "vendeVol": true,
+    "aFavorDaVol": true
+   },
+   "dinamica": {
+    "delta": 0.3429040879291544,
+    "gama": -0.07246006648380188,
+    "theta": 0.00582264233207774,
+    "vega": -0.008283408557556132
+   }
+  },
+  {
+   "id": "fence",
+   "veredito": "montar",
+   "avisos": [
+    "vantagem frágil: some com a vol do estresse"
+   ],
+   "montagem": {
+    "pernas": [
+     {
+      "tipo": "acao",
+      "q": 1,
+      "ticker": "BBAS3",
+      "strike": null,
+      "venc": null,
+      "preco": 15.1,
+      "origem": "ultimo",
+      "negocios": null
+     },
+     {
+      "tipo": "call",
+      "q": -1,
+      "ticker": "BBASL158",
+      "strike": 15.7,
+      "venc": "2026-12-18",
+      "preco": 0.51,
+      "origem": "ultimo",
+      "negocios": 408
+     },
+     {
+      "tipo": "put",
+      "q": 1,
+      "ticker": "BBASX150",
+      "strike": 14.95,
+      "venc": "2026-12-18",
+      "preco": 0.53,
+      "origem": "ultimo",
+      "negocios": 386
+     },
+     {
+      "tipo": "put",
+      "q": -1,
+      "ticker": "BBASX14",
+      "strike": 14.7,
+      "venc": "2026-12-18",
+      "preco": 0.45,
+      "origem": "ultimo",
+      "negocios": 179
+     }
+    ],
+    "credito": 0.43,
+    "du1": 23,
+    "janela": [
+     20,
+     45
+    ],
+    "deltaEstrutural": null,
+    "candidatas": 53
+   },
+   "lucro": {
+    "ev": 0.0922783272424148,
+    "prob": 0.695370282634809,
+    "risco": -9.89,
+    "evEstresse": -0.014127776519683,
+    "probEstresse": 0.6598813552570184,
+    "ganhoMax": 1.0300000000000011,
+    "perdaMax": -14.42,
+    "equilibrios": [
+     14.42
+    ]
+   },
+   "contexto": {
+    "tendencia": "baixa",
+    "vies": "altista",
+    "aFavorDaTendencia": false,
+    "ivAtm": 0.3716671668435446,
+    "volRealizada": 0.3300445670896653,
+    "vendeVol": true,
+    "aFavorDaVol": true
+   },
+   "dinamica": {
+    "delta": 0.5157366939570189,
+    "gama": -0.2150291243492224,
+    "theta": 0.01846118924047932,
+    "vega": -0.01717582858622682
+   }
+  },
+  {
+   "id": "straddle-compra",
+   "veredito": "nao-montar",
+   "avisos": [
+    "nenhuma montagem tem valor esperado positivo com a vol realizada de hoje"
+   ],
+   "montagem": {
+    "pernas": [
+     {
+      "tipo": "call",
+      "q": 1,
+      "ticker": "BBASA154",
+      "strike": 15.45,
+      "venc": "2027-01-15",
+      "preco": 0.78,
+      "origem": "ultimo",
+      "negocios": 856
+     },
+     {
+      "tipo": "put",
+      "q": 1,
+      "ticker": "BBASM154",
+      "strike": 15.45,
+      "venc": "2027-01-15",
+      "preco": 0.85,
+      "origem": "ultimo",
+      "negocios": 1010
+     }
+    ],
+    "credito": -1.63,
+    "du1": 39,
+    "janela": [
+     20,
+     45
+    ],
+    "deltaEstrutural": null,
+    "candidatas": 10
+   },
+   "lucro": {
+    "ev": -0.06692772167130401,
+    "prob": 0.414535585116849,
+    "risco": -1.6130126496061346,
+    "evEstresse": 0.22930414961590517,
+    "probEstresse": 0.49321488727368723,
+    "ganhoMax": null,
+    "perdaMax": -1.63,
+    "equilibrios": [
+     13.82,
+     17.08
+    ]
+   },
+   "contexto": {
+    "tendencia": "baixa",
+    "vies": "neutra",
+    "aFavorDaTendencia": null,
+    "ivAtm": 0.34422027692020474,
+    "volRealizada": 0.3300445670896653,
+    "vendeVol": false,
+    "aFavorDaVol": false
+   },
+   "dinamica": {
+    "delta": 0.05574879794013399,
+    "gama": 0.3900737506274886,
+    "theta": -0.020396056076315262,
+    "vega": 0.04728084876351095
+   }
+  },
+  {
+   "id": "strangle-compra",
+   "veredito": "nao-montar",
+   "avisos": [
+    "nenhuma montagem tem valor esperado positivo com a vol realizada de hoje"
+   ],
+   "montagem": {
+    "pernas": [
+     {
+      "tipo": "call",
+      "q": 1,
+      "ticker": "BBASA163",
+      "strike": 16.2,
+      "venc": "2027-01-15",
+      "preco": 0.48,
+      "origem": "ultimo",
+      "negocios": 23
+     },
+     {
+      "tipo": "put",
+      "q": 1,
+      "ticker": "BBASM151",
+      "strike": 13.7,
+      "venc": "2027-01-15",
+      "preco": 0.27,
+      "origem": "ultimo",
+      "negocios": 94
+     }
+    ],
+    "credito": -0.75,
+    "du1": 39,
+    "janela": [
+     20,
+     45
+    ],
+    "deltaEstrutural": null,
+    "candidatas": 48
+   },
+   "lucro": {
+    "ev": -0.08557377917820716,
+    "prob": 0.3088660979423004,
+    "risco": -0.75,
+    "evEstresse": 0.15509402523158794,
+    "probEstresse": 0.3852463621009786,
+    "ganhoMax": null,
+    "perdaMax": -0.75,
+    "equilibrios": [
+     12.95,
+     16.95
+    ]
+   },
+   "contexto": {
+    "tendencia": "baixa",
+    "vies": "altista",
+    "aFavorDaTendencia": false,
+    "ivAtm": 0.34422027692020474,
+    "volRealizada": 0.3300445670896653,
+    "vendeVol": false,
+    "aFavorDaVol": false
+   },
+   "dinamica": {
+    "delta": 0.18632709999793318,
+    "gama": 0.31520133863746413,
+    "theta": -0.018901639097413988,
+    "vega": 0.03900223987155596
+   }
+  },
+  {
+   "id": "straddle-venda",
+   "veredito": "montar",
+   "avisos": [],
+   "montagem": {
+    "pernas": [
+     {
+      "tipo": "call",
+      "q": -1,
+      "ticker": "BBASL14",
+      "strike": 14.7,
+      "venc": "2026-12-18",
+      "preco": 1.11,
+      "origem": "ultimo",
+      "negocios": 101
+     },
+     {
+      "tipo": "put",
+      "q": -1,
+      "ticker": "BBASX14",
+      "strike": 14.7,
+      "venc": "2026-12-18",
+      "preco": 0.45,
+      "origem": "ultimo",
+      "negocios": 179
+     }
+    ],
+    "credito": 1.56,
+    "du1": 23,
+    "janela": [
+     20,
+     45
+    ],
+    "deltaEstrutural": null,
+    "candidatas": 10
+   },
+   "lucro": {
+    "ev": 0.2867398539543677,
+    "prob": 0.6704660220385145,
+    "risco": -21.489999999999995,
+    "evEstresse": 0.07857253368485739,
+    "probEstresse": 0.6017307693401617,
+    "ganhoMax": 1.56,
+    "perdaMax": null,
+    "equilibrios": [
+     13.14,
+     16.26
+    ]
+   },
+   "contexto": {
+    "tendencia": "baixa",
+    "vies": "baixista",
+    "aFavorDaTendencia": true,
+    "ivAtm": 0.3716671668435446,
+    "volRealizada": 0.3300445670896653,
+    "vendeVol": true,
+    "aFavorDaVol": true
+   },
+   "dinamica": {
+    "delta": -0.30042134365828754,
+    "gama": -0.39078824174838817,
+    "theta": 0.0323384972737401,
+    "vega": -0.03378455962960872
+   }
+  },
+  {
+   "id": "strangle-venda",
+   "veredito": "montar",
+   "avisos": [
+    "vantagem frágil: some com a vol do estresse"
+   ],
+   "montagem": {
+    "pernas": [
+     {
+      "tipo": "call",
+      "q": -1,
+      "ticker": "BBASL158",
+      "strike": 15.7,
+      "venc": "2026-12-18",
+      "preco": 0.51,
+      "origem": "ultimo",
+      "negocios": 408
+     },
+     {
+      "tipo": "put",
+      "q": -1,
+      "ticker": "BBASX14",
+      "strike": 14.7,
+      "venc": "2026-12-18",
+      "preco": 0.45,
+      "origem": "ultimo",
+      "negocios": 179
+     }
+    ],
+    "credito": 0.96,
+    "du1": 23,
+    "janela": [
+     20,
+     45
+    ],
+    "deltaEstrutural": null,
+    "candidatas": 48
+   },
+   "lucro": {
+    "ev": 0.1887705416441816,
+    "prob": 0.6691296400309391,
+    "risco": -21.089999999999993,
+    "evEstresse": -0.02753058861521629,
+    "probEstresse": 0.5868916209604909,
+    "ganhoMax": 0.96,
+    "perdaMax": null,
+    "equilibrios": [
+     13.74,
+     16.66
+    ]
+   },
+   "contexto": {
+    "tendencia": "baixa",
+    "vies": "neutra",
+    "aFavorDaTendencia": null,
+    "ivAtm": 0.3716671668435446,
+    "volRealizada": 0.3300445670896653,
+    "vendeVol": true,
+    "aFavorDaVol": true
+   },
+   "dinamica": {
+    "delta": -0.08746072224342516,
+    "gama": -0.4344404793879253,
+    "theta": 0.02930488744609972,
+    "vega": -0.034762621453154466
+   }
+  },
+  {
+   "id": "condor",
+   "veredito": "montar",
+   "avisos": [],
+   "montagem": {
+    "pernas": [
+     {
+      "tipo": "put",
+      "q": 1,
+      "ticker": "BBASX2",
+      "strike": 13.45,
+      "venc": "2026-12-18",
+      "preco": 0.16,
+      "origem": "ultimo",
+      "negocios": 49
+     },
+     {
+      "tipo": "put",
+      "q": -1,
+      "ticker": "BBASX13",
+      "strike": 13.95,
+      "venc": "2026-12-18",
+      "preco": 0.25,
+      "origem": "ultimo",
+      "negocios": 133
+     },
+     {
+      "tipo": "call",
+      "q": -1,
+      "ticker": "BBASL158",
+      "strike": 15.7,
+      "venc": "2026-12-18",
+      "preco": 0.51,
+      "origem": "ultimo",
+      "negocios": 408
+     },
+     {
+      "tipo": "call",
+      "q": 1,
+      "ticker": "BBASL165",
+      "strike": 16.45,
+      "venc": "2026-12-18",
+      "preco": 0.24,
+      "origem": "ultimo",
+      "negocios": 385
+     }
+    ],
+    "credito": 0.36,
+    "du1": 23,
+    "janela": [
+     23,
+     45
+    ],
+    "deltaEstrutural": null,
+    "candidatas": 140
+   },
+   "lucro": {
+    "ev": 0.06851819522553756,
+    "prob": 0.580601426160405,
+    "risco": -0.39000000000000057,
+    "evEstresse": 0.028408560300637778,
+    "probEstresse": 0.5095736180626117,
+    "ganhoMax": 0.36,
+    "perdaMax": -0.3900000000000041,
+    "equilibrios": [
+     13.59,
+     16.06
+    ]
+   },
+   "contexto": {
+    "tendencia": "baixa",
+    "vies": "baixista",
+    "aFavorDaTendencia": true,
+    "ivAtm": 0.3716671668435446,
+    "volRealizada": 0.3300445670896653,
+    "vendeVol": true,
+    "aFavorDaVol": true
+   },
+   "dinamica": {
+    "delta": -0.10287876093927989,
+    "gama": -0.060979758848524024,
+    "theta": 0.006262495396162172,
+    "vega": -0.005853240564576048
+   }
+  },
+  {
+   "id": "borboleta",
+   "veredito": "montar-com-ressalva",
+   "avisos": [
+    "valor esperado positivo, mas probabilidade de lucro abaixo de 50%"
+   ],
+   "montagem": {
+    "pernas": [
+     {
+      "tipo": "call",
+      "q": 1,
+      "ticker": "BBASL151",
+      "strike": 13.7,
+      "venc": "2026-12-18",
+      "preco": 1.74,
+      "origem": "ultimo",
+      "negocios": 34
+     },
+     {
+      "tipo": "call",
+      "q": -2,
+      "ticker": "BBASL14",
+      "strike": 14.7,
+      "venc": "2026-12-18",
+      "preco": 1.11,
+      "origem": "ultimo",
+      "negocios": 101
+     },
+     {
+      "tipo": "call",
+      "q": 1,
+      "ticker": "BBASL158",
+      "strike": 15.7,
+      "venc": "2026-12-18",
+      "preco": 0.51,
+      "origem": "ultimo",
+      "negocios": 408
+     }
+    ],
+    "credito": -0.029999999999999805,
+    "du1": 23,
+    "janela": [
+     23,
+     45
+    ],
+    "deltaEstrutural": 0,
+    "candidatas": 20
+   },
+   "lucro": {
+    "ev": 0.21298812041538467,
+    "prob": 0.4641360543135156,
+    "risco": -0.030000000000001137,
+    "evEstresse": 0.18113377382061713,
+    "probEstresse": 0.4066104675042844,
+    "ganhoMax": 0.9700000000000002,
+    "perdaMax": -0.03000000000000469,
+    "equilibrios": [
+     13.73,
+     15.67
+    ]
+   },
+   "contexto": {
+    "tendencia": "baixa",
+    "vies": "neutra",
+    "aFavorDaTendencia": null,
+    "ivAtm": 0.3716671668435446,
+    "volRealizada": 0.3300445670896653,
+    "vendeVol": true,
+    "aFavorDaVol": true
+   },
+   "dinamica": {
+    "delta": -0.016224500301602607,
+    "gama": -0.008254629911695927,
+    "theta": 0.00839636040162145,
+    "vega": -0.005016233025092395
+   }
+  },
+  {
+   "id": "thl-put",
+   "veredito": "montar",
+   "avisos": [],
+   "montagem": {
+    "pernas": [
+     {
+      "tipo": "put",
+      "q": -1,
+      "ticker": "BBASX14",
+      "strike": 14.7,
+      "venc": "2026-12-18",
+      "preco": 0.45,
+      "origem": "ultimo",
+      "negocios": 179
+     },
+     {
+      "tipo": "put",
+      "q": 1,
+      "ticker": "BBASM14",
+      "strike": 14.45,
+      "venc": "2027-01-15",
+      "preco": 0.48,
+      "origem": "ultimo",
+      "negocios": 63
+     }
+    ],
+    "credito": -0.02999999999999997,
+    "du1": 23,
+    "janela": [
+     23,
+     60
+    ],
+    "deltaEstrutural": null,
+    "candidatas": 12
+   },
+   "lucro": {
+    "ev": 0.03873162177703887,
+    "prob": 0.5990654481031354,
+    "risco": -0.4084435949508993,
+    "evEstresse": 0.009398156131441682,
+    "probEstresse": 0.519543225072282,
+    "ganhoMax": 0.34754083386954476,
+    "perdaMax": -0.4084435949508993,
+    "equilibrios": [
+     14.05,
+     16.74
+    ]
+   },
+   "contexto": {
+    "tendencia": "baixa",
+    "vies": "neutra",
+    "aFavorDaTendencia": null,
+    "ivAtm": 0.3716671668435446,
+    "volRealizada": 0.3300445670896653,
+    "vendeVol": false,
+    "aFavorDaVol": false
+   },
+   "dinamica": {
+    "delta": 0.0433817698975999,
+    "gama": -0.05105822222357412,
+    "theta": 0.003915871195339197,
+    "vega": 0.0039050756972594212
+   }
+  },
+  {
+   "id": "thl-perene",
+   "veredito": "montar",
+   "avisos": [],
+   "montagem": {
+    "pernas": [
+     {
+      "tipo": "call",
+      "q": -1,
+      "ticker": "BBASL14",
+      "strike": 14.7,
+      "venc": "2026-12-18",
+      "preco": 1.11,
+      "origem": "ultimo",
+      "negocios": 101
+     },
+     {
+      "tipo": "call",
+      "q": 1,
+      "ticker": "BBASA15",
+      "strike": 14.7,
+      "venc": "2027-01-15",
+      "preco": 1.21,
+      "origem": "ultimo",
+      "negocios": 35
+     }
+    ],
+    "credito": -0.09999999999999987,
+    "du1": 23,
+    "janela": [
+     20,
+     45
+    ],
+    "deltaEstrutural": null,
+    "candidatas": 4
+   },
+   "lucro": {
+    "ev": 0.14518613093341792,
+    "prob": 0.9046560312320259,
+    "risco": -0.10000000000000031,
+    "evEstresse": 0.12377470716754124,
+    "probEstresse": 0.8604403484173426,
+    "ganhoMax": 0.453326375279542,
+    "perdaMax": -0.10000000000000031,
+    "equilibrios": [
+     13.43
+    ]
+   },
+   "contexto": {
+    "tendencia": "baixa",
+    "vies": "neutra",
+    "aFavorDaTendencia": null,
+    "ivAtm": 0.3716671668435446,
+    "volRealizada": 0.3300445670896653,
+    "vendeVol": false,
+    "aFavorDaVol": false
+   },
+   "dinamica": {
+    "delta": 0.024121396380283877,
+    "gama": -0.008998055701402025,
+    "theta": 0.006450137951791023,
+    "vega": 0.00454239570434712
+   }
+  },
+  {
+   "id": "calendar-butterfly",
+   "veredito": "montar",
+   "avisos": [],
+   "montagem": {
+    "pernas": [
+     {
+      "tipo": "call",
+      "q": -1,
+      "ticker": "BBASK150W4",
+      "strike": 15,
+      "venc": "2026-11-27",
+      "preco": 0.53,
+      "origem": "ultimo",
+      "negocios": 12
+     },
+     {
+      "tipo": "call",
+      "q": 2,
+      "ticker": "BBASA161",
+      "strike": 15.7,
+      "venc": "2027-01-15",
+      "preco": 0.68,
+      "origem": "ultimo",
+      "negocios": 35
+     },
+     {
+      "tipo": "call",
+      "q": -1,
+      "ticker": "BBASK160W4",
+      "strike": 16,
+      "venc": "2026-11-27",
+      "preco": 0.14,
+      "origem": "ultimo",
+      "negocios": 11
+     }
+    ],
+    "credito": -0.6900000000000001,
+    "du1": 8,
+    "janela": [
+     6,
+     13
+    ],
+    "deltaEstrutural": null,
+    "candidatas": 2
+   },
+   "lucro": {
+    "ev": 0.10344135572528868,
+    "prob": 0.6811260292025701,
+    "risco": -0.6900000000000005,
+    "evEstresse": 0.05437542522421457,
+    "probEstresse": 0.6118821819678623,
+    "ganhoMax": 0.39918775209306057,
+    "perdaMax": -0.6900000000000005,
+    "equilibrios": [
+     14.58,
+     16.69
+    ]
+   },
+   "contexto": {
+    "tendencia": "baixa",
+    "vies": "altista",
+    "aFavorDaTendencia": false,
+    "ivAtm": 0.4026017273019168,
+    "volRealizada": 0.3300445670896653,
+    "vendeVol": false,
+    "aFavorDaVol": false
+   },
+   "dinamica": {
+    "delta": 0.14555609051222806,
+    "gama": -0.2410838785678046,
+    "theta": 0.026282427428474753,
+    "vega": 0.02853191110477249
+   }
+  },
+  {
+   "id": "booster-fly",
+   "veredito": "montar",
+   "avisos": [],
+   "montagem": {
+    "pernas": [
+     {
+      "tipo": "acao",
+      "q": 1,
+      "ticker": "BBAS3",
+      "strike": null,
+      "venc": null,
+      "preco": 15.1,
+      "origem": "ultimo",
+      "negocios": null
+     },
+     {
+      "tipo": "call",
+      "q": 1,
+      "ticker": "BBASL150W1",
+      "strike": 15,
+      "venc": "2026-12-04",
+      "preco": 0.61,
+      "origem": "ultimo",
+      "negocios": 7
+     },
+     {
+      "tipo": "call",
+      "q": -2,
+      "ticker": "BBASL155W1",
+      "strike": 15.5,
+      "venc": "2026-12-04",
+      "preco": 0.38,
+      "origem": "ultimo",
+      "negocios": 4
+     },
+     {
+      "tipo": "call",
+      "q": 1,
+      "ticker": "BBASA176",
+      "strike": 17.45,
+      "venc": "2027-01-15",
+      "preco": 0.19,
+      "origem": "ultimo",
+      "negocios": 16
+     }
+    ],
+    "credito": -0.03999999999999998,
+    "du1": 13,
+    "janela": [
+     6,
+     13
+    ],
+    "deltaEstrutural": null,
+    "candidatas": 35
+   },
+   "lucro": {
+    "ev": 0.04984333117738049,
+    "prob": 0.5627278938513935,
+    "risco": -10.61,
+    "evEstresse": 0.001886175712115773,
+    "probEstresse": 0.5475975057019722,
+    "ganhoMax": null,
+    "perdaMax": -15.139999999999999,
+    "equilibrios": [
+     15.03
+    ]
+   },
+   "contexto": {
+    "tendencia": "baixa",
+    "vies": "altista",
+    "aFavorDaTendencia": false,
+    "ivAtm": 0.3701343768029982,
+    "volRealizada": 0.3300445670896653,
+    "vendeVol": false,
+    "aFavorDaVol": false
+   },
+   "dinamica": {
+    "delta": 0.9159010514852892,
+    "gama": -0.17073279338230163,
+    "theta": 0.013437984066523235,
+    "vega": 0.002508375472447113
+   }
+  },
+  {
+   "id": "malha-bw",
+   "veredito": "montar",
+   "avisos": [],
+   "montagem": {
+    "pernas": [
+     {
+      "tipo": "call",
+      "q": 2,
+      "ticker": "BBASL145",
+      "strike": 14.45,
+      "venc": "2026-12-18",
+      "preco": 1.15,
+      "origem": "ultimo",
+      "negocios": 27
+     },
+     {
+      "tipo": "call",
+      "q": -3,
+      "ticker": "BBASL155",
+      "strike": 15.45,
+      "venc": "2026-12-18",
+      "preco": 0.61,
+      "origem": "ultimo",
+      "negocios": 310
+     },
+     {
+      "tipo": "call",
+      "q": 1,
+      "ticker": "BBASL181",
+      "strike": 16.7,
+      "venc": "2026-12-18",
+      "preco": 0.21,
+      "origem": "ultimo",
+      "negocios": 192
+     }
+    ],
+    "credito": -0.6799999999999997,
+    "du1": 23,
+    "janela": [
+     23,
+     45
+    ],
+    "deltaEstrutural": 0.75,
+    "candidatas": 116
+   },
+   "lucro": {
+    "ev": 0.08249430013101627,
+    "prob": 0.6307827994726924,
+    "risco": -0.6799999999999997,
+    "evEstresse": 0.019129211514301664,
+    "probEstresse": 0.6038074830728588,
+    "ganhoMax": 1.3200000000000003,
+    "perdaMax": -0.6799999999999997,
+    "equilibrios": [
+     14.79
+    ]
+   },
+   "contexto": {
+    "tendencia": "baixa",
+    "vies": "altista",
+    "aFavorDaTendencia": false,
+    "ivAtm": 0.3716671668435446,
+    "volRealizada": 0.3300445670896653,
+    "vendeVol": true,
+    "aFavorDaVol": true
+   },
+   "dinamica": {
+    "delta": 0.20115280697866378,
+    "gama": -0.11587923387770299,
+    "theta": 0.007499946189144596,
+    "vega": -0.010005679473558453
+   }
+  },
+  {
+   "id": "hyperfly",
+   "veredito": "montar",
+   "avisos": [],
+   "montagem": {
+    "pernas": [
+     {
+      "tipo": "call",
+      "q": 1,
+      "ticker": "BBASL13",
+      "strike": 13.95,
+      "venc": "2026-12-18",
+      "preco": 1.52,
+      "origem": "ultimo",
+      "negocios": 16
+     },
+     {
+      "tipo": "call",
+      "q": -3,
+      "ticker": "BBASL14",
+      "strike": 14.7,
+      "venc": "2026-12-18",
+      "preco": 1.11,
+      "origem": "ultimo",
+      "negocios": 101
+     },
+     {
+      "tipo": "call",
+      "q": 2,
+      "ticker": "BBASL153",
+      "strike": 15.2,
+      "venc": "2026-12-18",
+      "preco": 0.71,
+      "origem": "ultimo",
+      "negocios": 318
+     }
+    ],
+    "credito": 0.3900000000000001,
+    "du1": 23,
+    "janela": [
+     23,
+     45
+    ],
+    "deltaEstrutural": -0.25,
+    "candidatas": 48
+   },
+   "lucro": {
+    "ev": 0.36222596689167497,
+    "prob": 1,
+    "risco": 0,
+    "evEstresse": 0.35202435006879407,
+    "probEstresse": 1,
+    "ganhoMax": 1.1400000000000001,
+    "perdaMax": 0,
+    "equilibrios": []
+   },
+   "contexto": {
+    "tendencia": "baixa",
+    "vies": "neutra",
+    "aFavorDaTendencia": null,
+    "ivAtm": 0.3716671668435446,
+    "volRealizada": 0.3300445670896653,
+    "vendeVol": true,
+    "aFavorDaVol": true
+   },
+   "dinamica": {
+    "delta": -0.029373487799044584,
+    "gama": 0.07651346435300493,
+    "theta": 0.009862258221173766,
+    "vega": -0.0025277150882608915
+   }
+  },
+  {
+   "id": "fly-modular",
+   "veredito": "montar",
+   "avisos": [],
+   "montagem": {
+    "pernas": [
+     {
+      "tipo": "call",
+      "q": 1,
+      "ticker": "BBASL143",
+      "strike": 14.2,
+      "venc": "2026-12-18",
+      "preco": 1.33,
+      "origem": "ultimo",
+      "negocios": 36
+     },
+     {
+      "tipo": "call",
+      "q": -2,
+      "ticker": "BBASL14",
+      "strike": 14.7,
+      "venc": "2026-12-18",
+      "preco": 1.11,
+      "origem": "ultimo",
+      "negocios": 101
+     },
+     {
+      "tipo": "call",
+      "q": 1,
+      "ticker": "BBASL153",
+      "strike": 15.2,
+      "venc": "2026-12-18",
+      "preco": 0.71,
+      "origem": "ultimo",
+      "negocios": 318
+     },
+     {
+      "tipo": "put",
+      "q": -1,
+      "ticker": "BBASX143",
+      "strike": 14.2,
+      "venc": "2026-12-18",
+      "preco": 0.3,
+      "origem": "ultimo",
+      "negocios": 261
+     }
+    ],
+    "credito": 0.48000000000000015,
+    "du1": 23,
+    "janela": [
+     23,
+     45
+    ],
+    "deltaEstrutural": null,
+    "candidatas": 20
+   },
+   "lucro": {
+    "ev": 0.35297118085804713,
+    "prob": 0.851465968571936,
+    "risco": -9.19,
+    "evEstresse": 0.25806690518022035,
+    "probEstresse": 0.8048057500360828,
+    "ganhoMax": 0.9800000000000002,
+    "perdaMax": -13.719999999999999,
+    "equilibrios": [
+     13.72
+    ]
+   },
+   "contexto": {
+    "tendencia": "baixa",
+    "vies": "altista",
+    "aFavorDaTendencia": false,
+    "ivAtm": 0.3716671668435446,
+    "volRealizada": 0.3300445670896653,
+    "vendeVol": true,
+    "aFavorDaVol": true
+   },
+   "dinamica": {
+    "delta": 0.27623958239281243,
+    "gama": -0.12366630098551185,
+    "theta": 0.016967601934560296,
+    "vega": -0.01652777359130044
+   }
+  },
+  {
+   "id": "modulo-q",
+   "veredito": "montar",
+   "avisos": [],
+   "montagem": {
+    "pernas": [
+     {
+      "tipo": "call",
+      "q": 1,
+      "ticker": "BBASA14",
+      "strike": 14.45,
+      "venc": "2027-01-15",
+      "preco": 1.35,
+      "origem": "ultimo",
+      "negocios": 17
+     },
+     {
+      "tipo": "call",
+      "q": -2,
+      "ticker": "BBASK150W4",
+      "strike": 15,
+      "venc": "2026-11-27",
+      "preco": 0.53,
+      "origem": "ultimo",
+      "negocios": 12
+     }
+    ],
+    "credito": -0.29000000000000004,
+    "du1": 8,
+    "janela": [
+     6,
+     13
+    ],
+    "deltaEstrutural": null,
+    "candidatas": 30
+   },
+   "lucro": {
+    "ev": 0.1548886857353342,
+    "prob": 0.7028409217014373,
+    "risco": -22.2342545233912,
+    "evEstresse": 0.05143933443353621,
+    "probEstresse": 0.653182378514352,
+    "ganhoMax": 0.855598328930868,
+    "perdaMax": null,
+    "equilibrios": [
+     13.33,
+     15.69
+    ]
+   },
+   "contexto": {
+    "tendencia": "baixa",
+    "vies": "baixista",
+    "aFavorDaTendencia": true,
+    "ivAtm": 0.4026017273019168,
+    "volRealizada": 0.3300445670896653,
+    "vendeVol": true,
+    "aFavorDaVol": true
+   },
+   "dinamica": {
+    "delta": -0.4334563911835455,
+    "gama": -0.5365523582957255,
+    "theta": 0.04973873566951752,
+    "vega": -0.0010419820173874807
+   }
+  },
+  {
+   "id": "booster-horizontal",
+   "veredito": "montar",
+   "avisos": [
+    "fora da janela do POP: a grade não tem os strikes do desenho nos vencimentos da janela"
+   ],
+   "montagem": {
+    "pernas": [
+     {
+      "tipo": "put",
+      "q": -1.5,
+      "ticker": "BBASX14",
+      "strike": 14.7,
+      "venc": "2026-12-18",
+      "preco": 0.45,
+      "origem": "ultimo",
+      "negocios": 179
+     },
+     {
+      "tipo": "put",
+      "q": 1,
+      "ticker": "BBASM15",
+      "strike": 14.7,
+      "venc": "2027-01-15",
+      "preco": 0.55,
+      "origem": "ultimo",
+      "negocios": 78
+     }
+    ],
+    "credito": 0.125,
+    "du1": 23,
+    "janela": [
+     6,
+     13
+    ],
+    "deltaEstrutural": null,
+    "candidatas": 4
+   },
+   "lucro": {
+    "ev": 0.10439129006648276,
+    "prob": 0.7814017766441324,
+    "risco": -5.090665802476002,
+    "evEstresse": 0.02815421190906603,
+    "probEstresse": 0.737457354147874,
+    "ganhoMax": 0.5982296566658194,
+    "perdaMax": -7.344640802476,
+    "equilibrios": [
+     14.08
+    ]
+   },
+   "contexto": {
+    "tendencia": "baixa",
+    "vies": "altista",
+    "aFavorDaTendencia": false,
+    "ivAtm": 0.3716671668435446,
+    "volRealizada": 0.3300445670896653,
+    "vendeVol": true,
+    "aFavorDaVol": true
+   },
+   "dinamica": {
+    "delta": 0.1783656669985546,
+    "gama": -0.14048907393013735,
+    "theta": 0.009662651117578858,
+    "vega": -0.003460335541249842
+   }
+  },
+  {
+   "id": "linha-mannerheim",
+   "veredito": "montar",
+   "avisos": [
+    "fora da janela do POP: a grade não tem os strikes do desenho nos vencimentos da janela"
+   ],
+   "montagem": {
+    "pernas": [
+     {
+      "tipo": "put",
+      "q": -1,
+      "ticker": "BBASX14",
+      "strike": 14.7,
+      "venc": "2026-12-18",
+      "preco": 0.45,
+      "origem": "ultimo",
+      "negocios": 179
+     },
+     {
+      "tipo": "call",
+      "q": 3,
+      "ticker": "BBASA15",
+      "strike": 14.7,
+      "venc": "2027-01-15",
+      "preco": 1.21,
+      "origem": "ultimo",
+      "negocios": 35
+     },
+     {
+      "tipo": "call",
+      "q": -3,
+      "ticker": "BBASL14",
+      "strike": 14.7,
+      "venc": "2026-12-18",
+      "preco": 1.11,
+      "origem": "ultimo",
+      "negocios": 101
+     }
+    ],
+    "credito": 0.15000000000000036,
+    "du1": 23,
+    "janela": [
+     6,
+     13
+    ],
+    "deltaEstrutural": null,
+    "candidatas": 4
+   },
+   "lucro": {
+    "ev": 0.5488922026732934,
+    "prob": 0.8299935258234721,
+    "risco": -10.020000000000001,
+    "evEstresse": 0.3805742712409056,
+    "probEstresse": 0.783612165130399,
+    "ganhoMax": 1.8099791258386257,
+    "perdaMax": -14.549999999999999,
+    "equilibrios": [
+     13.91
+    ]
+   },
+   "contexto": {
+    "tendencia": "baixa",
+    "vies": "altista",
+    "aFavorDaTendencia": false,
+    "ivAtm": 0.3716671668435446,
+    "volRealizada": 0.3300445670896653,
+    "vendeVol": true,
+    "aFavorDaVol": true
+   },
+   "dinamica": {
+    "delta": 0.4180335671233788,
+    "gama": -0.2299054191383444,
+    "theta": 0.030540095339772366,
+    "vega": -0.0031925649433916445
+   }
+  },
+  {
+   "id": "gl-shortput-booster",
+   "veredito": "montar",
+   "avisos": [
+    "fora da janela do POP: a grade não tem os strikes do desenho nos vencimentos da janela"
+   ],
+   "montagem": {
+    "pernas": [
+     {
+      "tipo": "acao",
+      "q": 1,
+      "ticker": "BBAS3",
+      "strike": null,
+      "venc": null,
+      "preco": 15.1,
+      "origem": "ultimo",
+      "negocios": null
+     },
+     {
+      "tipo": "put",
+      "q": -1,
+      "ticker": "BBASX14",
+      "strike": 14.7,
+      "venc": "2026-12-18",
+      "preco": 0.45,
+      "origem": "ultimo",
+      "negocios": 179
+     },
+     {
+      "tipo": "call",
+      "q": 2,
+      "ticker": "BBASA15",
+      "strike": 14.7,
+      "venc": "2027-01-15",
+      "preco": 1.21,
+      "origem": "ultimo",
+      "negocios": 35
+     },
+     {
+      "tipo": "call",
+      "q": -3,
+      "ticker": "BBASL14",
+      "strike": 14.7,
+      "venc": "2026-12-18",
+      "preco": 1.11,
+      "origem": "ultimo",
+      "negocios": 101
+     }
+    ],
+    "credito": 1.36,
+    "du1": 23,
+    "janela": [
+     6,
+     13
+    ],
+    "deltaEstrutural": null,
+    "candidatas": 4
+   },
+   "lucro": {
+    "ev": 0.5771612205520433,
+    "prob": 0.8066281898639224,
+    "risco": -19.380000000000003,
+    "evEstresse": 0.3261710527507832,
+    "probEstresse": 0.7611443567546352,
+    "ganhoMax": 2.0666527505590837,
+    "perdaMax": -28.440000000000005,
+    "equilibrios": [
+     13.98
+    ]
+   },
+   "contexto": {
+    "tendencia": "baixa",
+    "vies": "altista",
+    "aFavorDaTendencia": false,
+    "ivAtm": 0.3716671668435446,
+    "volRealizada": 0.3300445670896653,
+    "vendeVol": true,
+    "aFavorDaVol": true
+   },
+   "dinamica": {
+    "delta": 0.7478214491022799,
+    "gama": -0.4087843531511922,
+    "theta": 0.04523877317732214,
+    "vega": -0.02469976822091448
+   }
+  },
+  {
+   "id": "asym-wings-diagonal",
+   "veredito": "montar",
+   "avisos": [],
+   "montagem": {
+    "pernas": [
+     {
+      "tipo": "put",
+      "q": 1,
+      "ticker": "BBASW160W4",
+      "strike": 16,
+      "venc": "2026-11-27",
+      "preco": 0.94,
+      "origem": "ultimo",
+      "negocios": 9
+     },
+     {
+      "tipo": "put",
+      "q": -2,
+      "ticker": "BBASW155W4",
+      "strike": 15.5,
+      "venc": "2026-11-27",
+      "preco": 0.64,
+      "origem": "ultimo",
+      "negocios": 14
+     },
+     {
+      "tipo": "put",
+      "q": 1,
+      "ticker": "BBASM15",
+      "strike": 14.7,
+      "venc": "2027-01-15",
+      "preco": 0.55,
+      "origem": "ultimo",
+      "negocios": 78
+     }
+    ],
+    "credito": -0.20999999999999996,
+    "du1": 8,
+    "janela": [
+     6,
+     13
+    ],
+    "deltaEstrutural": null,
+    "candidatas": 16
+   },
+   "lucro": {
+    "ev": 0.13817227831872358,
+    "prob": 0.6609438905410375,
+    "risco": -0.7701701388338567,
+    "evEstresse": 0.08612666225206267,
+    "probEstresse": 0.5803143503676385,
+    "ganhoMax": 0.6474003871453133,
+    "perdaMax": -0.7701701388338567,
+    "equilibrios": [
+     14.48,
+     16.17
+    ]
+   },
+   "contexto": {
+    "tendencia": "baixa",
+    "vies": "neutra",
+    "aFavorDaTendencia": null,
+    "ivAtm": 0.4026017273019168,
+    "volRealizada": 0.3300445670896653,
+    "vendeVol": false,
+    "aFavorDaVol": false
+   },
+   "dinamica": {
+    "delta": 0.06939519375384529,
+    "gama": -0.21759390694719097,
+    "theta": 0.026175898521854365,
+    "vega": 0.008805168554930954
+   }
+  },
+  {
+   "id": "straddle-perene",
+   "veredito": "montar",
+   "avisos": [
+    "fora da janela do POP: a grade não tem os strikes do desenho nos vencimentos da janela"
+   ],
+   "montagem": {
+    "pernas": [
+     {
+      "tipo": "put",
+      "q": -1,
+      "ticker": "BBASX14",
+      "strike": 14.7,
+      "venc": "2026-12-18",
+      "preco": 0.45,
+      "origem": "ultimo",
+      "negocios": 179
+     },
+     {
+      "tipo": "call",
+      "q": -1,
+      "ticker": "BBASL14",
+      "strike": 14.7,
+      "venc": "2026-12-18",
+      "preco": 1.11,
+      "origem": "ultimo",
+      "negocios": 101
+     },
+     {
+      "tipo": "call",
+      "q": 1,
+      "ticker": "BBASA15",
+      "strike": 14.7,
+      "venc": "2027-01-15",
+      "preco": 1.21,
+      "origem": "ultimo",
+      "negocios": 35
+     }
+    ],
+    "credito": 0.3500000000000001,
+    "du1": 23,
+    "janela": [
+     6,
+     13
+    ],
+    "deltaEstrutural": null,
+    "candidatas": 4
+   },
+   "lucro": {
+    "ev": 0.2585199408064575,
+    "prob": 0.7814017766441324,
+    "risco": -9.82,
+    "evEstresse": 0.1330248569058231,
+    "probEstresse": 0.737457354147874,
+    "ganhoMax": 0.903326375279542,
+    "perdaMax": -14.350000000000001,
+    "equilibrios": [
+     14.08
+    ]
+   },
+   "contexto": {
+    "tendencia": "baixa",
+    "vies": "altista",
+    "aFavorDaTendencia": false,
+    "ivAtm": 0.3716671668435446,
+    "volRealizada": 0.3300445670896653,
+    "vendeVol": true,
+    "aFavorDaVol": true
+   },
+   "dinamica": {
+    "delta": 0.3697907743628107,
+    "gama": -0.21190930773554034,
+    "theta": 0.017639819436190328,
+    "vega": -0.012277356352085878
+   }
+  },
+  {
+   "id": "strangle-p",
+   "veredito": "montar",
+   "avisos": [
+    "fora da janela do POP: a grade não tem os strikes do desenho nos vencimentos da janela"
+   ],
+   "montagem": {
+    "pernas": [
+     {
+      "tipo": "call",
+      "q": -1,
+      "ticker": "BBASL14",
+      "strike": 14.7,
+      "venc": "2026-12-18",
+      "preco": 1.11,
+      "origem": "ultimo",
+      "negocios": 101
+     },
+     {
+      "tipo": "call",
+      "q": 1,
+      "ticker": "BBASA163",
+      "strike": 16.2,
+      "venc": "2027-01-15",
+      "preco": 0.48,
+      "origem": "ultimo",
+      "negocios": 23
+     },
+     {
+      "tipo": "put",
+      "q": -1,
+      "ticker": "BBASX164",
+      "strike": 16.2,
+      "venc": "2026-12-18",
+      "preco": 1.25,
+      "origem": "ultimo",
+      "negocios": 227
+     }
+    ],
+    "credito": 1.8800000000000001,
+    "du1": 23,
+    "janela": [
+     6,
+     13
+    ],
+    "deltaEstrutural": null,
+    "candidatas": 23
+   },
+   "lucro": {
+    "ev": 0.2610430112632847,
+    "prob": 0.7543788812560978,
+    "risco": -9.79,
+    "evEstresse": 0.14304074996350624,
+    "probEstresse": 0.7126230146390451,
+    "ganhoMax": 0.9673952006615185,
+    "perdaMax": -14.319999999999999,
+    "equilibrios": [
+     14.28
+    ]
+   },
+   "contexto": {
+    "tendencia": "baixa",
+    "vies": "altista",
+    "aFavorDaTendencia": false,
+    "ivAtm": 0.3716671668435446,
+    "volRealizada": 0.3300445670896653,
+    "vendeVol": true,
+    "aFavorDaVol": true
+   },
+   "dinamica": {
+    "delta": 0.39911084931938,
+    "gama": -0.19707852335116813,
+    "theta": 0.01587500377141217,
+    "vega": -0.010963699731436238
+   }
+  },
+  {
+   "id": "box-perene",
+   "veredito": "montar",
+   "avisos": [],
+   "montagem": {
+    "pernas": [
+     {
+      "tipo": "call",
+      "q": 1,
+      "ticker": "BBASL150",
+      "strike": 14.95,
+      "venc": "2026-12-18",
+      "preco": 0.87,
+      "origem": "ultimo",
+      "negocios": 313
+     },
+     {
+      "tipo": "call",
+      "q": -1,
+      "ticker": "BBASL158",
+      "strike": 15.7,
+      "venc": "2026-12-18",
+      "preco": 0.51,
+      "origem": "ultimo",
+      "negocios": 408
+     },
+     {
+      "tipo": "put",
+      "q": 1,
+      "ticker": "BBASX158",
+      "strike": 15.7,
+      "venc": "2026-12-18",
+      "preco": 0.9,
+      "origem": "ultimo",
+      "negocios": 311
+     },
+     {
+      "tipo": "put",
+      "q": -1,
+      "ticker": "BBASX150",
+      "strike": 14.95,
+      "venc": "2026-12-18",
+      "preco": 0.53,
+      "origem": "ultimo",
+      "negocios": 386
+     }
+    ],
+    "credito": -0.73,
+    "du1": 23,
+    "janela": [
+     20,
+     45
+    ],
+    "deltaEstrutural": null,
+    "candidatas": 39
+   },
+   "lucro": {
+    "ev": 0.009802109129546988,
+    "prob": 1,
+    "risco": 0,
+    "evEstresse": 0.00980210912954782,
+    "probEstresse": 1,
+    "ganhoMax": 0.020000000000004126,
+    "perdaMax": 0,
+    "equilibrios": []
+   },
+   "contexto": {
+    "tendencia": "baixa",
+    "vies": "neutra",
+    "aFavorDaTendencia": null,
+    "ivAtm": 0.3716671668435446,
+    "volRealizada": 0.3300445670896653,
+    "vendeVol": true,
+    "aFavorDaVol": true
+   },
+   "dinamica": {
+    "delta": 0.0017009287526664751,
+    "gama": 0.003074399214401058,
+    "theta": 0.0006400000983999149,
+    "vega": -0.000009166372936651734
+   }
+  },
+  {
+   "id": "box-p",
+   "veredito": "montar",
+   "avisos": [
+    "fora da janela do POP: a grade não tem os strikes do desenho nos vencimentos da janela"
+   ],
+   "montagem": {
+    "pernas": [
+     {
+      "tipo": "call",
+      "q": 1,
+      "ticker": "BBASA14",
+      "strike": 14.45,
+      "venc": "2027-01-15",
+      "preco": 1.35,
+      "origem": "ultimo",
+      "negocios": 17
+     },
+     {
+      "tipo": "call",
+      "q": -1,
+      "ticker": "BBASL164",
+      "strike": 16.2,
+      "venc": "2026-12-18",
+      "preco": 0.34,
+      "origem": "ultimo",
+      "negocios": 185
+     },
+     {
+      "tipo": "put",
+      "q": 1,
+      "ticker": "BBASM163",
+      "strike": 16.2,
+      "venc": "2027-01-15",
+      "preco": 1.25,
+      "origem": "ultimo",
+      "negocios": 30
+     },
+     {
+      "tipo": "put",
+      "q": -1,
+      "ticker": "BBASX145",
+      "strike": 14.45,
+      "venc": "2026-12-18",
+      "preco": 0.36,
+      "origem": "ultimo",
+      "negocios": 163
+     }
+    ],
+    "credito": -1.9,
+    "du1": 23,
+    "janela": [
+     6,
+     13
+    ],
+    "deltaEstrutural": null,
+    "candidatas": 13
+   },
+   "lucro": {
+    "ev": 0.12928807896120914,
+    "prob": 0.8102138272788422,
+    "risco": -0.29399904762661144,
+    "evEstresse": 0.09603652476981905,
+    "probEstresse": 0.7433166289859391,
+    "ganhoMax": 0.4849224850775963,
+    "perdaMax": -0.29399904762661144,
+    "equilibrios": [
+     13.89,
+     18.66
+    ]
+   },
+   "contexto": {
+    "tendencia": "baixa",
+    "vies": "neutra",
+    "aFavorDaTendencia": null,
+    "ivAtm": 0.3716671668435446,
+    "volRealizada": 0.3300445670896653,
+    "vendeVol": false,
+    "aFavorDaVol": false
+   },
+   "dinamica": {
+    "delta": 0.07738945287235588,
+    "gama": -0.0450064939566501,
+    "theta": 0.008686677854869755,
+    "vega": 0.01064581129318113
+   }
+  },
+  {
+   "id": "colar-perene",
+   "veredito": "montar",
+   "avisos": [
+    "vantagem frágil: some com a vol do estresse"
+   ],
+   "montagem": {
+    "pernas": [
+     {
+      "tipo": "acao",
+      "q": 1,
+      "ticker": "BBAS3",
+      "strike": null,
+      "venc": null,
+      "preco": 15.1,
+      "origem": "ultimo",
+      "negocios": null
+     },
+     {
+      "tipo": "put",
+      "q": 1,
+      "ticker": "BBASM15",
+      "strike": 14.7,
+      "venc": "2027-01-15",
+      "preco": 0.55,
+      "origem": "ultimo",
+      "negocios": 78
+     },
+     {
+      "tipo": "call",
+      "q": -1,
+      "ticker": "BBASL155",
+      "strike": 15.45,
+      "venc": "2026-12-18",
+      "preco": 0.61,
+      "origem": "ultimo",
+      "negocios": 310
+     }
+    ],
+    "credito": 0.05999999999999994,
+    "du1": 23,
+    "janela": [
+     20,
+     45
+    ],
+    "deltaEstrutural": null,
+    "candidatas": 25
+   },
+   "lucro": {
+    "ev": 0.008554574411979154,
+    "prob": 0.695370282634809,
+    "risco": -0.47066580247600187,
+    "evEstresse": -0.025549866221417195,
+    "probEstresse": 0.6598813552570184,
+    "ganhoMax": 0.6278990711010332,
+    "perdaMax": -0.47066580247600187,
+    "equilibrios": [
+     14.44
+    ]
+   },
+   "contexto": {
+    "tendencia": "baixa",
+    "vies": "altista",
+    "aFavorDaTendencia": false,
+    "ivAtm": 0.3716671668435446,
+    "volRealizada": 0.3300445670896653,
+    "vendeVol": false,
+    "aFavorDaVol": false
+   },
+   "dinamica": {
+    "delta": 0.17035782543391653,
+    "gama": -0.07186193048617118,
+    "theta": 0.011581318715776435,
+    "vega": 0.003576460434792185
+   }
+  },
+  {
+   "id": "financiamento",
+   "veredito": "montar",
+   "avisos": [],
+   "montagem": {
+    "pernas": [
+     {
+      "tipo": "acao",
+      "q": 1,
+      "ticker": "BBAS3",
+      "strike": null,
+      "venc": null,
+      "preco": 15.1,
+      "origem": "ultimo",
+      "negocios": null
+     },
+     {
+      "tipo": "call",
+      "q": -1,
+      "ticker": "BBASL14",
+      "strike": 14.7,
+      "venc": "2026-12-18",
+      "preco": 1.11,
+      "origem": "ultimo",
+      "negocios": 101
+     }
+    ],
+    "credito": 1.11,
+    "du1": 23,
+    "janela": [
+     20,
+     45
+    ],
+    "deltaEstrutural": null,
+    "candidatas": 9
+   },
+   "lucro": {
+    "ev": 0.17345514881216784,
+    "prob": 0.8066281898639224,
+    "risco": -9.46,
+    "evEstresse": 0.06937148867741882,
+    "probEstresse": 0.7611443567546352,
+    "ganhoMax": 0.7100000000000009,
+    "perdaMax": -13.99,
+    "equilibrios": [
+     13.99
+    ]
+   },
+   "contexto": {
+    "tendencia": "baixa",
+    "vies": "altista",
+    "aFavorDaTendencia": false,
+    "ivAtm": 0.3716671668435446,
+    "volRealizada": 0.3300445670896653,
+    "vendeVol": true,
+    "aFavorDaVol": true
+   },
+   "dinamica": {
+    "delta": 0.3539092783591856,
+    "gama": -0.18787698971424985,
+    "theta": 0.021148815789340795,
+    "vega": -0.01696480757317572
+   }
+  },
+  {
+   "id": "dividendo-sint",
+   "veredito": "montar",
+   "avisos": [
+    "vantagem frágil: some com a vol do estresse"
+   ],
+   "montagem": {
+    "pernas": [
+     {
+      "tipo": "acao",
+      "q": 1,
+      "ticker": "BBAS3",
+      "strike": null,
+      "venc": null,
+      "preco": 15.1,
+      "origem": "ultimo",
+      "negocios": null
+     },
+     {
+      "tipo": "call",
+      "q": -0.3,
+      "ticker": "BBASL158",
+      "strike": 15.7,
+      "venc": "2026-12-18",
+      "preco": 0.51,
+      "origem": "ultimo",
+      "negocios": 408
+     }
+    ],
+    "credito": 0.153,
+    "du1": 23,
+    "janela": [
+     20,
+     45
+    ],
+    "deltaEstrutural": null,
+    "candidatas": 11
+   },
+   "lucro": {
+    "ev": 0.022680124262182348,
+    "prob": 0.5622687337979644,
+    "risco": -10.417,
+    "evEstresse": -0.010985116775206149,
+    "probEstresse": 0.5454961351516989,
+    "ganhoMax": null,
+    "perdaMax": -14.947,
+    "equilibrios": [
+     14.95
+    ]
+   },
+   "contexto": {
+    "tendencia": "baixa",
+    "vies": "altista",
+    "aFavorDaTendencia": false,
+    "ivAtm": 0.3716671668435446,
+    "volRealizada": 0.3300445670896653,
+    "vendeVol": true,
+    "aFavorDaVol": true
+   },
+   "dinamica": {
+    "delta": 0.8700609699322144,
+    "gama": -0.0694587682061361,
+    "theta": 0.0054345617885101245,
+    "vega": -0.00538286081901644
+   }
+  },
+  {
+   "id": "anakha",
+   "veredito": "montar",
+   "avisos": [],
+   "montagem": {
+    "pernas": [
+     {
+      "tipo": "call",
+      "q": -1,
+      "ticker": "BBASK146",
+      "strike": 14.54,
+      "venc": "2026-11-19",
+      "preco": 0.7,
+      "origem": "ultimo",
+      "negocios": 143
+     },
+     {
+      "tipo": "put",
+      "q": -1,
+      "ticker": "BBASW146",
+      "strike": 14.54,
+      "venc": "2026-11-19",
+      "preco": 0.11,
+      "origem": "ultimo",
+      "negocios": 125
+     },
+     {
+      "tipo": "call",
+      "q": 1,
+      "ticker": "BBASL155W1",
+      "strike": 15.5,
+      "venc": "2026-12-04",
+      "preco": 0.38,
+      "origem": "ultimo",
+      "negocios": 4
+     }
+    ],
+    "credito": 0.42999999999999994,
+    "du1": 3,
+    "janela": [
+     3,
+     8
+    ],
+    "deltaEstrutural": null,
+    "candidatas": 27
+   },
+   "lucro": {
+    "ev": 0.11679625337431232,
+    "prob": 0.6697311653964904,
+    "risco": -9.580000000000002,
+    "evEstresse": 0.08803029777468882,
+    "probEstresse": 0.6168579692723472,
+    "ganhoMax": 0.5460326227351275,
+    "perdaMax": -14.110000000000001,
+    "equilibrios": [
+     14.07,
+     15.38
+    ]
+   },
+   "contexto": {
+    "tendencia": "baixa",
+    "vies": "baixista",
+    "aFavorDaTendencia": true,
+    "ivAtm": 0.4470383055824641,
+    "volRealizada": 0.3300445670896653,
+    "vendeVol": false,
+    "aFavorDaVol": false
+   },
+   "dinamica": {
+    "delta": -0.11662161979593999,
+    "gama": -0.41631915415768544,
+    "theta": 0.06503881954874682,
+    "vega": 0.003531937647898959
+   }
+  },
+  {
+   "id": "hedge-inverse",
+   "veredito": "montar",
+   "avisos": [],
+   "montagem": {
+    "pernas": [
+     {
+      "tipo": "call",
+      "q": -1,
+      "ticker": "BBASK155W4",
+      "strike": 15.5,
+      "venc": "2026-11-27",
+      "preco": 0.28,
+      "origem": "ultimo",
+      "negocios": 59
+     },
+     {
+      "tipo": "call",
+      "q": 1,
+      "ticker": "BBASK155W4",
+      "strike": 15.5,
+      "venc": "2026-11-27",
+      "preco": 0.28,
+      "origem": "ultimo",
+      "negocios": 59
+     },
+     {
+      "tipo": "put",
+      "q": -1,
+      "ticker": "BBASW155W4",
+      "strike": 15.5,
+      "venc": "2026-11-27",
+      "preco": 0.64,
+      "origem": "ultimo",
+      "negocios": 14
+     }
+    ],
+    "credito": 0.64,
+    "du1": 8,
+    "janela": [
+     6,
+     13
+    ],
+    "deltaEstrutural": null,
+    "candidatas": 5
+   },
+   "lucro": {
+    "ev": 0.09505063597372188,
+    "prob": 0.6252380967934154,
+    "risco": -10.33,
+    "evEstresse": 0.030817964829269795,
+    "probEstresse": 0.6018126442108166,
+    "ganhoMax": 0.64,
+    "perdaMax": -14.86,
+    "equilibrios": [
+     14.86
+    ]
+   },
+   "contexto": {
+    "tendencia": "baixa",
+    "vies": "altista",
+    "aFavorDaTendencia": false,
+    "ivAtm": 0.4026017273019168,
+    "volRealizada": 0.3300445670896653,
+    "vendeVol": true,
+    "aFavorDaVol": true
+   },
+   "dinamica": {
+    "delta": 0.5972670486058003,
+    "gama": -0.3403336272480335,
+    "theta": 0.021758422441245002,
+    "vega": -0.010412643017161343
+   }
+  },
+  {
+   "id": "hedge-straddle-din",
+   "veredito": "montar",
+   "avisos": [],
+   "montagem": {
+    "pernas": [
+     {
+      "tipo": "call",
+      "q": -1,
+      "ticker": "BBASK150W4",
+      "strike": 15,
+      "venc": "2026-11-27",
+      "preco": 0.53,
+      "origem": "ultimo",
+      "negocios": 12
+     },
+     {
+      "tipo": "call",
+      "q": 1,
+      "ticker": "BBASK150W4",
+      "strike": 15,
+      "venc": "2026-11-27",
+      "preco": 0.53,
+      "origem": "ultimo",
+      "negocios": 12
+     },
+     {
+      "tipo": "call",
+      "q": -1,
+      "ticker": "BBASK155W4",
+      "strike": 15.5,
+      "venc": "2026-11-27",
+      "preco": 0.28,
+      "origem": "ultimo",
+      "negocios": 59
+     },
+     {
+      "tipo": "put",
+      "q": -1,
+      "ticker": "BBASW155W4",
+      "strike": 15.5,
+      "venc": "2026-11-27",
+      "preco": 0.64,
+      "origem": "ultimo",
+      "negocios": 14
+     }
+    ],
+    "credito": 0.92,
+    "du1": 8,
+    "janela": [
+     6,
+     13
+    ],
+    "deltaEstrutural": null,
+    "candidatas": 6
+   },
+   "lucro": {
+    "ev": 0.1564181017527325,
+    "prob": 0.6410624695750397,
+    "risco": -21.32999999999999,
+    "evEstresse": 0.02795275946382786,
+    "probEstresse": 0.5660959833344041,
+    "ganhoMax": 0.92,
+    "perdaMax": null,
+    "equilibrios": [
+     14.58,
+     16.42
+    ]
+   },
+   "contexto": {
+    "tendencia": "baixa",
+    "vies": "altista",
+    "aFavorDaTendencia": false,
+    "ivAtm": 0.4026017273019168,
+    "volRealizada": 0.3300445670896653,
+    "vendeVol": true,
+    "aFavorDaVol": true
+   },
+   "dinamica": {
+    "delta": 0.20474207975057251,
+    "gama": -0.7064052472997595,
+    "theta": 0.05034457715427669,
+    "vega": -0.020754018239864797
+   }
+  },
+  {
+   "id": "hedge-booster-h",
+   "veredito": "montar",
+   "avisos": [
+    "fora da janela do POP: a grade não tem os strikes do desenho nos vencimentos da janela"
+   ],
+   "montagem": {
+    "pernas": [
+     {
+      "tipo": "call",
+      "q": -1,
+      "ticker": "BBASL14",
+      "strike": 14.7,
+      "venc": "2026-12-18",
+      "preco": 1.11,
+      "origem": "ultimo",
+      "negocios": 101
+     },
+     {
+      "tipo": "put",
+      "q": -2,
+      "ticker": "BBASX14",
+      "strike": 14.7,
+      "venc": "2026-12-18",
+      "preco": 0.45,
+      "origem": "ultimo",
+      "negocios": 179
+     },
+     {
+      "tipo": "put",
+      "q": 1,
+      "ticker": "BBASM15",
+      "strike": 14.7,
+      "venc": "2027-01-15",
+      "preco": 0.55,
+      "origem": "ultimo",
+      "negocios": 78
+     }
+    ],
+    "credito": 1.4600000000000002,
+    "du1": 23,
+    "janela": [
+     6,
+     13
+    ],
+    "deltaEstrutural": null,
+    "candidatas": 4
+   },
+   "lucro": {
+    "ev": 0.33446423908433065,
+    "prob": 0.6579541570201374,
+    "risco": -21.589999999999996,
+    "evEstresse": 0.10210167072478249,
+    "probEstresse": 0.5871654627827321,
+    "ganhoMax": 1.9332296566658196,
+    "perdaMax": null,
+    "equilibrios": [
+     13.27,
+     16.24
+    ]
+   },
+   "contexto": {
+    "tendencia": "baixa",
+    "vies": "baixista",
+    "aFavorDaTendencia": true,
+    "ivAtm": 0.3716671668435446,
+    "volRealizada": 0.3300445670896653,
+    "vendeVol": true,
+    "aFavorDaVol": true
+   },
+   "dinamica": {
+    "delta": -0.29489036565099636,
+    "gama": -0.4298216896614564,
+    "theta": 0.03640630764911931,
+    "vega": -0.028835019142642065
+   }
+  },
+  {
+   "id": "hedge-calendar-line",
+   "veredito": "montar",
+   "avisos": [
+    "fora da janela do POP: a grade não tem os strikes do desenho nos vencimentos da janela"
+   ],
+   "montagem": {
+    "pernas": [
+     {
+      "tipo": "call",
+      "q": -1,
+      "ticker": "BBASL14",
+      "strike": 14.7,
+      "venc": "2026-12-18",
+      "preco": 1.11,
+      "origem": "ultimo",
+      "negocios": 101
+     },
+     {
+      "tipo": "put",
+      "q": -1,
+      "ticker": "BBASX14",
+      "strike": 14.7,
+      "venc": "2026-12-18",
+      "preco": 0.45,
+      "origem": "ultimo",
+      "negocios": 179
+     },
+     {
+      "tipo": "call",
+      "q": 1,
+      "ticker": "BBASA15",
+      "strike": 14.7,
+      "venc": "2027-01-15",
+      "preco": 1.21,
+      "origem": "ultimo",
+      "negocios": 35
+     },
+     {
+      "tipo": "call",
+      "q": -1,
+      "ticker": "BBASL14",
+      "strike": 14.7,
+      "venc": "2026-12-18",
+      "preco": 1.11,
+      "origem": "ultimo",
+      "negocios": 101
+     }
+    ],
+    "credito": 1.4600000000000002,
+    "du1": 23,
+    "janela": [
+     6,
+     13
+    ],
+    "deltaEstrutural": null,
+    "candidatas": 4
+   },
+   "lucro": {
+    "ev": 0.4319259848877856,
+    "prob": 0.6984164338828671,
+    "risco": -21.459334197523997,
+    "evEstresse": 0.20234724085239864,
+    "probEstresse": 0.6266420253415685,
+    "ganhoMax": 2.013326375279542,
+    "perdaMax": null,
+    "equilibrios": [
+     13.18,
+     16.34
+    ]
+   },
+   "contexto": {
+    "tendencia": "baixa",
+    "vies": "baixista",
+    "aFavorDaTendencia": true,
+    "ivAtm": 0.3716671668435446,
+    "volRealizada": 0.3300445670896653,
+    "vendeVol": true,
+    "aFavorDaVol": true
+   },
+   "dinamica": {
+    "delta": -0.27629994727800367,
+    "gama": -0.3997862974497902,
+    "theta": 0.03878863522553112,
+    "vega": -0.029242163925261598
+   }
+  },
+  {
+   "id": "hedge-mannerheim",
+   "veredito": "montar",
+   "avisos": [
+    "fora da janela do POP: a grade não tem os strikes do desenho nos vencimentos da janela"
+   ],
+   "montagem": {
+    "pernas": [
+     {
+      "tipo": "call",
+      "q": -1,
+      "ticker": "BBASL14",
+      "strike": 14.7,
+      "venc": "2026-12-18",
+      "preco": 1.11,
+      "origem": "ultimo",
+      "negocios": 101
+     },
+     {
+      "tipo": "put",
+      "q": -1,
+      "ticker": "BBASX14",
+      "strike": 14.7,
+      "venc": "2026-12-18",
+      "preco": 0.45,
+      "origem": "ultimo",
+      "negocios": 179
+     },
+     {
+      "tipo": "call",
+      "q": 3,
+      "ticker": "BBASA15",
+      "strike": 14.7,
+      "venc": "2027-01-15",
+      "preco": 1.21,
+      "origem": "ultimo",
+      "negocios": 35
+     },
+     {
+      "tipo": "call",
+      "q": -3,
+      "ticker": "BBASL14",
+      "strike": 14.7,
+      "venc": "2026-12-18",
+      "preco": 1.11,
+      "origem": "ultimo",
+      "negocios": 101
+     }
+    ],
+    "credito": 1.2600000000000002,
+    "du1": 23,
+    "janela": [
+     6,
+     13
+    ],
+    "deltaEstrutural": null,
+    "candidatas": 4
+   },
+   "lucro": {
+    "ev": 0.7222982467546215,
+    "prob": 0.712107138181994,
+    "risco": -21.398002592572,
+    "evEstresse": 0.4498966551874811,
+    "probEstresse": 0.6358462707059701,
+    "ganhoMax": 2.919979125838626,
+    "perdaMax": null,
+    "equilibrios": [
+     13.23,
+     16.47
+    ]
+   },
+   "contexto": {
+    "tendencia": "baixa",
+    "vies": "baixista",
+    "aFavorDaTendencia": true,
+    "ivAtm": 0.3716671668435446,
+    "volRealizada": 0.3300445670896653,
+    "vendeVol": true,
+    "aFavorDaVol": true
+   },
+   "dinamica": {
+    "delta": -0.2280571545174359,
+    "gama": -0.41778240885259427,
+    "theta": 0.05168891112911316,
+    "vega": -0.020157372516567358
+   }
+  },
+  {
+   "id": "hedge-booster-v",
+   "veredito": "montar",
+   "avisos": [],
+   "montagem": {
+    "pernas": [
+     {
+      "tipo": "call",
+      "q": -1,
+      "ticker": "BBASK155W4",
+      "strike": 15.5,
+      "venc": "2026-11-27",
+      "preco": 0.28,
+      "origem": "ultimo",
+      "negocios": 59
+     },
+     {
+      "tipo": "put",
+      "q": 1,
+      "ticker": "BBASW160W4",
+      "strike": 16,
+      "venc": "2026-11-27",
+      "preco": 0.94,
+      "origem": "ultimo",
+      "negocios": 9
+     },
+     {
+      "tipo": "put",
+      "q": -2,
+      "ticker": "BBASW155W4",
+      "strike": 15.5,
+      "venc": "2026-11-27",
+      "preco": 0.64,
+      "origem": "ultimo",
+      "negocios": 14
+     }
+    ],
+    "credito": 0.6200000000000001,
+    "du1": 8,
+    "janela": [
+     6,
+     13
+    ],
+    "deltaEstrutural": null,
+    "candidatas": 6
+   },
+   "lucro": {
+    "ev": 0.2265452566784618,
+    "prob": 0.6704194767256074,
+    "risco": -21.629999999999992,
+    "evEstresse": 0.08285969144789423,
+    "probEstresse": 0.5873906113266669,
+    "ganhoMax": 1.12,
+    "perdaMax": null,
+    "equilibrios": [
+     14.38,
+     16.12
+    ]
+   },
+   "contexto": {
+    "tendencia": "baixa",
+    "vies": "neutra",
+    "aFavorDaTendencia": null,
+    "ivAtm": 0.4026017273019168,
+    "volRealizada": 0.3300445670896653,
+    "vendeVol": true,
+    "aFavorDaVol": true
+   },
+   "dinamica": {
+    "delta": 0.01700862487385324,
+    "gama": -0.747543331119987,
+    "theta": 0.06188392434390615,
+    "vega": -0.023305499211172157
+   }
+  },
+  {
+   "id": "hedge-assimetrico",
+   "veredito": "montar",
+   "avisos": [],
+   "montagem": {
+    "pernas": [
+     {
+      "tipo": "put",
+      "q": -1,
+      "ticker": "BBASW150W4",
+      "strike": 15,
+      "venc": "2026-11-27",
+      "preco": 0.34,
+      "origem": "ultimo",
+      "negocios": 52
+     },
+     {
+      "tipo": "call",
+      "q": -1,
+      "ticker": "BBASK150W4",
+      "strike": 15,
+      "venc": "2026-11-27",
+      "preco": 0.53,
+      "origem": "ultimo",
+      "negocios": 12
+     },
+     {
+      "tipo": "call",
+      "q": 2,
+      "ticker": "BBASA163",
+      "strike": 16.2,
+      "venc": "2027-01-15",
+      "preco": 0.48,
+      "origem": "ultimo",
+      "negocios": 23
+     }
+    ],
+    "credito": -0.08999999999999986,
+    "du1": 8,
+    "janela": [
+     6,
+     13
+    ],
+    "deltaEstrutural": null,
+    "candidatas": 36
+   },
+   "lucro": {
+    "ev": 0.12963312163453983,
+    "prob": 0.7322823927194589,
+    "risco": -10.560000000000002,
+    "evEstresse": 0.061968593298043995,
+    "probEstresse": 0.6951688620710026,
+    "ganhoMax": null,
+    "perdaMax": -15.09,
+    "equilibrios": [
+     14.63
+    ]
+   },
+   "contexto": {
+    "tendencia": "baixa",
+    "vies": "altista",
+    "aFavorDaTendencia": false,
+    "ivAtm": 0.4026017273019168,
+    "volRealizada": 0.3300445670896653,
+    "vendeVol": false,
+    "aFavorDaVol": false
+   },
+   "dinamica": {
+    "delta": 0.6075687015592297,
+    "gama": -0.32996418538055616,
+    "theta": 0.028648024976700364,
+    "vega": 0.024212425238667318
+   }
+  },
+  {
+   "id": "hedge-straddle-ha",
+   "veredito": "montar",
+   "avisos": [],
+   "montagem": {
+    "pernas": [
+     {
+      "tipo": "put",
+      "q": -1,
+      "ticker": "BBASW150W4",
+      "strike": 15,
+      "venc": "2026-11-27",
+      "preco": 0.34,
+      "origem": "ultimo",
+      "negocios": 52
+     },
+     {
+      "tipo": "call",
+      "q": -1,
+      "ticker": "BBASK150W4",
+      "strike": 15,
+      "venc": "2026-11-27",
+      "preco": 0.53,
+      "origem": "ultimo",
+      "negocios": 12
+     },
+     {
+      "tipo": "call",
+      "q": 2,
+      "ticker": "BBASA163",
+      "strike": 16.2,
+      "venc": "2027-01-15",
+      "preco": 0.48,
+      "origem": "ultimo",
+      "negocios": 23
+     }
+    ],
+    "credito": -0.08999999999999986,
+    "du1": 8,
+    "janela": [
+     6,
+     13
+    ],
+    "deltaEstrutural": null,
+    "candidatas": 38
+   },
+   "lucro": {
+    "ev": 0.12963312163453983,
+    "prob": 0.7322823927194589,
+    "risco": -10.560000000000002,
+    "evEstresse": 0.061968593298043995,
+    "probEstresse": 0.6951688620710026,
+    "ganhoMax": null,
+    "perdaMax": -15.09,
+    "equilibrios": [
+     14.63
+    ]
+   },
+   "contexto": {
+    "tendencia": "baixa",
+    "vies": "altista",
+    "aFavorDaTendencia": false,
+    "ivAtm": 0.4026017273019168,
+    "volRealizada": 0.3300445670896653,
+    "vendeVol": false,
+    "aFavorDaVol": false
+   },
+   "dinamica": {
+    "delta": 0.6075687015592297,
+    "gama": -0.32996418538055616,
+    "theta": 0.028648024976700364,
+    "vega": 0.024212425238667318
+   }
+  }
+ ]
+}

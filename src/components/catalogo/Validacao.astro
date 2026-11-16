@@ -1,0 +1,40 @@
+---
+// "Validação do operador": a montagem otimizada na grade do dia, em quatro aspectos
+// (montagem, lucro, contexto, dinâmica) e o veredito. Dados de src/data/laboratorio/validacao.json.
+import { fraseDinamica, fraseContexto, VEREDITO } from '../../lib/otimizacao/validacao.ts';
+import { rs, pct, dmyy } from '../../lib/laboratorio';
+
+interface Props { v: any; mercado: any }
+const { v, mercado } = Astro.props;
+const cls = v.veredito === 'montar' ? 'ok' : v.veredito === 'nao-montar' ? 'nao' : 'meio';
+const L = v.lucro, M = v.montagem;
+const sinal = (x: number) => (x > 0.0005 ? 'pos' : x < -0.0005 ? 'neg' : '');
+const teoricas = M.pernas.filter((p: any) => p.origem === 'teorico').length;
+---
+<div class={`validacao ${cls}`}>
+  <h3 class="mini">Validação do operador <span class="validacao-data">grade de {dmyy(mercado.data)}</span></h3>
+  <p class="validacao-veredito"><b>{VEREDITO[v.veredito]}</b>{v.avisos.length > 0 && <small> — {v.avisos.join('; ')}.</small>}</p>
+  <dl class="validacao-grid">
+    <div>
+      <dt>Montagem</dt>
+      <dd>
+        {M.credito >= 0 ? `Crédito de ${rs(M.credito)}` : `Débito de ${rs(-M.credito)}`} por unidade; 1º vencimento em {M.du1} du (janela {M.janela[0]}–{M.janela[1]}).
+        {M.deltaEstrutural !== null && ` Delta estrutural ${rs(M.deltaEstrutural)}.`}
+        {' '}Escolhida entre {M.candidatas} montagens que preservam o desenho.
+        {teoricas > 0 && ` ${teoricas} ${teoricas === 1 ? 'perna com preço teórico' : 'pernas com preço teórico'} (sem negócio no dia).`}
+      </dd>
+    </div>
+    <div>
+      <dt>Lucro</dt>
+      <dd>
+        Valor esperado <b class={sinal(L.ev)}>{rs(L.ev, 3, true)}</b> por unidade com a vol realizada ({pct(mercado.sigma)}); {rs(L.evEstresse, 3, true)} com {pct(mercado.sigmaEstresse)}.
+        Probabilidade de lucro no 1º vencimento: <b>{pct(L.prob)}</b>.
+        Ganho máximo {L.ganhoMax === null ? 'ilimitado' : rs(L.ganhoMax)}; perda máxima {L.perdaMax === null ? `ilimitada (${rs(L.risco)} a 0,3× ou 2,5× o preço)` : rs(L.perdaMax)}.
+        {L.equilibrios.length > 0 && ` Equilíbrio em ${L.equilibrios.map((x: number) => rs(x)).join(' e ')}.`}
+      </dd>
+    </div>
+    <div><dt>Contexto</dt><dd>{fraseContexto(v.contexto)}</dd></div>
+    <div><dt>Dinâmica do lucro</dt><dd>{fraseDinamica(v.dinamica)}</dd></div>
+  </dl>
+  <p class="nota">Critério: maior valor esperado por risco sob a vol realizada de 120 pregões sem os dois maiores gaps, dentro do desenho e das regras do POP, só onde todos os caminhos de manejo aplicam. Preços de último negócio: conferir no book antes de enviar a ordem. Uma trilha, não um trilho.</p>
+</div>

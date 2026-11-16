@@ -18,6 +18,8 @@ import GRADE from '../../data/grades/bbas3-2026-11-13.json';
 import { gradeParaManejo } from '../../lib/catalogo/gradeManejo.ts';
 import { deltaEstrutural, creditoEntrada } from '../../lib/catalogo/protocolo.ts';
 import MANEJO from '../../data/laboratorio/manejo.json';
+import VALIDACAO from '../../data/laboratorio/validacao.json';
+import Validacao from '../../components/catalogo/Validacao.astro';
 
 // Fichas editoriais antigas que viraram parte da aba Visão.
 const FICHAS: Record<string, string> = { 'covered-call': 'venda-coberta', 'cash-put': 'venda-de-put-coberta' };
@@ -61,6 +63,8 @@ const credito = creditoEntrada(visao.posicao);
 
 // Cenários de manejo (rascunhos aparecem com faixa até o dono revisar).
 const manejo = (MANEJO as Record<string, any>)[est.id] ?? null;
+// Validação do operador (montagem otimizada na grade do dia); só faz sentido quando o gráfico mostra o mercado.
+const validacao = inicial.fonte === 'mercado' ? (VALIDACAO as any).estruturas.find((v: any) => v.id === est.id) ?? null : null;
 const nomeDe = (id: string) => ESTRUTURAS.find((e) => e.id === id)?.nome ?? id;
 
 const fichas = await getCollection('estrategias', ({ data }) => !data.draft);
@@ -136,6 +140,7 @@ const descricao = `${est.nome}: gráfico de payoff interativo, gregas, procedime
                 {dEst < 0 && <><br /><small>Regra de entrada (Prof. Su): só montar se o crédito for maior ou igual ao delta estrutural, ou seja, R$ {br2(-dEst)}. Nesta montagem: {credito >= -dEst - 1e-9 ? 'atende' : 'não atende'}.</small></>}
               </div>
             )}
+            {validacao && <Validacao v={validacao} mercado={(VALIDACAO as any).mercado} />}
             {ficha && (
               <div class="ficha">
                 <dl>
