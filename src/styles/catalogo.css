@@ -178,3 +178,6 @@ button.simular { margin-top: 8px; font: 600 0.82rem var(--font-texto); padding: 
 .traj-antes { fill: none; stroke: var(--texto-suave); stroke-width: 1.6; stroke-dasharray: 10 3 2 3; opacity: 0.8; }
 .traj-legenda .k-antes { border-top: 2px dashed var(--texto-suave); opacity: 0.8; }
 .traj-rot-antes { opacity: 0.8; }
+button.ver-traj { margin: 8px 0 0 8px; font: 600 0.82rem var(--font-texto); padding: 6px 12px; border-radius: 999px; border: 1px solid var(--borda-forte); background: transparent; color: var(--marca-texto); cursor: pointer; }
+button.ver-traj:hover { border-color: var(--marca); }
+button.ver-traj[hidden] { display: none; }
