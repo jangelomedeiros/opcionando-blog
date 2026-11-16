@@ -1,0 +1,62 @@
+---
+// Diário do operador: cada grade registra os vereditos; no 1º vencimento, o fechamento diz se a leitura se confirmou.
+import '../../styles/laboratorio.css';
+import '../../styles/catalogo.css';
+import Base from '../../layouts/Base.astro';
+import { DISCLAIMER } from '../../consts';
+import { ESTRUTURAS, rs, pct, dmyy } from '../../lib/laboratorio';
+import { CANDLES } from '../../lib/fontes.ts';
+import { apurar, resumoDiario, type Registro } from '../../lib/otimizacao/diario.ts';
+import { VEREDITO } from '../../lib/otimizacao/validacao.ts';
+
+const registros = Object.values(import.meta.glob('../../data/diario/*.json', { eager: true, import: 'default' }) as Record<string, Registro>)
+  .sort((a, b) => b.data.localeCompare(a.data));
+const apuracoes = registros.map((r) => apurar(r, CANDLES));
+const placar = resumoDiario(apuracoes);
+const nome = Object.fromEntries(ESTRUTURAS.map((e) => [e.id, e.nome]));
+const ultimoCandle = CANDLES[CANDLES.length - 1].d;
+const dm = (iso: string) => `${iso.slice(8, 10)}/${iso.slice(5, 7)}`;
+const ORDEM = ['montar', 'montar-com-ressalva', 'nao-montar'];
+// Agrupa por vencimento: o que vence primeiro aparece primeiro.
+const porVenc = (xs: any[]) => [...new Set(xs.map((x) => x.venc1))].sort().map((v) => ({ venc: v, itens: xs.filter((x) => x.venc1 === v).sort((a, b) => ORDEM.indexOf(a.veredito) - ORDEM.indexOf(b.veredito)) }));
+---
+<Base title="Diário do operador | Catálogo de estratégias" description="Cada grade registra o veredito do operador para as 62 estruturas; no vencimento, o fechamento mostra se a leitura se confirmou.">
+  <section class="container-larga pagina lab hoje">
+    <p class="sobretitulo"><a href="/estrategias/">Catálogo de estratégias</a> · <a href="/estrategias/hoje/">Hoje no mercado</a></p>
+    <h1>Diário do operador</h1>
+    <p class="intro">Cada grade de opções registra aqui o veredito do operador para as {ESTRUTURAS.length} estruturas: montar, montar com ressalva ou não montar, com o valor esperado e a probabilidade de lucro daquele dia. No primeiro vencimento de cada montagem, o fechamento do ativo diz se a leitura se confirmou. É assim que um método ganha (ou perde) credibilidade: com o placar à vista, acertos e erros.</p>
+
+    <div class="hoje-mercado">
+      <dl class="validacao-grid">
+        <div><dt>Apuradas</dt><dd>{placar.apuradas} de {placar.apuradas + placar.pendentes} montagens{placar.pendentes > 0 && ` (${placar.pendentes} aguardando o vencimento; fechamentos até ${dmyy(ultimoCandle)})`}.</dd></div>
+        <div><dt>Recomendadas</dt><dd>{placar.montar.n === 0 ? 'Nenhuma apurada ainda.' : <>{placar.montar.acertos} de {placar.montar.n} deram lucro ({pct(placar.montar.acertos / placar.montar.n)}). Resultado somado {rs(placar.montar.resultado, 2, true)} por unidade, contra {rs(placar.montar.ev, 2, true)} de valor esperado.</>}</dd></div>
+        <div><dt>Evitadas</dt><dd>{placar.evitadas.n === 0 ? 'Nenhuma apurada ainda.' : <>{placar.evitadas.acertos} de {placar.evitadas.n} teriam perdido: o "não montar" acertou {pct(placar.evitadas.acertos / placar.evitadas.n)} das vezes. Resultado que teriam dado: {rs(placar.evitadas.resultado, 2, true)}.</>}</dd></div>
+      </dl>
+      <p class="nota">Resultado por unidade no 1º vencimento, pelo fechamento do dia: pernas que vencem valem o intrínseco; as mais longas são marcadas por Black-Scholes com a vol de entrada. Preços de entrada são os de último negócio da grade, sem custos nem book. Um vencimento não prova nada: o placar vale pela soma de muitos.</p>
+    </div>
+
+    {registros.map((r, i) => (
+      <section class="hoje-grupo">
+        <h2>Grade de {dmyy(r.data)}</h2>
+        <p class="nota">{r.estruturas[0] && `${apuracoes[i].filter((x) => x.status === 'apurado').length} apuradas · ${apuracoes[i].filter((x) => x.status === 'pendente').length} pendentes`} · ativo a {rs(r.spot)} · vol realizada de referência {pct(r.sigma)}</p>
+        {porVenc(apuracoes[i]).map((g) => (
+          <>
+            <h3 class="mini">Vencimento {dmyy(g.venc)}{g.itens[0].status === 'apurado' ? ` · fechamento ${rs(g.itens[0].fechamento)}` : ' · pendente'}</h3>
+            <ul class="hoje-lista">
+              {g.itens.map((x: any) => (
+                <li class={x.status === 'apurado' ? (x.acerto ? 'diario-ok' : 'diario-erro') : 'diario-pendente'}>
+                  <span class="hoje-cab"><a class="hoje-nome" href={`/estrategias/${x.id}/`}>{nome[x.id] ?? x.id}</a><span class="hoje-fam">{VEREDITO[x.veredito]}</span></span>
+                  <span class="hoje-numeros">VE {rs(x.ev, 3, true)} · lucro em {pct(x.prob)} · {x.credito >= 0 ? `crédito ${rs(x.credito)}` : `débito ${rs(-x.credito)}`}</span>
+                  <span class="hoje-numeros">{x.status === 'pendente'
+                    ? `Aguardando o vencimento de ${dm(x.venc1)}.`
+                    : <>Resultado <b class={x.resultado > 0 ? 'pos' : 'neg'}>{rs(x.resultado, 2, true)}</b> · {x.acerto ? (x.veredito === 'nao-montar' ? 'acertou ao evitar' : 'acertou') : (x.veredito === 'nao-montar' ? 'errou ao evitar' : 'errou')}</>}</span>
+                </li>
+              ))}
+            </ul>
+          </>
+        ))}
+      </section>
+    ))}
+    <p class="aviso-legal">{DISCLAIMER}</p>
+  </section>
+</Base>
