@@ -175,3 +175,6 @@ button.simular { margin-top: 8px; font: 600 0.82rem var(--font-texto); padding: 
 .traj-legenda .k-parado { border-image: linear-gradient(to right, var(--prejuizo) 50%, var(--lucro) 50%) 1; }
 .traj-legenda .k-alta { border-top: 2px dashed var(--hoje); }
 .traj-legenda .k-baixa { border-top: 2px dotted var(--texto-suave); }
+.traj-antes { fill: none; stroke: var(--texto-suave); stroke-width: 1.6; stroke-dasharray: 10 3 2 3; opacity: 0.8; }
+.traj-legenda .k-antes { border-top: 2px dashed var(--texto-suave); opacity: 0.8; }
+.traj-rot-antes { opacity: 0.8; }

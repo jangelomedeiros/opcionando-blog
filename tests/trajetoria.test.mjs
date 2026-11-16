@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { trajetoria, fraseTrajetoria } from '../src/lib/catalogo/trajetoria.ts';
+import { trajetoria, fraseTrajetoria, pontoDePartida, paradoEm } from '../src/lib/catalogo/trajetoria.ts';
 import { precoBS } from '../src/lib/motor/bs.ts';
 import { diasUteis, ehDiaUtil } from '../src/lib/motor/calendario.ts';
 
@@ -54,4 +54,50 @@ test('página mostra a dinâmica no tempo na aba Visão, com gráfico e frase', 
   assert.match(h, /class="traj-svg"/);
   for (const c of ['traj-parado', 'traj-alta', 'traj-baixa']) assert.match(h, new RegExp(c), c);
   assert.ok(h.indexOf('Dinâmica do lucro no tempo') < h.indexOf('id="covered-call-pop"'), 'fora da aba Visão');
+});
+
+test('pontoDePartida: sem ajustes é o cenário inicial; com ajustes, o cenário do último', () => {
+  assert.deepEqual(pontoDePartida([], C), C);
+  const c1 = { data: '2026-11-24', spot: 14.2 }, c2 = { data: '2026-12-01', spot: 14.6, choqueVol: 5 };
+  assert.deepEqual(pontoDePartida([{ nome: 'a', cenario: c1, ops: [] }, { nome: 'b', cenario: c2, ops: [] }], C), c2);
+});
+
+test('paradoEm: resultado da posição nas mesmas datas, com o preço parado no cenário', () => {
+  const p = pos(perna('c', 'call', -1, 15.7));
+  const t = trajetoria(p, C, 0.33);
+  const ys = paradoEm(p, C, t.datas);
+  assert.deepEqual(ys, t.parado);
+});
+
+test('depois de rolar a call para frente, a trajetória vai até o novo vencimento e parte do cenário do ajuste', () => {
+  const antes = pos(perna('c', 'call', -1, 15.7));
+  const c1 = { data: '2026-12-01', spot: 15.6 };
+  const V2 = '2027-01-15';
+  const valorHoje = precoBS('call', 15.6, 15.7, diasUteis(c1.data, V) / 252, 0.36);
+  const nova = precoBS('call', 15.6, 15.7, diasUteis(c1.data, V2) / 252, 0.36);
+  // recompra a curta (realiza entrada − valor) e vende a de janeiro
+  const depois = { realizado: antes.pernas[0].entrada - valorHoje, pernas: [{ id: 'c2', tipo: 'call', q: -1, strike: 15.7, venc: V2, entrada: nova, vol: 0.36 }] };
+  const t = trajetoria(depois, c1, 0.33);
+  assert.equal(t.datas[0], c1.data);
+  assert.equal(t.datas[t.datas.length - 1], V2);
+  assert.ok(Math.abs(t.parado[0] - depois.realizado) < 1e-9, 'começa no resultado já realizado');
+  const semAjuste = paradoEm(antes, c1, t.datas);
+  assert.ok(Math.abs(semAjuste[0] - t.parado[0]) < 1e-9, 'no dia do ajuste as duas linhas coincidem');
+});
+
+test('posição sem opções (tudo encerrado) dá trajetória de um ponto só', () => {
+  const t = trajetoria({ realizado: 0.4, pernas: [] }, C, 0.33);
+  assert.deepEqual(t.datas, [D]);
+  assert.deepEqual(t.parado, [0.4]);
+});
+
+test('simulador avisa a trajetória e a trajetória é uma ilha que ouve', () => {
+  const g = readFileSync(new URL('../src/components/catalogo/GraficoEstrutura.tsx', import.meta.url), 'utf8');
+  assert.match(g, /dispatchEvent\(new CustomEvent\('opcionando:simulacao'/);
+  const i = readFileSync(new URL('../src/components/catalogo/TrajetoriaIlha.tsx', import.meta.url), 'utf8');
+  assert.match(i, /addEventListener\('opcionando:simulacao'/);
+  const h = readFileSync(new URL('../dist/estrategias/covered-call/index.html', import.meta.url), 'utf8');
+  const ilhas = h.match(/<astro-island[^>]*>/g) ?? [];
+  assert.ok(ilhas.some((x) => /TrajetoriaIlha/.test(x)), 'ilha da trajetória ausente');
+  assert.match(h, /class="traj-svg"/, 'sem JS o gráfico já vem no HTML');
 });

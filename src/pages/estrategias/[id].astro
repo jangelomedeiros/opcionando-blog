@@ -20,7 +20,7 @@ import { deltaEstrutural, creditoEntrada } from '../../lib/catalogo/protocolo.ts
 import MANEJO from '../../data/laboratorio/manejo.json';
 import VALIDACAO from '../../data/laboratorio/validacao.json';
 import Validacao from '../../components/catalogo/Validacao.astro';
-import Trajetoria from '../../components/catalogo/Trajetoria.astro';
+import TrajetoriaIlha from '../../components/catalogo/TrajetoriaIlha.tsx';
 
 // Fichas editoriais antigas que viraram parte da aba Visão.
 const FICHAS: Record<string, string> = { 'covered-call': 'venda-coberta', 'cash-put': 'venda-de-put-coberta' };
@@ -142,7 +142,7 @@ const descricao = `${est.nome}: gráfico de payoff interativo, gregas, procedime
               </div>
             )}
             {validacao && <Validacao v={validacao} mercado={(VALIDACAO as any).mercado} />}
-            {validacao && <Trajetoria posicao={inicial.posicao} cenario={inicial.cenario} sigma={(VALIDACAO as any).mercado.sigma} />}
+            {validacao && <TrajetoriaIlha client:load posicao={inicial.posicao} cenario={inicial.cenario} sigma={(VALIDACAO as any).mercado.sigma} />}
             {ficha && (
               <div class="ficha">
                 <dl>
