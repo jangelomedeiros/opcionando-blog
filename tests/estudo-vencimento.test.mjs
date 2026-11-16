@@ -137,3 +137,25 @@ test('o motivo da sugestão diz contra o que o risco foi comparado', () => {
   assert.notEqual(r.sugestao, 'Encerrar tudo agora');
   assert.match(r.motivo, /ficar com as ações/);
 });
+
+test('véspera (planilha do fim do dia anterior): pernas ainda vivas, decisões para o pregão do vencimento', () => {
+  const VESPERA = '2026-11-26';
+  const ks = [14.7, 15.2, 15.7, 16.2, 16.7, 17.2, 17.7];
+  const T = (v) => diasUteis(VESPERA, v) / 252;
+  const series = [VENC, V2, V3].flatMap((v) => ks.map((k) => ({ ticker: `C${k}${v}`, tipo: 'call', strike: k, venc: v, preco: Math.max(+precoBS('call', 16.0, k, Math.max(T(v), 0.5 / 252), 0.36).toFixed(2), 0.01), vol: 0.36, negocios: 10, origem: 'ultimo' })));
+  const d = { data: VESPERA, spot: 16.0, series, tela: new Map([[`call|15.7|${VENC}`, series.find((s) => s.venc === VENC && s.strike === 15.7).preco]]),
+    grade: { vencimentos: { [VENC]: 1, [V2]: diasUteis(VESPERA, V2), [V3]: diasUteis(VESPERA, V3) }, series: series.map((s) => ({ strike: s.strike, venc: s.venc })) } };
+  const r = avaliarVencimento(EST, REG, BASE, d, CAMINHOS, OPC);
+  assert.equal(r.data, VESPERA);
+  assert.equal(r.venc, VENC);
+  assert.equal(r.vespera, true);
+  const x = r.exercicio[0];
+  assert.ok(x.tela > x.intrinseco, 'na véspera a CALL ainda tem extrínseco');
+  assert.match(x.texto, /amanhã|pregão do vencimento/);
+  const enc = r.alternativas.find((a) => a.tipo === 'encerrar');
+  assert.ok(Math.abs(enc.resultadoAgora - (16.0 - 15.1 + 0.3 - x.tela)) < 1e-9, 'encerrar recompra a CALL pela tela da véspera');
+  const seguir = r.alternativas.find((a) => a.tipo === 'seguir');
+  assert.equal(seguir.aplicavel, true, 'na véspera ainda há o que seguir');
+  const rolar = r.alternativas.find((a) => a.nome === 'Rolar para cima e para frente');
+  assert.equal(rolar.aplicavel, true, rolar.erro);
+});

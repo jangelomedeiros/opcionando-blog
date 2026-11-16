@@ -41,6 +41,8 @@ export interface Alternativa {
 }
 export interface EstudoVencimento {
   id: string; data: string; venc: string; base: string;
+  /** Grade da véspera (fim do pregão anterior): as decisões são para o pregão do vencimento. */
+  vespera: boolean;
   situacao: { resultado: number; lucro: boolean; evEsperado: number; probEsperada: number };
   exercicio: PernaVencendo[]; alternativas: Alternativa[]; sugestao: string; motivo: string;
 }
@@ -150,7 +152,9 @@ export function avaliarVencimento(
     const intr = intrinseco(p, dia.spot), tela = dia.tela.get(chave(p.tipo, p.strike ?? 0, p.venc ?? '')) ?? null;
     const lado = p.q > 0 ? 'comprada' : 'vendida';
     const decisao = decidirExercicio({ lado, intrinseco: intr, tela, custo });
-    return { perna: p.id, tipo: p.tipo as 'call' | 'put', lado, q: p.q, strike: p.strike ?? 0, itm: intr >= 0.005, intrinseco: intr, tela, decisao, texto: textoExercicio(p, decisao, dia.spot, intr, tela) };
+    const texto = textoExercicio(p, decisao, dia.spot, intr, tela);
+    return { perna: p.id, tipo: p.tipo as 'call' | 'put', lado, q: p.q, strike: p.strike ?? 0, itm: intr >= 0.005, intrinseco: intr, tela, decisao,
+      texto: dia.data < reg.venc1 ? `Para o pregão do vencimento (amanhã), se o ativo ficar perto de ${rs(dia.spot)}: ${texto}` : texto };
   });
 
   const avaliar = criarAvaliador(dia.data, dia.spot, o.sigma);
@@ -225,7 +229,7 @@ export function avaliarVencimento(
     : `maior valor esperado (${rs(melhor.ev)} contra ${rs(agora)} de encerrar hoje), com probabilidade de lucro de ${Math.round(melhor.prob * 100)}% e pior caso ${melhor.risco === 'menor' ? 'menor' : 'igual ou menor'} que o de ${ref.nome.toLowerCase()}${ref.tipo === 'seguir' && melhor.piorCaso < agora - 0.01 ? ` (mais arriscado que encerrar hoje, que trava ${rs(agora)})` : ''}`;
 
   return {
-    id: est.id, data: dia.data, venc: reg.venc1, base: base.data,
+    id: est.id, data: dia.data, venc: reg.venc1, base: base.data, vespera: dia.data < reg.venc1,
     situacao: { resultado: agora, lucro: agora > 0, evEsperado: reg.ev, probEsperada: reg.prob },
     exercicio, alternativas, sugestao: melhor.nome, motivo,
   };

@@ -81,7 +81,8 @@ const sugerida = (c: any) => c.alternativas.find((a: any) => a.nome === c.sugest
 
     {estudos.map((dia) => (
       <section class="hoje-grupo">
-        <h2>Vencimento de {dmyy(dia.data)}</h2>
+        <h2>{dia.estudos[0]?.vespera ? `Véspera do vencimento de ${dmyy(dia.estudos[0].venc)}` : `Vencimento de ${dmyy(dia.data)}`}</h2>
+        {dia.estudos[0]?.vespera && <p class="nota">Planilha do fim do pregão de {dmyy(dia.data)}: as decisões são para o pregão do vencimento, com os preços de fechamento da véspera.</p>}
         <p class="nota">Ativo a {rs(dia.spot)} · vol realizada de referência {pct(dia.sigma)} · {dia.estudos.length} {dia.estudos.length === 1 ? 'estrutura' : 'estruturas'}</p>
         {dia.estudos.map((s) => (
           <article class={`estudo ${s.situacao.lucro ? 'ok' : 'nao'}`}>
