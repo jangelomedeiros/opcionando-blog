@@ -10,9 +10,13 @@ function linhas(ohlcv) {
   return Array.from({ length: n }, (_, i) => ({ t: ohlcv.t[i], o: ohlcv.o[i], h: ohlcv.h[i], l: ohlcv.l[i], c: ohlcv.c[i], v: ohlcv.v[i] }));
 }
 
-/** Últimos `n` pregões com médias de 20, 50 e 200 (null quando não há pregões suficientes). */
-export function candlesDeOhlcv(ohlcv, n = 123) {
+/**
+ * Últimos `n` pregões com médias de 20, 50 e 200. Por padrão exige n + 199 pregões, para que todo candle tenha a
+ * média de 200 (o site compara preço e médias); `minimo: 0` aceita menos e deixa as médias faltantes como null.
+ */
+export function candlesDeOhlcv(ohlcv, n = 123, { minimo = n + 199 } = {}) {
   const rows = linhas(ohlcv).sort((a, b) => a.t - b.t);
+  if (rows.length < minimo) throw new Error(`OHLCV com ${rows.length} pregões: são necessários ${minimo} pregões (${n} candles + 199 para a média de 200). Baixe um histórico maior.`);
   const closes = rows.map((r) => r.c);
   const media = (i, k) => (i + 1 < k ? null : r2(closes.slice(i + 1 - k, i + 1).reduce((a, b) => a + b, 0) / k));
   return rows.slice(-n).map((r, j) => {

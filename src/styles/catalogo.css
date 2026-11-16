@@ -155,12 +155,13 @@ button.simular { margin-top: 8px; font: 600 0.82rem var(--font-texto); padding: 
 .hoje-lista { list-style: none; padding: 0; margin: 10px 0 0; display: grid; gap: 10px; }
 .hoje-lista li { display: grid; grid-template-columns: minmax(12rem, 1fr) 2fr; gap: 2px 14px; padding: 8px 12px; border-radius: 10px; background: var(--bg-card); border: 1px solid var(--borda); border-left: 4px solid var(--fc); font-size: 0.88rem; }
 .hoje-nome { font-family: var(--font-titulo); font-weight: 700; font-size: 1rem; color: var(--titulo); text-decoration: none; }
+.hoje-cab { grid-row: 1 / span 3; display: flex; flex-direction: column; gap: 2px; }
 .hoje-fam { color: var(--texto-suave); font-size: 0.8rem; }
-.hoje-montagem { grid-column: 2; font-family: var(--font-mono); font-size: 0.82rem; }
+.hoje-montagem { grid-column: 2; grid-row: 1; font-family: var(--font-mono); font-size: 0.82rem; }
 .hoje-numeros { grid-column: 2; }
 .hoje-numeros .pos { color: var(--lucro-texto); } .hoje-numeros .neg { color: var(--prejuizo-texto); }
 .hoje-avisos { grid-column: 2; color: var(--texto-suave); font-size: 0.8rem; }
-@media (max-width: 640px) { .hoje-lista li { grid-template-columns: 1fr; } .hoje-montagem, .hoje-numeros, .hoje-avisos { grid-column: 1; } .hoje-mercado .validacao-grid > div { grid-template-columns: 1fr; } }
+@media (max-width: 640px) { .hoje-lista li { grid-template-columns: 1fr; } .hoje-cab { grid-row: auto; } .hoje-montagem, .hoje-numeros, .hoje-avisos { grid-column: 1; grid-row: auto; } .hoje-mercado .validacao-grid > div { grid-template-columns: 1fr; } }
 
 /* Dinâmica do lucro no tempo (aba Visão) */
 .traj { margin: 14px 0; }
@@ -181,3 +182,5 @@ button.simular { margin-top: 8px; font: 600 0.82rem var(--font-texto); padding: 
 button.ver-traj { margin: 8px 0 0 8px; font: 600 0.82rem var(--font-texto); padding: 6px 12px; border-radius: 999px; border: 1px solid var(--borda-forte); background: transparent; color: var(--marca-texto); cursor: pointer; }
 button.ver-traj:hover { border-color: var(--marca); }
 button.ver-traj[hidden] { display: none; }
+/* No celular o SVG encolhe ~40%: rótulos maiores em unidades do viewBox para continuarem legíveis. */
+@media (max-width: 640px) { .traj-svg .g-rot { font-size: 17px; } }

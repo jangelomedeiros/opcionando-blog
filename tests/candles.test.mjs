@@ -6,14 +6,14 @@ import { candlesDeOhlcv } from '../scripts/lib/candles.mjs';
 const ler = (p) => JSON.parse(readFileSync(new URL(`../${p}`, import.meta.url), 'utf8'));
 
 test('candlesDeOhlcv: colunas do TradingView viram candles com médias simples do fechamento', () => {
-  const n = 230;
+  const n = 330;
   const t = Array.from({ length: n }, (_, i) => Date.UTC(2026, 0, 1, 13) / 1000 + i * 86400);
   const c = Array.from({ length: n }, (_, i) => 10 + (i % 7));
   const ohlcv = { t, o: c, h: c.map((x) => x + 1), l: c.map((x) => x - 1), c, v: c.map(() => 2_500_000) };
   const out = candlesDeOhlcv(ohlcv, 123);
   assert.equal(out.length, 123);
-  assert.equal(out[0].d, '2026-04-18');
-  assert.equal(out[out.length - 1].d, '2026-08-18');
+  assert.equal(out[0].d, '2026-07-27');
+  assert.equal(out[out.length - 1].d, '2026-11-26');
   assert.deepEqual(Object.keys(out[0]), ['d', 'o', 'h', 'l', 'c', 'v', 'm20', 'm50', 'm200']);
   assert.equal(out[0].v, 2.5);
   const ult = out[out.length - 1];
@@ -25,7 +25,7 @@ test('candlesDeOhlcv: colunas do TradingView viram candles com médias simples d
 
 test('candlesDeOhlcv aceita linhas [{t,o,h,l,c,v}] e deixa média nula quando não há pregões suficientes', () => {
   const rows = Array.from({ length: 30 }, (_, i) => ({ t: Date.UTC(2026, 0, 1, 13) / 1000 + i * 86400, o: 1, h: 2, l: 0.5, c: 1 + i / 100, v: 1e6 }));
-  const out = candlesDeOhlcv(rows, 10);
+  const out = candlesDeOhlcv(rows, 10, { minimo: 0 });
   assert.equal(out.length, 10);
   assert.equal(out[9].m50, null);
   assert.ok(out[9].m20 > 1);

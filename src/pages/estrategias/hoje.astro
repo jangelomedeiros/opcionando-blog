@@ -8,7 +8,7 @@ import { ESTRUTURAS, FAM_COR, rs, pct, dmyy } from '../../lib/laboratorio';
 import { GRADE } from '../../lib/fontes.ts';
 import VALIDACAO from '../../data/laboratorio/validacao.json';
 import { resumoMercado, VEREDITO } from '../../lib/otimizacao/validacao.ts';
-import { janelaHole } from '../../lib/catalogo/protocolo.ts';
+import { janelaHole, primeiroMensal } from '../../lib/catalogo/protocolo.ts';
 
 const M = (VALIDACAO as any).mercado;
 const resumo = resumoMercado(M);
@@ -18,9 +18,10 @@ const GRUPOS = [
   { v: 'montar-com-ressalva', titulo: VEREDITO['montar-com-ressalva'], cls: 'meio', texto: 'Valor esperado positivo, mas probabilidade de lucro abaixo de 50%: ganha pouco muitas vezes ou muito poucas vezes.' },
   { v: 'nao-montar', titulo: VEREDITO['nao-montar'], cls: 'nao', texto: 'Nenhuma montagem com valor esperado positivo hoje. A página mostra a melhor disponível, com o aviso.' },
 ].map((g) => ({ ...g, itens: (VALIDACAO as any).estruturas.filter((x: any) => x.veredito === g.v).sort((a: any, b: any) => b.lucro.ev / Math.max(-b.lucro.risco, 0.05) - a.lucro.ev / Math.max(-a.lucro.risco, 0.05)) }));
-// Primeiro vencimento mensal (terceira sexta-feira) e a janela do efeito hole.
-const mensal = Object.entries(GRADE.vencimentos as Record<string, number>).find(([v]) => { const d = new Date(`${v}T12:00:00Z`); return d.getUTCDay() === 5 && d.getUTCDate() >= 15 && d.getUTCDate() <= 21; });
-const hole = mensal ? { venc: mensal[0], du: mensal[1], ...janelaHole(mensal[1]) } : null;
+// Primeiro vencimento mensal (terceira sexta-feira, antecipada se feriado) e a janela do efeito hole.
+const VENCS = GRADE.vencimentos as Record<string, number>;
+const mensal = primeiroMensal(Object.keys(VENCS));
+const hole = mensal ? { venc: mensal, du: VENCS[mensal], ...janelaHole(VENCS[mensal]) } : null;
 const perna = (p: any) => (p.tipo === 'acao' ? `${p.q > 0 ? '+' : ''}${p.q} ação` : `${p.q > 0 ? '+' : ''}${p.q} ${p.tipo === 'call' ? 'CALL' : 'PUT'} ${rs(p.strike)}${p.origem === 'teorico' ? '*' : ''}`);
 const vies = (x: any) => (x.contexto.vies === 'neutra' ? 'neutra' : `${x.contexto.vies}${x.contexto.aFavorDaTendencia === null ? '' : x.contexto.aFavorDaTendencia ? ' · a favor' : ' · contra'}`);
 ---
@@ -49,8 +50,7 @@ const vies = (x: any) => (x.contexto.vies === 'neutra' ? 'neutra' : `${x.context
             const e = porId[x.id];
             return (
               <li style={`--fc:${FAM_COR[e.familia] ?? 'var(--marca)'}`}>
-                <a class="hoje-nome" href={`/estrategias/${x.id}/`}>{e.nome}</a>
-                <span class="hoje-fam">{e.familia}</span>
+                <span class="hoje-cab"><a class="hoje-nome" href={`/estrategias/${x.id}/`}>{e.nome}</a><span class="hoje-fam">{e.familia}</span></span>
                 <span class="hoje-montagem">{x.montagem.pernas.map(perna).join(' / ')} <small>({x.montagem.du1} du)</small></span>
                 <span class="hoje-numeros">
                   <b>{x.montagem.credito >= 0 ? `crédito ${rs(x.montagem.credito)}` : `débito ${rs(-x.montagem.credito)}`}</b>

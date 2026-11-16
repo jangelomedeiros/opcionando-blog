@@ -1,6 +1,7 @@
 // Protocolo de manejo da metodologia do Prof. Su (Teoria da Binarização e Maximização das Estruturas Híbridas):
 // os 3 pilares que todo ajuste deve atender, a regra dos R$ 0,20 e o calendário do efeito hole.
 import { gregasPosicao, valorPerna, type Cenario, type Posicao } from '../motor/posicao.ts';
+import { ehDiaUtil } from '../motor/calendario.ts';
 
 export interface Comp { antes: number; depois: number; melhorou: boolean }
 const EPS = 1e-9;
@@ -58,4 +59,18 @@ export function deltaEstrutural(p: Posicao): number | null {
 /** Crédito (+) ou débito (−) da montagem: −Σ q·entrada. */
 export function creditoEntrada(p: Posicao): number {
   return -p.pernas.reduce((s, x) => s + x.q * x.entrada, 0);
+}
+
+/** Terceira sexta-feira do mês de `iso`, antecipada para o dia útil anterior se cair em feriado (regra da B3). */
+function mensalDoMes(iso: string): string {
+  const [a, m] = iso.split('-').map(Number);
+  const d = new Date(Date.UTC(a, m - 1, 1, 12));
+  d.setUTCDate(1 + ((5 - d.getUTCDay() + 7) % 7) + 14);
+  while (!ehDiaUtil(d.toISOString().slice(0, 10))) d.setUTCDate(d.getUTCDate() - 1);
+  return d.toISOString().slice(0, 10);
+}
+
+/** O primeiro vencimento mensal da lista (as semanais ficam de fora); null se não houver. */
+export function primeiroMensal(vencimentos: string[]): string | null {
+  return [...vencimentos].sort().find((v) => v === mensalDoMes(v)) ?? null;
 }
