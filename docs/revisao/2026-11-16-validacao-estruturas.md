@@ -9,7 +9,7 @@ Gerado por `scripts/otimizar_montagens.mjs`. Critério em `docs/superpowers/spec
 - Sem os 2 maiores gaps: **33%** em 120 pregões (base do valor esperado) e 39% em 60 (estresse).
 - Vol implícita ATM entre 34% e 45% nos vencimentos usados: a implícita está acima da realizada sem gaps, então **a vantagem estatística hoje é de quem vende vol**.
 
-Veredito: 55 para montar, 2 com ressalva e 5 para não montar agora. Preços de último negócio: conferir no book antes de executar.
+Veredito: 54 para montar, 3 com ressalva e 5 para não montar agora. Preços de último negócio: conferir no book antes de executar.
 
 ## As 62
 
@@ -48,7 +48,7 @@ Veredito: 55 para montar, 2 com ressalva e 5 para não montar agora. Preços de 
 | Straddle vendido ATM | Montar | -1 BBASL14 14,70 / -1 BBASX14 14,70 (23 du) | 1,56 | 0,287 | 0,079 | 67% | -21,49 | baixista (a favor) | vende (a favor) | 0,032 |  |
 | Strangle vendido | Montar | -1 BBASL158 15,70 / -1 BBASX14 14,70 (23 du) | 0,96 | 0,189 | -0,028 | 67% | -21,09 | neutra | vende (a favor) | 0,029 | vantagem frágil: some com a vol do estresse |
 | Iron condor | Montar | +1 BBASX2 13,45 / -1 BBASX13 13,95 / -1 BBASL158 15,70 / +1 BBASL165 16,45 (23 du) | 0,36 | 0,069 | 0,028 | 58% | -0,39 | baixista (a favor) | vende (a favor) | 0,006 |  |
-| Borboleta clássica de CALL | Montar | +1 BBASL143 14,20 / -2 BBASL14 14,70 / +1 BBASL153 15,20 (23 du) | 0,18 | 0,242 | 0,234 | 100% | 0,00 | neutra | vende (a favor) | 0,006 |  |
+| Borboleta clássica de CALL | Montar com ressalva | +1 BBASL151 13,70 / -2 BBASL14 14,70 / +1 BBASL158 15,70 (23 du) | -0,03 | 0,213 | 0,181 | 46% | -0,03 | neutra | vende (a favor) | 0,008 | valor esperado positivo, mas probabilidade de lucro abaixo de 50% |
 | THL/p com PUT — curva invertida | Montar | -1 BBASX14 14,70 / +1 BBASM14 14,45 (23 du) | -0,03 | 0,039 | 0,009 | 60% | -0,41 | neutra | compra (contra) | 0,004 |  |
 | THL perene de CALL — proxy | Montar | -1 BBASL14 14,70 / +1 BBASA15 14,70 (23 du) | -0,10 | 0,145 | 0,124 | 90% | -0,10 | neutra | compra (contra) | 0,006 |  |
 | Calendar butterfly de CALL | Montar | -1 BBASK150W4 15,00 / +2 BBASA161 15,70 / -1 BBASK160W4 16,00 (8 du) | -0,69 | 0,103 | 0,054 | 68% | -0,69 | altista (contra) | compra (contra) | 0,026 |  |
@@ -63,7 +63,7 @@ Veredito: 55 para montar, 2 com ressalva e 5 para não montar agora. Preços de 
 | Asymmetric wings + diagonal de PUT | Montar | +1 BBASW160W4 16,00 / -2 BBASW155W4 15,50 / +1 BBASM15 14,70 (8 du) | -0,21 | 0,138 | 0,086 | 66% | -0,77 | neutra | compra (contra) | 0,026 |  |
 | Straddle perene (ZCC) | Montar | -1 BBASX14 14,70 / -1 BBASL14 14,70 / +1 BBASA15 14,70 (23 du) | 0,35 | 0,259 | 0,133 | 78% | -9,82 | altista (contra) | vende (a favor) | 0,018 | fora da janela do POP: a grade não tem os strikes do desenho nos vencimentos da janela |
 | Strangle/P coberto | Montar | -1 BBASL14 14,70 / +1 BBASA163 16,20 / -1 BBASX164 16,20 (23 du) | 1,88 | 0,261 | 0,143 | 75% | -9,79 | altista (contra) | vende (a favor) | 0,016 | fora da janela do POP: a grade não tem os strikes do desenho nos vencimentos da janela |
-| Box 23,54/24,54 | Montar | +1 BBASA14 14,45 / -1 BBASA160 15,95 / +1 BBASM160 15,95 / -1 BBASM14 14,45 (39 du) | -1,38 | 0,086 | 0,086 | 100% | 0,00 | neutra | vende (a favor) | 0,002 |  |
+| Box 23,54/24,54 | Montar | +1 BBASL150 14,95 / -1 BBASL158 15,70 / +1 BBASX158 15,70 / -1 BBASX150 14,95 (23 du) | -0,73 | 0,010 | 0,010 | 100% | 0,00 | neutra | vende (a favor) | 0,001 |  |
 | Box/p diagonal | Montar | +1 BBASA14 14,45 / -1 BBASL164 16,20 / +1 BBASM163 16,20 / -1 BBASX145 14,45 (23 du) | -1,90 | 0,129 | 0,096 | 81% | -0,29 | neutra | compra (contra) | 0,009 | fora da janela do POP: a grade não tem os strikes do desenho nos vencimentos da janela |
 | Colar perene — PUT longa de dezembro | Montar | +1 ação / +1 BBASM15 14,70 / -1 BBASL155 15,45 (23 du) | 0,06 | 0,009 | -0,026 | 70% | -0,47 | altista (contra) | compra (contra) | 0,012 | vantagem frágil: some com a vol do estresse |
 | Financiamento — CALL ITM 22,54 | Montar | +1 ação / -1 BBASL14 14,70 (23 du) | 1,11 | 0,173 | 0,069 | 81% | -9,46 | altista (contra) | vende (a favor) | 0,021 |  |
@@ -79,3 +79,44 @@ Veredito: 55 para montar, 2 com ressalva e 5 para não montar agora. Preços de 
 | Hedge — Straddle HA (PUT vendida) | Montar | -1 BBASW150W4 15,00 / -1 BBASK150W4 15,00 / +2 BBASA163 16,20 (8 du) | -0,09 | 0,130 | 0,062 | 73% | -10,56 | altista (contra) | compra (contra) | 0,029 |  |
 
 \* preço teórico (série sem negócio no dia).
+## Leitura do operador
+
+Escrita à mão em 16/11/2026 (sobrevive à regeração do script). Antes desta rodada, 24 das 62 estruturas caíam para o exemplo de 02/10 porque a remontagem proporcional desmanchava o desenho; agora as 62 vêm da grade de 13/11.
+
+### O momento
+
+- BBAS3 caiu 34,7% em um dia (26/10) e segue abaixo das três médias. A vol realizada com o gap (62% a 128%) não serve de régua; sem os dois maiores gaps ela é 33% (120 pregões) e 39% (60 pregões).
+- A implícita ATM está entre 34% e 45%. Ou seja: **quem vende vol tem vantagem estatística se o mercado não repetir o gap**. O "VE estresse" (39%) é o teste dessa hipótese: as estruturas com "vantagem frágil" (venda coberta, booster de CALL, B2, B3, venda de CALL a seco, strangle vendido, fence, colar perene, dividendo sintético) só ganham no cenário calmo.
+- Nada aqui prevê direção: o valor esperado usa a Selic como deriva. A tendência entra só como leitura de contexto (a montagem vai a favor ou contra).
+
+### O que eu montaria primeiro (risco limitado, VE por risco alto)
+
+1. **THL de CALL 14,70 (18/12 × 15/01)** — débito R$ 0,10, VE R$ 0,145, 90%: a curta de dezembro está mais cara que a longa de janeiro na mesma linha. O mesmo vale para a THL perene.
+2. **Hexabox** — crédito R$ 0,36, VE R$ 0,311, pior caso −R$ 0,27, 84%.
+3. **Fly modular com PUT vendida** — crédito R$ 0,48, VE R$ 0,353, 85%; a PUT 14,20 vendida é o risco (−R$ 9,19 na queda), coberto pelo manejo.
+4. **Mônada básica de CALL** e **Linha de Mannerheim** — vendem a linha 14,70 de dezembro contra janeiro, 71% e 83%.
+5. **BWB, Hyperfly e Malha** — pelo POP (crédito ≥ |delta estrutural|), o que explica o "100% / pior 0,00": é o desenho, não um erro. Mas esse crédito vem de últimos negócios de horas diferentes; **no book o crédito cai**. Montar só se fechar com o crédito que o POP pede.
+6. **TLAD, Mannerheim, hedges de linha e módulos** — os maiores VE (R$ 0,43 a 0,87), com risco ilimitado (−R$ 21 a 0,3× ou 2,5× o preço): só com o protocolo de manejo (regra dos 10%, R$ 0,20, calendário do efeito hole).
+
+### O que não montaria hoje
+
+Collar, trava de alta com CALL, compra de PUT, straddle e strangle comprados: compram vol com a implícita acima da realizada, e três delas ainda apostam contra a tendência. Compra de CALL, trava de alta com PUT e borboleta clássica ficam "com ressalva" (VE positivo, probabilidade abaixo de 50%).
+
+### Ressalvas que o leitor precisa saber
+
+- **Último negócio não é book.** Borboleta clássica a R$ 0,03 de débito e box 14,95/15,70 a R$ 0,73 são preços de momentos diferentes. O otimizador já descarta montagens com lucro em todo cenário (fora as BWB do POP), mas não consegue corrigir preço velho.
+- **"Fora da janela do POP"** (mônadas, linhas, perenes, hedges horizontais): as semanais de 27/11 e 04/12 só têm strikes redondos (15,00; 15,50) e não têm o mesmo strike em CALL, PUT e no vencimento longo. As estruturas de mesmo strike foram para 18/12 (23 du), que é a primeira série com a escada de R$ 0,25.
+- **Mannerheim** foi adaptada: vencimento longo livre e strikes a até 10% da moneyness, com pernas teóricas. É a montagem mais "sintética" das 62.
+- **Quatermine V1** saiu em 3 du (19/11, véspera de feriado): a vol curta está cara, mas a liquidez é fina.
+- **B2** não fecha a custo zero (débito R$ 1,02): o POP pede custo zero; a página mostra a melhor montagem disponível com o aviso.
+- **Hedge assimétrico e straddle HA** saíram idênticos: a banda de 5% levou as duas CALLs longas (24,29 e 25,04 na referência) ao mesmo 16,20.
+- As montagens de **hedge** começam da posição original (grupo "comparacao") e o manejo as transforma; o VE é da posição final.
+
+### Como regerar
+
+```
+node scripts/otimizar_montagens.mjs src/data/grades/bbas3-AAAA-MM-DD.json src/data/candles/bbas3-AAAA-MM-DD.json
+npm run build && npm test
+```
+
+O script regrava `mercado.csv`, `validacao.json` e a tabela acima; esta seção é preservada.

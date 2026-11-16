@@ -150,9 +150,14 @@ export interface Avaliacao {
   ev: number;
   /** Probabilidade de terminar o 1º vencimento no lucro. */
   prob: number;
-  /** Pior resultado no 1º vencimento na faixa de 0,3× a 2,5× o spot (negativo = perda). */
+  /** Pior resultado no 1º vencimento na faixa de 0,3× a 2,5× o spot, truncado em zero (negativo = perda). */
   risco: number;
+  /** Pior resultado sem truncar: positivo = lucro em todo cenário (arbitragem aparente, preços inconsistentes). */
+  piso: number;
 }
+
+/** Acima disso, "lucro em todo cenário" não é carry de box: é último negócio de horas diferentes. */
+export const PISO_ARBITRAGEM = 0.02;
 
 const N_GRADE = 241;
 /**
@@ -196,7 +201,7 @@ export function criarAvaliador(data: string, spot: number, sigma: number, r = SE
     }
     let prob = 0, risco = Infinity;
     for (let i = 0; i < xs.length; i++) { if (pnl[i] > 1e-9) prob += w[i]; if (pnl[i] < risco) risco = pnl[i]; }
-    return { ev, prob, risco: Math.min(risco, 0) };
+    return { ev, prob, risco: Math.min(risco, 0), piso: risco };
   };
 }
 
@@ -327,6 +332,12 @@ export function otimizar(e: EstruturaJson & { pop?: string }, series: Serie[], c
     base = lista;
     avisos.push(debMax !== undefined ? 'nenhuma montagem fecha a custo zero hoje: regra do POP relaxada' : 'nenhuma montagem cumpre crédito ≥ |delta estrutural| hoje: regra do POP relaxada');
   }
+  // Operador desconfia de almoço grátis: lucro em todo cenário com os últimos negócios é preço velho, não vantagem.
+  // Exceção: na BWB com crédito ≥ |delta estrutural| o lucro em todo cenário é o desenho do POP, não preço velho.
+  const regraBwbAtiva = (p: Posicao) => { const de = deltaEstrutural(p); return nStrikes >= 3 && de !== null && de < 0; };
+  const consistentes = base.filter((x) => x.m.av.piso <= PISO_ARBITRAGEM || regraBwbAtiva(x.m.posicao));
+  if (consistentes.length) base = consistentes;
+  else avisos.push('todas as montagens dão lucro em qualquer cenário com os últimos negócios: preços inconsistentes, conferir no book');
   if (c.aceitar) {
     const ok = base.filter((x) => c.aceitar!(x.m.posicao));
     if (ok.length) base = ok;

@@ -127,5 +127,9 @@ const md = [
   }),
   '', '\\* preço teórico (série sem negócio no dia).', '',
 ];
-writeFileSync(new URL(relArq, RAIZ), md.join('\n'));
+// A seção "Leitura do operador" é escrita à mão e sobrevive à regeração.
+const MARCA = '## Leitura do operador';
+let leitura = '';
+try { const atual = readFileSync(new URL(relArq, RAIZ), 'utf8'); const i = atual.indexOf(MARCA); if (i >= 0) leitura = atual.slice(i); } catch {}
+writeFileSync(new URL(relArq, RAIZ), md.join('\n') + leitura);
 console.log(`${E.length} estruturas · σ base ${pct(sigma)} · estresse ${pct(sigmaEstresse)} · montar ${cont('montar')} · ressalva ${cont('montar-com-ressalva')} · não montar ${cont('nao-montar')}`);

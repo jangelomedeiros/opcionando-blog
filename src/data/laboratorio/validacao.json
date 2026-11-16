@@ -2515,19 +2515,21 @@
   },
   {
    "id": "borboleta",
-   "veredito": "montar",
-   "avisos": [],
+   "veredito": "montar-com-ressalva",
+   "avisos": [
+    "valor esperado positivo, mas probabilidade de lucro abaixo de 50%"
+   ],
    "montagem": {
     "pernas": [
      {
       "tipo": "call",
       "q": 1,
-      "ticker": "BBASL143",
-      "strike": 14.2,
+      "ticker": "BBASL151",
+      "strike": 13.7,
       "venc": "2026-12-18",
-      "preco": 1.33,
+      "preco": 1.74,
       "origem": "ultimo",
-      "negocios": 36
+      "negocios": 34
      },
      {
       "tipo": "call",
@@ -2542,15 +2544,15 @@
      {
       "tipo": "call",
       "q": 1,
-      "ticker": "BBASL153",
-      "strike": 15.2,
+      "ticker": "BBASL158",
+      "strike": 15.7,
       "venc": "2026-12-18",
-      "preco": 0.71,
+      "preco": 0.51,
       "origem": "ultimo",
-      "negocios": 318
+      "negocios": 408
      }
     ],
-    "credito": 0.18000000000000016,
+    "credito": -0.029999999999999805,
     "du1": 23,
     "janela": [
      23,
@@ -2560,14 +2562,17 @@
     "candidatas": 20
    },
    "lucro": {
-    "ev": 0.24207735368467176,
-    "prob": 1,
-    "risco": 0,
-    "evEstresse": 0.2335735052316129,
-    "probEstresse": 1,
-    "ganhoMax": 0.6800000000000002,
-    "perdaMax": 0,
-    "equilibrios": []
+    "ev": 0.21298812041538467,
+    "prob": 0.4641360543135156,
+    "risco": -0.030000000000001137,
+    "evEstresse": 0.18113377382061713,
+    "probEstresse": 0.4066104675042844,
+    "ganhoMax": 0.9700000000000002,
+    "perdaMax": -0.03000000000000469,
+    "equilibrios": [
+     13.73,
+     15.67
+    ]
    },
    "contexto": {
     "tendencia": "baixa",
@@ -2579,10 +2584,10 @@
     "aFavorDaVol": true
    },
    "dinamica": {
-    "delta": 0.024435923851357066,
-    "gama": 0.046956977819343604,
-    "theta": 0.006445003237516716,
-    "vega": -0.001976032675280466
+    "delta": -0.016224500301602607,
+    "gama": -0.008254629911695927,
+    "theta": 0.00839636040162145,
+    "vega": -0.005016233025092395
    }
   },
   {
@@ -3632,46 +3637,46 @@
      {
       "tipo": "call",
       "q": 1,
-      "ticker": "BBASA14",
-      "strike": 14.45,
-      "venc": "2027-01-15",
-      "preco": 1.35,
+      "ticker": "BBASL150",
+      "strike": 14.95,
+      "venc": "2026-12-18",
+      "preco": 0.87,
       "origem": "ultimo",
-      "negocios": 17
+      "negocios": 313
      },
      {
       "tipo": "call",
       "q": -1,
-      "ticker": "BBASA160",
-      "strike": 15.95,
-      "venc": "2027-01-15",
-      "preco": 0.59,
+      "ticker": "BBASL158",
+      "strike": 15.7,
+      "venc": "2026-12-18",
+      "preco": 0.51,
       "origem": "ultimo",
-      "negocios": 42
+      "negocios": 408
      },
      {
       "tipo": "put",
       "q": 1,
-      "ticker": "BBASM160",
-      "strike": 15.95,
-      "venc": "2027-01-15",
-      "preco": 1.1,
+      "ticker": "BBASX158",
+      "strike": 15.7,
+      "venc": "2026-12-18",
+      "preco": 0.9,
       "origem": "ultimo",
-      "negocios": 52
+      "negocios": 311
      },
      {
       "tipo": "put",
       "q": -1,
-      "ticker": "BBASM14",
-      "strike": 14.45,
-      "venc": "2027-01-15",
-      "preco": 0.48,
+      "ticker": "BBASX150",
+      "strike": 14.95,
+      "venc": "2026-12-18",
+      "preco": 0.53,
       "origem": "ultimo",
-      "negocios": 63
+      "negocios": 386
      }
     ],
-    "credito": -1.3800000000000003,
-    "du1": 39,
+    "credito": -0.73,
+    "du1": 23,
     "janela": [
      20,
      45
@@ -3680,12 +3685,12 @@
     "candidatas": 39
    },
    "lucro": {
-    "ev": 0.08557963922916356,
+    "ev": 0.009802109129546988,
     "prob": 1,
     "risco": 0,
-    "evEstresse": 0.0855796392291659,
+    "evEstresse": 0.00980210912954782,
     "probEstresse": 1,
-    "ganhoMax": 0.12000000000000188,
+    "ganhoMax": 0.020000000000004126,
     "perdaMax": 0,
     "equilibrios": []
    },
@@ -3693,16 +3698,16 @@
     "tendencia": "baixa",
     "vies": "neutra",
     "aFavorDaTendencia": null,
-    "ivAtm": 0.34422027692020474,
+    "ivAtm": 0.3716671668435446,
     "volRealizada": 0.3300445670896653,
     "vendeVol": true,
     "aFavorDaVol": true
    },
    "dinamica": {
-    "delta": 0.02513736823010515,
-    "gama": 0.013103213842437622,
-    "theta": 0.001993514812593822,
-    "vega": -0.0006548297155705464
+    "delta": 0.0017009287526664751,
+    "gama": 0.003074399214401058,
+    "theta": 0.0006400000983999149,
+    "vega": -0.000009166372936651734
    }
   },
   {

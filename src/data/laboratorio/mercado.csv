@@ -105,9 +105,9 @@ condor;principal;PUT;1;BBASX2;13,45;2026-12-18;0,16;0,4356;49;ultimo
 condor;principal;PUT;-1;BBASX13;13,95;2026-12-18;0,25;0,4222;133;ultimo
 condor;principal;CALL;-1;BBASL158;15,70;2026-12-18;0,51;0,3724;408;ultimo
 condor;principal;CALL;1;BBASL165;16,45;2026-12-18;0,24;0,3471;385;ultimo
-borboleta;principal;CALL;1;BBASL143;14,20;2026-12-18;1,33;0,3655;36;ultimo
+borboleta;principal;CALL;1;BBASL151;13,70;2026-12-18;1,74;0,3877;34;ultimo
 borboleta;principal;CALL;-2;BBASL14;14,70;2026-12-18;1,11;0,4339;101;ultimo
-borboleta;principal;CALL;1;BBASL153;15,20;2026-12-18;0,71;0,3615;318;ultimo
+borboleta;principal;CALL;1;BBASL158;15,70;2026-12-18;0,51;0,3724;408;ultimo
 thl-put;principal;PUT;-1;BBASX14;14,70;2026-12-18;0,45;0,3983;179;ultimo
 thl-put;principal;PUT;1;BBASM14;14,45;2027-01-15;0,48;0,3868;63;ultimo
 thl-perene;principal;CALL;-1;BBASL14;14,70;2026-12-18;1,11;0,4339;101;ultimo
@@ -149,10 +149,10 @@ straddle-perene;principal;CALL;1;BBASA15;14,70;2027-01-15;1,21;0,3407;35;ultimo
 strangle-p;principal;CALL;-1;BBASL14;14,70;2026-12-18;1,11;0,4339;101;ultimo
 strangle-p;principal;CALL;1;BBASA163;16,20;2027-01-15;0,48;0,3264;23;ultimo
 strangle-p;principal;PUT;-1;BBASX164;16,20;2026-12-18;1,25;0,3885;227;ultimo
-box-perene;principal;CALL;1;BBASA14;14,45;2027-01-15;1,35;0,3321;17;ultimo
-box-perene;principal;CALL;-1;BBASA160;15,95;2027-01-15;0,59;0,3363;42;ultimo
-box-perene;principal;PUT;1;BBASM160;15,95;2027-01-15;1,10;0,3474;52;ultimo
-box-perene;principal;PUT;-1;BBASM14;14,45;2027-01-15;0,48;0,3868;63;ultimo
+box-perene;principal;CALL;1;BBASL150;14,95;2026-12-18;0,87;0,3776;313;ultimo
+box-perene;principal;CALL;-1;BBASL158;15,70;2026-12-18;0,51;0,3724;408;ultimo
+box-perene;principal;PUT;1;BBASX158;15,70;2026-12-18;0,90;0,3743;311;ultimo
+box-perene;principal;PUT;-1;BBASX150;14,95;2026-12-18;0,53;0,3852;386;ultimo
 box-p;principal;CALL;1;BBASA14;14,45;2027-01-15;1,35;0,3321;17;ultimo
 box-p;principal;CALL;-1;BBASL164;16,20;2026-12-18;0,34;0,3702;185;ultimo
 box-p;principal;PUT;1;BBASM163;16,20;2027-01-15;1,25;0,3447;30;ultimo

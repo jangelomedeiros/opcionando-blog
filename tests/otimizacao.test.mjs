@@ -125,3 +125,21 @@ test('otimizar: predicado aceitar descarta montagens e avisa quando nenhuma pass
   const nenhuma = otimizar(est('cash-put'), SERIES, { ...ctx, aceitar: () => false });
   assert.ok(nenhuma.avisos.some((a) => a.includes('manejo')), nenhuma.avisos.join());
 });
+
+test('avaliador devolve o piso (pior resultado sem truncar) e o otimizador descarta arbitragem aparente', () => {
+  const venc = '2026-12-18';
+  // Borboleta "de graça": último negócio inconsistente deixa a estrutura com lucro em todo cenário.
+  const pos = { realizado: 0, pernas: [
+    { id: 'a', tipo: 'call', q: 1, strike: 14.2, venc, entrada: 1.0, vol: 0.36 },
+    { id: 'b', tipo: 'call', q: -2, strike: 14.7, venc, entrada: 0.8, vol: 0.36 },
+    { id: 'c', tipo: 'call', q: 1, strike: 15.2, venc, entrada: 0.3, vol: 0.36 },
+  ] };
+  const av = criarAvaliador(D, S, 0.33)(pos);
+  assert.ok(av.piso > 0.02 && av.risco === 0, `${av.piso} ${av.risco}`);
+  const ctx = { data: D, spot: S, sigma: 0.332, sigmaEstresse: 0.389 };
+  for (const e of ESTRUTURAS) {
+    const r = otimizar(e, SERIES, ctx);
+    const de = deltaEstrutural(r.montagem.posicao), bwb = de !== null && de < 0 && new Set(e.pernas.map((l) => l.k)).size >= 3;
+    if (r.montagem.av.piso > 0.02 && !bwb) assert.ok(r.avisos.some((a) => a.includes('inconsistentes')), `${e.id}: piso ${r.montagem.av.piso}`);
+  }
+});
