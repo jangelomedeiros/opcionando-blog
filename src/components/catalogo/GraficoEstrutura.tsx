@@ -8,6 +8,7 @@ import { diasUteis, somarDiasUteis } from '../../lib/motor/calendario.ts';
 import type { GradeRef, Operacao } from '../../lib/motor/manejo.ts';
 import { faixaPrecos, segmentosPorSinal, escalas, caminho, area, type Ponto } from '../../lib/catalogo/grafico.ts';
 import { iniciar, aplicar, desfazer, recomecar } from '../../lib/catalogo/simulacao.ts';
+import { avaliarPilares, pernasRegra020, janelaHole } from '../../lib/catalogo/protocolo.ts';
 
 export interface DadosGrafico {
   posicao: Posicao; cenario: Cenario; comparacao?: Posicao | null; rotulo: string; rotuloComparacao?: string | null; grade: GradeRef;
@@ -72,6 +73,14 @@ export default function GraficoEstrutura({ dados }: { dados: DadosGrafico }) {
   const ticksX = Array.from({ length: 5 }, (_, i) => lo + ((hi - lo) * i) / 4);
 
   const ajustar = (nome: string, ops: Operacao[]) => setSim((s) => aplicar(s, nome, ops, cen, grade));
+  // Protocolo (Prof. Su): pilares do último ajuste, regra dos R$ 0,20 e janela do calendário.
+  const pilares = useMemo(() => {
+    if (!ajustado) return null;
+    const ultimo = sim.ajustes[sim.ajustes.length - 1];
+    return avaliarPilares(desfazer(sim, grade).posicao, atual, ultimo.cenario);
+  }, [sim, grade, ajustado, atual]);
+  const baratas = pernasRegra020(atual, cen);
+  const janela = venc1 ? janelaHole(duMax - dec) : null;
   const [novo, setNovo] = useState({ tipo: 'put' as 'call' | 'put' | 'acao', lado: 1, passos: 0, venc: 0 });
 
   return (
@@ -114,6 +123,11 @@ export default function GraficoEstrutura({ dados }: { dados: DadosGrafico }) {
         <button type="button" class="ge-reset" onClick={() => { setPreco(c0.spot); setDecorridos(0); setChoque(0); }}>Voltar ao início</button>
       </div>
 
+      {janela && <p class="ge-janela"><b>Calendário:</b> {janela.nome}. {janela.texto} <a href="/estrategias/protocolo-de-manejo/">Protocolo</a></p>}
+      {baratas.length > 0 && (
+        <p class="ge-020" role="note"><b>Regra dos R$ 0,20:</b> {baratas.map((id) => rotuloPerna(atual.pernas.find((p) => p.id === id)!)).join('; ')} vale R$ 0,20 ou menos neste cenário.{' '}
+          <button type="button" class="ge-reset" onClick={() => ajustar('Regra dos R$ 0,20: recomprar', baratas.map((id) => ({ op: 'encerrar', perna: id }) as Operacao))}>Recomprar</button></p>
+      )}
       {sim.erro && <p class="ge-erro" role="alert">Não deu para aplicar: {sim.erro}</p>}
 
       {ajustado && (
@@ -124,6 +138,17 @@ export default function GraficoEstrutura({ dados }: { dados: DadosGrafico }) {
               <li>{a.nome} em {dataBr(a.cenario.data)}, ativo a R$ {num(a.cenario.spot)}: <span class={sim.fluxos[i] >= 0 ? 'pos' : 'neg'}>{sim.fluxos[i] >= 0 ? 'crédito' : 'débito'} de R$ {num(sim.fluxos[i])}</span></li>
             ))}
           </ol>
+          {pilares && (
+            <div class={`ge-pilares ${pilares.atende ? 'ok' : 'nao'}`}>
+              <b>Pilares do último ajuste</b>
+              <ul>
+                <li>{pilares.delta.melhorou ? '✓' : '✗'} Delta {num(pilares.delta.antes, 3)} → {num(pilares.delta.depois, 3)}</li>
+                <li>{pilares.theta.melhorou ? '✓' : '✗'} Theta {num(pilares.theta.antes, 3)} → {num(pilares.theta.depois, 3)} por dia útil</li>
+                <li>{pilares.exposicao.melhorou ? '✓' : '✗'} Lotes vendidos {qtd(pilares.exposicao.antes)} → {qtd(pilares.exposicao.depois)}</li>
+              </ul>
+              <span>{pilares.atende ? 'Atende ao protocolo: melhora ao menos um pilar.' : 'Não melhora nenhum pilar: pelo protocolo, este ajuste não se justifica.'}</span>
+            </div>
+          )}
           <p class="ge-antes">Antes: ganho máx. {ilimitado(m0.ganhoMax, 'ilimitado')} · perda máx. {ilimitado(m0.perdaMax, 'ilimitada')} · equilíbrio {m0.equilibrios.map((x) => num(x)).join(' · ') || '—'}. Já realizado: {reais(atual.realizado)}.</p>
           <div class="ge-botoes">
             <button type="button" class="ge-reset" onClick={() => setSim((s) => desfazer(s, grade))}>Desfazer último</button>

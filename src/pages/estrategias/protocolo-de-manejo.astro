@@ -1,0 +1,42 @@
+---
+import Base from '../../layouts/Base.astro';
+import { DISCLAIMER } from '../../consts';
+---
+<Base title="Protocolo de manejo | Catálogo de estratégias" description="Os 3 pilares do manejo, as regras de disciplina e o calendário do efeito hole, na metodologia do Prof. Su.">
+  <article class="container pagina conteudo">
+    <p class="sobretitulo"><a href="/estrategias/">Catálogo de estratégias</a></p>
+    <h1>Protocolo de manejo</h1>
+    <p class="intro">Na metodologia do Prof. Su (Teoria da Binarização e Maximização das Estruturas Híbridas), o manejo não tenta adivinhar a direção do mercado nem "consertar" posições por impulso no home broker. É um protocolo de gestão do tempo (theta), alinhamento de risco (delta) e preservação do capital.</p>
+
+    <h2>Os 3 pilares</h2>
+    <p>Todo ajuste, rolagem ou alteração deve atender a pelo menos um destes critérios. No simulador de cada estrutura, o painel mostra se o ajuste atende.</p>
+    <ol>
+      <li><strong>Melhorar o delta:</strong> reajustar o alinhamento direcional para reduzir a sensibilidade a movimentos contrários.</li>
+      <li><strong>Melhorar o theta:</strong> aumentar o decaimento diário a favor da posição, acelerando a perda de extrínseco das vendidas.</li>
+      <li><strong>Reduzir a exposição líquida e a margem:</strong> diminuir os lotes vendidos ou desalavancar a custódia para liberar garantias.</li>
+    </ol>
+
+    <h2>Regras de disciplina</h2>
+    <ul>
+      <li><strong>Redução sistemática de 10% nas rolagens:</strong> a cada rolagem credora e rentável, recompra-se 10% a mais do lote vendido do que o que vai para a série seguinte (de 10 lotes, rolam-se 9). Afasta os strikes de risco e acumula sobras compradas a custo zero.</li>
+      <li><strong>Regra dos R$ 0,20:</strong> uma opção vendida que vale R$ 0,20 ou menos já perdeu quase todo o extrínseco. Não vale ficar exposto por centavos: recompra-se e libera-se a margem.</li>
+      <li><strong>Condensação da custódia:</strong> no máximo dois strikes principais (um ITM de proteção e um ATM central).</li>
+      <li><strong>Sem hedge colateral:</strong> pagar proteção a seco mês a mês é uma sangria. O hedge é dual: financiado pela ponta oposta ou rearranjado a custo zero.</li>
+    </ul>
+
+    <h2>Calendário operacional e efeito hole</h2>
+    <p>O tempo desgasta o extrínseco de forma não linear. O simulador mostra em que janela o cenário está.</p>
+    <table>
+      <thead><tr><th>Dias úteis até o vencimento</th><th>O que cabe</th></tr></thead>
+      <tbody>
+        <tr><td>Mais de 22 du</td><td>Montagem de operações de intervalo: borboletas e THL.</td></tr>
+        <tr><td>De 22 a 12 du</td><td>Manutenção de borboletas e THL; início gradual de travas direcionais.</td></tr>
+        <tr><td>De 12 a 6 du</td><td>Janela das travas de alta e de baixa. Antes disso, o prazo impede que o movimento sensibilize o prêmio (knockout temporal).</td></tr>
+        <tr><td>Menos de 6 du</td><td>Só compras a seco de curtíssimo prazo ou encerramento final de rolagens.</td></tr>
+      </tbody>
+    </table>
+
+    <p class="nota">Fonte: metodologia do Prof. Su, conforme o material do autor do Opcionando. Os cenários de manejo de cada estrutura aplicam este protocolo.</p>
+    <p class="aviso-legal">{DISCLAIMER}</p>
+  </article>
+</Base>

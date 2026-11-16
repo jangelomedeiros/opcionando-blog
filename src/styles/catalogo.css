@@ -115,3 +115,11 @@ button.simular { margin-top: 8px; font: 600 0.82rem var(--font-texto); padding: 
 .ficha-montagem { padding: 0.9rem 1rem 1.1rem; background: var(--superficie-2); }
 .ficha-montagem strong { font-family: var(--font-titulo); color: var(--titulo); }
 .ficha-montagem ol { margin: 0.4rem 0 1rem; }
+
+/* Protocolo de manejo no simulador */
+.ge-janela, .ge-020 { margin: 8px 0 0; padding: 6px 10px; border-radius: 10px; background: var(--superficie-2); font-size: 0.82rem; }
+.ge-020 { border-left: 3px solid var(--hoje); }
+.ge-pilares { margin: 6px 0 8px; padding: 8px 10px; border-radius: 10px; border-left: 3px solid var(--borda-forte); background: var(--superficie-2); }
+.ge-pilares.ok { border-left-color: var(--lucro); }
+.ge-pilares.nao { border-left-color: var(--prejuizo); }
+.ge-pilares ul { list-style: none; padding: 0; margin: 4px 0; display: grid; gap: 2px; font-family: var(--font-mono); font-size: 0.8rem; }
