@@ -8,9 +8,9 @@ const MANEJO = JSON.parse(ler('src/data/laboratorio/manejo.json'));
 const pagina = (id) => ler(`dist/estrategias/${id}/index.html`);
 const desescapar = (s) => s.replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&amp;/g, '&');
 
-test('aba Manejo de covered-call: faixa de rascunho, cenários e botões de simular', () => {
+test('aba Manejo de covered-call: sem faixa de rascunho, com cenários e botões de simular', () => {
   const h = pagina('covered-call');
-  assert.match(h, /Rascunho em revisão pelo autor/);
+  assert.doesNotMatch(h, /Rascunho em revisão pelo autor/);
   for (const c of MANEJO['covered-call'].cenarios) assert.ok(h.includes(c.nome), c.nome);
   const botoes = [...h.matchAll(/<button[^>]*class="simular"[^>]*>/g)].map((x) => x[0]);
   const comOps = MANEJO['covered-call'].cenarios.flatMap((c) => c.caminhos).filter((p) => p.ops?.length).length;
@@ -28,4 +28,12 @@ test('aba Manejo mantém o POP e só caminhos com operações têm botão', () =
   assert.match(h, /Saída e stop|Risco principal/);
   const comOps = MANEJO['hedge-inverse'].cenarios.flatMap((c) => c.caminhos).filter((p) => p.ops?.length).length;
   assert.equal((h.match(/class="simular"/g) ?? []).length, comOps);
+});
+
+test('nenhuma página mostra a faixa de rascunho e nenhuma fonte diz "rascunho"', () => {
+  for (const id of Object.keys(MANEJO)) {
+    assert.equal(MANEJO[id].revisado, true, id);
+    assert.doesNotMatch(MANEJO[id].fonte, /rascunho/i, id);
+    assert.doesNotMatch(pagina(id), /Rascunho em revisão pelo autor/, id);
+  }
 });

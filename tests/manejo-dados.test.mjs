@@ -47,18 +47,18 @@ test('caminhos com ops aplicam no cenário inicial sem erro e sem criar valor', 
   }
 });
 
-test('rascunhos marcados', () => {
-  for (const id of ['covered-call', 'cash-put', 'booster-call']) assert.equal(MANEJO[id]?.revisado, false, id);
+test('manejo revisado pelo autor', () => {
+  for (const id of ['covered-call', 'cash-put', 'booster-call']) assert.equal(MANEJO[id]?.revisado, true, id);
 });
 
 const PADRAO = ['booster-put', 'call-compra', 'call-venda', 'put-compra', 'financiamento', 'dividendo-sint', 'bull-spread', 'bear-put-spread',
   'trava-alta-put', 'trava-baixa-call', 'seagull', 'collar', 'fence', 'straddle-compra', 'strangle-compra', 'straddle-venda', 'strangle-venda',
   'condor', 'borboleta', 'colar-perene'];
 
-test('estruturas padrão têm rascunho de manejo', () => {
+test('estruturas padrão têm manejo revisado', () => {
   for (const id of PADRAO) {
     assert.ok(MANEJO[id], `${id} sem manejo`);
-    assert.equal(MANEJO[id].revisado, false, id);
+    assert.equal(MANEJO[id].revisado, true, id);
     assert.ok(MANEJO[id].cenarios.flatMap((c) => c.caminhos).some((p) => p.ops?.length), `${id} sem caminho simulável`);
   }
 });

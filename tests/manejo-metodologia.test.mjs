@@ -12,7 +12,7 @@ test('estruturas da metodologia têm cenários com fonte Prof. Su', () => {
   for (const id of SU) {
     assert.ok(MANEJO[id], id);
     assert.match(MANEJO[id].fonte, /Prof\. Su/, id);
-    assert.equal(MANEJO[id].revisado, false, id);
+    assert.equal(MANEJO[id].revisado, true, id);
   }
 });
 
