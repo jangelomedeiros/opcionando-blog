@@ -43,4 +43,7 @@ def main(entrada, saida, ativo='BBAS3'):
 
 
 if __name__ == '__main__':
+    if len(sys.argv) < 3:
+        print(__doc__.strip())
+        sys.exit(2)
     main(*sys.argv[1:4])

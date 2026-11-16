@@ -236,7 +236,7 @@ caindo. Com opções, dá para **definir o risco antes de entrar**:
 - **Venda de put coberta como preço de compra.** A ficha de 06/11 estuda a venda da put de **R$ 16,20** (BBASX164)
   a R$ 0,36, com vencimento em 18/12. Se o BB ficar acima de 16,20, o prêmio de 2,2% fica no caixa. Se cair abaixo,
   a compra sai a **R$ 15,84**, abaixo da mínima do ano. Veja a ficha da
-  [venda de put coberta](/estrategias/venda-de-put-coberta/).
+  [venda de put coberta](/estrategias/cash-put/).
 - **A estrutura anterior cumpriu o papel.** A trava de baixa da [análise de 26/10](/analises/bbas3-2026-10-26/),
   montada logo depois do tombo, já capturou cerca de 71% do ganho máximo.
 - **A volatilidade parece maior do que é.** A volatilidade de 20 dias aparece em 126% por causa de um único pregão;

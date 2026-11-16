@@ -158,14 +158,14 @@ export default function GraficoEstrutura({ dados }: { dados: DadosGrafico }) {
             <li>
               <span>{rotuloPerna(p)}</span>
               <span class="ge-acoes">
-                <button type="button" onClick={() => ajustar(`Encerrar ${rotuloPerna(p)}`, [{ op: 'encerrar', perna: p.id }])}>Encerrar</button>
+                <button type="button" aria-label={`Encerrar ${rotuloPerna(p)}`} onClick={() => ajustar(`Encerrar ${rotuloPerna(p)}`, [{ op: 'encerrar', perna: p.id }])}>Encerrar</button>
                 {p.tipo !== 'acao' && <>
-                  <button type="button" aria-label="Strike um passo abaixo" onClick={() => ajustar('Strike −1', [{ op: 'rolarStrike', perna: p.id, passos: -1 }])}>Strike −</button>
-                  <button type="button" aria-label="Strike um passo acima" onClick={() => ajustar('Strike +1', [{ op: 'rolarStrike', perna: p.id, passos: 1 }])}>Strike +</button>
-                  <button type="button" onClick={() => ajustar('Próximo vencimento', [{ op: 'rolarVencimento', perna: p.id, passos: 1 }])}>Venc. +</button>
+                  <button type="button" aria-label={`Strike um passo abaixo: ${rotuloPerna(p)}`} onClick={() => ajustar('Strike −1', [{ op: 'rolarStrike', perna: p.id, passos: -1 }])}>Strike −</button>
+                  <button type="button" aria-label={`Strike um passo acima: ${rotuloPerna(p)}`} onClick={() => ajustar('Strike +1', [{ op: 'rolarStrike', perna: p.id, passos: 1 }])}>Strike +</button>
+                  <button type="button" aria-label={`Próximo vencimento: ${rotuloPerna(p)}`} onClick={() => ajustar('Próximo vencimento', [{ op: 'rolarVencimento', perna: p.id, passos: 1 }])}>Venc. +</button>
                 </>}
-                <button type="button" onClick={() => ajustar('Dobrar quantidade', [{ op: 'quantidade', perna: p.id, q: p.q * 2 }])}>×2</button>
-                <button type="button" onClick={() => ajustar('Reduzir à metade', [{ op: 'quantidade', perna: p.id, q: p.q / 2 }])}>÷2</button>
+                <button type="button" aria-label={`Dobrar quantidade: ${rotuloPerna(p)}`} onClick={() => ajustar('Dobrar quantidade', [{ op: 'quantidade', perna: p.id, q: p.q * 2 }])}>×2</button>
+                <button type="button" aria-label={`Reduzir à metade: ${rotuloPerna(p)}`} onClick={() => ajustar('Reduzir à metade', [{ op: 'quantidade', perna: p.id, q: p.q / 2 }])}>÷2</button>
               </span>
             </li>
           ))}
@@ -182,7 +182,7 @@ export default function GraficoEstrutura({ dados }: { dados: DadosGrafico }) {
               {[-4, -3, -2, -1, 0, 1, 2, 3, 4].map((n) => <option value={n} selected={n === novo.passos}>{n === 0 ? 'strike no dinheiro' : `${n > 0 ? '+' : ''}${n} strike${Math.abs(n) > 1 ? 's' : ''}`}</option>)}
             </select>
             <select aria-label="Vencimento" onChange={(e) => setNovo({ ...novo, venc: +(e.currentTarget as HTMLSelectElement).value })}>
-              {[0, 1, 2, 3].map((n) => <option value={n}>{n === 0 ? 'próximo venc.' : `${n + 1}º venc.`}</option>)}
+              {[0, 1, 2, 3].map((n) => <option value={n} selected={n === novo.venc}>{n === 0 ? 'próximo venc.' : `${n + 1}º venc.`}</option>)}
             </select>
           </>}
           <button type="button" class="ge-reset" onClick={() => ajustar(`${novo.lado > 0 ? 'Comprar' : 'Vender'} ${novo.tipo === 'acao' ? 'ação' : novo.tipo.toUpperCase()}`,

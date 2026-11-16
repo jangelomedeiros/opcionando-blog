@@ -267,7 +267,7 @@ opções, a B3 **reduz o strike** no valor do provento. O código da série cont
 
 ### 2. Na venda coberta, o dividendo "volta" pelo strike
 
-Você tem a ação e vendeu uma call de strike 42 (a [venda coberta](/estrategias/venda-coberta/)). A empresa paga
+Você tem a ação e vendeu uma call de strike 42 (a [venda coberta](/estrategias/covered-call/)). A empresa paga
 R$ 1,00 e o strike vira 41.
 
 - **Se a call virar pó:** você fica com a ação, com o prêmio **e** com o dividendo. Tudo seu.

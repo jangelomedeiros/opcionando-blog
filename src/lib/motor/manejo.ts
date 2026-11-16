@@ -90,6 +90,7 @@ export function aplicarAjuste(pos: Posicao, ops: Operacao[], c: Cenario, grade: 
         const i = achar(o.perna);
         const p = pernas[i];
         exigirOpcao(p, 'rolarStrike');
+        if (p.venc && c.data >= p.venc) throw new Error(`A perna ${p.id} já venceu: role o vencimento em vez do strike`);
         const lista = strikesDe(grade, p.venc);
         const destino = indiceStrike(lista, p.strike ?? NaN) + o.passos;
         if (destino < 0 || destino >= lista.length) {

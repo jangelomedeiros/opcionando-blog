@@ -66,7 +66,7 @@ export const GLOSSARIO: Termo[] = [
   {
     termo: 'Lançamento coberto',
     definicao: 'Venda de call por quem já tem as ações em carteira. Se for exercido, entrega as próprias ações.',
-    link: '/estrategias/venda-coberta/',
+    link: '/estrategias/covered-call/',
     sinonimos: ['venda coberta', 'covered call'],
   },
   {

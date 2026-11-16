@@ -123,7 +123,7 @@ export default function Jornada({ dados }: { dados: DadosJornada }) {
         </svg>
       </div>
 
-      <p class="jp-comentario" aria-live="polite">💬 {comentario(op, d)}</p>
+      <p class="jp-comentario" aria-live={tocando ? 'off' : 'polite'}>💬 {comentario(op, d)}</p>
     </div>
   );
 }
