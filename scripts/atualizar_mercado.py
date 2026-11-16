@@ -1,18 +1,18 @@
 #!/usr/bin/env python3
-"""Gera src/data/laboratorio/mercado.csv a partir da planilha de cadeia de opções (opcoes.net.br).
+"""Gera src/data/laboratorio/mercado.csv a partir da grade de opções importada (opcoes.net.br).
 
 Uso:
-  python3 scripts/atualizar_mercado.py PLANILHA.xlsx --spot 17.38 [--data 2026-10-27] [--ativo BBAS3]
+  python -I scripts/importar_grade.py PLANILHA.xlsx src/data/grades/bbas3-AAAA-MM-DD.json
+  python -I scripts/atualizar_mercado.py src/data/grades/bbas3-AAAA-MM-DD.json [--spot 15.10] [--data AAAA-MM-DD]
 
 Regras:
 - Cada estrutura do laboratório é remapeada para as séries atuais: mesma moneyness (strike × spot/ref),
   vencimentos pelos dias úteis mais próximos (os curtos caem no 1º vencimento mensal), sempre em ordem crescente.
 - Preço = último negócio do dia da planilha. Série sem negócio no dia (ou com preço abaixo do intrínseco)
   usa preço teórico: Black-Scholes (carry zero) com VI interpolada pelos strikes negociados do mesmo vencimento.
-- Requer: pandas, openpyxl.
+- Só biblioteca padrão (lê o JSON gerado por scripts/importar_grade.py).
 """
 import argparse, json, math, os, sys
-import pandas as pd
 
 AQUI = os.path.dirname(os.path.abspath(__file__))
 RAIZ = os.path.dirname(AQUI)
@@ -46,25 +46,20 @@ def fnum(x, d=2):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument('xlsx'); ap.add_argument('--spot', type=float, required=True)
-    ap.add_argument('--data', default=None, help='data dos preços (AAAA-MM-DD); padrão: data de negócio mais recente da planilha')
-    ap.add_argument('--ativo', default='BBAS3')
+    ap.add_argument('grade', help='JSON gerado por scripts/importar_grade.py')
+    ap.add_argument('--spot', type=float, default=None, help='padrão: spot da grade')
+    ap.add_argument('--data', default=None, help='data dos preços (AAAA-MM-DD); padrão: data da grade')
     a = ap.parse_args()
-    df = pd.read_excel(a.xlsx, header=1)
-    df.columns = [str(c).replace('\xa0', '').strip() for c in df.columns]
-    df['Ticker'] = df['Ticker'].astype(str).str.strip()
-    df['Vencimento'] = pd.to_datetime(df['Vencimento']).dt.strftime('%Y-%m-%d')
-    df['dt'] = pd.to_datetime(df['Data/Hora'], errors='coerce').dt.strftime('%Y-%m-%d')
-    data = a.data or df['dt'].dropna().max()
-    S = a.spot
+    g = json.load(open(a.grade, encoding='utf-8'))
+    a.ativo = g['ativo']
+    data = a.data or g['data']
+    S = a.spot or round(g['spot'], 2)
     rows = []
-    for _, r in df.iterrows():
-        t = 'C' if r['Tipo'] == 'CALL' else 'P'
-        du = int(r['Dias úteis'])
-        px = r['Último'] if pd.notna(r['Último']) else None
-        fresh = px is not None and r['dt'] == data
-        rows.append(dict(tk=r['Ticker'], exp=r['Vencimento'], du=du, t=t, k=round(float(r['Strike']), 2),
-                         px=float(px) if fresh else None, n=int(r['Núm. de Neg.']) if fresh and pd.notna(r['Núm. de Neg.']) else None))
+    for s in g['series']:
+        if s['venc'] <= data: continue  # nunca monta perna já vencida
+        fresh = s['ultimo'] is not None and s['data_ultimo'] == data
+        rows.append(dict(tk=s['ticker'], exp=s['venc'], du=s['du'], t='C' if s['tipo'] == 'call' else 'P', k=round(s['strike'], 2),
+                         px=s['ultimo'] if fresh else None, n=s['negocios'] if fresh else None))
     series = sorted({(r['exp'], r['du']) for r in rows}, key=lambda x: x[1])
     du_de = dict(series)
     # VI implícita dos negócios do dia, por vencimento e tipo

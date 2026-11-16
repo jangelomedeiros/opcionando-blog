@@ -1,0 +1,261 @@
+---
+import '../../styles/laboratorio.css';
+import '../../styles/catalogo.css';
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Metricas from '../../components/laboratorio/Metricas.astro';
+import BlocoHoje from '../../components/laboratorio/BlocoHoje.astro';
+import Abas from '../../components/catalogo/Abas.astro';
+import GraficoEstrutura from '../../components/catalogo/GraficoEstrutura.tsx';
+import { DISCLAIMER } from '../../consts';
+import { ESTRUTURAS, POPS, FAM_COR, grafico, teoria, hoje, lerMercado, hojeIso, rs, dmyy, qfmt, moneyness } from '../../lib/laboratorio';
+import { lerMercadoCsv, cenarioInicial, comparacaoHoje } from '../../lib/catalogo/converter.ts';
+import { resolverTexto, valoresDaMontagem, valoresDaReferencia, textoUsaMontagemAtual } from '../../lib/catalogo/textos.ts';
+import { posicaoReferencia } from '../../lib/catalogo/converter.ts';
+import { diasUteis } from '../../lib/motor/calendario.ts';
+import mercadoCsv from '../../data/laboratorio/mercado.csv?raw';
+import GRADE from '../../data/grades/bbas3-2026-11-13.json';
+import { gradeParaManejo } from '../../lib/catalogo/gradeManejo.ts';
+import { deltaEstrutural, creditoEntrada } from '../../lib/catalogo/protocolo.ts';
+import MANEJO from '../../data/laboratorio/manejo.json';
+
+// Fichas editoriais antigas que viraram parte da aba Visão.
+const FICHAS: Record<string, string> = { 'covered-call': 'venda-coberta', 'cash-put': 'venda-de-put-coberta' };
+
+export function getStaticPaths() {
+  return ESTRUTURAS.map((e, i) => ({ params: { id: e.id }, props: { est: e, i } }));
+}
+const { est, i } = Astro.props;
+const { meta, mercado } = lerMercado();
+const pop = POPS[est.pop];
+const { spot0, at, comp0 } = teoria(est);
+const h = hoje(est, meta, mercado, hojeIso());
+const cor = FAM_COR[est.familia] ?? 'var(--marca)';
+const ant = i > 0 ? ESTRUTURAS[i - 1] : null;
+const prox = i < ESTRUTURAS.length - 1 ? ESTRUTURAS[i + 1] : null;
+const mesma = ESTRUTURAS.filter((e) => e.familia === est.familia && e.id !== est.id).slice(0, 6);
+
+const m = lerMercadoCsv(mercadoCsv);
+const inicial = cenarioInicial(est, m);
+const dados = {
+  posicao: inicial.posicao,
+  cenario: inicial.cenario,
+  comparacao: inicial.fonte === 'mercado' ? comparacaoHoje(est, m) : null,
+  rotulo: est.nome,
+  rotuloComparacao: est.comp_label,
+  // Grade real quando o gráfico usa o mercado; sintética quando usa o exemplo de referência.
+  grade: gradeParaManejo(inicial.posicao, inicial.cenario, inicial.fonte === 'mercado' ? GRADE : null),
+};
+
+// Textos com marcadores ({p2.k}, {be1}...) preenchidos com a montagem que o gráfico mostra.
+// Texto e tabela da Visão sempre da mesma data: atual só quando o texto não tem nada preso ao exemplo de 02/10.
+const usarAtual = textoUsaMontagemAtual(est, inicial.fonte);
+const valores = usarAtual ? valoresDaMontagem(inicial.posicao, inicial.cenario, dados.comparacao) : valoresDaReferencia(est);
+const visao = usarAtual ? { posicao: inicial.posicao, cenario: inicial.cenario } : posicaoReferencia(est);
+const texto = (t: string) => resolverTexto(t, valores, est.id);
+const racional = texto(est.racional), esperado = texto(est.esperado), notas = est.notas.map(texto);
+const montagem = visao.posicao.pernas;
+// Teoria Modular (Prof. Su): delta estrutural e regra de entrada (crédito ≥ |delta estrutural| quando negativo).
+const dEst = deltaEstrutural(visao.posicao);
+const credito = creditoEntrada(visao.posicao);
+
+// Cenários de manejo (rascunhos aparecem com faixa até o dono revisar).
+const manejo = (MANEJO as Record<string, any>)[est.id] ?? null;
+const nomeDe = (id: string) => ESTRUTURAS.find((e) => e.id === id)?.nome ?? id;
+
+const fichas = await getCollection('estrategias', ({ data }) => !data.draft);
+const ficha = fichas.find((f) => f.id === FICHAS[est.id]);
+const Corpo = ficha ? (await render(ficha)).Content : null;
+const youtube = ficha?.data.youtube;
+
+const abas = [
+  { id: 'visao', rotulo: 'Visão' },
+  { id: 'pop', rotulo: 'POP' },
+  { id: 'manejo', rotulo: 'Manejo' },
+  ...(youtube ? [{ id: 'video', rotulo: 'Vídeo' }] : []),
+  { id: 'hoje', rotulo: 'Hoje' },
+];
+const br2 = (v: number) => (v < -0.0049 ? '−' : '') + Math.abs(v).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const descricao = `${est.nome}: gráfico de payoff interativo, gregas, procedimento operacional (POP), manejo e como montar hoje com preços reais de BBAS3.`;
+---
+<Base title={`${est.nome} | Catálogo de estratégias`} description={descricao}>
+  <section class="container-larga pagina lab est" style={`--fc:${cor}`}>
+    <p class="sobretitulo"><a href="/estrategias/">Catálogo de estratégias</a></p>
+    <p class="chip-wrap"><span class="chip">{est.familia}</span><span class="chip-rotulo">{est.nivel}</span><span class="chip-rotulo">{est.objetivo}</span>{pop?.visao && <span class="visao">{pop.visao}</span>}</p>
+    <h1>{est.nome}</h1>
+    <p class="intro">{racional}</p>
+
+    <div class="est-grid">
+      <div class="est-esq">
+        <div class="fig est-fig">
+          <GraficoEstrutura client:only="preact" dados={dados} />
+          <noscript>
+            <Fragment set:html={grafico(at, spot0, { comp: comp0, rotSpot: `ref. ${dmyy(est.ref.data).slice(0, 5)}` })} />
+            <Metricas a={at} />
+          </noscript>
+        </div>
+        <p class="nota">
+          {inicial.fonte === 'mercado'
+            ? `Começa com os preços reais de ${m.ativo} em ${dmyy(m.data)} (ativo a ${rs(m.spot)}).`
+            : `Começa com o exemplo calibrado de ${dmyy(est.ref.data)} (ativo a ${rs(spot0)}).`}
+          {' '}Modelo Black-Scholes com Selic de 15% a.a.; não considera custos, impostos, dividendos nem exercício antecipado.
+        </p>
+        {est.modo === 'mtm' && <p class="nota">Curva no primeiro vencimento. As pernas mais longas são avaliadas por Black-Scholes, com a vol de entrada congelada.</p>}
+      </div>
+
+      <div class="est-dir">
+        <Abas abas={abas} nome={est.id}>
+          <Fragment slot="visao">
+            <div class="esperar">
+              <h3 class="mini">O que esperar</h3>
+              <p>{esperado}</p>
+              {notas.length > 0 && <ul class="notas">{notas.map((n) => <li>{n}</li>)}</ul>}
+            </div>
+            <h3 class="mini">{usarAtual ? `Montagem em ${dmyy(visao.cenario.data)}` : `Exemplo de ${dmyy(visao.cenario.data)}`}</h3>
+            <div class="twrap">
+              <table class="legs">
+                <thead><tr><th>Lado</th><th>Qtd.</th><th>Instrumento</th><th>Strike</th><th>Prazo</th><th>Prêmio</th></tr></thead>
+                <tbody>
+                  {montagem.map((l) => (
+                    <tr>
+                      <td class={l.q > 0 ? 'buy' : 'sell'}>{l.q > 0 ? 'Comprar' : 'Vender'}</td>
+                      <td>{qfmt(l.q)}</td>
+                      <td>{l.tipo === 'acao' ? 'Ação (custódia)' : l.tipo === 'call' ? 'CALL' : 'PUT'}</td>
+                      <td>{l.tipo === 'acao' ? '—' : <>{rs(l.strike!)}<small>{moneyness({ t: l.tipo === 'call' ? 'C' : 'P', k: l.strike! } as any, visao.cenario.spot)}</small></>}</td>
+                      <td>{l.tipo === 'acao' ? '—' : `${diasUteis(visao.cenario.data, l.venc!)} du`}</td>
+                      <td>{rs(l.entrada)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <p class="nota">{usarAtual ? `Preços de ${m.ativo} em ${dmyy(visao.cenario.data)} (ativo a ${rs(visao.cenario.spot)}). Os números do texto acompanham esta montagem.` : `Exemplo calibrado com BBAS3 a ${rs(spot0)} em ${dmyy(est.ref.data)}: o texto acima usa estes números. O que vale é a relação entre os strikes e os prazos${inicial.fonte === 'mercado' ? `; o gráfico mostra a montagem com os preços de ${dmyy(inicial.cenario.data)}` : ''}.`}</p>
+            {dEst !== null && (
+              <div class="caixa">
+                <strong>Delta estrutural: R$ {br2(dEst)}</strong> (resultado sem prêmios {visao.posicao.pernas[0].tipo === 'call' ? 'com o preço muito acima dos strikes' : 'com o preço em zero'}). {credito >= 0 ? `Crédito de entrada: R$ ${br2(credito)}.` : `Débito de entrada: R$ ${br2(-credito)}.`}
+                {dEst < 0 && <><br /><small>Regra de entrada (Prof. Su): só montar se o crédito for maior ou igual ao delta estrutural, ou seja, R$ {br2(-dEst)}. Nesta montagem: {credito >= -dEst - 1e-9 ? 'atende' : 'não atende'}.</small></>}
+              </div>
+            )}
+            {ficha && (
+              <div class="ficha">
+                <dl>
+                  <div><dt>Visão de mercado</dt><dd>{ficha.data.visao}</dd></div>
+                  <div><dt>Objetivo</dt><dd>{ficha.data.objetivo}</dd></div>
+                  <div><dt>Nível</dt><dd>{ficha.data.nivel}</dd></div>
+                  <div><dt>Ganho máximo</dt><dd>{ficha.data.ganhoMaximo}</dd></div>
+                  <div><dt>Perda máxima</dt><dd>{ficha.data.perdaMaxima}</dd></div>
+                  <div><dt>Ponto de equilíbrio</dt><dd>{ficha.data.breakeven}</dd></div>
+                </dl>
+                <div class="ficha-montagem">
+                  <strong>Montagem</strong>
+                  <ol>{ficha.data.montagem.map((x) => <li>{x}</li>)}</ol>
+                  {ficha.data.preset && <a class="botao" href={`/ferramentas/calculadora-de-payoff?preset=${ficha.data.preset}`}>Testar na calculadora de payoff →</a>}
+                </div>
+              </div>
+            )}
+            {Corpo && <div class="conteudo ficha-corpo"><Corpo /></div>}
+          </Fragment>
+
+          <Fragment slot="pop">
+            {pop ? (
+              <div class="pop">
+                <div class="pgrid">
+                  <div class="pb"><h3 class="mini">Objetivo</h3><p>{pop.objetivo}</p></div>
+                  <div class="pb"><h3 class="mini">Contexto de entrada</h3><p>{pop.contexto}</p></div>
+                  <div class="pb wide"><h3 class="mini">Janela e custo</h3><p>{pop.janela}</p></div>
+                  <div class="pb wide"><h3 class="mini">Montagem, passo a passo</h3><ol>{pop.montagem.map((x) => <li>{x}</li>)}</ol></div>
+                  {pop.regra && <div class="pb wide rule"><h3 class="mini">Regra de escolha</h3><p>{pop.regra}</p></div>}
+                  <div class="pb wide">
+                    <h3 class="mini">Checklist antes de enviar a ordem</h3>
+                    <ul class="chk">{pop.checklist.map((x) => <li><i></i>{x}</li>)}</ul>
+                  </div>
+                </div>
+                <p class="fonte">Fonte: {pop.fonte}</p>
+              </div>
+            ) : <p class="nota">Esta estrutura ainda não tem POP publicado.</p>}
+          </Fragment>
+
+          <Fragment slot="manejo">
+            {manejo && (
+              <div class="manejo">
+                {!manejo.revisado && <p class="manejo-rascunho" role="note">Rascunho em revisão pelo autor: os caminhos ainda podem mudar.</p>}
+                <p class="nota">Uma trilha, não um trilho: cada cenário traz caminhos possíveis, o que cada um ganha e perde. Posicione o preço, os dias e a vol no gráfico e use "Simular no gráfico" para ver a estrutura depois do ajuste.</p>
+                {manejo.cenarios.map((c: any) => (
+                  <section class="manejo-cenario">
+                    <h3>{c.nome}</h3>
+                    <p class="manejo-sinais"><b>Sinais:</b> {c.sinais}</p>
+                    <ul class="manejo-caminhos">
+                      {c.caminhos.map((p: any) => (
+                        <li>
+                          <strong>{p.nome}</strong>
+                          <p>{p.descricao}</p>
+                          <dl>
+                            <div><dt>Ganha</dt><dd>{p.ganha}</dd></div>
+                            <div><dt>Perde</dt><dd>{p.perde}</dd></div>
+                            <div><dt>Quando faz sentido</dt><dd>{p.quando}</dd></div>
+                          </dl>
+                          {p.estrutura && <p class="manejo-link">Veja também: <a href={`/estrategias/${p.estrutura}/`}>{nomeDe(p.estrutura)}</a></p>}
+                          {p.ops?.length > 0 && <button type="button" class="simular" data-nome={p.nome} data-ops={JSON.stringify(p.ops)} hidden>Simular no gráfico</button>}
+                        </li>
+                      ))}
+                    </ul>
+                    <p class="manejo-pesa"><b>O que pesa na escolha:</b> {c.pesa}</p>
+                  </section>
+                ))}
+                <p class="fonte">Fonte: {manejo.fonte}</p>
+              </div>
+            )}
+            {pop ? (
+              <div class="pgrid">
+                <div class="pb wide"><h3 class="mini">Manejo</h3><p>{pop.manejo}</p></div>
+                {pop.saida && <div class="pb wide"><h3 class="mini">Saída e stop</h3><p>{pop.saida}</p></div>}
+                <div class="pb wide risk"><h3 class="mini">Risco principal</h3><p>{pop.risco}</p></div>
+              </div>
+            ) : <p class="nota">Manejo ainda não publicado.</p>}
+            <p class="nota">Todo ajuste deve atender a pelo menos um dos 3 pilares (delta, theta ou exposição). Veja o <a href="/estrategias/protocolo-de-manejo/">protocolo de manejo</a>.</p>
+          </Fragment>
+
+          {youtube && (
+            <Fragment slot="video">
+              <div class="video-embed">
+                <iframe src={`https://www.youtube-nocookie.com/embed/${youtube}`} title={`Vídeo: ${est.nome}`} loading="lazy" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              </div>
+            </Fragment>
+          )}
+
+          <Fragment slot="hoje">
+            <BlocoHoje est={est} h={h} at={at} />
+            <div class="caixa alerta" style="margin-top:1.4rem">
+              <strong>Teste com os seus números.</strong> Monte esta estrutura perna por perna na <a href="/ferramentas/calculadora-de-payoff">calculadora de payoff</a>.
+              <br /><small>* Probabilidade de lucro estimada pelo modelo (lognormal, Black-Scholes, carry zero, VI das pernas do primeiro vencimento). Não considera custos, impostos, margem, dividendos nem exercício antecipado. Preços de &quot;último negócio&quot; não são bid/ask: confira o book antes de enviar qualquer ordem.</small>
+            </div>
+          </Fragment>
+        </Abas>
+      </div>
+    </div>
+
+    {mesma.length > 0 && (
+      <>
+        <h2 class="rel">Mais em {est.familia}</h2>
+        <ul class="rel-list">{mesma.map((e) => <li><a href={`/estrategias/${e.id}/`}>{e.nome}</a></li>)}</ul>
+      </>
+    )}
+    <nav class="prox-ant" aria-label="Navegação entre estruturas">
+      {ant ? <a href={`/estrategias/${ant.id}/`}>← {ant.nome}</a> : <span></span>}
+      {prox ? <a href={`/estrategias/${prox.id}/`}>{prox.nome} →</a> : <span></span>}
+    </nav>
+    <p class="aviso-legal">{DISCLAIMER}</p>
+  </section>
+  <script is:inline src="/lab-idade.js" defer></script>
+  <script is:inline>
+    // Botões "Simular no gráfico": só aparecem com JavaScript; mandam o ajuste para o gráfico.
+    document.querySelectorAll('button.simular').forEach(function (b) {
+      b.hidden = false;
+      b.addEventListener('click', function () {
+        window.dispatchEvent(new CustomEvent('opcionando:manejo', { detail: { nome: b.getAttribute('data-nome'), ops: JSON.parse(b.getAttribute('data-ops')) } }));
+        var g = document.querySelector('.est-esq');
+        if (g && window.innerWidth <= 820) g.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+  </script>
+</Base>

@@ -140,20 +140,20 @@ const rot: Record<string, string> = {
   .ctrls input { width: 100%; accent-color: var(--coral); height: 26px; }
   .tipo { display: flex; gap: 6px; align-items: end; }
   .tipo button { flex: 1; padding: 0.45rem; border-radius: 8px; border: 1px solid var(--borda); background: var(--giz); color: var(--texto); font-weight: 600; cursor: pointer; }
-  .tipo button[aria-pressed="true"] { background: var(--petroleo); color: #fff; border-color: var(--petroleo); }
+  .tipo button[aria-pressed="true"] { background: var(--petroleo); color: var(--creme); border-color: var(--destaque); }
   svg { width: 100%; height: auto; display: block; }
   .lab :global(.grade) { stroke: var(--borda); }
   .lab :global(.rot) { fill: var(--texto-suave); font-family: var(--font-mono); font-size: 11.5px; }
   .lab :global(.eixo) { fill: var(--texto-suave); font-size: 12.5px; }
   .lab :global(.k) { stroke: var(--texto-suave); stroke-dasharray: 3 4; }
   .lab :global(.venc) { fill: none; stroke: var(--texto-suave); stroke-width: 2; stroke-dasharray: 6 4; }
-  .lab :global(.hoje) { fill: none; stroke: var(--petroleo); stroke-width: 3; }
-  @media (prefers-color-scheme: dark) { .lab :global(.hoje) { stroke: #7fc6d1; } }
+  .lab :global(.hoje) { fill: none; stroke: var(--destaque); stroke-width: 3; }
+  .lab :global(.hoje) { stroke: var(--destaque); }
   .lab :global(.cur) { stroke: var(--coral); stroke-dasharray: 4 4; }
   .lab :global(.pt) { fill: var(--coral); stroke: var(--bg-card); stroke-width: 3; }
   .barra { display: flex; height: 38px; border-radius: 8px; overflow: hidden; background: var(--giz); margin: 0.4rem 0; }
-  .seg { display: grid; place-items: center; color: #fff; font-family: var(--font-mono); font-size: 0.85rem; font-weight: 600; transition: flex-grow .15s; min-width: 0; overflow: hidden; }
-  .seg.int { background: var(--petroleo); } .seg.ext { background: var(--coral); }
+  .seg { display: grid; place-items: center; color: var(--creme); font-family: var(--font-mono); font-size: 0.85rem; font-weight: 600; transition: flex-grow .15s; min-width: 0; overflow: hidden; }
+  .seg.int { background: var(--petroleo); } .seg.ext { background: var(--marca); color: var(--texto-sobre-marca); }
   .leg { font-size: 0.8rem; color: var(--texto-suave); margin: 0.3rem 0; }
   .leg i { display: inline-block; width: 18px; height: 4px; vertical-align: middle; margin: 0 6px 0 12px; border-radius: 2px; }
   .leg i:first-child { margin-left: 0; }
@@ -161,7 +161,7 @@ const rot: Record<string, string> = {
   .l-int { background: var(--petroleo); height: 10px !important; } .l-ext { background: var(--coral); height: 10px !important; }
   .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 8px; margin-top: 0.6rem; }
   .kpis div { background: var(--giz); border-radius: 10px; padding: 0.5rem 0.6rem; text-align: center; }
-  @media (prefers-color-scheme: dark) { .kpis div, .barra, .tipo button { background: #0e262c; } }
+  .kpis div, .barra, .tipo button { background: var(--superficie-2); }
   .kpis span { display: block; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--texto-suave); font-weight: 600; }
   .kpis b { font-family: var(--font-mono); color: var(--destaque); font-size: 0.98rem; }
   .nota { font-size: 0.76rem; color: var(--texto-suave); margin: 0.6rem 0 0; }

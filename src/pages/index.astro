@@ -70,13 +70,10 @@ const secoes = [
 <style>
   .hero {
     background:
-      radial-gradient(circle at 85% 20%, rgba(242,105,77,0.18), transparent 45%),
+      radial-gradient(circle at 85% 20%, color-mix(in srgb, var(--marca) 18%, transparent), transparent 45%),
       var(--giz);
     border-bottom: 1px solid var(--borda);
     padding: 3.4rem 0 3rem;
-  }
-  @media (prefers-color-scheme: dark) {
-    .hero { background: radial-gradient(circle at 85% 20%, rgba(242,105,77,0.15), transparent 45%), #0e262c; }
   }
   .hero h1 { margin: 0.2em 0 0.35em; font-size: clamp(2.1rem, 6vw, 3.3rem); }
   .sub { margin: 0; color: var(--texto-suave); font-size: 1.1rem; max-width: 640px; }
@@ -93,5 +90,5 @@ const secoes = [
     display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
   }
   .faixa-yt strong { font-family: var(--font-titulo); font-size: 1.3rem; }
-  .faixa-yt p { margin: 0.2rem 0 0; color: #d7e3e4; }
+  .faixa-yt p { margin: 0.2rem 0 0; color: color-mix(in srgb, var(--creme) 85%, transparent); }
 </style>

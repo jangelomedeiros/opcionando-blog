@@ -1,0 +1,44 @@
+---
+// Abas acessíveis. Sem JavaScript, todos os painéis aparecem em sequência, cada um com o seu título.
+// Uso: <Abas abas={[{ id: 'visao', rotulo: 'Visão' }, ...]}><Fragment slot="visao">...</Fragment>...</Abas>
+interface Props { abas: { id: string; rotulo: string }[]; nome?: string }
+const { abas, nome = 'abas' } = Astro.props;
+const paineis = await Promise.all(abas.map(async (a) => ({ ...a, html: await Astro.slots.render(a.id) })));
+---
+<div class="abas" data-abas>
+  <div class="abas-lista" role="tablist" aria-label="Seções da estrutura">
+    {paineis.map((a, i) => (
+      <button type="button" role="tab" id={`${nome}-tab-${a.id}`} aria-controls={`${nome}-${a.id}`} aria-selected={i === 0 ? 'true' : 'false'} tabindex={i === 0 ? 0 : -1}>{a.rotulo}</button>
+    ))}
+  </div>
+  {paineis.map((a) => (
+    <section class="abas-painel" role="tabpanel" id={`${nome}-${a.id}`} aria-labelledby={`${nome}-tab-${a.id}`}>
+      <h2 class="abas-titulo">{a.rotulo}</h2>
+      <Fragment set:html={a.html} />
+    </section>
+  ))}
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-abas]').forEach((raiz) => {
+    const tabs = [...raiz.querySelectorAll<HTMLButtonElement>('[role="tab"]')];
+    const paineis = [...raiz.querySelectorAll<HTMLElement>('[role="tabpanel"]')];
+    raiz.classList.add('abas-js');
+    const ativar = (i: number, foco = false) => {
+      tabs.forEach((t, j) => {
+        t.setAttribute('aria-selected', String(i === j));
+        t.tabIndex = i === j ? 0 : -1;
+        paineis[j].hidden = i !== j;
+      });
+      if (foco) tabs[i].focus();
+    };
+    tabs.forEach((t, i) => {
+      t.addEventListener('click', () => ativar(i));
+      t.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight') ativar((i + 1) % tabs.length, true);
+        if (e.key === 'ArrowLeft') ativar((i - 1 + tabs.length) % tabs.length, true);
+      });
+    });
+    ativar(0);
+  });
+</script>

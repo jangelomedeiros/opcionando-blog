@@ -13,7 +13,7 @@ import { FERRAMENTAS } from '../../data/planejamento';
       {FERRAMENTAS.map((f) => (
         <li>
           {f.pronta ? (
-            <a class="card-link" href={`/ferramentas/${f.slug}`}>
+            <a class="card-link" href={f.href ?? `/ferramentas/${f.slug}`}>
               <span class="selo coral">Disponível</span>
               <span class="titulo">{f.title}</span>
               <span class="resumo">{f.resumo}</span>

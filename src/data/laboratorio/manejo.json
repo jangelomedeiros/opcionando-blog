@@ -1,0 +1,4335 @@
+{
+ "covered-call": {
+  "revisado": true,
+  "fonte": "Padrão Opcionando (a partir do POP)",
+  "cenarios": [
+   {
+    "nome": "Subiu e passou do strike antes do vencimento",
+    "sinais": "A ação está acima do strike da CALL vendida e a CALL já tem pouco valor extrínseco.",
+    "pesa": "Se você ainda quer ficar com a ação e se a rolagem sai a crédito ou a débito.",
+    "caminhos": [
+     {
+      "nome": "Rolar para cima e para frente",
+      "descricao": "Recompra a CALL vendida e vende outra dois strikes acima, no vencimento seguinte.",
+      "ganha": "Teto mais alto e mais prazo para o papel trabalhar.",
+      "perde": "Pode sair a débito e mantém o capital preso por mais tempo.",
+      "quando": "Quando a visão continua de alta e a rolagem não compromete o crédito acumulado.",
+      "ops": [
+       {
+        "op": "rolarStrike",
+        "perna": "p2",
+        "passos": 2
+       },
+       {
+        "op": "rolarVencimento",
+        "perna": "p2",
+        "passos": 1
+       }
+      ]
+     },
+     {
+      "nome": "Deixar exercer",
+      "descricao": "Não faz nada: no vencimento, a ação é vendida pelo strike.",
+      "ganha": "O ganho máximo da estrutura: strike + prêmio.",
+      "perde": "A alta acima do strike e a posição na ação.",
+      "quando": "Quando o preço de saída já era aceitável na montagem."
+     },
+     {
+      "nome": "Encerrar tudo",
+      "descricao": "Recompra a CALL e vende a ação agora.",
+      "ganha": "Libera o capital antes do vencimento.",
+      "perde": "O prêmio que ainda restava na CALL.",
+      "quando": "Quando falta pouco a ganhar até o vencimento e há um uso melhor para o capital.",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p2"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p1"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "nome": "Caiu forte",
+    "sinais": "A ação caiu bem abaixo do preço de compra e a CALL vendida perdeu quase todo o valor.",
+    "pesa": "Se a tese na ação continua de pé e quanto você aceita travar de preço de venda.",
+    "caminhos": [
+     {
+      "nome": "Rolar para baixo",
+      "descricao": "Recompra a CALL barata e vende outra dois strikes abaixo, recebendo mais prêmio.",
+      "ganha": "Mais prêmio para amortecer a queda.",
+      "perde": "Trava um preço de venda mais baixo; se a ação voltar a subir, o teto atrapalha.",
+      "quando": "Quando o objetivo é renda e você aceita vender mais barato.",
+      "ops": [
+       {
+        "op": "rolarStrike",
+        "perna": "p2",
+        "passos": -2
+       }
+      ]
+     },
+     {
+      "nome": "Esperar",
+      "descricao": "Mantém a estrutura e deixa a CALL virar pó.",
+      "ganha": "O prêmio inteiro da CALL e a ação livre para relançar depois.",
+      "perde": "Nenhuma proteção adicional contra mais queda.",
+      "quando": "Quando a queda é vista como ruído dentro da tese."
+     }
+    ]
+   },
+   {
+    "nome": "Lateral perto do vencimento",
+    "sinais": "A ação está perto do preço de compra e a CALL já perdeu boa parte do prêmio.",
+    "pesa": "Quanto do prêmio já foi capturado (o POP sugere recomprar com 70% a 80%).",
+    "caminhos": [
+     {
+      "nome": "Relançar no próximo vencimento",
+      "descricao": "Recompra a CALL e vende o mesmo strike no vencimento seguinte.",
+      "ganha": "Um novo prêmio sobre a mesma ação.",
+      "perde": "O pouco prêmio que ainda restava até o vencimento atual.",
+      "quando": "Quando o objetivo é renda recorrente sobre a carteira.",
+      "ops": [
+       {
+        "op": "rolarVencimento",
+        "perna": "p2",
+        "passos": 1
+       }
+      ]
+     },
+     {
+      "nome": "Deixar virar pó",
+      "descricao": "Não faz nada e espera o vencimento.",
+      "ganha": "Todo o prêmio da CALL.",
+      "perde": "Fica exposto a um movimento brusco nos últimos dias.",
+      "quando": "Quando faltam poucos dias e o strike está longe."
+     }
+    ]
+   }
+  ]
+ },
+ "cash-put": {
+  "revisado": true,
+  "fonte": "Padrão Opcionando (a partir do POP)",
+  "cenarios": [
+   {
+    "nome": "Caiu abaixo do strike",
+    "sinais": "A ação está abaixo do strike da PUT vendida; o exercício fica provável.",
+    "pesa": "Se você ainda quer comprar a ação por esse preço e se a rolagem sai a crédito.",
+    "caminhos": [
+     {
+      "nome": "Rolar para baixo e para frente",
+      "descricao": "Recompra a PUT e vende outra dois strikes abaixo, no vencimento seguinte.",
+      "ganha": "Um preço de compra mais baixo e mais prazo.",
+      "perde": "Pode sair a débito e mantém o caixa reservado por mais tempo.",
+      "quando": "Quando a queda não muda a tese, mas o preço atual de compra parece alto.",
+      "ops": [
+       {
+        "op": "rolarStrike",
+        "perna": "p1",
+        "passos": -2
+       },
+       {
+        "op": "rolarVencimento",
+        "perna": "p1",
+        "passos": 1
+       }
+      ]
+     },
+     {
+      "nome": "Aceitar o exercício",
+      "descricao": "Simula o exercício no vencimento: fica com a ação pelo strike, com custo efetivo de strike − prêmio, e depois passa a lançar CALL coberta. Antes do vencimento, encerrar a PUT e comprar a ação custa um pouco mais que o strike, pelo valor de tempo que a PUT ainda tem.",
+      "ganha": "A ação pelo preço que você aceitou na montagem.",
+      "perde": "A diferença entre o strike e o preço de mercado, se a queda continuar.",
+      "quando": "Quando você queria a ação de qualquer forma.",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p1"
+       },
+       {
+        "op": "adicionar",
+        "tipo": "acao",
+        "q": 1
+       }
+      ],
+      "estrutura": "covered-call"
+     },
+     {
+      "nome": "Encerrar com prejuízo",
+      "descricao": "Recompra a PUT e libera o caixa.",
+      "ganha": "Para a perda aqui e devolve a liberdade ao capital.",
+      "perde": "Realiza o prejuízo agora.",
+      "quando": "Quando a tese da compra deixou de valer.",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p1"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "nome": "Subiu",
+    "sinais": "A ação subiu e a PUT vendida perdeu boa parte do valor.",
+    "pesa": "Quanto do prêmio já foi capturado (o POP sugere recomprar com 50% a 70%).",
+    "caminhos": [
+     {
+      "nome": "Recomprar e embolsar",
+      "descricao": "Recompra a PUT barata e encerra a operação.",
+      "ganha": "A maior parte do prêmio, com o caixa livre antes do vencimento.",
+      "perde": "O pouco prêmio que ainda restava.",
+      "quando": "Quando já capturou a maior parte do prêmio.",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p1"
+       }
+      ]
+     },
+     {
+      "nome": "Rolar para cima",
+      "descricao": "Recompra a PUT e vende outra dois strikes acima, recebendo mais prêmio.",
+      "ganha": "Mais prêmio e um preço de compra mais perto do mercado.",
+      "perde": "Aumenta a chance de exercício num preço mais alto.",
+      "quando": "Quando a ação continua sendo uma compra desejada mais acima.",
+      "ops": [
+       {
+        "op": "rolarStrike",
+        "perna": "p1",
+        "passos": 2
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "booster-call": {
+  "revisado": true,
+  "fonte": "Padrão Opcionando (a partir do POP)",
+  "cenarios": [
+   {
+    "nome": "Subiu além do strike vendido",
+    "sinais": "A ação passou do strike das duas CALLs vendidas; o ganho chegou ao teto.",
+    "pesa": "Se ainda há espaço para subir e quanto do miolo já foi capturado.",
+    "caminhos": [
+     {
+      "nome": "Realizar no miolo",
+      "descricao": "Encerra a CALL comprada e as duas vendidas, e fica só com a ação.",
+      "ganha": "Trava o ganho do booster e devolve a alta livre à ação.",
+      "perde": "O valor de tempo que as vendidas ainda dariam.",
+      "quando": "Quando o objetivo do booster já foi atingido.",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p2"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p3"
+       }
+      ]
+     },
+     {
+      "nome": "Rolar as vendidas para cima",
+      "descricao": "Recompra as duas CALLs vendidas e vende outras duas, dois strikes acima.",
+      "ganha": "Teto mais alto para a estrutura.",
+      "perde": "Costuma sair a débito.",
+      "quando": "Quando a alta continua forte e você quer participar mais.",
+      "ops": [
+       {
+        "op": "rolarStrike",
+        "perna": "p3",
+        "passos": 2
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "nome": "Caiu",
+    "sinais": "A ação caiu abaixo do strike da CALL comprada; o booster perdeu valor.",
+    "pesa": "O booster é peça da carteira, não uma operação isolada (POP).",
+    "caminhos": [
+     {
+      "nome": "Rolar a trava para baixo",
+      "descricao": "Vende a CALL comprada, recompra as duas vendidas e monta a mesma trava dois strikes abaixo.",
+      "ganha": "Recoloca o miolo perto do preço atual.",
+      "perde": "Realiza a perda da trava antiga.",
+      "quando": "Quando o papel deve lateralizar no novo patamar.",
+      "ops": [
+       {
+        "op": "rolarStrike",
+        "perna": "p2",
+        "passos": -2
+       },
+       {
+        "op": "rolarStrike",
+        "perna": "p3",
+        "passos": -2
+       }
+      ]
+     },
+     {
+      "nome": "Manter como peça da carteira",
+      "descricao": "Não faz nada; a ação segue como posição principal.",
+      "ganha": "Nenhum custo de ajuste.",
+      "perde": "O booster pode virar pó.",
+      "quando": "Quando a queda é pequena perto do horizonte da carteira."
+     }
+    ]
+   }
+  ]
+ },
+ "booster-put": {
+  "revisado": true,
+  "fonte": "Padrão Opcionando (a partir do POP)",
+  "cenarios": [
+   {
+    "nome": "Caiu até o miolo",
+    "sinais": "O ativo está entre os strikes da PUT comprada e das vendidas.",
+    "pesa": "O booster é peça do caixa, não uma operação isolada (POP).",
+    "caminhos": [
+     {
+      "nome": "Realizar no miolo",
+      "descricao": "Encerra a PUT comprada e as duas vendidas.",
+      "ganha": "Trava o ganho do miolo.",
+      "perde": "O que ainda restaria até o vencimento.",
+      "quando": "Quando o miolo já entregou a maior parte do ganho.",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p1"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p2"
+       }
+      ]
+     },
+     {
+      "nome": "Levar ao vencimento",
+      "descricao": "Mantém a estrutura como está.",
+      "ganha": "O ganho máximo, se o ativo ficar no miolo.",
+      "perde": "Fica exposto se o ativo cair além das vendidas.",
+      "quando": "Quando o caixa reservado aceita o exercício das vendidas."
+     }
+    ]
+   },
+   {
+    "nome": "Caiu além das vendidas",
+    "sinais": "O ativo passou abaixo do strike das duas PUTs vendidas.",
+    "pesa": "Se você aceita comprar a ação por esse preço com o caixa reservado.",
+    "caminhos": [
+     {
+      "nome": "Rolar as vendidas para baixo",
+      "descricao": "Recompra as duas PUTs vendidas e vende outras duas, dois strikes abaixo.",
+      "ganha": "Afasta o risco de exercício.",
+      "perde": "Costuma sair a débito.",
+      "quando": "Quando a queda ainda não muda a tese.",
+      "ops": [
+       {
+        "op": "rolarStrike",
+        "perna": "p2",
+        "passos": -2
+       }
+      ]
+     },
+     {
+      "nome": "Encerrar tudo",
+      "descricao": "Encerra as três PUTs.",
+      "ganha": "Para o risco aqui.",
+      "perde": "Realiza o resultado atual.",
+      "quando": "Quando a tese deixou de valer.",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p1"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p2"
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "call-compra": {
+  "revisado": true,
+  "fonte": "Padrão Opcionando (a partir do POP)",
+  "cenarios": [
+   {
+    "nome": "O movimento veio cedo",
+    "sinais": "O ativo subiu antes do previsto e a CALL ganhou valor.",
+    "pesa": "Quanto da alta ainda cabe na tese e quanto o tempo vai cobrar (POP).",
+    "caminhos": [
+     {
+      "nome": "Realizar metade",
+      "descricao": "Vende metade das CALLs.",
+      "ganha": "Embolsa parte do ganho.",
+      "perde": "Metade da participação numa alta maior.",
+      "quando": "Quando o alvo técnico está perto.",
+      "ops": [
+       {
+        "op": "quantidade",
+        "perna": "p1",
+        "q": 0.5
+       }
+      ]
+     },
+     {
+      "nome": "Virar trava de alta",
+      "descricao": "Vende uma CALL dois strikes acima, no mesmo vencimento.",
+      "ganha": "Trava parte do ganho e reduz o theta (POP).",
+      "perde": "Limita o ganho ao strike vendido.",
+      "quando": "Quando a alta deve continuar, mas devagar.",
+      "ops": [
+       {
+        "op": "adicionar",
+        "tipo": "call",
+        "q": -1,
+        "strikePassos": 2,
+        "vencDe": "p1"
+       }
+      ],
+      "estrutura": "bull-spread"
+     },
+     {
+      "nome": "Realizar tudo",
+      "descricao": "Vende a CALL.",
+      "ganha": "O ganho inteiro até aqui.",
+      "perde": "A alta que ainda viria.",
+      "quando": "No alvo técnico (50% a 100% sobre o prêmio, pelo POP).",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p1"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "nome": "O movimento não veio",
+    "sinais": "O ativo ficou parado ou caiu e o tempo corre.",
+    "pesa": "O POP sugere stop em 50% do prêmio e não carregar os últimos 5 dias úteis.",
+    "caminhos": [
+     {
+      "nome": "Encerrar no stop",
+      "descricao": "Vende a CALL pelo que ainda vale.",
+      "ganha": "Preserva o que resta do prêmio.",
+      "perde": "A chance de o movimento vir depois.",
+      "quando": "Quando a perda chega a 50% do prêmio ou a tese é invalidada.",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p1"
+       }
+      ]
+     },
+     {
+      "nome": "Esperar",
+      "descricao": "Mantém a CALL.",
+      "ganha": "A chance de o movimento ainda vir.",
+      "perde": "O tempo derrete o prêmio cada vez mais rápido.",
+      "quando": "Quando ainda falta bastante prazo e a tese está de pé."
+     }
+    ]
+   }
+  ]
+ },
+ "call-venda": {
+  "revisado": true,
+  "fonte": "Padrão Opcionando (a partir do POP)",
+  "cenarios": [
+   {
+    "nome": "O ativo subiu até o strike",
+    "sinais": "A CALL vendida a seco ficou no dinheiro.",
+    "pesa": "O risco é ilimitado na alta; o POP proíbe aumentar a posição vendida.",
+    "caminhos": [
+     {
+      "nome": "Recomprar",
+      "descricao": "Recompra a CALL e encerra a operação.",
+      "ganha": "Para o risco ilimitado.",
+      "perde": "Realiza a perda.",
+      "quando": "Quando a perda chega a 2× o prêmio ou a resistência rompe (POP).",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p1"
+       }
+      ]
+     },
+     {
+      "nome": "Aplicar um hedge da família",
+      "descricao": "Monta um dos hedges de \"Hedge · ajustes\", como o Inverse Line.",
+      "ganha": "Mantém a tese com o risco controlado.",
+      "perde": "Custa e deixa a posição mais complexa.",
+      "quando": "Quando a alta parece pontual.",
+      "estrutura": "hedge-inverse"
+     }
+    ]
+   },
+   {
+    "nome": "O ativo caiu ou ficou parado",
+    "sinais": "A CALL perdeu valor.",
+    "pesa": "Quanto do prêmio já foi capturado (POP: 50% a 70%).",
+    "caminhos": [
+     {
+      "nome": "Recomprar e embolsar",
+      "descricao": "Recompra a CALL barata.",
+      "ganha": "A maior parte do prêmio, sem risco até o vencimento.",
+      "perde": "O prêmio que ainda restava.",
+      "quando": "Quando já capturou de 50% a 70%.",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p1"
+       }
+      ]
+     },
+     {
+      "nome": "Deixar virar pó",
+      "descricao": "Mantém até o vencimento.",
+      "ganha": "Todo o prêmio.",
+      "perde": "Fica exposto a uma alta brusca.",
+      "quando": "Quando faltam poucos dias e o strike está longe."
+     }
+    ]
+   }
+  ]
+ },
+ "put-compra": {
+  "revisado": true,
+  "fonte": "Padrão Opcionando (a partir do POP)",
+  "cenarios": [
+   {
+    "nome": "Seguro perto do fim",
+    "sinais": "Faltam cerca de 10 dias úteis e o risco que motivou o seguro continua.",
+    "pesa": "Se o risco ainda existe (POP).",
+    "caminhos": [
+     {
+      "nome": "Rolar para frente",
+      "descricao": "Vende a PUT atual e compra a do vencimento seguinte, mesmo strike.",
+      "ganha": "Mantém a proteção por mais tempo.",
+      "perde": "Paga mais prêmio.",
+      "quando": "Enquanto existir o risco que motivou a compra.",
+      "ops": [
+       {
+        "op": "rolarVencimento",
+        "perna": "p1",
+        "passos": 1
+       }
+      ]
+     },
+     {
+      "nome": "Deixar vencer",
+      "descricao": "Mantém até o vencimento.",
+      "ganha": "Nenhum custo novo.",
+      "perde": "Fica sem proteção depois do vencimento.",
+      "quando": "Quando o risco passou."
+     }
+    ]
+   },
+   {
+    "nome": "Caiu (especulação)",
+    "sinais": "O ativo caiu e a PUT ganhou valor.",
+    "pesa": "Se a queda deve continuar até o suporte-alvo.",
+    "caminhos": [
+     {
+      "nome": "Virar trava de baixa",
+      "descricao": "Vende uma PUT dois strikes abaixo, no mesmo vencimento.",
+      "ganha": "Trava parte do ganho e reduz o custo (POP).",
+      "perde": "Limita o ganho ao strike vendido.",
+      "quando": "Quando a queda deve continuar, mas devagar.",
+      "ops": [
+       {
+        "op": "adicionar",
+        "tipo": "put",
+        "q": -1,
+        "strikePassos": -2,
+        "vencDe": "p1"
+       }
+      ],
+      "estrutura": "bear-put-spread"
+     },
+     {
+      "nome": "Realizar",
+      "descricao": "Vende a PUT.",
+      "ganha": "O ganho até aqui.",
+      "perde": "A queda que ainda viria.",
+      "quando": "No suporte-alvo (POP).",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p1"
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "financiamento": {
+  "revisado": true,
+  "fonte": "Padrão Opcionando (a partir do POP)",
+  "cenarios": [
+   {
+    "nome": "Caiu abaixo do strike",
+    "sinais": "A ação caiu abaixo do strike da CALL vendida; a taxa do financiamento encolhe.",
+    "pesa": "Se vale carregar a ação (POP).",
+    "caminhos": [
+     {
+      "nome": "Rolar para um strike menor",
+      "descricao": "Recompra a CALL e vende outra dois strikes abaixo.",
+      "ganha": "Recupera parte da taxa.",
+      "perde": "Trava um preço de saída mais baixo.",
+      "quando": "Quando a ideia é manter a operação de financiamento.",
+      "ops": [
+       {
+        "op": "rolarStrike",
+        "perna": "p2",
+        "passos": -2
+       }
+      ]
+     },
+     {
+      "nome": "Carregar a ação",
+      "descricao": "Mantém a estrutura.",
+      "ganha": "Espera a recuperação.",
+      "perde": "Fica exposto à queda da ação.",
+      "quando": "Quando a ação continua desejada na carteira."
+     }
+    ]
+   },
+   {
+    "nome": "No vencimento acima do strike",
+    "sinais": "A ação está acima do strike; o exercício é o cenário-base (POP).",
+    "pesa": "Se você quer remontar.",
+    "caminhos": [
+     {
+      "nome": "Aceitar o exercício e remontar",
+      "descricao": "Entrega a ação pelo strike e monta de novo.",
+      "ganha": "A taxa prevista.",
+      "perde": "Custos de remontar.",
+      "quando": "É o cenário-base da estrutura."
+     },
+     {
+      "nome": "Encerrar antes",
+      "descricao": "Recompra a CALL e vende a ação agora.",
+      "ganha": "Libera o capital.",
+      "perde": "O que restava da taxa.",
+      "quando": "Quando há uso melhor para o capital.",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p2"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p1"
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "dividendo-sint": {
+  "revisado": true,
+  "fonte": "Padrão Opcionando (a partir do POP)",
+  "cenarios": [
+   {
+    "nome": "A CALL foi ameaçada",
+    "sinais": "A ação subiu até o strike da CALL lançada sobre 30% da posição.",
+    "pesa": "O POP manda rolar apenas a fatia lançada.",
+    "caminhos": [
+     {
+      "nome": "Rolar a fatia para cima e para frente",
+      "descricao": "Recompra a CALL e vende outra dois strikes acima, no vencimento seguinte.",
+      "ganha": "Mais teto para a fatia lançada.",
+      "perde": "Pode sair a débito.",
+      "quando": "Quando a alta deve continuar.",
+      "ops": [
+       {
+        "op": "rolarVencimento",
+        "perna": "p2",
+        "passos": 1
+       },
+       {
+        "op": "rolarStrike",
+        "perna": "p2",
+        "passos": 2
+       }
+      ]
+     },
+     {
+      "nome": "Deixar exercer a fatia",
+      "descricao": "Entrega só os 30% lançados.",
+      "ganha": "O ganho até o strike nessa fatia.",
+      "perde": "A alta acima do strike na fatia.",
+      "quando": "Quando o preço de saída da fatia é aceitável."
+     }
+    ]
+   },
+   {
+    "nome": "Lateral",
+    "sinais": "A CALL perdeu boa parte do prêmio.",
+    "pesa": "O POP sugere recomprar com 70% a 80% capturado e relançar.",
+    "caminhos": [
+     {
+      "nome": "Relançar no próximo vencimento",
+      "descricao": "Recompra a CALL e vende o mesmo strike no vencimento seguinte.",
+      "ganha": "Novo \"dividendo\" sobre a fatia.",
+      "perde": "O pouco que restava do prêmio atual.",
+      "quando": "Com 70% a 80% capturado.",
+      "ops": [
+       {
+        "op": "rolarVencimento",
+        "perna": "p2",
+        "passos": 1
+       }
+      ]
+     },
+     {
+      "nome": "Deixar virar pó",
+      "descricao": "Mantém até o vencimento.",
+      "ganha": "Todo o prêmio.",
+      "perde": "Exposição a uma alta brusca nos últimos dias.",
+      "quando": "Quando faltam poucos dias."
+     }
+    ]
+   }
+  ]
+ },
+ "bull-spread": {
+  "revisado": true,
+  "fonte": "Padrão Opcionando (a partir do POP)",
+  "cenarios": [
+   {
+    "nome": "O alvo veio antes",
+    "sinais": "O ativo passou do strike vendido antes do vencimento.",
+    "pesa": "O POP manda não rolar e encerrar.",
+    "caminhos": [
+     {
+      "nome": "Encerrar a trava",
+      "descricao": "Vende a CALL comprada e recompra a vendida.",
+      "ganha": "Realiza perto do máximo (POP: 70% a 80%).",
+      "perde": "O pouco que faltava até o máximo.",
+      "quando": "Quando já tem de 70% a 80% do máximo.",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p1"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p2"
+       }
+      ]
+     },
+     {
+      "nome": "Levar ao vencimento",
+      "descricao": "Mantém a trava.",
+      "ganha": "O ganho máximo, se o ativo ficar acima do strike vendido.",
+      "perde": "Fica exposto a uma volta do preço.",
+      "quando": "Quando faltam poucos dias e o ativo está bem acima."
+     }
+    ]
+   },
+   {
+    "nome": "Caiu",
+    "sinais": "O ativo caiu abaixo da CALL comprada.",
+    "pesa": "O stop do POP: perda de 50% do débito ou rompimento do suporte.",
+    "caminhos": [
+     {
+      "nome": "Encerrar no stop",
+      "descricao": "Encerra as duas pernas.",
+      "ganha": "Preserva metade do débito.",
+      "perde": "A chance de recuperação.",
+      "quando": "No stop do POP.",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p1"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p2"
+       }
+      ]
+     },
+     {
+      "nome": "Esperar",
+      "descricao": "Mantém a trava.",
+      "ganha": "A chance de recuperação até o vencimento.",
+      "perde": "Pode perder todo o débito.",
+      "quando": "Quando o suporte segue de pé."
+     }
+    ]
+   }
+  ]
+ },
+ "bear-put-spread": {
+  "revisado": true,
+  "fonte": "Padrão Opcionando (a partir do POP)",
+  "cenarios": [
+   {
+    "nome": "Caiu abaixo do strike vendido",
+    "sinais": "O ganho travou no máximo.",
+    "pesa": "O POP manda encerrar.",
+    "caminhos": [
+     {
+      "nome": "Encerrar a trava",
+      "descricao": "Vende a PUT comprada e recompra a vendida.",
+      "ganha": "Realiza perto do máximo.",
+      "perde": "O pouco que faltava.",
+      "quando": "Com 70% a 80% do máximo (POP).",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p1"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p2"
+       }
+      ]
+     },
+     {
+      "nome": "Levar ao vencimento",
+      "descricao": "Mantém a trava.",
+      "ganha": "O ganho máximo.",
+      "perde": "Exposição a uma volta do preço.",
+      "quando": "Quando faltam poucos dias."
+     }
+    ]
+   },
+   {
+    "nome": "Subiu",
+    "sinais": "O ativo subiu e a trava perdeu valor.",
+    "pesa": "O stop do POP: perda de 50% do débito.",
+    "caminhos": [
+     {
+      "nome": "Encerrar no stop",
+      "descricao": "Encerra as duas pernas.",
+      "ganha": "Preserva metade do débito.",
+      "perde": "A chance de a queda vir.",
+      "quando": "No stop do POP.",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p1"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p2"
+       }
+      ]
+     },
+     {
+      "nome": "Esperar",
+      "descricao": "Mantém a trava.",
+      "ganha": "A chance de a queda ainda vir.",
+      "perde": "Pode perder todo o débito.",
+      "quando": "Quando a tese de baixa segue de pé."
+     }
+    ]
+   }
+  ]
+ },
+ "trava-alta-put": {
+  "revisado": true,
+  "fonte": "Padrão Opcionando (a partir do POP)",
+  "cenarios": [
+   {
+    "nome": "O suporte foi testado",
+    "sinais": "O ativo caiu até a PUT vendida.",
+    "pesa": "Se a rolagem sai a crédito (POP).",
+    "caminhos": [
+     {
+      "nome": "Rolar a trava para baixo e para frente",
+      "descricao": "Recompra a trava e monta outra dois strikes abaixo, no próximo vencimento mensal.",
+      "ganha": "Mais prazo e strikes mais baixos.",
+      "perde": "Pode não sair a crédito.",
+      "quando": "Quando o suporte deve segurar.",
+      "ops": [
+       {
+        "op": "rolarVencimento",
+        "perna": "p1",
+        "passos": 2
+       },
+       {
+        "op": "rolarStrike",
+        "perna": "p1",
+        "passos": -2
+       },
+       {
+        "op": "rolarVencimento",
+        "perna": "p2",
+        "passos": 2
+       },
+       {
+        "op": "rolarStrike",
+        "perna": "p2",
+        "passos": -2
+       }
+      ]
+     },
+     {
+      "nome": "Encerrar",
+      "descricao": "Encerra as duas pernas.",
+      "ganha": "Para o risco aqui.",
+      "perde": "Realiza a perda.",
+      "quando": "No stop do POP: perda igual ao crédito ou rompimento do suporte.",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p1"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p2"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "nome": "Subiu",
+    "sinais": "A trava perdeu valor (bom para quem vendeu).",
+    "pesa": "O POP sugere recomprar com 50% a 70% do crédito.",
+    "caminhos": [
+     {
+      "nome": "Recomprar e embolsar",
+      "descricao": "Encerra a trava.",
+      "ganha": "A maior parte do crédito.",
+      "perde": "O que restava.",
+      "quando": "Com 50% a 70% capturado.",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p1"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p2"
+       }
+      ]
+     },
+     {
+      "nome": "Deixar virar pó",
+      "descricao": "Mantém até o vencimento.",
+      "ganha": "Todo o crédito.",
+      "perde": "Exposição a uma queda brusca.",
+      "quando": "Quando faltam poucos dias."
+     }
+    ]
+   }
+  ]
+ },
+ "trava-baixa-call": {
+  "revisado": true,
+  "fonte": "Padrão Opcionando (a partir do POP)",
+  "cenarios": [
+   {
+    "nome": "A resistência rompeu",
+    "sinais": "O ativo subiu até a CALL vendida.",
+    "pesa": "Se a rolagem sai a crédito (POP).",
+    "caminhos": [
+     {
+      "nome": "Rolar para cima e para frente",
+      "descricao": "Recompra a trava e monta outra dois strikes acima, no próximo vencimento mensal.",
+      "ganha": "Mais prazo e strikes mais altos.",
+      "perde": "Pode não sair a crédito.",
+      "quando": "Quando a alta parece pontual.",
+      "ops": [
+       {
+        "op": "rolarVencimento",
+        "perna": "p1",
+        "passos": 2
+       },
+       {
+        "op": "rolarStrike",
+        "perna": "p1",
+        "passos": 2
+       },
+       {
+        "op": "rolarVencimento",
+        "perna": "p2",
+        "passos": 2
+       },
+       {
+        "op": "rolarStrike",
+        "perna": "p2",
+        "passos": 2
+       }
+      ]
+     },
+     {
+      "nome": "Encerrar",
+      "descricao": "Encerra as duas pernas.",
+      "ganha": "Para o risco aqui.",
+      "perde": "Realiza a perda.",
+      "quando": "No stop do POP: perda igual ao crédito.",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p1"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p2"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "nome": "Caiu",
+    "sinais": "A trava perdeu valor.",
+    "pesa": "O POP sugere recomprar com 50% a 70% do crédito.",
+    "caminhos": [
+     {
+      "nome": "Recomprar e embolsar",
+      "descricao": "Encerra a trava.",
+      "ganha": "A maior parte do crédito.",
+      "perde": "O que restava.",
+      "quando": "Com 50% a 70% capturado.",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p1"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p2"
+       }
+      ]
+     },
+     {
+      "nome": "Deixar virar pó",
+      "descricao": "Mantém até o vencimento.",
+      "ganha": "Todo o crédito.",
+      "perde": "Exposição a uma alta brusca.",
+      "quando": "Quando faltam poucos dias."
+     }
+    ]
+   }
+  ]
+ },
+ "seagull": {
+  "revisado": true,
+  "fonte": "Padrão Opcionando (a partir do POP)",
+  "cenarios": [
+   {
+    "nome": "Caiu até a PUT vendida",
+    "sinais": "O ativo chegou ao strike da PUT vendida.",
+    "pesa": "O POP manda tratar como venda de PUT.",
+    "caminhos": [
+     {
+      "nome": "Rolar a PUT para baixo e para frente",
+      "descricao": "Recompra a PUT e vende outra dois strikes abaixo, no vencimento seguinte.",
+      "ganha": "Preço de compra mais baixo e mais prazo.",
+      "perde": "Pode sair a débito.",
+      "quando": "Quando você aceita comprar o ativo mais abaixo.",
+      "ops": [
+       {
+        "op": "rolarStrike",
+        "perna": "p1",
+        "passos": -2
+       },
+       {
+        "op": "rolarVencimento",
+        "perna": "p1",
+        "passos": 1
+       }
+      ]
+     },
+     {
+      "nome": "Aceitar o exercício",
+      "descricao": "Fica com o ativo pelo strike da PUT.",
+      "ganha": "O ativo pelo preço aceito na montagem.",
+      "perde": "Se a queda continuar.",
+      "quando": "Quando você queria o ativo de qualquer forma."
+     }
+    ]
+   },
+   {
+    "nome": "Subiu acima da CALL vendida",
+    "sinais": "O ganho chegou ao máximo.",
+    "pesa": "O POP sugere realizar com 70% a 80% do máximo.",
+    "caminhos": [
+     {
+      "nome": "Encerrar tudo",
+      "descricao": "Encerra as três pernas.",
+      "ganha": "Realiza perto do máximo.",
+      "perde": "O pouco que faltava.",
+      "quando": "Com 70% a 80% do máximo.",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p1"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p2"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p3"
+       }
+      ]
+     },
+     {
+      "nome": "Levar ao vencimento",
+      "descricao": "Mantém a estrutura.",
+      "ganha": "O máximo.",
+      "perde": "Exposição a uma volta do preço.",
+      "quando": "Quando faltam poucos dias."
+     }
+    ]
+   }
+  ]
+ },
+ "collar": {
+  "revisado": true,
+  "fonte": "Padrão Opcionando (a partir do POP)",
+  "cenarios": [
+   {
+    "nome": "Depois do evento",
+    "sinais": "O evento que motivou a proteção passou.",
+    "pesa": "O POP manda desmontar ou rolar depois do evento.",
+    "caminhos": [
+     {
+      "nome": "Desmontar a proteção",
+      "descricao": "Encerra a CALL vendida e a PUT comprada; fica só com a ação.",
+      "ganha": "Devolve a alta livre à ação.",
+      "perde": "Fica sem piso.",
+      "quando": "Quando o risco passou.",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p2"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p3"
+       }
+      ]
+     },
+     {
+      "nome": "Rolar para o próximo vencimento",
+      "descricao": "Rola a CALL e a PUT para o vencimento seguinte.",
+      "ganha": "Mantém o piso e o teto.",
+      "perde": "Custos de rolagem.",
+      "quando": "Quando um novo risco aparece.",
+      "ops": [
+       {
+        "op": "rolarVencimento",
+        "perna": "p2",
+        "passos": 1
+       },
+       {
+        "op": "rolarVencimento",
+        "perna": "p3",
+        "passos": 1
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "fence": {
+  "revisado": true,
+  "fonte": "Padrão Opcionando (a partir do POP)",
+  "cenarios": [
+   {
+    "nome": "A correção veio",
+    "sinais": "O ativo caiu até a trava de PUT.",
+    "pesa": "O POP manda encerrar a trava de PUT no suporte.",
+    "caminhos": [
+     {
+      "nome": "Encerrar a trava de PUT",
+      "descricao": "Encerra a PUT comprada e a vendida; mantém a ação e a CALL.",
+      "ganha": "Realiza o ganho da defesa.",
+      "perde": "Fica sem defesa se cair mais.",
+      "quando": "No suporte (POP).",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p3"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p4"
+       }
+      ]
+     },
+     {
+      "nome": "Manter tudo",
+      "descricao": "Mantém a estrutura.",
+      "ganha": "A defesa continua ativa.",
+      "perde": "O ganho da defesa pode diminuir se o ativo voltar.",
+      "quando": "Quando a queda deve continuar."
+     }
+    ]
+   },
+   {
+    "nome": "Subiu até a CALL",
+    "sinais": "O ativo chegou ao strike da CALL vendida.",
+    "pesa": "Role ou aceite o exercício (POP).",
+    "caminhos": [
+     {
+      "nome": "Rolar a CALL para cima e para frente",
+      "descricao": "Recompra a CALL e vende outra dois strikes acima, no vencimento seguinte.",
+      "ganha": "Mais teto.",
+      "perde": "Pode sair a débito.",
+      "quando": "Quando a alta deve continuar.",
+      "ops": [
+       {
+        "op": "rolarVencimento",
+        "perna": "p2",
+        "passos": 1
+       },
+       {
+        "op": "rolarStrike",
+        "perna": "p2",
+        "passos": 2
+       }
+      ]
+     },
+     {
+      "nome": "Aceitar o exercício",
+      "descricao": "Entrega a ação pelo strike.",
+      "ganha": "O ganho até o strike.",
+      "perde": "A alta acima do strike.",
+      "quando": "Quando o preço de saída é aceitável."
+     }
+    ]
+   }
+  ]
+ },
+ "straddle-compra": {
+  "revisado": true,
+  "fonte": "Padrão Opcionando (a partir do POP)",
+  "cenarios": [
+   {
+    "nome": "O movimento veio",
+    "sinais": "O ativo andou forte para um lado depois do evento.",
+    "pesa": "O POP lembra: a vol costuma cair depois do evento.",
+    "caminhos": [
+     {
+      "nome": "Vender a ponta vencedora",
+      "descricao": "Vende a CALL (se subiu) e fica com a PUT.",
+      "ganha": "Realiza o ganho do movimento.",
+      "perde": "A PUT restante perde valor com o tempo.",
+      "quando": "Quando o movimento parece ter acabado.",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p1"
+       }
+      ]
+     },
+     {
+      "nome": "Encerrar tudo",
+      "descricao": "Vende as duas pontas.",
+      "ganha": "Realiza antes do vol crush.",
+      "perde": "Um movimento maior.",
+      "quando": "Logo após o evento (POP).",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p1"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p2"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "nome": "O movimento não veio",
+    "sinais": "O ativo ficou parado e a vol caiu.",
+    "pesa": "O stop do POP: 40% a 50% do débito.",
+    "caminhos": [
+     {
+      "nome": "Encerrar no stop",
+      "descricao": "Vende as duas pontas.",
+      "ganha": "Preserva parte do débito.",
+      "perde": "A chance de o movimento vir depois.",
+      "quando": "No stop do POP.",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p1"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p2"
+       }
+      ]
+     },
+     {
+      "nome": "Esperar",
+      "descricao": "Mantém as duas pontas.",
+      "ganha": "A chance de o movimento vir.",
+      "perde": "O tempo e a vol trabalham contra.",
+      "quando": "Quando outro evento está perto."
+     }
+    ]
+   }
+  ]
+ },
+ "strangle-compra": {
+  "revisado": true,
+  "fonte": "Padrão Opcionando (a partir do POP)",
+  "cenarios": [
+   {
+    "nome": "O movimento veio",
+    "sinais": "O ativo passou de uma das pontas.",
+    "pesa": "Realize a ponta vencedora (POP).",
+    "caminhos": [
+     {
+      "nome": "Realizar a ponta vencedora",
+      "descricao": "Vende a CALL (se subiu).",
+      "ganha": "O ganho do movimento.",
+      "perde": "A outra ponta tende a virar pó.",
+      "quando": "Quando o movimento veio.",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p1"
+       }
+      ]
+     },
+     {
+      "nome": "Encerrar tudo",
+      "descricao": "Vende as duas pontas.",
+      "ganha": "Realiza antes da queda da vol.",
+      "perde": "Um movimento maior.",
+      "quando": "Depois do evento (POP).",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p1"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p2"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "nome": "O movimento não veio",
+    "sinais": "O ativo ficou entre as pontas.",
+    "pesa": "O stop do POP: 50% do débito.",
+    "caminhos": [
+     {
+      "nome": "Encerrar no stop",
+      "descricao": "Vende as duas pontas.",
+      "ganha": "Preserva parte do débito.",
+      "perde": "A chance de o movimento vir.",
+      "quando": "No stop do POP.",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p1"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p2"
+       }
+      ]
+     },
+     {
+      "nome": "Esperar",
+      "descricao": "Mantém.",
+      "ganha": "A chance de o movimento vir.",
+      "perde": "O tempo trabalha contra.",
+      "quando": "Quando ainda há prazo e evento à frente."
+     }
+    ]
+   }
+  ]
+ },
+ "straddle-venda": {
+  "revisado": true,
+  "fonte": "Padrão Opcionando (a partir do POP)",
+  "cenarios": [
+   {
+    "nome": "Uma ponta foi testada",
+    "sinais": "O ativo se afastou do strike e uma ponta ficou no dinheiro.",
+    "pesa": "O stop do POP: perda de 1× o crédito.",
+    "caminhos": [
+     {
+      "nome": "Rolar a ponta testada",
+      "descricao": "Recompra a CALL (se subiu) e vende outra dois strikes acima.",
+      "ganha": "Afasta o risco da ponta testada.",
+      "perde": "Pode sair a débito.",
+      "quando": "Quando o movimento parece pontual.",
+      "ops": [
+       {
+        "op": "rolarStrike",
+        "perna": "p1",
+        "passos": 2
+       }
+      ]
+     },
+     {
+      "nome": "Proteger com PUT longa",
+      "descricao": "Compra uma PUT um strike abaixo no vencimento mais longo (como no Straddle com PUT longa), em vez de um seguro curto.",
+      "ganha": "Limita a perda na queda.",
+      "perde": "O custo da PUT.",
+      "quando": "Quando o risco de queda forte preocupa.",
+      "ops": [
+       {
+        "op": "adicionar",
+        "tipo": "put",
+        "q": 1,
+        "strikePassos": -1,
+        "vencIndice": -1
+       }
+      ],
+      "estrutura": "straddle-long-put"
+     },
+     {
+      "nome": "Encerrar no stop",
+      "descricao": "Recompra as duas pontas.",
+      "ganha": "Para o risco aqui.",
+      "perde": "Realiza a perda.",
+      "quando": "Na perda de 1× o crédito (POP).",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p1"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p2"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "nome": "Ficou parado",
+    "sinais": "O ativo ficou perto do strike e o tempo trabalhou a favor.",
+    "pesa": "O POP sugere recomprar com 25% a 50% do crédito.",
+    "caminhos": [
+     {
+      "nome": "Recomprar e embolsar",
+      "descricao": "Recompra as duas pontas.",
+      "ganha": "Parte do crédito sem risco até o vencimento.",
+      "perde": "O que restava.",
+      "quando": "Com 25% a 50% capturado.",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p1"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p2"
+       }
+      ]
+     },
+     {
+      "nome": "Esperar",
+      "descricao": "Mantém.",
+      "ganha": "Mais crédito com o tempo.",
+      "perde": "Risco de um movimento brusco.",
+      "quando": "Quando falta pouco para o vencimento."
+     }
+    ]
+   }
+  ]
+ },
+ "strangle-venda": {
+  "revisado": true,
+  "fonte": "Padrão Opcionando (a partir do POP)",
+  "cenarios": [
+   {
+    "nome": "Uma ponta foi testada",
+    "sinais": "O ativo chegou perto de uma das pontas vendidas.",
+    "pesa": "Role para longe a crédito (POP).",
+    "caminhos": [
+     {
+      "nome": "Rolar a ponta testada para longe",
+      "descricao": "Recompra a CALL (se subiu) e vende outra dois strikes acima.",
+      "ganha": "Afasta o risco.",
+      "perde": "Pode não sair a crédito.",
+      "quando": "Quando o movimento parece pontual.",
+      "ops": [
+       {
+        "op": "rolarStrike",
+        "perna": "p1",
+        "passos": 2
+       }
+      ]
+     },
+     {
+      "nome": "Recomprar a ponta que virou pó",
+      "descricao": "Recompra a PUT barata e reposiciona mais perto do preço.",
+      "ganha": "Recolhe mais crédito.",
+      "perde": "Aumenta o risco do outro lado.",
+      "quando": "Quando a ponta oposta já vale pouco.",
+      "ops": [
+       {
+        "op": "rolarStrike",
+        "perna": "p2",
+        "passos": 2
+       }
+      ]
+     },
+     {
+      "nome": "Encerrar no stop",
+      "descricao": "Recompra as duas pontas.",
+      "ganha": "Para o risco.",
+      "perde": "Realiza a perda.",
+      "quando": "Na perda de 1× a 2× o crédito (POP).",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p1"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p2"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "nome": "Ficou entre as pontas",
+    "sinais": "O tempo trabalhou a favor.",
+    "pesa": "O POP sugere recomprar com 50% do crédito.",
+    "caminhos": [
+     {
+      "nome": "Recomprar e embolsar",
+      "descricao": "Recompra as duas pontas.",
+      "ganha": "Metade do crédito sem risco.",
+      "perde": "O que restava.",
+      "quando": "Com 50% capturado.",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p1"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p2"
+       }
+      ]
+     },
+     {
+      "nome": "Esperar",
+      "descricao": "Mantém.",
+      "ganha": "Mais crédito.",
+      "perde": "Risco de movimento brusco.",
+      "quando": "Quando falta pouco."
+     }
+    ]
+   }
+  ]
+ },
+ "condor": {
+  "revisado": true,
+  "fonte": "Padrão Opcionando (a partir do POP)",
+  "cenarios": [
+   {
+    "nome": "Um lado foi testado",
+    "sinais": "O ativo chegou a uma das travas vendidas.",
+    "pesa": "Role esse lado para longe ou encerre (POP).",
+    "caminhos": [
+     {
+      "nome": "Rolar o lado testado",
+      "descricao": "Rola a trava de CALL (se subiu) dois strikes acima.",
+      "ganha": "Recoloca o miolo perto do preço.",
+      "perde": "Pode sair a débito.",
+      "quando": "Quando o movimento parece pontual.",
+      "ops": [
+       {
+        "op": "rolarStrike",
+        "perna": "p3",
+        "passos": 2
+       },
+       {
+        "op": "rolarStrike",
+        "perna": "p4",
+        "passos": 2
+       }
+      ]
+     },
+     {
+      "nome": "Encerrar a estrutura",
+      "descricao": "Encerra as quatro pernas.",
+      "ganha": "Para o risco.",
+      "perde": "Realiza o resultado atual.",
+      "quando": "No stop do POP: 1× a 2× o crédito.",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p1"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p2"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p3"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p4"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "nome": "Ficou no miolo",
+    "sinais": "O tempo trabalhou a favor.",
+    "pesa": "O POP sugere recomprar com 50% do crédito.",
+    "caminhos": [
+     {
+      "nome": "Recomprar e embolsar",
+      "descricao": "Encerra as quatro pernas.",
+      "ganha": "Metade do crédito sem risco.",
+      "perde": "O que restava.",
+      "quando": "Com 50% capturado.",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p1"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p2"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p3"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p4"
+       }
+      ]
+     },
+     {
+      "nome": "Esperar",
+      "descricao": "Mantém.",
+      "ganha": "Mais crédito.",
+      "perde": "Risco de movimento brusco.",
+      "quando": "Quando falta pouco."
+     }
+    ]
+   }
+  ]
+ },
+ "borboleta": {
+  "revisado": true,
+  "fonte": "Padrão Opcionando (a partir do POP)",
+  "cenarios": [
+   {
+    "nome": "O preço migrou",
+    "sinais": "O ativo se afastou do corpo da borboleta.",
+    "pesa": "Desloque ou feche e remonte no novo alvo (POP).",
+    "caminhos": [
+     {
+      "nome": "Deslocar a borboleta",
+      "descricao": "Move as três pernas dois strikes na direção do preço (para cima, se subiu).",
+      "ganha": "Recoloca o corpo perto do preço.",
+      "perde": "Custos de rolagem.",
+      "quando": "Quando o novo patamar deve se manter.",
+      "ops": [
+       {
+        "op": "rolarStrike",
+        "perna": "p1",
+        "passos": 2
+       },
+       {
+        "op": "rolarStrike",
+        "perna": "p2",
+        "passos": 2
+       },
+       {
+        "op": "rolarStrike",
+        "perna": "p3",
+        "passos": 2
+       }
+      ]
+     },
+     {
+      "nome": "Encerrar",
+      "descricao": "Encerra as três pernas.",
+      "ganha": "Para o risco.",
+      "perde": "Realiza o resultado atual.",
+      "quando": "Se o preço passar da metade da segunda asa (stop do POP).",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p1"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p2"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p3"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "nome": "Perto do corpo",
+    "sinais": "O ativo está perto do strike vendido.",
+    "pesa": "O POP sugere realizar com 50% a 70% do ganho máximo.",
+    "caminhos": [
+     {
+      "nome": "Realizar",
+      "descricao": "Encerra as três pernas.",
+      "ganha": "Boa parte do máximo.",
+      "perde": "O que faltava até o máximo.",
+      "quando": "Com 50% a 70% do máximo.",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p1"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p2"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p3"
+       }
+      ]
+     },
+     {
+      "nome": "Levar ao vencimento",
+      "descricao": "Mantém.",
+      "ganha": "A chance do máximo.",
+      "perde": "O ganho é sensível a pequenos movimentos no fim.",
+      "quando": "Quando o ativo está bem no corpo."
+     }
+    ]
+   }
+  ]
+ },
+ "colar-perene": {
+  "revisado": true,
+  "fonte": "Padrão Opcionando (a partir do POP)",
+  "cenarios": [
+   {
+    "nome": "Todo mês",
+    "sinais": "A CALL vendida está perto do vencimento.",
+    "pesa": "O POP manda rolar a CALL todo mês.",
+    "caminhos": [
+     {
+      "nome": "Rolar a CALL",
+      "descricao": "Recompra a CALL e vende a do vencimento seguinte.",
+      "ganha": "Novo prêmio para financiar a PUT.",
+      "perde": "Custos de rolagem.",
+      "quando": "Todo mês (POP).",
+      "ops": [
+       {
+        "op": "rolarVencimento",
+        "perna": "p3",
+        "passos": 1
+       }
+      ]
+     },
+     {
+      "nome": "Deixar a CALL vencer",
+      "descricao": "Não relança neste mês.",
+      "ganha": "Alta livre por um mês.",
+      "perde": "Menos financiamento da PUT.",
+      "quando": "Quando espera alta forte."
+     }
+    ]
+   },
+   {
+    "nome": "A PUT ficou curta",
+    "sinais": "Falta pouco para a PUT longa vencer.",
+    "pesa": "O POP manda alongar a PUT.",
+    "caminhos": [
+     {
+      "nome": "Alongar a PUT",
+      "descricao": "Vende a PUT atual e compra a do vencimento seguinte.",
+      "ganha": "Mantém o piso.",
+      "perde": "Paga mais prêmio.",
+      "quando": "Quando a proteção ainda é necessária.",
+      "ops": [
+       {
+        "op": "rolarVencimento",
+        "perna": "p2",
+        "passos": 1
+       }
+      ]
+     },
+     {
+      "nome": "Deixar vencer",
+      "descricao": "Não renova a proteção.",
+      "ganha": "Nenhum custo novo.",
+      "perde": "Fica sem piso.",
+      "quando": "Quando o risco passou."
+     }
+    ]
+   }
+  ]
+ },
+ "mannerheim": {
+  "revisado": true,
+  "fonte": "Metodologia do Prof. Su",
+  "cenarios": [
+   {
+    "nome": "Primeira rolagem das THLs",
+    "sinais": "As PUTs curtas das 3 THLs perderam extrínseco perto do vencimento.",
+    "pesa": "O caixa da rolagem financia o alongamento da THL mais crítica (POP). Os 3 pilares: o ajuste precisa melhorar o delta, o theta ou reduzir a exposição.",
+    "caminhos": [
+     {
+      "nome": "Rolar as curtas e alongar a THL central",
+      "descricao": "Rola as 3 PUTs curtas para a série seguinte e leva a PUT longa da THL do meio 1 mês à frente.",
+      "ganha": "Mantém o fluxo de theta e reforça o strike mais crítico.",
+      "perde": "Usa o caixa da rolagem.",
+      "quando": "No 1º ciclo de rolagem (POP).",
+      "ops": [
+       {
+        "op": "rolarVencimento",
+        "perna": "p2",
+        "passos": 1
+       },
+       {
+        "op": "rolarVencimento",
+        "perna": "p4",
+        "passos": 1
+       },
+       {
+        "op": "rolarVencimento",
+        "perna": "p6",
+        "passos": 1
+       },
+       {
+        "op": "rolarVencimento",
+        "perna": "p5",
+        "passos": 1
+       }
+      ]
+     },
+     {
+      "nome": "Rolar só as curtas",
+      "descricao": "Rola as 3 PUTs curtas e guarda o crédito.",
+      "ganha": "Crédito no caixa.",
+      "perde": "Não reforça a THL crítica.",
+      "quando": "Quando a THL central ainda tem prazo suficiente.",
+      "ops": [
+       {
+        "op": "rolarVencimento",
+        "perna": "p2",
+        "passos": 1
+       },
+       {
+        "op": "rolarVencimento",
+        "perna": "p4",
+        "passos": 1
+       },
+       {
+        "op": "rolarVencimento",
+        "perna": "p6",
+        "passos": 1
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "nome": "Rolagens seguintes",
+    "sinais": "O fluxo credor das THLs é recorrente.",
+    "pesa": "Neutralizar aos poucos o delta estrutural negativo da CALL vendida (POP). Os 3 pilares: o ajuste precisa melhorar o delta, o theta ou reduzir a exposição.",
+    "caminhos": [
+     {
+      "nome": "Comprar proteção de CALL longa",
+      "descricao": "Compra 1 CALL OTM (dois strikes acima) no vencimento mais longo, com o caixa das rolagens.",
+      "ganha": "Reduz o risco da CALL vendida e o delta negativo.",
+      "perde": "Usa o caixa acumulado.",
+      "quando": "A cada ciclo, até zerar o delta estrutural.",
+      "ops": [
+       {
+        "op": "adicionar",
+        "tipo": "call",
+        "q": 1,
+        "strikePassos": 2,
+        "vencIndice": -1
+       }
+      ]
+     },
+     {
+      "nome": "Travar a CALL vendida em diagonal",
+      "descricao": "Compra 1 CALL um strike acima, no vencimento seguinte.",
+      "ganha": "Limita a perda na alta já no próximo vencimento.",
+      "perde": "Custa mais caro que a CALL longa distante.",
+      "quando": "Quando a alta preocupa no curto prazo.",
+      "ops": [
+       {
+        "op": "adicionar",
+        "tipo": "call",
+        "q": 1,
+        "strikePassos": 1,
+        "vencIndice": 1
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "quatermine-v1": {
+  "revisado": true,
+  "fonte": "Metodologia do Prof. Su",
+  "cenarios": [
+   {
+    "nome": "Rolagem das 3 vendidas",
+    "sinais": "As pontas curtas (CALL e 2 PUTs) perderam extrínseco.",
+    "pesa": "O crédito das vendidas paga o alongamento das compradas (POP). Os 3 pilares: o ajuste precisa melhorar o delta, o theta ou reduzir a exposição.",
+    "caminhos": [
+     {
+      "nome": "Rolar as vendidas e jogar as compradas 1 mês à frente",
+      "descricao": "Rola as 3 curtas e leva as 3 longas para o vencimento seguinte, sem custo do bolso.",
+      "ganha": "Abre distância temporal entre vendidas e compradas.",
+      "perde": "Usa o crédito da rolagem.",
+      "quando": "Até atingir 6 a 10 semanas de distância (POP).",
+      "ops": [
+       {
+        "op": "rolarVencimento",
+        "perna": "p1",
+        "passos": 1
+       },
+       {
+        "op": "rolarVencimento",
+        "perna": "p3",
+        "passos": 1
+       },
+       {
+        "op": "rolarVencimento",
+        "perna": "p5",
+        "passos": 1
+       },
+       {
+        "op": "rolarVencimento",
+        "perna": "p2",
+        "passos": 1
+       },
+       {
+        "op": "rolarVencimento",
+        "perna": "p4",
+        "passos": 1
+       },
+       {
+        "op": "rolarVencimento",
+        "perna": "p6",
+        "passos": 1
+       }
+      ]
+     },
+     {
+      "nome": "Rolar só as vendidas",
+      "descricao": "Rola as 3 curtas e guarda o crédito.",
+      "ganha": "Crédito sacado como lucro.",
+      "perde": "Não aumenta a distância temporal.",
+      "quando": "Quando a distância de 6 a 10 semanas já foi atingida (POP).",
+      "ops": [
+       {
+        "op": "rolarVencimento",
+        "perna": "p1",
+        "passos": 1
+       },
+       {
+        "op": "rolarVencimento",
+        "perna": "p3",
+        "passos": 1
+       },
+       {
+        "op": "rolarVencimento",
+        "perna": "p5",
+        "passos": 1
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "quatermine-v2": {
+  "revisado": true,
+  "fonte": "Metodologia do Prof. Su",
+  "cenarios": [
+   {
+    "nome": "Primeiro ciclo de rolagem",
+    "sinais": "Os boosters de PUT geraram crédito alto na semana.",
+    "pesa": "O crédito permite alongar as 3 compradas de uma vez (POP). Os 3 pilares: o ajuste precisa melhorar o delta, o theta ou reduzir a exposição.",
+    "caminhos": [
+     {
+      "nome": "Rolar os boosters e alongar as 3 compradas",
+      "descricao": "Rola as PUTs vendidas e leva a CALL e as PUTs longas 1 mês à frente.",
+      "ganha": "Proteções mais longas sem custo do bolso.",
+      "perde": "Usa o crédito do ciclo.",
+      "quando": "No 1º ciclo (POP).",
+      "ops": [
+       {
+        "op": "rolarVencimento",
+        "perna": "p2",
+        "passos": 1
+       },
+       {
+        "op": "rolarVencimento",
+        "perna": "p4",
+        "passos": 1
+       },
+       {
+        "op": "rolarVencimento",
+        "perna": "p1",
+        "passos": 1
+       },
+       {
+        "op": "rolarVencimento",
+        "perna": "p3",
+        "passos": 1
+       },
+       {
+        "op": "rolarVencimento",
+        "perna": "p5",
+        "passos": 1
+       }
+      ]
+     },
+     {
+      "nome": "Rolar só as vendidas",
+      "descricao": "Rola as PUTs vendidas e guarda o crédito.",
+      "ganha": "Caixa imediato.",
+      "perde": "Proteções continuam curtas.",
+      "quando": "Quando as compradas ainda têm prazo.",
+      "ops": [
+       {
+        "op": "rolarVencimento",
+        "perna": "p2",
+        "passos": 1
+       },
+       {
+        "op": "rolarVencimento",
+        "perna": "p4",
+        "passos": 1
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "nome": "Ciclos seguintes",
+    "sinais": "As compradas já foram alongadas.",
+    "pesa": "Reduzir a taxa de assunção da PUT (POP). Os 3 pilares: o ajuste precisa melhorar o delta, o theta ou reduzir a exposição.",
+    "caminhos": [
+     {
+      "nome": "Puxar as PUTs vendidas para baixo",
+      "descricao": "Rola as vendidas para a série seguinte, um strike abaixo.",
+      "ganha": "Assunção mais baixa.",
+      "perde": "Menos crédito por ciclo.",
+      "quando": "Com o excedente dos ciclos anteriores (POP).",
+      "ops": [
+       {
+        "op": "rolarVencimento",
+        "perna": "p2",
+        "passos": 1
+       },
+       {
+        "op": "rolarStrike",
+        "perna": "p2",
+        "passos": -1
+       },
+       {
+        "op": "rolarVencimento",
+        "perna": "p4",
+        "passos": 1
+       },
+       {
+        "op": "rolarStrike",
+        "perna": "p4",
+        "passos": -1
+       }
+      ]
+     },
+     {
+      "nome": "Manter a assunção",
+      "descricao": "Rola as vendidas no mesmo strike.",
+      "ganha": "Mais crédito por ciclo.",
+      "perde": "Assunção continua no mesmo nível.",
+      "quando": "Quando o papel segue firme.",
+      "ops": [
+       {
+        "op": "rolarVencimento",
+        "perna": "p2",
+        "passos": 1
+       },
+       {
+        "op": "rolarVencimento",
+        "perna": "p4",
+        "passos": 1
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "hexabox": {
+  "revisado": true,
+  "fonte": "Metodologia do Prof. Su",
+  "cenarios": [
+   {
+    "nome": "Primeira rolagem",
+    "sinais": "As duas curtas de cada lado perderam extrínseco.",
+    "pesa": "A dupla rolagem recupera o débito da montagem (POP). Os 3 pilares: o ajuste precisa melhorar o delta, o theta ou reduzir a exposição.",
+    "caminhos": [
+     {
+      "nome": "Rolar as curtas dos dois lados",
+      "descricao": "Rola as CALLs e as PUTs curtas para a série seguinte.",
+      "ganha": "Recupera o custo da montagem já na 1ª ou 2ª semana.",
+      "perde": "Mantém o risco no miolo.",
+      "quando": "No 1º ciclo (POP).",
+      "ops": [
+       {
+        "op": "rolarVencimento",
+        "perna": "p2",
+        "passos": 1
+       },
+       {
+        "op": "rolarVencimento",
+        "perna": "p4",
+        "passos": 1
+       }
+      ]
+     },
+     {
+      "nome": "Encerrar a estrutura",
+      "descricao": "Encerra as 6 pontas.",
+      "ganha": "Para o risco.",
+      "perde": "Abre mão da máquina de liquidez.",
+      "quando": "Quando o ativo saiu da faixa central.",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p1"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p2"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p3"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p4"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p5"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p6"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "nome": "Rolagens seguintes",
+    "sinais": "O custo da montagem já foi recuperado.",
+    "pesa": "O caixa passa a ser lucro livre (POP). Os 3 pilares: o ajuste precisa melhorar o delta, o theta ou reduzir a exposição.",
+    "caminhos": [
+     {
+      "nome": "Rolar as curtas e alongar as asas compradas",
+      "descricao": "Rola as curtas e leva as asas longas 1 mês à frente.",
+      "ganha": "Torna a estrutura perene.",
+      "perde": "Usa parte do caixa.",
+      "quando": "A cada ciclo (POP).",
+      "ops": [
+       {
+        "op": "rolarVencimento",
+        "perna": "p2",
+        "passos": 1
+       },
+       {
+        "op": "rolarVencimento",
+        "perna": "p4",
+        "passos": 1
+       },
+       {
+        "op": "rolarVencimento",
+        "perna": "p5",
+        "passos": 1
+       },
+       {
+        "op": "rolarVencimento",
+        "perna": "p6",
+        "passos": 1
+       }
+      ]
+     },
+     {
+      "nome": "Rolar só as curtas",
+      "descricao": "Rola as curtas e saca o caixa.",
+      "ganha": "Lucro no bolso.",
+      "perde": "As asas encurtam.",
+      "quando": "Quando as asas ainda têm prazo.",
+      "ops": [
+       {
+        "op": "rolarVencimento",
+        "perna": "p2",
+        "passos": 1
+       },
+       {
+        "op": "rolarVencimento",
+        "perna": "p4",
+        "passos": 1
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "monada-basica-call": {
+  "revisado": true,
+  "fonte": "Metodologia do Prof. Su",
+  "cenarios": [
+   {
+    "nome": "Rolagem massiva",
+    "sinais": "As CALLs e PUTs curtas perderam extrínseco.",
+    "pesa": "A 1ª rolagem recupera quase todo o aporte (POP). Os 3 pilares: o ajuste precisa melhorar o delta, o theta ou reduzir a exposição.",
+    "caminhos": [
+     {
+      "nome": "Rolar as pontas vendidas",
+      "descricao": "Rola as CALLs curtas e as PUTs curtas para a série seguinte.",
+      "ganha": "Recupera o débito da montagem.",
+      "perde": "Mantém a exposição residual.",
+      "quando": "No 1º ciclo (POP).",
+      "ops": [
+       {
+        "op": "rolarVencimento",
+        "perna": "p2",
+        "passos": 1
+       },
+       {
+        "op": "rolarVencimento",
+        "perna": "p3",
+        "passos": 1
+       }
+      ]
+     },
+     {
+      "nome": "Rolar e comprar PUT profunda longa",
+      "descricao": "Rola as curtas e compra uma fração de PUT bem dentro do dinheiro, no vencimento mais longo.",
+      "ganha": "Constrói a proteção patrimonial perene.",
+      "perde": "Usa o caixa da rolagem.",
+      "quando": "Nos ciclos seguintes (POP).",
+      "ops": [
+       {
+        "op": "rolarVencimento",
+        "perna": "p2",
+        "passos": 1
+       },
+       {
+        "op": "rolarVencimento",
+        "perna": "p3",
+        "passos": 1
+       },
+       {
+        "op": "adicionar",
+        "tipo": "put",
+        "q": 0.1,
+        "strikePassos": 4,
+        "vencIndice": -1
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "monada-basica-put": {
+  "revisado": true,
+  "fonte": "Metodologia do Prof. Su",
+  "cenarios": [
+   {
+    "nome": "Rolagem massiva",
+    "sinais": "As PUTs e CALLs curtas perderam extrínseco.",
+    "pesa": "A 1ª rolagem recupera quase todo o aporte (POP). Os 3 pilares: o ajuste precisa melhorar o delta, o theta ou reduzir a exposição.",
+    "caminhos": [
+     {
+      "nome": "Rolar as pontas vendidas",
+      "descricao": "Rola as PUTs curtas e as CALLs curtas para a série seguinte.",
+      "ganha": "Recupera o débito da montagem.",
+      "perde": "Mantém a exposição residual.",
+      "quando": "No 1º ciclo (POP).",
+      "ops": [
+       {
+        "op": "rolarVencimento",
+        "perna": "p2",
+        "passos": 1
+       },
+       {
+        "op": "rolarVencimento",
+        "perna": "p3",
+        "passos": 1
+       }
+      ]
+     },
+     {
+      "nome": "Rolar e comprar PUT profunda longa",
+      "descricao": "Rola as curtas e compra uma fração de PUT bem dentro do dinheiro, no vencimento mais longo.",
+      "ganha": "Proteção patrimonial perene.",
+      "perde": "Usa o caixa da rolagem.",
+      "quando": "Nos ciclos seguintes (POP).",
+      "ops": [
+       {
+        "op": "rolarVencimento",
+        "perna": "p2",
+        "passos": 1
+       },
+       {
+        "op": "rolarVencimento",
+        "perna": "p3",
+        "passos": 1
+       },
+       {
+        "op": "adicionar",
+        "tipo": "put",
+        "q": 0.1,
+        "strikePassos": 4,
+        "vencIndice": -1
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "anakha": {
+  "revisado": true,
+  "fonte": "Metodologia do Prof. Su",
+  "cenarios": [
+   {
+    "nome": "O prêmio desgastou na semana",
+    "sinais": "O strangle curto perdeu boa parte do extrínseco.",
+    "pesa": "O POP manda encerrar a cada ciclo, sem economizar na recompra. Os 3 pilares: o ajuste precisa melhorar o delta, o theta ou reduzir a exposição.",
+    "caminhos": [
+     {
+      "nome": "Encerrar o ciclo",
+      "descricao": "Recompra o strangle e vende a CALL de cobertura.",
+      "ganha": "Embolsa a diferença do crédito.",
+      "perde": "O pouco que restava de prêmio.",
+      "quando": "A cada ciclo (POP).",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p1"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p2"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p3"
+       }
+      ]
+     },
+     {
+      "nome": "Reduzir o lote",
+      "descricao": "Recompra metade do strangle.",
+      "ganha": "Diminui a exposição (disciplina de lote do POP).",
+      "perde": "Metade do crédito restante.",
+      "quando": "Quando o lote está grande para o notional.",
+      "ops": [
+       {
+        "op": "quantidade",
+        "perna": "p1",
+        "q": -0.5
+       },
+       {
+        "op": "quantidade",
+        "perna": "p2",
+        "q": -0.5
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "b1": {
+  "revisado": true,
+  "fonte": "Metodologia do Prof. Su",
+  "cenarios": [
+   {
+    "nome": "Giro de 3 a 5 du",
+    "sinais": "As duas vendidas no miolo ATM perderam valor rápido.",
+    "pesa": "Não rolar o B1: é um giro tático (POP). Os 3 pilares: o ajuste precisa melhorar o delta, o theta ou reduzir a exposição.",
+    "caminhos": [
+     {
+      "nome": "Zerar a estrutura",
+      "descricao": "Encerra as 4 pontas e embolsa o ganho.",
+      "ganha": "Coloca o lucro no bolso para remontar do zero.",
+      "perde": "O que ainda restaria.",
+      "quando": "Atingido o ganho de 30 a 40 centavos (POP).",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p1"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p2"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p3"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p4"
+       }
+      ]
+     },
+     {
+      "nome": "Esperar o giro completar",
+      "descricao": "Mantém sem rolar.",
+      "ganha": "A chance de completar o ganho alvo.",
+      "perde": "Fica exposto a um movimento brusco.",
+      "quando": "Quando o giro ainda está dentro de 3 a 5 du."
+     }
+    ]
+   }
+  ]
+ },
+ "b2": {
+  "revisado": true,
+  "fonte": "Metodologia do Prof. Su",
+  "cenarios": [
+   {
+    "nome": "Rolagem mensal ou semanal",
+    "sinais": "As vendidas afastadas perderam extrínseco.",
+    "pesa": "A regra dos 10%: recomprar 10% a mais do que se rola (POP). Os 3 pilares: o ajuste precisa melhorar o delta, o theta ou reduzir a exposição.",
+    "caminhos": [
+     {
+      "nome": "Rolar com redução de 10%",
+      "descricao": "Reduz em 10% os lotes vendidos e rola o restante para a série seguinte.",
+      "ganha": "Afasta os strikes de risco e acumula sobras compradas a custo zero.",
+      "perde": "Um pouco menos de crédito por ciclo.",
+      "quando": "Em toda rolagem credora (POP).",
+      "ops": [
+       {
+        "op": "quantidade",
+        "perna": "p2",
+        "q": -1.8
+       },
+       {
+        "op": "rolarVencimento",
+        "perna": "p2",
+        "passos": 1
+       },
+       {
+        "op": "quantidade",
+        "perna": "p4",
+        "q": -1.8
+       },
+       {
+        "op": "rolarVencimento",
+        "perna": "p4",
+        "passos": 1
+       }
+      ]
+     },
+     {
+      "nome": "Rolar sem redução",
+      "descricao": "Rola os lotes vendidos inteiros.",
+      "ganha": "Mais crédito no ciclo.",
+      "perde": "Não afasta o risco nem acumula sobras.",
+      "quando": "Contra a regra dos 10% do POP.",
+      "ops": [
+       {
+        "op": "rolarVencimento",
+        "perna": "p2",
+        "passos": 1
+       },
+       {
+        "op": "rolarVencimento",
+        "perna": "p4",
+        "passos": 1
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "b3-2x3": {
+  "revisado": true,
+  "fonte": "Metodologia do Prof. Su",
+  "cenarios": [
+   {
+    "nome": "O ativo chegou ao miolo",
+    "sinais": "O preço está entre os strikes comprados e vendidos.",
+    "pesa": "Encerramento parcial ou ajuste proporcional, sem violar a montagem zerada (POP). Os 3 pilares: o ajuste precisa melhorar o delta, o theta ou reduzir a exposição.",
+    "caminhos": [
+     {
+      "nome": "Encerramento parcial proporcional",
+      "descricao": "Reduz à metade todas as pernas, mantendo a proporção 2×3.",
+      "ganha": "Realiza parte do miolo.",
+      "perde": "Metade do potencial restante.",
+      "quando": "Quando o miolo já entregou boa parte (POP).",
+      "ops": [
+       {
+        "op": "quantidade",
+        "perna": "p1",
+        "q": 1
+       },
+       {
+        "op": "quantidade",
+        "perna": "p2",
+        "q": -1.5
+       },
+       {
+        "op": "quantidade",
+        "perna": "p3",
+        "q": 1
+       },
+       {
+        "op": "quantidade",
+        "perna": "p4",
+        "q": -1.5
+       }
+      ]
+     },
+     {
+      "nome": "Encerrar tudo",
+      "descricao": "Encerra as 4 pontas.",
+      "ganha": "Realiza o miolo inteiro.",
+      "perde": "O que restaria até o vencimento.",
+      "quando": "Quando a volatilidade ameaça tirar o ativo do miolo.",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p1"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p2"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p3"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p4"
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "b3-3x4": {
+  "revisado": true,
+  "fonte": "Metodologia do Prof. Su",
+  "cenarios": [
+   {
+    "nome": "O ativo chegou ao miolo",
+    "sinais": "O preço está entre os strikes comprados e vendidos.",
+    "pesa": "Encerramento parcial ou ajuste proporcional, sem violar a montagem zerada (POP). Os 3 pilares: o ajuste precisa melhorar o delta, o theta ou reduzir a exposição.",
+    "caminhos": [
+     {
+      "nome": "Encerramento parcial proporcional",
+      "descricao": "Reduz à metade todas as pernas, mantendo a proporção 3×4.",
+      "ganha": "Realiza parte do miolo.",
+      "perde": "Metade do potencial restante.",
+      "quando": "Quando o miolo já entregou boa parte (POP).",
+      "ops": [
+       {
+        "op": "quantidade",
+        "perna": "p1",
+        "q": 1.5
+       },
+       {
+        "op": "quantidade",
+        "perna": "p2",
+        "q": -2
+       },
+       {
+        "op": "quantidade",
+        "perna": "p3",
+        "q": 1.5
+       },
+       {
+        "op": "quantidade",
+        "perna": "p4",
+        "q": -2
+       }
+      ]
+     },
+     {
+      "nome": "Encerrar tudo",
+      "descricao": "Encerra as 4 pontas.",
+      "ganha": "Realiza o miolo inteiro.",
+      "perde": "O que restaria até o vencimento.",
+      "quando": "Quando a volatilidade ameaça tirar o ativo do miolo.",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p1"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p2"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p3"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p4"
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "thl-call": {
+  "revisado": true,
+  "fonte": "Metodologia do Prof. Su",
+  "cenarios": [
+   {
+    "nome": "Faltando de 12 a 6 du para a ponta curta",
+    "sinais": "A ponta curta entra no efeito hole.",
+    "pesa": "A THL é montada com mais de 22 du; entre 12 e 6 du, a curta é rolada ou encerrada (POP). Os 3 pilares: o ajuste precisa melhorar o delta, o theta ou reduzir a exposição.",
+    "caminhos": [
+     {
+      "nome": "Rolar a ponta curta",
+      "descricao": "Rola a opção curta para a série seguinte, mesmo strike.",
+      "ganha": "Mantém o fluxo de theta.",
+      "perde": "Custos de rolagem.",
+      "quando": "Entre 12 e 6 du (POP).",
+      "ops": [
+       {
+        "op": "rolarVencimento",
+        "perna": "p2",
+        "passos": 1
+       }
+      ]
+     },
+     {
+      "nome": "Encerrar a THL",
+      "descricao": "Encerra as duas pernas.",
+      "ganha": "Evita o desgaste da curta no efeito hole.",
+      "perde": "O fluxo dos próximos ciclos.",
+      "quando": "Quando a estrutura cumpriu o objetivo.",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p2"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p1"
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "thl-put": {
+  "revisado": true,
+  "fonte": "Metodologia do Prof. Su",
+  "cenarios": [
+   {
+    "nome": "Faltando de 12 a 6 du para a ponta curta",
+    "sinais": "A ponta curta entra no efeito hole.",
+    "pesa": "A THL é montada com mais de 22 du; entre 12 e 6 du, a curta é rolada ou encerrada (POP). Os 3 pilares: o ajuste precisa melhorar o delta, o theta ou reduzir a exposição.",
+    "caminhos": [
+     {
+      "nome": "Rolar a ponta curta",
+      "descricao": "Rola a opção curta para a série seguinte, mesmo strike.",
+      "ganha": "Mantém o fluxo de theta.",
+      "perde": "Custos de rolagem.",
+      "quando": "Entre 12 e 6 du (POP).",
+      "ops": [
+       {
+        "op": "rolarVencimento",
+        "perna": "p1",
+        "passos": 1
+       }
+      ]
+     },
+     {
+      "nome": "Encerrar a THL",
+      "descricao": "Encerra as duas pernas.",
+      "ganha": "Evita o desgaste da curta no efeito hole.",
+      "perde": "O fluxo dos próximos ciclos.",
+      "quando": "Quando a estrutura cumpriu o objetivo.",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p1"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p2"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "nome": "O ativo caiu muito abaixo do strike",
+    "sinais": "O preço se afastou bastante da linha dos strikes; a THL pode ter perda total.",
+    "pesa": "Nas anotações de aula: montar um hedge com broken wings. Os 3 pilares: o ajuste precisa melhorar o delta, o theta ou reduzir a exposição.",
+    "caminhos": [
+     {
+      "nome": "Hedge com broken wings",
+      "descricao": "Monta uma borboleta de asa quebrada para aliviar a PUT vendida (delta estrutural de no máximo −1).",
+      "ganha": "Delimita o risco da queda.",
+      "perde": "Exige montar a BWB com crédito.",
+      "quando": "Quando o ativo caiu muito abaixo do strike.",
+      "estrutura": "bwb"
+     },
+     {
+      "nome": "Encerrar a THL",
+      "descricao": "Encerra as duas pernas.",
+      "ganha": "Para a perda.",
+      "perde": "Realiza o resultado.",
+      "quando": "Quando não cabe um hedge.",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p1"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p2"
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "thl-perene": {
+  "revisado": true,
+  "fonte": "Metodologia do Prof. Su",
+  "cenarios": [
+   {
+    "nome": "Faltando de 12 a 6 du para a ponta curta",
+    "sinais": "A ponta curta entra no efeito hole.",
+    "pesa": "A THL é montada com mais de 22 du; entre 12 e 6 du, a curta é rolada ou encerrada (POP). Os 3 pilares: o ajuste precisa melhorar o delta, o theta ou reduzir a exposição.",
+    "caminhos": [
+     {
+      "nome": "Rolar a ponta curta",
+      "descricao": "Rola a opção curta para a série seguinte, mesmo strike.",
+      "ganha": "Mantém o fluxo de theta.",
+      "perde": "Custos de rolagem.",
+      "quando": "Entre 12 e 6 du (POP).",
+      "ops": [
+       {
+        "op": "rolarVencimento",
+        "perna": "p1",
+        "passos": 1
+       }
+      ]
+     },
+     {
+      "nome": "Encerrar a THL",
+      "descricao": "Encerra as duas pernas.",
+      "ganha": "Evita o desgaste da curta no efeito hole.",
+      "perde": "O fluxo dos próximos ciclos.",
+      "quando": "Quando a estrutura cumpriu o objetivo.",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p1"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p2"
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "clade": {
+  "revisado": true,
+  "fonte": "Metodologia do Prof. Su",
+  "cenarios": [
+   {
+    "nome": "Faltando de 12 a 6 du para as curtas",
+    "sinais": "As curtas dos dois lados entram no efeito hole.",
+    "pesa": "Rolar ou encerrar as curtas, como na THL (POP). Os 3 pilares: o ajuste precisa melhorar o delta, o theta ou reduzir a exposição.",
+    "caminhos": [
+     {
+      "nome": "Rolar as curtas",
+      "descricao": "Rola as CALLs e PUTs curtas para a série seguinte.",
+      "ganha": "Mantém o fluxo de theta dos dois lados.",
+      "perde": "Custos de rolagem.",
+      "quando": "Entre 12 e 6 du (POP).",
+      "ops": [
+       {
+        "op": "rolarVencimento",
+        "perna": "p2",
+        "passos": 1
+       },
+       {
+        "op": "rolarVencimento",
+        "perna": "p4",
+        "passos": 1
+       }
+      ]
+     },
+     {
+      "nome": "Encerrar a estrutura",
+      "descricao": "Encerra as 4 pernas.",
+      "ganha": "Evita o desgaste das curtas.",
+      "perde": "O fluxo dos próximos ciclos.",
+      "quando": "Quando a estrutura cumpriu o objetivo.",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p1"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p2"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p3"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p4"
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "straddle-long-put": {
+  "revisado": true,
+  "fonte": "Metodologia do Prof. Su",
+  "cenarios": [
+   {
+    "nome": "Rolagem mensal do straddle",
+    "sinais": "O straddle curto perdeu extrínseco perto do vencimento.",
+    "pesa": "Rolar mensalmente com a redução de 10% (POP). Os 3 pilares: o ajuste precisa melhorar o delta, o theta ou reduzir a exposição.",
+    "caminhos": [
+     {
+      "nome": "Rolar com redução de 10%",
+      "descricao": "Reduz em 10% a CALL e a PUT curtas e rola o restante para a série seguinte.",
+      "ganha": "Afasta o risco aos poucos; a PUT longa segue como cobertura.",
+      "perde": "Um pouco menos de crédito.",
+      "quando": "Em toda rolagem credora (POP).",
+      "ops": [
+       {
+        "op": "quantidade",
+        "perna": "p2",
+        "q": -0.9
+       },
+       {
+        "op": "rolarVencimento",
+        "perna": "p2",
+        "passos": 1
+       },
+       {
+        "op": "quantidade",
+        "perna": "p3",
+        "q": -0.9
+       },
+       {
+        "op": "rolarVencimento",
+        "perna": "p3",
+        "passos": 1
+       }
+      ]
+     },
+     {
+      "nome": "Rolar sem redução",
+      "descricao": "Rola o straddle inteiro.",
+      "ganha": "Mais crédito no ciclo.",
+      "perde": "Não afasta o risco.",
+      "quando": "Contra a regra dos 10% do POP.",
+      "ops": [
+       {
+        "op": "rolarVencimento",
+        "perna": "p2",
+        "passos": 1
+       },
+       {
+        "op": "rolarVencimento",
+        "perna": "p3",
+        "passos": 1
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "nome": "No vencimento, um lado virou pó",
+    "sinais": "O mercado se afastou; o resíduo valorizado da ponta oposta sobrou.",
+    "pesa": "O resíduo vira matéria-prima de uma estrutura recombinante (POP). Os 3 pilares: o ajuste precisa melhorar o delta, o theta ou reduzir a exposição.",
+    "caminhos": [
+     {
+      "nome": "Recombinar o resíduo",
+      "descricao": "Encerra a ponta que virou pó e mantém o resíduo e a PUT longa para montar boosters reversos e travas a custo zero.",
+      "ganha": "Reaproveita o resíduo sem novo aporte.",
+      "perde": "Exige montar a nova estrutura com cuidado.",
+      "quando": "No vencimento (POP).",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p2"
+       }
+      ]
+     },
+     {
+      "nome": "Encerrar o straddle",
+      "descricao": "Encerra as duas curtas e mantém a PUT longa.",
+      "ganha": "Simplifica a custódia.",
+      "perde": "Abre mão da recombinação.",
+      "quando": "Quando não há estrutura recombinante que caiba.",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p2"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p3"
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "straddle-perene": {
+  "revisado": true,
+  "fonte": "Metodologia do Prof. Su",
+  "cenarios": [
+   {
+    "nome": "Rolagem do straddle",
+    "sinais": "O straddle curto perdeu extrínseco.",
+    "pesa": "Rolar aplicando a redução de 10% (POP). Os 3 pilares: o ajuste precisa melhorar o delta, o theta ou reduzir a exposição.",
+    "caminhos": [
+     {
+      "nome": "Rolar com redução de 10%",
+      "descricao": "Reduz em 10% a PUT e a CALL curtas e rola o restante.",
+      "ganha": "Afasta o risco aos poucos.",
+      "perde": "Um pouco menos de crédito.",
+      "quando": "Em toda rolagem credora (POP).",
+      "ops": [
+       {
+        "op": "quantidade",
+        "perna": "p1",
+        "q": -0.9
+       },
+       {
+        "op": "rolarVencimento",
+        "perna": "p1",
+        "passos": 1
+       },
+       {
+        "op": "quantidade",
+        "perna": "p2",
+        "q": -0.9
+       },
+       {
+        "op": "rolarVencimento",
+        "perna": "p2",
+        "passos": 1
+       }
+      ]
+     },
+     {
+      "nome": "Rolar sem redução",
+      "descricao": "Rola o straddle inteiro.",
+      "ganha": "Mais crédito no ciclo.",
+      "perde": "Não afasta o risco.",
+      "quando": "Contra a regra dos 10% do POP.",
+      "ops": [
+       {
+        "op": "rolarVencimento",
+        "perna": "p1",
+        "passos": 1
+       },
+       {
+        "op": "rolarVencimento",
+        "perna": "p2",
+        "passos": 1
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "linha-mannerheim": {
+  "revisado": true,
+  "fonte": "Metodologia do Prof. Su",
+  "cenarios": [
+   {
+    "nome": "Queda até o pivô inferior",
+    "sinais": "O ativo desceu um degrau da grade de pivôs.",
+    "pesa": "Regra de ouro do gradiente: nunca aumentar o lote total; rebalancear por equivalência, sem aporte (POP). Os 3 pilares: o ajuste precisa melhorar o delta, o theta ou reduzir a exposição.",
+    "caminhos": [
+     {
+      "nome": "Rolar a PUT vendida",
+      "descricao": "Rola a PUT vendida do pivô para a série seguinte.",
+      "ganha": "Mantém o pivô gerando caixa.",
+      "perde": "Mantém a exposição na queda.",
+      "quando": "Quando o degrau abaixo ainda é aceitável (POP).",
+      "ops": [
+       {
+        "op": "rolarVencimento",
+        "perna": "p1",
+        "passos": 1
+       }
+      ]
+     },
+     {
+      "nome": "Recomprar parte e alongar a proteção",
+      "descricao": "Recompra metade da PUT vendida e compra meia PUT no vencimento mais longo.",
+      "ganha": "Reduz a exposição e cria proteção longa.",
+      "perde": "Menos caixa no ciclo.",
+      "quando": "Quando a queda pode continuar (POP).",
+      "ops": [
+       {
+        "op": "quantidade",
+        "perna": "p1",
+        "q": -0.5
+       },
+       {
+        "op": "adicionar",
+        "tipo": "put",
+        "q": 0.5,
+        "strikePassos": 0,
+        "vencIndice": -1
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "nome": "Alta além do pivô",
+    "sinais": "A PUT curta derreteu e virou pó; as CALLs valorizaram.",
+    "pesa": "Desmontar a perna CALL com lucro e subir o degrau (POP). Os 3 pilares: o ajuste precisa melhorar o delta, o theta ou reduzir a exposição.",
+    "caminhos": [
+     {
+      "nome": "Desmontar a perna CALL",
+      "descricao": "Encerra as CALLs do pivô com lucro.",
+      "ganha": "Realiza a alta do degrau.",
+      "perde": "A alta além deste degrau.",
+      "quando": "Quando o ativo chegou ao pivô superior (POP).",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p2"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p3"
+       }
+      ]
+     },
+     {
+      "nome": "Recomprar a PUT que virou pó",
+      "descricao": "Recompra a PUT vendida barata (regra dos R$ 0,20).",
+      "ganha": "Libera margem.",
+      "perde": "Os últimos centavos de prêmio.",
+      "quando": "Quando a PUT vale R$ 0,20 ou menos.",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p1"
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "gl-shortput-booster": {
+  "revisado": true,
+  "fonte": "Metodologia do Prof. Su",
+  "cenarios": [
+   {
+    "nome": "Queda até o pivô inferior",
+    "sinais": "O ativo desceu um degrau da grade de pivôs.",
+    "pesa": "Regra de ouro do gradiente: nunca aumentar o lote total; rebalancear por equivalência, sem aporte (POP). Os 3 pilares: o ajuste precisa melhorar o delta, o theta ou reduzir a exposição.",
+    "caminhos": [
+     {
+      "nome": "Rolar a PUT vendida",
+      "descricao": "Rola a PUT vendida do pivô para a série seguinte.",
+      "ganha": "Mantém o pivô gerando caixa.",
+      "perde": "Mantém a exposição na queda.",
+      "quando": "Quando o degrau abaixo ainda é aceitável (POP).",
+      "ops": [
+       {
+        "op": "rolarVencimento",
+        "perna": "p2",
+        "passos": 1
+       }
+      ]
+     },
+     {
+      "nome": "Recomprar parte e alongar a proteção",
+      "descricao": "Recompra metade da PUT vendida e compra meia PUT no vencimento mais longo.",
+      "ganha": "Reduz a exposição e cria proteção longa.",
+      "perde": "Menos caixa no ciclo.",
+      "quando": "Quando a queda pode continuar (POP).",
+      "ops": [
+       {
+        "op": "quantidade",
+        "perna": "p2",
+        "q": -0.5
+       },
+       {
+        "op": "adicionar",
+        "tipo": "put",
+        "q": 0.5,
+        "strikePassos": 0,
+        "vencIndice": -1
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "nome": "Alta além do pivô",
+    "sinais": "A PUT curta derreteu e virou pó; as CALLs valorizaram.",
+    "pesa": "Desmontar a perna CALL com lucro e subir o degrau (POP). Os 3 pilares: o ajuste precisa melhorar o delta, o theta ou reduzir a exposição.",
+    "caminhos": [
+     {
+      "nome": "Desmontar a perna CALL",
+      "descricao": "Encerra as CALLs do pivô com lucro.",
+      "ganha": "Realiza a alta do degrau.",
+      "perde": "A alta além deste degrau.",
+      "quando": "Quando o ativo chegou ao pivô superior (POP).",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p3"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p4"
+       }
+      ]
+     },
+     {
+      "nome": "Recomprar a PUT que virou pó",
+      "descricao": "Recompra a PUT vendida barata (regra dos R$ 0,20).",
+      "ganha": "Libera margem.",
+      "perde": "Os últimos centavos de prêmio.",
+      "quando": "Quando a PUT vale R$ 0,20 ou menos.",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p2"
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "asym-wings-diagonal": {
+  "revisado": true,
+  "fonte": "Metodologia do Prof. Su",
+  "cenarios": [
+   {
+    "nome": "Queda até o miolo",
+    "sinais": "O ativo desceu até as PUTs vendidas.",
+    "pesa": "Regra de ouro do gradiente: nunca aumentar o lote total; rebalancear por equivalência, sem aporte (POP). Os 3 pilares: o ajuste precisa melhorar o delta, o theta ou reduzir a exposição.",
+    "caminhos": [
+     {
+      "nome": "Rolar as PUTs vendidas",
+      "descricao": "Rola as PUTs vendidas para a série seguinte.",
+      "ganha": "Mantém o caixa do pivô.",
+      "perde": "Mantém a exposição.",
+      "quando": "Quando o miolo deve segurar (POP).",
+      "ops": [
+       {
+        "op": "rolarVencimento",
+        "perna": "p2",
+        "passos": 1
+       }
+      ]
+     },
+     {
+      "nome": "Encerrar a estrutura",
+      "descricao": "Encerra as 3 pernas.",
+      "ganha": "Para o risco.",
+      "perde": "Realiza o resultado atual.",
+      "quando": "Quando a queda rompe o pivô.",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p1"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p2"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p3"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "nome": "Alta",
+    "sinais": "As PUTs curtas derreteram.",
+    "pesa": "Recomprar as vendidas baratas e liberar margem (POP). Os 3 pilares: o ajuste precisa melhorar o delta, o theta ou reduzir a exposição.",
+    "caminhos": [
+     {
+      "nome": "Recomprar as vendidas",
+      "descricao": "Recompra as PUTs vendidas (regra dos R$ 0,20).",
+      "ganha": "Libera margem; a asa longa segue.",
+      "perde": "Os últimos centavos.",
+      "quando": "Quando valem R$ 0,20 ou menos.",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p2"
+       }
+      ]
+     },
+     {
+      "nome": "Esperar o vencimento",
+      "descricao": "Mantém.",
+      "ganha": "O prêmio restante.",
+      "perde": "Exposição a uma volta do preço.",
+      "quando": "Quando faltam poucos dias."
+     }
+    ]
+   }
+  ]
+ },
+ "booster-fly": {
+  "revisado": true,
+  "fonte": "Metodologia do Prof. Su",
+  "cenarios": [
+   {
+    "nome": "O ativo no miolo perto do vencimento",
+    "sinais": "O preço está perto do strike das CALLs vendidas.",
+    "pesa": "O miolo maximiza o ganho (POP). Os 3 pilares: o ajuste precisa melhorar o delta, o theta ou reduzir a exposição.",
+    "caminhos": [
+     {
+      "nome": "Zerar o booster e a asa",
+      "descricao": "Encerra a CALL comprada, as vendidas e a asa.",
+      "ganha": "Realiza o ganho do miolo.",
+      "perde": "O que faltava até o máximo.",
+      "quando": "No miolo, perto do vencimento (POP).",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p2"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p3"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p4"
+       }
+      ]
+     },
+     {
+      "nome": "Carregar com a asa travada",
+      "descricao": "Mantém a estrutura até o vencimento.",
+      "ganha": "O ganho máximo, se ficar no miolo.",
+      "perde": "Sensível a movimentos no fim.",
+      "quando": "Quando o ativo está bem no miolo."
+     }
+    ]
+   },
+   {
+    "nome": "O ativo disparou além da asa",
+    "sinais": "O preço passou da CALL comprada de cauda.",
+    "pesa": "A asa neutraliza o risco de alta e a entrega do papel (POP). Os 3 pilares: o ajuste precisa melhorar o delta, o theta ou reduzir a exposição.",
+    "caminhos": [
+     {
+      "nome": "Manter: a asa cobre",
+      "descricao": "Mantém a estrutura; a CALL de cauda cobre a alta.",
+      "ganha": "Sem chamada de margem nem entrega.",
+      "perde": "O ganho fica limitado.",
+      "quando": "Quando a alta é forte (POP)."
+     },
+     {
+      "nome": "Encerrar o fly",
+      "descricao": "Encerra as 3 opções e fica com a ação.",
+      "ganha": "Simplifica a custódia.",
+      "perde": "O resultado do fly no vencimento.",
+      "quando": "Quando o booster cumpriu o papel.",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p2"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p3"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p4"
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "malha-bw": {
+  "revisado": true,
+  "fonte": "Metodologia do Prof. Su",
+  "cenarios": [
+   {
+    "nome": "O mercado ficou no miolo",
+    "sinais": "O preço está perto do strike vendido.",
+    "pesa": "A BWB chega ao ganho máximo no miolo (POP). Os 3 pilares: o ajuste precisa melhorar o delta, o theta ou reduzir a exposição.",
+    "caminhos": [
+     {
+      "nome": "Zerar com lucro",
+      "descricao": "Encerra as 3 pernas e põe o caixa no bolso.",
+      "ganha": "O ganho do miolo.",
+      "perde": "O que ainda faltava.",
+      "quando": "No miolo (POP).",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p1"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p2"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p3"
+       }
+      ]
+     },
+     {
+      "nome": "Zerar parcialmente",
+      "descricao": "Reduz à metade todas as pernas, mantendo a proporção.",
+      "ganha": "Desalavanca e realiza parte.",
+      "perde": "Metade do potencial.",
+      "quando": "Com 50% a 70% do lucro máximo (POP).",
+      "ops": [
+       {
+        "op": "quantidade",
+        "perna": "p1",
+        "q": 1
+       },
+       {
+        "op": "quantidade",
+        "perna": "p2",
+        "q": -1.5
+       },
+       {
+        "op": "quantidade",
+        "perna": "p3",
+        "q": 0.5
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "nome": "O mercado disparou",
+    "sinais": "O preço passou da asa comprada.",
+    "pesa": "A perda máxima é o delta estrutural, coberto pelo crédito de entrada (POP). Os 3 pilares: o ajuste precisa melhorar o delta, o theta ou reduzir a exposição.",
+    "caminhos": [
+     {
+      "nome": "Levar ao vencimento",
+      "descricao": "Mantém; o crédito de entrada cobre o delta estrutural.",
+      "ganha": "Resultado nulo ou positivo, se a regra de entrada foi respeitada.",
+      "perde": "Nenhum ganho extra.",
+      "quando": "Quando a entrada teve crédito ≥ delta estrutural (POP)."
+     },
+     {
+      "nome": "Encerrar",
+      "descricao": "Encerra as 3 pernas.",
+      "ganha": "Libera a margem antes.",
+      "perde": "Pode realizar uma pequena perda.",
+      "quando": "Quando precisa da margem.",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p1"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p2"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p3"
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "hyperfly": {
+  "revisado": true,
+  "fonte": "Metodologia do Prof. Su",
+  "cenarios": [
+   {
+    "nome": "Lucro de 30 a 50 centavos",
+    "sinais": "A estrutura atingiu o pico de sensibilidade.",
+    "pesa": "Encerramento rápido: não carregar até o último dia (POP). Os 3 pilares: o ajuste precisa melhorar o delta, o theta ou reduzir a exposição.",
+    "caminhos": [
+     {
+      "nome": "Zerar a posição inteira",
+      "descricao": "Encerra as 3 pernas.",
+      "ganha": "Realiza o ganho do giro curto.",
+      "perde": "O que restaria até o vencimento.",
+      "quando": "Com 30 a 50 centavos por lote (POP).",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p1"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p2"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p3"
+       }
+      ]
+     },
+     {
+      "nome": "Esperar o alvo",
+      "descricao": "Mantém por mais alguns dias.",
+      "ganha": "A chance de atingir o alvo.",
+      "perde": "O pico passa rápido.",
+      "quando": "Quando o alvo ainda não veio, dentro do giro de 3 a 5 dias."
+     }
+    ]
+   }
+  ]
+ },
+ "fly-modular": {
+  "revisado": true,
+  "fonte": "Metodologia do Prof. Su",
+  "cenarios": [
+   {
+    "nome": "O papel chegou ao strike central",
+    "sinais": "O delta de transição entrega a rentabilidade máxima.",
+    "pesa": "Zerar para realizar (POP). Os 3 pilares: o ajuste precisa melhorar o delta, o theta ou reduzir a exposição.",
+    "caminhos": [
+     {
+      "nome": "Zerar a estrutura",
+      "descricao": "Encerra as 4 pernas.",
+      "ganha": "Realiza o máximo da transição.",
+      "perde": "O que restaria.",
+      "quando": "No strike central (POP).",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p1"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p2"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p3"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p4"
+       }
+      ]
+     },
+     {
+      "nome": "Acompanhar a transição",
+      "descricao": "Mantém e acompanha o delta de transição.",
+      "ganha": "A chance de mais ganho.",
+      "perde": "O ganho é sensível ao preço.",
+      "quando": "Quando o papel ainda está migrando."
+     }
+    ]
+   }
+  ]
+ },
+ "modulo-q": {
+  "revisado": true,
+  "fonte": "Metodologia do Prof. Su",
+  "cenarios": [
+   {
+    "nome": "Ciclo mensal de rolagem",
+    "sinais": "As vendidas geraram crédito no ciclo.",
+    "pesa": "Rolagem perene com redução de 10% (POP). Os 3 pilares: o ajuste precisa melhorar o delta, o theta ou reduzir a exposição.",
+    "caminhos": [
+     {
+      "nome": "Rolar com redução de 10% e alongar a comprada",
+      "descricao": "Reduz em 10% as CALLs vendidas, rola o restante e leva a comprada 1 mês à frente.",
+      "ganha": "Expulsa a alavancagem e mantém a cobertura longa.",
+      "perde": "Um pouco menos de crédito.",
+      "quando": "A cada ciclo credor (POP).",
+      "ops": [
+       {
+        "op": "quantidade",
+        "perna": "p2",
+        "q": -1.8
+       },
+       {
+        "op": "rolarVencimento",
+        "perna": "p2",
+        "passos": 1
+       },
+       {
+        "op": "rolarVencimento",
+        "perna": "p1",
+        "passos": 1
+       }
+      ]
+     },
+     {
+      "nome": "Rolar sem redução",
+      "descricao": "Rola as vendidas inteiras.",
+      "ganha": "Mais crédito no ciclo.",
+      "perde": "Não reduz a alavancagem.",
+      "quando": "Contra a regra dos 10% do POP.",
+      "ops": [
+       {
+        "op": "rolarVencimento",
+        "perna": "p2",
+        "passos": 1
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "bwb": {
+  "revisado": true,
+  "fonte": "Metodologia do Prof. Su",
+  "cenarios": [
+   {
+    "nome": "Estacionado no miolo",
+    "sinais": "O preço está perto do strike vendido no vencimento.",
+    "pesa": "Ganho máximo no miolo (POP). Os 3 pilares: o ajuste precisa melhorar o delta, o theta ou reduzir a exposição.",
+    "caminhos": [
+     {
+      "nome": "Zerar a operação",
+      "descricao": "Encerra as 3 pernas.",
+      "ganha": "Realiza o ganho máximo.",
+      "perde": "Nada relevante.",
+      "quando": "No miolo (POP).",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p1"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p2"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p3"
+       }
+      ]
+     },
+     {
+      "nome": "Levar ao vencimento",
+      "descricao": "Mantém.",
+      "ganha": "O ganho máximo, se ficar no miolo.",
+      "perde": "Sensível a movimentos no fim.",
+      "quando": "Quando o preço está bem no miolo."
+     }
+    ]
+   },
+   {
+    "nome": "Disparou acima da asa",
+    "sinais": "O preço passou da CALL comprada distante.",
+    "pesa": "O crédito de entrada cobre o delta estrutural (POP). Os 3 pilares: o ajuste precisa melhorar o delta, o theta ou reduzir a exposição.",
+    "caminhos": [
+     {
+      "nome": "Manter: resultado nulo ou positivo",
+      "descricao": "Mantém; o crédito cobre o débito do delta estrutural.",
+      "ganha": "Resultado nulo ou positivo.",
+      "perde": "Nenhum ganho extra.",
+      "quando": "Quando a entrada teve crédito ≥ delta estrutural."
+     },
+     {
+      "nome": "Encerrar",
+      "descricao": "Encerra as 3 pernas.",
+      "ganha": "Libera a margem.",
+      "perde": "Pode realizar uma pequena perda.",
+      "quando": "Quando precisa da margem.",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p1"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p2"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p3"
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "calendar-butterfly": {
+  "revisado": true,
+  "fonte": "Metodologia do Prof. Su",
+  "cenarios": [
+   {
+    "nome": "Faltando de 12 a 6 du para as curtas",
+    "sinais": "As opções curtas entram no efeito hole.",
+    "pesa": "Encerrar ou rolar as curtas nessa janela (POP). Os 3 pilares: o ajuste precisa melhorar o delta, o theta ou reduzir a exposição.",
+    "caminhos": [
+     {
+      "nome": "Rolar as curtas",
+      "descricao": "Rola as CALLs curtas para a série seguinte.",
+      "ganha": "Mantém o efeito hole a favor.",
+      "perde": "Custos de rolagem.",
+      "quando": "Entre 12 e 6 du (POP).",
+      "ops": [
+       {
+        "op": "rolarVencimento",
+        "perna": "p1",
+        "passos": 1
+       },
+       {
+        "op": "rolarVencimento",
+        "perna": "p3",
+        "passos": 1
+       }
+      ]
+     },
+     {
+      "nome": "Encerrar a estrutura",
+      "descricao": "Encerra as pernas curtas e a longa.",
+      "ganha": "A valorização da longa cobre o custo de entrada.",
+      "perde": "O fluxo dos próximos ciclos.",
+      "quando": "Entre 12 e 6 du (POP).",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p1"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p2"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p3"
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "hedge-inverse": {
+  "revisado": true,
+  "fonte": "Metodologia do Prof. Su (anotações de aula)",
+  "cenarios": [
+   {
+    "nome": "Depois do hedge aplicado sobre a CALL vendida",
+    "sinais": "A CALL foi recomprada e a PUT vendida no mesmo strike passou a carregar o risco (posição sintética).",
+    "pesa": "Se o ativo estabilizou ou recuou. Os 3 pilares: o ajuste precisa melhorar o delta, o theta ou reduzir a exposição.",
+    "caminhos": [
+     {
+      "nome": "Recomprar a PUT com desconto",
+      "descricao": "Recompra a PUT vendida do hedge.",
+      "ganha": "Realiza o crédito do hedge.",
+      "perde": "Volta a ficar só com o resultado da CALL.",
+      "quando": "Quando o ativo recuou e a PUT perdeu valor.",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p3"
+       }
+      ]
+     },
+     {
+      "nome": "Rolar a PUT com redução de 10%",
+      "descricao": "Reduz em 10% a PUT vendida e rola o restante para a série seguinte.",
+      "ganha": "Mantém o caixa e reduz a exposição.",
+      "perde": "Prolonga a posição.",
+      "quando": "Em rolagem credora.",
+      "ops": [
+       {
+        "op": "quantidade",
+        "perna": "p3",
+        "q": -0.9
+       },
+       {
+        "op": "rolarVencimento",
+        "perna": "p3",
+        "passos": 1
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "hedge-straddle-din": {
+  "revisado": true,
+  "fonte": "Metodologia do Prof. Su (anotações de aula)",
+  "cenarios": [
+   {
+    "nome": "Depois do hedge aplicado sobre a CALL vendida",
+    "sinais": "A CALL foi recomprada e o straddle foi vendido acima (CALL e PUT 24,54 no exemplo).",
+    "pesa": "No vencimento, uma ponta do straddle vira pó (abordagem dual). Os 3 pilares: o ajuste precisa melhorar o delta, o theta ou reduzir a exposição.",
+    "caminhos": [
+     {
+      "nome": "Zerar a ponta que virou pó e rolar a outra com redução de 10%",
+      "descricao": "Encerra a CALL de cima e rola a PUT do straddle com 10% a menos.",
+      "ganha": "Mantém o caixa da ponta viva e reduz a exposição.",
+      "perde": "Prolonga a posição.",
+      "quando": "No vencimento, se o ativo ficou abaixo do strike do straddle.",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p3"
+       },
+       {
+        "op": "quantidade",
+        "perna": "p4",
+        "q": -0.9
+       },
+       {
+        "op": "rolarVencimento",
+        "perna": "p4",
+        "passos": 1
+       }
+      ]
+     },
+     {
+      "nome": "Encerrar tudo",
+      "descricao": "Encerra as 4 pernas.",
+      "ganha": "Simplifica a custódia.",
+      "perde": "Realiza o resultado atual.",
+      "quando": "Quando o risco passou.",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p1"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p2"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p3"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p4"
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "hedge-booster-h": {
+  "revisado": true,
+  "fonte": "Metodologia do Prof. Su (anotações de aula)",
+  "cenarios": [
+   {
+    "nome": "Depois do hedge aplicado sobre a CALL vendida",
+    "sinais": "As 2 PUTs curtas e a PUT longa entraram para financiar a CALL vendida.",
+    "pesa": "Rolagem mensal; zerar se o ativo chegar ao miolo. Os 3 pilares: o ajuste precisa melhorar o delta, o theta ou reduzir a exposição.",
+    "caminhos": [
+     {
+      "nome": "Rolar as PUTs curtas",
+      "descricao": "Rola as 2 PUTs curtas para a série seguinte.",
+      "ganha": "Mantém o fluxo para pagar a CALL.",
+      "perde": "Mantém a exposição na queda.",
+      "quando": "A cada ciclo credor.",
+      "ops": [
+       {
+        "op": "rolarVencimento",
+        "perna": "p2",
+        "passos": 1
+       }
+      ]
+     },
+     {
+      "nome": "Zerar no miolo",
+      "descricao": "Encerra as 3 pernas.",
+      "ganha": "Realiza o ganho do miolo.",
+      "perde": "O que restaria.",
+      "quando": "Quando o ativo chega ao miolo.",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p1"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p2"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p3"
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "hedge-calendar-line": {
+  "revisado": true,
+  "fonte": "Metodologia do Prof. Su (anotações de aula)",
+  "cenarios": [
+   {
+    "nome": "Depois do hedge aplicado sobre a CALL vendida",
+    "sinais": "PUT curta, CALL longa e CALL curta entraram sobre a CALL vendida (THL de CALL + PUT).",
+    "pesa": "Explorar o efeito hole: rolar as curtas entre 12 e 6 du. Os 3 pilares: o ajuste precisa melhorar o delta, o theta ou reduzir a exposição.",
+    "caminhos": [
+     {
+      "nome": "Rolar as curtas",
+      "descricao": "Rola a PUT curta e as CALLs curtas para a série seguinte.",
+      "ganha": "Mantém o theta a favor.",
+      "perde": "Custos de rolagem.",
+      "quando": "Entre 12 e 6 du da curta.",
+      "ops": [
+       {
+        "op": "rolarVencimento",
+        "perna": "p1",
+        "passos": 1
+       },
+       {
+        "op": "rolarVencimento",
+        "perna": "p2",
+        "passos": 1
+       },
+       {
+        "op": "rolarVencimento",
+        "perna": "p4",
+        "passos": 1
+       }
+      ]
+     },
+     {
+      "nome": "Encerrar tudo",
+      "descricao": "Encerra as 4 pernas.",
+      "ganha": "A CALL longa pode cobrir o custo.",
+      "perde": "O fluxo dos próximos ciclos.",
+      "quando": "Quando a CALL vendida deixou de ser ameaça.",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p1"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p2"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p3"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p4"
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "hedge-mannerheim": {
+  "revisado": true,
+  "fonte": "Metodologia do Prof. Su (anotações de aula)",
+  "cenarios": [
+   {
+    "nome": "Depois do hedge aplicado sobre a CALL vendida",
+    "sinais": "PUT vendida + 3 THLs de CALL entraram sobre a CALL vendida.",
+    "pesa": "O fluxo das THLs paga a neutralização da CALL. Os 3 pilares: o ajuste precisa melhorar o delta, o theta ou reduzir a exposição.",
+    "caminhos": [
+     {
+      "nome": "Rolar as curtas das THLs e a PUT",
+      "descricao": "Rola as CALLs curtas das THLs e a PUT vendida.",
+      "ganha": "Gera caixa semanal ou mensal.",
+      "perde": "Mantém a exposição.",
+      "quando": "A cada ciclo.",
+      "ops": [
+       {
+        "op": "rolarVencimento",
+        "perna": "p2",
+        "passos": 1
+       },
+       {
+        "op": "rolarVencimento",
+        "perna": "p4",
+        "passos": 1
+       }
+      ]
+     },
+     {
+      "nome": "Encerrar o hedge",
+      "descricao": "Encerra a PUT e as THLs, mantendo só a CALL original.",
+      "ganha": "Simplifica.",
+      "perde": "Abre mão do fluxo.",
+      "quando": "Quando o ativo voltou para baixo do strike.",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p2"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p3"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p4"
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "hedge-booster-v": {
+  "revisado": true,
+  "fonte": "Metodologia do Prof. Su (anotações de aula)",
+  "cenarios": [
+   {
+    "nome": "Depois do hedge aplicado sobre a CALL vendida",
+    "sinais": "Booster vertical de PUT (1 comprada, 2 vendidas) entrou sobre a CALL vendida.",
+    "pesa": "Zerar no miolo; perda travada fora dele. Os 3 pilares: o ajuste precisa melhorar o delta, o theta ou reduzir a exposição.",
+    "caminhos": [
+     {
+      "nome": "Zerar no miolo",
+      "descricao": "Encerra o booster de PUT e a CALL.",
+      "ganha": "Realiza o ganho do miolo.",
+      "perde": "O que restaria.",
+      "quando": "Quando o ativo está entre os strikes do booster.",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p1"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p2"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p3"
+       }
+      ]
+     },
+     {
+      "nome": "Recomprar as PUTs vendidas baratas",
+      "descricao": "Recompra as 2 PUTs vendidas (regra dos R$ 0,20).",
+      "ganha": "Libera margem.",
+      "perde": "Os últimos centavos.",
+      "quando": "Quando valem R$ 0,20 ou menos.",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p3"
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "hedge-assimetrico": {
+  "revisado": true,
+  "fonte": "Metodologia do Prof. Su (anotações de aula)",
+  "cenarios": [
+   {
+    "nome": "Depois do hedge aplicado sobre a PUT vendida",
+    "sinais": "CALL curta vendida + 2 CALLs longas entraram sobre a PUT vendida.",
+    "pesa": "Rolagem com redução de 10%. Os 3 pilares: o ajuste precisa melhorar o delta, o theta ou reduzir a exposição.",
+    "caminhos": [
+     {
+      "nome": "Rolar as curtas com redução de 10%",
+      "descricao": "Reduz em 10% a PUT e a CALL vendidas e rola o restante.",
+      "ganha": "Encolhe a exposição até normalizar a custódia.",
+      "perde": "Um pouco menos de crédito.",
+      "quando": "Em rolagem credora.",
+      "ops": [
+       {
+        "op": "quantidade",
+        "perna": "p1",
+        "q": -0.9
+       },
+       {
+        "op": "rolarVencimento",
+        "perna": "p1",
+        "passos": 1
+       },
+       {
+        "op": "quantidade",
+        "perna": "p2",
+        "q": -0.9
+       },
+       {
+        "op": "rolarVencimento",
+        "perna": "p2",
+        "passos": 1
+       }
+      ]
+     },
+     {
+      "nome": "Rolar sem redução",
+      "descricao": "Rola as vendidas inteiras.",
+      "ganha": "Mais crédito.",
+      "perde": "Não reduz a exposição.",
+      "quando": "Contra a regra dos 10%.",
+      "ops": [
+       {
+        "op": "rolarVencimento",
+        "perna": "p1",
+        "passos": 1
+       },
+       {
+        "op": "rolarVencimento",
+        "perna": "p2",
+        "passos": 1
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "hedge-straddle-ha": {
+  "revisado": true,
+  "fonte": "Metodologia do Prof. Su (anotações de aula)",
+  "cenarios": [
+   {
+    "nome": "Depois do hedge aplicado sobre a PUT vendida",
+    "sinais": "CALL curta vendida + 2 CALLs longas entraram sobre a PUT vendida (straddle curto + CALLs longas).",
+    "pesa": "Rolar o straddle curto todo mês com redução de 10%. Os 3 pilares: o ajuste precisa melhorar o delta, o theta ou reduzir a exposição.",
+    "caminhos": [
+     {
+      "nome": "Rolar o straddle com redução de 10%",
+      "descricao": "Reduz em 10% a PUT e a CALL curtas e rola o restante.",
+      "ganha": "Caixa acumulado e exposição menor.",
+      "perde": "Um pouco menos de crédito.",
+      "quando": "Em rolagem credora.",
+      "ops": [
+       {
+        "op": "quantidade",
+        "perna": "p1",
+        "q": -0.9
+       },
+       {
+        "op": "rolarVencimento",
+        "perna": "p1",
+        "passos": 1
+       },
+       {
+        "op": "quantidade",
+        "perna": "p2",
+        "q": -0.9
+       },
+       {
+        "op": "rolarVencimento",
+        "perna": "p2",
+        "passos": 1
+       }
+      ]
+     },
+     {
+      "nome": "Encerrar o straddle curto",
+      "descricao": "Encerra a PUT e a CALL curtas, mantendo as CALLs longas.",
+      "ganha": "Simplifica a custódia.",
+      "perde": "O fluxo dos próximos ciclos.",
+      "quando": "Quando o ativo se recuperou.",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p1"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p2"
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "box-perene": {
+  "revisado": true,
+  "fonte": "Metodologia do Prof. Su (anotações de aula)",
+  "cenarios": [
+   {
+    "nome": "No vencimento",
+    "sinais": "O box vale a distância entre os strikes (R$ 1,00 no exemplo).",
+    "pesa": "Sem manejo direcional: é taxa (renda fixa sintética). Os 3 pilares: o ajuste precisa melhorar o delta, o theta ou reduzir a exposição.",
+    "caminhos": [
+     {
+      "nome": "Rolar o box para a série seguinte",
+      "descricao": "Rola as 4 pernas para o vencimento seguinte.",
+      "ganha": "Mantém a taxa travada.",
+      "perde": "Custos de rolagem.",
+      "quando": "Quando a taxa do box supera o CDI do período.",
+      "ops": [
+       {
+        "op": "rolarVencimento",
+        "perna": "p1",
+        "passos": 1
+       },
+       {
+        "op": "rolarVencimento",
+        "perna": "p2",
+        "passos": 1
+       },
+       {
+        "op": "rolarVencimento",
+        "perna": "p3",
+        "passos": 1
+       },
+       {
+        "op": "rolarVencimento",
+        "perna": "p4",
+        "passos": 1
+       }
+      ]
+     },
+     {
+      "nome": "Levar ao vencimento",
+      "descricao": "Mantém até o vencimento.",
+      "ganha": "Recebe a taxa travada.",
+      "perde": "Risco de exercício antecipado das opções americanas.",
+      "quando": "Quando não vai remontar."
+     }
+    ]
+   }
+  ]
+ },
+ "box-p": {
+  "revisado": true,
+  "fonte": "Metodologia do Prof. Su (anotações de aula)",
+  "cenarios": [
+   {
+    "nome": "Todo mês",
+    "sinais": "A trava curta (CALL e PUT vendidas) perdeu valor; as pernas longas seguem.",
+    "pesa": "A trava curta financia a proteção longa. Os 3 pilares: o ajuste precisa melhorar o delta, o theta ou reduzir a exposição.",
+    "caminhos": [
+     {
+      "nome": "Rolar a trava curta",
+      "descricao": "Rola a CALL e a PUT vendidas para a série seguinte.",
+      "ganha": "Mantém a proteção longa financiada.",
+      "perde": "Custos de rolagem.",
+      "quando": "Todo mês.",
+      "ops": [
+       {
+        "op": "rolarVencimento",
+        "perna": "p2",
+        "passos": 1
+       },
+       {
+        "op": "rolarVencimento",
+        "perna": "p4",
+        "passos": 1
+       }
+      ]
+     },
+     {
+      "nome": "Encerrar o box",
+      "descricao": "Encerra as 4 pernas.",
+      "ganha": "Simplifica.",
+      "perde": "Abre mão da proteção.",
+      "quando": "Quando o risco passou.",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p1"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p2"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p3"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p4"
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "booster-horizontal": {
+  "revisado": true,
+  "fonte": "Metodologia do Prof. Su (anotações de aula)",
+  "cenarios": [
+   {
+    "nome": "Rolagem da PUT curta",
+    "sinais": "A PUT curta (1,5 por PUT longa) perdeu extrínseco.",
+    "pesa": "Reduzir 10% a cada rolagem credora, até chegar a 1×1. Os 3 pilares: o ajuste precisa melhorar o delta, o theta ou reduzir a exposição.",
+    "caminhos": [
+     {
+      "nome": "Rolar com redução de 10%",
+      "descricao": "Reduz a PUT curta de 1,5 para 1,35 e rola para a série seguinte.",
+      "ganha": "Diminui a exposição e acumula PUT longa a custo zero.",
+      "perde": "Um pouco menos de crédito.",
+      "quando": "Em rolagem credora.",
+      "ops": [
+       {
+        "op": "quantidade",
+        "perna": "p1",
+        "q": -1.35
+       },
+       {
+        "op": "rolarVencimento",
+        "perna": "p1",
+        "passos": 1
+       }
+      ]
+     },
+     {
+      "nome": "Rolar sem redução",
+      "descricao": "Rola a PUT curta inteira.",
+      "ganha": "Mais crédito.",
+      "perde": "Mantém 0,5 de exposição líquida vendida.",
+      "quando": "Contra a regra dos 10%.",
+      "ops": [
+       {
+        "op": "rolarVencimento",
+        "perna": "p1",
+        "passos": 1
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "strangle-p": {
+  "revisado": true,
+  "fonte": "Metodologia do Prof. Su (anotações de aula)",
+  "cenarios": [
+   {
+    "nome": "Rolagem mensal",
+    "sinais": "Uma ponta curta virou pó e a outra segue viva.",
+    "pesa": "Zerar a que virou pó e rolar a viva com redução de 10%. Os 3 pilares: o ajuste precisa melhorar o delta, o theta ou reduzir a exposição.",
+    "caminhos": [
+     {
+      "nome": "Zerar a CALL que virou pó e rolar a PUT com redução",
+      "descricao": "Encerra a CALL curta e rola a PUT curta com 10% a menos.",
+      "ganha": "Reduz a exposição e mantém o caixa.",
+      "perde": "Prolonga a posição na PUT.",
+      "quando": "Quando o ativo ficou abaixo da CALL curta.",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p1"
+       },
+       {
+        "op": "quantidade",
+        "perna": "p3",
+        "q": -0.9
+       },
+       {
+        "op": "rolarVencimento",
+        "perna": "p3",
+        "passos": 1
+       }
+      ]
+     },
+     {
+      "nome": "Rolar as duas curtas",
+      "descricao": "Rola a CALL e a PUT curtas.",
+      "ganha": "Mais crédito.",
+      "perde": "Não reduz a exposição.",
+      "quando": "Quando as duas seguem com prêmio.",
+      "ops": [
+       {
+        "op": "rolarVencimento",
+        "perna": "p1",
+        "passos": 1
+       },
+       {
+        "op": "rolarVencimento",
+        "perna": "p3",
+        "passos": 1
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ }
+}

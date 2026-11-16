@@ -24,24 +24,25 @@ const ano = new Date().getFullYear();
 <style>
   footer {
     margin-top: 5rem;
-    background: var(--petroleo-escuro);
-    color: #cfd8d9;
+    background: var(--fundo-profundo);
+    color: var(--texto-suave);
+    border-top: 1px solid var(--borda);
     padding: 2.2rem 0 1.6rem;
     font-size: 0.9rem;
   }
   .aviso {
-    border: 1px solid rgba(242,105,77,0.45);
+    border: 1px solid color-mix(in srgb, var(--marca) 45%, transparent);
     border-radius: var(--raio);
     padding: 1rem 1.2rem;
-    background: rgba(242,105,77,0.08);
+    background: var(--marca-area);
   }
-  .aviso strong { color: var(--coral); font-family: var(--font-titulo); font-size: 1.05rem; }
-  .aviso p { margin: 0.3rem 0 0; line-height: 1.6; }
+  .aviso strong { color: var(--creme); font-family: var(--font-titulo); font-size: 1.05rem; }
+  .aviso p { margin: 0.3rem 0 0; line-height: 1.6; color: var(--creme); }
   .linha {
     display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px;
-    margin-top: 1.4rem;
+    margin-top: 1.4rem; color: var(--creme);
   }
   .links { display: flex; gap: 16px; flex-wrap: wrap; }
   footer a { color: var(--creme); text-decoration: none; }
-  footer a:hover { color: var(--coral); }
+  footer a:hover { color: var(--marca); }
 </style>

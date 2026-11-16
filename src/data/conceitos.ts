@@ -1,0 +1,51 @@
+// Módulos do laboratório de conceitos (spec 5.6). A Jornada do prêmio tem página própria.
+export const MODULOS = [
+  {
+    slug: 'anatomia-do-premio' as const,
+    titulo: 'Anatomia do prêmio',
+    resumo: 'Mova o preço do ativo e veja o prêmio se dividir em valor intrínseco e extrínseco.',
+    intro: 'Todo prêmio tem duas partes: o intrínseco, que é o quanto a opção valeria se fosse exercida agora, e o extrínseco, que é o preço do tempo e da incerteza. Mova o preço e veja onde cada parte pesa mais.',
+    semJs: 'O intrínseco de uma CALL é o quanto o preço do ativo passa do strike; o de uma PUT, o quanto fica abaixo. O resto do prêmio é extrínseco: maior perto do strike, menor quanto mais dentro ou fora do dinheiro a opção estiver, e some no vencimento.',
+    pratica: 'Quem vende opção recebe sobretudo o extrínseco; quem compra paga por ele. Perto do strike, é onde há mais tempo e incerteza à venda.',
+  },
+  {
+    slug: 'premio-e-prazo' as const,
+    titulo: 'O prêmio enquanto o tempo passa',
+    resumo: 'Curvas do prêmio contra o preço em vários prazos, com o tempo correndo até o vencimento.',
+    intro: 'A mesma opção, em prazos diferentes. Aperte o play e veja a curva do prêmio "derreter" até virar o payoff do vencimento.',
+    semJs: 'Quanto mais longe do vencimento, mais suave e mais alta é a curva do prêmio. Conforme o tempo passa, ela se aproxima do payoff do vencimento, e o derretimento acelera nos últimos dias, sobretudo perto do strike.',
+    pratica: 'O tempo não cobra igual todo dia: o derretimento acelera no fim. Isso pesa na escolha do prazo para comprar ou para vender.',
+  },
+  {
+    slug: 'gregas-ao-longo-do-preco' as const,
+    titulo: 'As gregas ao longo do preço',
+    resumo: 'Delta, gama, theta e vega contra o preço do ativo, com o controle de dias até o vencimento.',
+    intro: 'As gregas mudam com o preço e com o tempo. Mova os dias para perto do vencimento e veja o gama crescer perto do strike.',
+    semJs: 'O delta vai de 0 a 1 (CALL) ou de −1 a 0 (PUT) conforme a opção entra no dinheiro. O gama tem o pico perto do strike e cresce perto do vencimento. O theta é mais negativo no dinheiro (com juros altos, uma PUT bem dentro do dinheiro pode ter theta positivo). O vega é maior no dinheiro e em prazos longos.',
+    pratica: 'Perto do vencimento e do strike, pequenos movimentos do ativo mudam muito o delta: é ali que o risco de quem vendeu fica mais nervoso.',
+  },
+  {
+    slug: 'gregas-no-tempo' as const,
+    titulo: 'As gregas no tempo',
+    resumo: 'Como o delta de uma opção dentro, no e fora do dinheiro se comporta até o vencimento.',
+    intro: 'Três opções do mesmo vencimento: uma dentro do dinheiro, uma no dinheiro e uma fora. Veja o que acontece com o delta de cada uma conforme o vencimento chega.',
+    semJs: 'Longe do vencimento, o delta das três fica mais próximo. Perto do vencimento, a opção dentro do dinheiro vai para 1 (age como a ação), a de fora vai para 0, e a do dinheiro continua perto de 0,5 até o último pregão (numa PUT, os sinais se invertem: dentro do dinheiro vai para −1).',
+    pratica: 'Uma opção fora do dinheiro perde sensibilidade ao preço com o tempo; uma CALL dentro do dinheiro passa a se comportar como a ação (e uma PUT dentro do dinheiro, como a ação vendida).',
+  },
+  {
+    slug: 'volatilidade' as const,
+    titulo: 'Volatilidade',
+    resumo: 'O efeito da volatilidade implícita no prêmio e a queda da vol depois de um evento.',
+    intro: 'Com o mesmo preço e o mesmo prazo, o prêmio muda só porque o mercado mudou a expectativa de oscilação. Simule a vol caindo depois de um balanço.',
+    semJs: 'Quanto maior a volatilidade implícita, maior o prêmio. Antes de eventos (balanços, decisões), a vol costuma subir; depois, costuma cair, e o prêmio cai junto, mesmo sem o preço do ativo mudar.',
+    pratica: 'Comprar opção antes de um evento é pagar vol alta; se a vol cair depois, o prêmio pode cair mesmo com o ativo andando a favor, quando o movimento não compensa a queda da vol.',
+  },
+  {
+    slug: 'probabilidade' as const,
+    titulo: 'Probabilidade sobre o payoff',
+    resumo: 'A distribuição de preços desenhada sobre o resultado no vencimento, com a probabilidade de lucro do modelo.',
+    intro: 'O payoff mostra quanto se ganha em cada preço; a distribuição mostra quão provável é cada preço, pelo modelo. Junte os dois e veja de onde vem a "probabilidade de lucro".',
+    semJs: 'A probabilidade de lucro é a parte da distribuição de preços que cai na região onde o resultado é positivo. Quem compra opção costuma ter ganho grande e probabilidade menor; quem vende, o contrário.',
+    pratica: 'Probabilidade alta não é o mesmo que bom negócio: é preciso olhar junto quanto se ganha e quanto se perde em cada região.',
+  },
+];

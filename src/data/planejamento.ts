@@ -40,8 +40,9 @@ export const ESTUDOS_PLANEJADOS = [
 export const FERRAMENTAS = [
   {
     slug: 'laboratorio',
-    title: 'Laboratório de estruturas',
-    resumo: '62 estruturas com opções: montagem teórica, payoff, POP e como montar hoje com os valores reais de mercado.',
+    href: '/estrategias/',
+    title: 'Catálogo de estratégias',
+    resumo: '62 estruturas com opções, cada uma com gráfico interativo, gregas, POP, manejo e como montar hoje com os valores reais de mercado.',
     pronta: true,
   },
   {

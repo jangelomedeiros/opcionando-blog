@@ -77,17 +77,17 @@ const xt = [60, 45, 30, 15, 7, 0];
   .grade { stroke: var(--borda); }
   .rot { fill: var(--texto-suave); font-family: var(--font-mono); font-size: 12px; }
   .eixo { fill: var(--texto-suave); font-size: 13px; }
-  .zona { fill: rgba(242,105,77,0.10); }
+  .zona { fill: color-mix(in srgb, var(--marca) 10%, transparent); }
   .rot-zona { fill: var(--coral); font-size: 12px; font-weight: 600; }
-  .area { fill: rgba(14,74,85,0.12); }
-  .linha { fill: none; stroke: var(--petroleo); stroke-width: 3; }
-  @media (prefers-color-scheme: dark) { .linha { stroke: #7fc6d1; } .area { fill: rgba(127,198,209,0.12); } }
+  .area { fill: color-mix(in srgb, var(--destaque) 12%, transparent); }
+  .linha { fill: none; stroke: var(--destaque); stroke-width: 3; }
+  .linha { stroke: var(--destaque); } .area { fill: color-mix(in srgb, var(--destaque) 12%, transparent); }
   .cursor { stroke: var(--coral); stroke-dasharray: 4 4; }
   .ponto { fill: var(--coral); stroke: var(--bg-card); stroke-width: 3; }
   input[type=range] { width: 100%; accent-color: var(--coral); height: 28px; margin-top: 0.4rem; }
   .kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 0.5rem; }
   .kpis div { background: var(--giz); border-radius: 10px; padding: 0.5rem 0.6rem; text-align: center; }
-  @media (prefers-color-scheme: dark) { .kpis div { background: #0e262c; } }
+  .kpis div { background: var(--superficie-2); }
   .kpis span { display: block; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--texto-suave); font-weight: 600; }
   .kpis b { font-family: var(--font-mono); color: var(--destaque); font-size: 1rem; }
   @media (max-width: 520px) { .vis { grid-template-columns: 1fr; } .sorvete { height: 60px; font-size: 2.6rem; } }

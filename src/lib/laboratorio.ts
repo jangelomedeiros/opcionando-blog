@@ -33,6 +33,8 @@ export interface Estrutura {
   lab_points?: { x: number; y: number }[];
   lab_stats: { prob: number; be: number[]; best: number; worst: number; sig?: number; openUp?: string | null };
   curva_lab?: boolean;
+  nivel: 'Iniciante' | 'Intermediário' | 'Avançado';
+  objetivo: 'Renda' | 'Direcional' | 'Proteção' | 'Volatilidade' | 'Ajuste';
 }
 export interface Pop {
   nome: string; fam: string; visao: string; objetivo: string; contexto: string; janela: string;
@@ -47,12 +49,7 @@ export interface MercadoMeta { data?: string; ativo?: string; spot?: string; fon
 export const ESTRUTURAS = estruturasJson as unknown as Estrutura[];
 export const POPS = popsJson as unknown as Record<string, Pop>;
 
-export const FAM_COR: Record<string, string> = {
-  'Base': '#0f4a50', 'Direcionais': '#2d6fb0', 'Proteção patrimonial': '#3fa66b', 'Volatilidade': '#8e5bb5',
-  'Tempo / rolagem': '#7c7767', 'Asas / proteção': '#c98a1b', 'Booster': '#e8553f', 'Módulos': '#1e8c93',
-  'Híbridas / hedge': '#b24a6b', 'Gradiente linear': '#5a7d2a', 'Hedge · ajustes': '#4c5e9e', 'Mônadas': '#0b3b40',
-};
-export const FAM_ORDEM = Object.keys(FAM_COR);
+export { FAM_COR, FAM_ORDEM } from './familias';
 
 // ------------------------------------------------------------------ formatação
 export function br(v: number, d = 2, sign = false): string {
@@ -71,23 +68,9 @@ export const dmyy = (iso: string) => `${iso.slice(8, 10)}/${iso.slice(5, 7)}/${i
 export const qfmt = (q: number) => String(Math.abs(q)).replace('.', ',');
 
 // ------------------------------------------------------------------ dias úteis (calendário B3)
-const FERIADOS = new Set([
-  '2026-10-12', '2026-11-02', '2026-11-20', '2026-12-24', '2026-12-25', '2026-12-31',
-  '2027-01-01', '2027-02-15', '2027-02-16', '2027-04-02', '2027-04-21', '2027-05-01', '2027-09-07',
-]);
-const iso = (d: Date) => d.toISOString().slice(0, 10);
-/** Dias úteis entre a data da cotação (exclusive) e o vencimento (exclusive), igual ao laboratório original. */
-export function diasUteis(d0: string, d1: string): number {
-  const a = new Date(d0 + 'T12:00:00Z'); a.setUTCDate(a.getUTCDate() + 1);
-  const b = new Date(d1 + 'T12:00:00Z');
-  let n = 0;
-  while (a < b) {
-    const wd = a.getUTCDay();
-    if (wd !== 0 && wd !== 6 && !FERIADOS.has(iso(a))) n++;
-    a.setUTCDate(a.getUTCDate() + 1);
-  }
-  return n;
-}
+// O calendário vive no motor (feriados conferidos contra a grade do opcoes.net.br).
+import { diasUteis } from './motor/calendario.ts';
+export { diasUteis };
 
 // ------------------------------------------------------------------ Black-Scholes (carry zero)
 function erf(x: number): number {

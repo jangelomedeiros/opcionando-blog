@@ -125,7 +125,7 @@
   "fam": "modular",
   "visao": "Binarização · custo zero em vol alta",
   "objetivo": "Ajustar o coeficiente de assunção (2×3 ou 3×4) para fechar a custo zero quando a 1×2 não fecha.",
-  "contexto": "Ações de vol média a alta (PETR4, VALE3).",
+  "contexto": "Ações de vol média a alta (PETR4, VALE3). Anotações de aula: com ativos em custódia e caixa para assumir mais ativos; delta intermodular zero (não paga para sair).",
   "janela": "Mais de 24 dias úteis até o vencimento. Custo zero ou pequeno crédito.",
   "montagem": [
    "Ponta CALL: compre 2 CALLs ITM e venda 3 OTM (ou 3×4).",
@@ -216,7 +216,7 @@
   "fam": "ferramenta",
   "visao": "Renda sobre custódia",
   "objetivo": "Trocar a alta acima do strike vendido por renda, aproximando o exercício do dinheiro e reduzindo o risco de cauda.",
-  "contexto": "Quem já tem o ativo e quer substituir uma venda coberta simples.",
+  "contexto": "Quem já tem o ativo e quer substituir uma venda coberta simples. Anotações de aula: montar com ativos em custódia (estrutura de perenidade).",
   "janela": "Não é estratégia autônoma: depende da custódia. 20 a 45 dias úteis.",
   "montagem": [
    "Ativo em custódia: condição obrigatória.",
@@ -301,7 +301,7 @@
   "fam": "ferramenta",
   "visao": "Renda sobre caixa",
   "objetivo": "Usar o caixa como garantia para receber prêmio com o exercício mais perto do dinheiro.",
-  "contexto": "Quem tem caixa e aceitaria comprar o ativo mais barato.",
+  "contexto": "Quem tem caixa e aceitaria comprar o ativo mais barato. Anotações de aula: montar com ativos em custódia ou caixa reservado.",
   "janela": "Exige dinheiro em caixa ou garantia. 20 a 45 dias úteis.",
   "montagem": [
    "Compre 1 PUT.",
@@ -330,7 +330,7 @@
   "fam": "borboleta",
   "visao": "Alvo de preço · vol cara",
   "objetivo": "Ganhar muito se o papel terminar perto de um preço-alvo, com custo baixo e risco limitado ao débito.",
-  "contexto": "Alvo de preço preciso no vencimento (lateralidade apertada ou strike que atrai o preço).",
+  "contexto": "Alvo de preço preciso no vencimento (lateralidade apertada ou strike que atrai o preço). Anotações de aula: asas com no mínimo 2,5 desvios padrão (PETR4: 1,5), opções fora do dinheiro; stop se o ativo passar da metade da segunda asa.",
   "janela": "10 a 30 dias úteis. Débito pequeno; ganho máximo no corpo = largura da asa − débito.",
   "montagem": [
    "Compre a CALL do strike de baixo.",
@@ -383,7 +383,7 @@
   "fam": "protecao",
   "visao": "Renda fixa sintética · lateral",
   "objetivo": "Trava de alta de CALL + trava de baixa de PUT nos mesmos strikes: payoff travado igual à distância entre os strikes.",
-  "contexto": "Mercado lateral; ferramenta de financiamento/arbitragem da taxa embutida nas opções, rolada continuamente.",
+  "contexto": "Mercado lateral; ferramenta de financiamento/arbitragem da taxa embutida nas opções, rolada continuamente. Anotações de aula: ideal em mercado lateral.",
   "janela": "Qualquer prazo; compare o retorno (largura − custo) ÷ custo com o CDI do período.",
   "montagem": [
    "Compre a trava de alta em CALL (strike baixo/alto).",
@@ -439,7 +439,7 @@
   "fam": "calendario",
   "visao": "Alvo de preço · tempo a favor",
   "objetivo": "Borboleta assimétrica no tempo: corpo comprado no vencimento longo e asas vendidas no curto.",
-  "contexto": "Alvo de preço no vencimento curto; gasta menos capital que a borboleta comum e o tempo trabalha mais a favor.",
+  "contexto": "Alvo de preço no vencimento curto; gasta menos capital que a borboleta comum e o tempo trabalha mais a favor. Anotações de aula: com CALL e ratio; gasta menos que a borboleta; ativos como BOVA11, PETR4 e ABEV3.",
   "janela": "Asas curtas com 8 a 25 dias úteis; corpo no vencimento seguinte.",
   "montagem": [
    "Venda a CALL curta do strike de baixo (asa).",
@@ -595,7 +595,7 @@
   "fam": "renda",
   "visao": "Alta lenta ou lateral · vol cara",
   "objetivo": "Transformar a ação em carteira em renda recorrente, aceitando vender no strike + prêmio.",
-  "contexto": "Papel em carteira, sem expectativa de alta forte no curto prazo, com vol implícita cara.",
+  "contexto": "Papel em carteira, sem expectativa de alta forte no curto prazo, com vol implícita cara. Anotações de aula: tratar como operação de taxa: se a opção ficar muito dentro do dinheiro e a rolagem não der crédito, deixar exercer.",
   "janela": "20 a 45 dias úteis. Crédito = prêmio. Lastro = ações em custódia.",
   "montagem": [
    "Tenha as ações em custódia (lote compatível com as opções).",
@@ -622,7 +622,7 @@
   "fam": "renda",
   "visao": "Alta · renda parcial",
   "objetivo": "Gerar fluxo parecido com dividendo lançando CALL sobre só uma fatia da posição.",
-  "contexto": "Você quer renda recorrente sem abrir mão do potencial de alta da maior parte da carteira.",
+  "contexto": "Você quer renda recorrente sem abrir mão do potencial de alta da maior parte da carteira. Anotações de aula: fazer só sobre uma pequena parcela da carteira, para acompanhar uma possível alta.",
   "janela": "Ciclos mensais. Lance de 20% a 30% da posição (no exemplo, 30%).",
   "montagem": [
    "Defina a fatia da carteira (ex.: 30% das ações).",
@@ -649,7 +649,7 @@
   "fam": "direcional",
   "visao": "Defesa após alta forte",
   "objetivo": "Usar a venda de uma CALL para financiar uma trava de baixa de PUT que protege quem já tem o ativo.",
-  "contexto": "Mercado que subiu forte e você já possui o ativo: quer travar parte do ganho contra uma correção.",
+  "contexto": "Mercado que subiu forte e você já possui o ativo: quer travar parte do ganho contra uma correção. Anotações de aula: montar quando o mercado sobe forte; é defesa para quem tem o ativo.",
   "janela": "15 a 45 dias úteis. Custo próximo de zero.",
   "montagem": [
    "Tenha o ativo em custódia.",
@@ -676,7 +676,7 @@
   "fam": "renda",
   "visao": "Neutro · taxa travada",
   "objetivo": "Comprar a ação e vender CALL dentro do dinheiro para travar uma taxa até o vencimento.",
-  "contexto": "Ativos de menor volatilidade e alta liquidez (índices, ETFs, empresas sólidas), quando a taxa embutida supera o CDI.",
+  "contexto": "Ativos de menor volatilidade e alta liquidez (índices, ETFs, empresas sólidas), quando a taxa embutida supera o CDI. Anotações de aula: ativos de taxa menor: índices, ETFs, empresas sólidas e de baixa volatilidade.",
   "janela": "20 a 45 dias úteis. Desembolso = preço da ação − prêmio. Taxa = (strike − desembolso) ÷ desembolso.",
   "montagem": [
    "Compre a ação.",
@@ -730,7 +730,7 @@
   "fam": "gradiente",
   "visao": "Escada de boosters",
   "objetivo": "Cada camada vende uma PUT e financia um booster horizontal num strike vizinho, formando uma escada.",
-  "contexto": "Sugerido em PETR4 e ABEV3, sempre com ativos em custódia.",
+  "contexto": "Sugerido em PETR4 e ABEV3, sempre com ativos em custódia. Anotações de aula: PETR4 ou ABEV3, com ativos em custódia e exposição pequena.",
   "janela": "Curtas no vencimento próximo; CALLs longas no seguinte.",
   "montagem": [
    "Ativo em custódia (cobre a CALL extra vendida).",
@@ -1138,7 +1138,7 @@
   "fam": "modular",
   "visao": "Eficiência de capital",
   "objetivo": "Substituir uma opção ITM (que consome mais capital) por uma estrutura de razão 1×2 num strike vizinho, liberando capital.",
-  "contexto": "Quando você está com CALL ou PUT ITM (dentro do dinheiro).",
+  "contexto": "Quando você está com CALL ou PUT ITM (dentro do dinheiro). Anotações de aula: ideal quando se está com CALL ou PUT dentro do dinheiro.",
   "janela": "Longa no vencimento distante; 2 curtas no próximo.",
   "montagem": [
    "Compre a opção longa no strike de baixo.",
@@ -1276,7 +1276,7 @@
   "fam": "direcional",
   "visao": "Recuperação após queda forte",
   "objetivo": "Financiar uma trava de alta de CALL com a venda de uma PUT fora do dinheiro.",
-  "contexto": "Mercado que caiu forte: a PUT vendida fica gorda (vol alta) e barateia a aposta de recuperação.",
+  "contexto": "Mercado que caiu forte: a PUT vendida fica gorda (vol alta) e barateia a aposta de recuperação. Anotações de aula: montar quando o mercado cai forte.",
   "janela": "15 a 45 dias úteis. Custo próximo de zero ou crédito.",
   "montagem": [
    "Venda PUT OTM (abaixo do preço, num preço em que aceitaria comprar).",
@@ -1326,7 +1326,7 @@
   "fam": "perene",
   "visao": "Reciclagem · caixa com proteção",
   "objetivo": "Pagar uma PUT longa para vender straddle curto sem pânico nas quedas.",
-  "contexto": "Geração de caixa constante com proteção patrimonial.",
+  "contexto": "Geração de caixa constante com proteção patrimonial. Anotações de aula: ideal com ativos em custódia.",
   "janela": "PUT longa de 24 meses (POP 08); straddle curto mensal.",
   "montagem": [
    "Compre 1 PUT de 2 anos: o escudo contra crises.",
@@ -1356,7 +1356,7 @@
   "fam": "perene",
   "visao": "Reversão à média após queda",
   "objetivo": "O prêmio duplo do straddle vendido financia uma CALL de vencimento distante, que protege o lado de cima.",
-  "contexto": "Mercado que caiu muito, apostando em estabilização. Pensado para ser rolado continuamente.",
+  "contexto": "Mercado que caiu muito, apostando em estabilização. Pensado para ser rolado continuamente. Anotações de aula: montar quando o mercado cai muito, a custo zero (ex.: −M24 −A24 +F24).",
   "janela": "Straddle curto mensal; CALL longa meses à frente. ZCC (custo próximo de zero).",
   "montagem": [
    "Venda a PUT ATM curta.",
@@ -1431,7 +1431,7 @@
   "fam": "perene",
   "visao": "Mercado sem vol",
   "objetivo": "Strangle coberto com manejo pré-definido para cada lado.",
-  "contexto": "Mercados sem volatilidade (vol realizada baixa, preço lateral).",
+  "contexto": "Mercados sem volatilidade (vol realizada baixa, preço lateral). Anotações de aula: ideal em mercado sem volatilidade.",
   "janela": "Vendidas curtas; CALL de proteção mais longa.",
   "montagem": [
    "Venda a CALL curta e compre a CALL longa de strike acima.",
@@ -1511,7 +1511,7 @@
   "fam": "calendario",
   "visao": "Tesouraria · rolagem contínua",
   "objetivo": "THL pensado para ser rolado indefinidamente, com custo medido por mês (Unidade Temporal, UT).",
-  "contexto": "Papel líquido com séries longas negociadas; foco em fluxo mensal.",
+  "contexto": "Papel líquido com séries longas negociadas; foco em fluxo mensal. Anotações de aula: opções de 3 a 6 meses (não de 2 anos); calcular o custo mensal (unidade temporal).",
   "janela": "Iniciar com opções longas de 3 a 6 meses. Não fazer com opções de 2 anos.",
   "montagem": [
    "Compre a opção longa (3 a 6 meses).",
@@ -1567,8 +1567,8 @@
   "contexto": "Tesouraria de longo prazo, com rolagens mensais (exemplo do curso: PETR4 a R$ 30).",
   "janela": "Ciclos mensais.",
   "montagem": [
-   "Ponta CALL: compre 1 CALL longa e venda 2 curtas no mesmo strike.",
-   "Ponta PUT: compre 1 PUT longa e venda 2 curtas no mesmo strike."
+   "Ponta CALL: compre 3 CALLs longas e venda 4 curtas no mesmo strike.",
+   "Ponta PUT: compre 3 PUTs longas e venda 4 curtas no mesmo strike."
   ],
   "manejo": "No vencimento, aproveite o colapso do extrínseco da ponta inutilizada para rolar a ponta viva e remontar a simetria a custo zero. Qualquer direção já tem receita de qual perna fechar e qual abrir.",
   "saida": "Estrutura perene.",
@@ -1592,7 +1592,7 @@
   "fam": "direcional",
   "visao": "Alta moderada · vol baixa a média",
   "objetivo": "Apostar na alta até um alvo com custo e risco definidos.",
-  "contexto": "Alta moderada até uma resistência. Ideal depois de uma queda grande do ativo (recuperação).",
+  "contexto": "Alta moderada até uma resistência. Ideal depois de uma queda grande do ativo (recuperação). Anotações de aula: montar depois de grandes quedas.",
   "janela": "Montar só entre 12 e 6 dias úteis do vencimento. Com mais de 22 dias úteis, o extrínseco impede a trava de reagir ao movimento (knockout temporal). Débito = diferença dos prêmios.",
   "montagem": [
    "Compre a CALL de strike menor (perto do preço).",
@@ -1641,7 +1641,7 @@
   "fam": "direcional",
   "visao": "Baixa moderada · vol baixa a média",
   "objetivo": "Apostar na queda até um suporte-alvo com custo e risco definidos.",
-  "contexto": "Correção esperada depois de uma alta grande do ativo, com alvo num suporte.",
+  "contexto": "Correção esperada depois de uma alta grande do ativo, com alvo num suporte. Anotações de aula: montar depois de grandes altas.",
   "janela": "Montar só entre 12 e 6 dias úteis do vencimento; com mais de 22 dias úteis, knockout temporal. Débito = diferença dos prêmios.",
   "montagem": [
    "Compre a PUT de strike maior (perto do preço).",

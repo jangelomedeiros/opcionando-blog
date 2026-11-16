@@ -1,0 +1,31 @@
+---
+import '../../styles/catalogo.css';
+import '../../styles/conceitos.css';
+import Base from '../../layouts/Base.astro';
+import Modulo from '../../components/conceitos/Modulo.tsx';
+import { DISCLAIMER } from '../../consts';
+import GRADE from '../../data/grades/bbas3-2026-11-13.json';
+import { opcaoDaGrade } from '../../lib/conceitos/jornada.ts';
+import { MODULOS } from '../../data/conceitos.ts';
+
+export function getStaticPaths() {
+  return MODULOS.map((m) => ({ params: { modulo: m.slug }, props: { m } }));
+}
+const { m } = Astro.props;
+const call = opcaoDaGrade(GRADE as any, 'call');
+const put = opcaoDaGrade(GRADE as any, 'put');
+---
+<Base title={`${m.titulo} | Conceitos`} description={m.resumo}>
+  <section class="container-larga pagina">
+    <p class="sobretitulo"><a href="/conceitos/">Conceitos</a></p>
+    <h1>{m.titulo}</h1>
+    <p class="intro">{m.intro}</p>
+    <div class="fig jp-fig">
+      <Modulo client:only="preact" modulo={m.slug} dados={{ call, put }} />
+      <noscript><div class="jp-estatico"><p>{m.semJs}</p><p>Ative o JavaScript para mexer nos controles e ver o gráfico.</p></div></noscript>
+    </div>
+    <p class="caixa"><strong>Na prática:</strong> {m.pratica}</p>
+    <p class="nota">Opção real da grade de 13/11/2026 ({call.ticker} e {put.ticker}, BBAS3). Cálculos por Black-Scholes com Selic de 15% a.a. e dias úteis/252.{m.slug === 'probabilidade' ? ' A probabilidade é a do modelo (distribuição lognormal neutra ao risco), não uma previsão.' : ''}</p>
+    <p class="aviso-legal">{DISCLAIMER}</p>
+  </section>
+</Base>

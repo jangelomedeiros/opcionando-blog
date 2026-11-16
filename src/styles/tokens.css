@@ -1,0 +1,71 @@
+/* ==========================================================
+   Tokens de cor do Opcionando: a única fonte de cores do site.
+   Tema escuro ("petróleo escuro") é o padrão; o claro é opcional
+   (botão no cabeçalho, guardado em localStorage 'opcionando-tema').
+   Contraste conferido por tests/contraste.test.mjs.
+   ========================================================== */
+:root {
+  color-scheme: dark;
+  --fundo: #0b2329;
+  --fundo-profundo: #071a1f;
+  --superficie: #10313a;
+  --superficie-2: #153b45;
+  --borda: #1f4650;
+  --borda-forte: #5f8088;
+  --texto: #e6ebe9;
+  --texto-suave: #a9b8ba;
+  --titulo: #fbf6ec;
+  --destaque: #7fc6d1;
+  --marca: #f2694d;
+  --marca-hover: #ff7d63;
+  --marca-texto: #f2694d;
+  --texto-sobre-marca: #0b2329;
+  --lucro: #3cc39a;
+  --prejuizo: #e25c5c;
+  --lucro-texto: #3cc39a;
+  --prejuizo-texto: #ec7070;
+  --hoje: #f3d27a;
+  --atencao-texto: #f3d27a;
+  --serie-a: #e8b33a;
+  --serie-b: #a89cf0;
+  --petroleo: #0e4a55;
+  --creme: #fbf6ec;
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+  --fundo: #fbf6ec;
+  --fundo-profundo: #0e4a55;
+  --superficie: #ffffff;
+  --superficie-2: #f4f2ee;
+  --borda: #e3ddd0;
+  --borda-forte: #8a8f86;
+  --texto: #2a2d31;
+  --texto-suave: #5b6168;
+  --titulo: #0e4a55;
+  --destaque: #0e4a55;
+  --marca: #e65a3d;
+  --marca-hover: #d64f33;
+  --marca-texto: #b8432c;
+  --texto-sobre-marca: #0b2329;
+  --lucro: #1f9a74;
+  --prejuizo: #cc4444;
+  --lucro-texto: #17775a;
+  --prejuizo-texto: #b23434;
+  --hoje: #b7860b;
+  --atencao-texto: #7f5d00;
+  --serie-a: #b07d00;
+  --serie-b: #6b5bd6;
+  --petroleo: #0e4a55;
+  --creme: #fbf6ec;
+}
+
+/* Derivados: recalculam sozinhos a partir do tema ativo. */
+:root,
+:root[data-theme="light"] {
+  --lucro-area: color-mix(in srgb, var(--lucro) 24%, transparent);
+  --prejuizo-area: color-mix(in srgb, var(--prejuizo) 28%, transparent);
+  --destaque-area: color-mix(in srgb, var(--destaque) 10%, transparent);
+  --marca-area: color-mix(in srgb, var(--marca) 10%, transparent);
+  --sombra: 0 8px 24px color-mix(in srgb, #000 28%, transparent);
+}

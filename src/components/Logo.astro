@@ -5,7 +5,7 @@ interface Props { size?: number }
 const { size = 36 } = Astro.props;
 ---
 <svg width={size} height={size} viewBox="0 0 48 48" aria-hidden="true">
-  <rect width="48" height="48" rx="12" fill="var(--petroleo)" />
+  <rect x="0.5" y="0.5" width="47" height="47" rx="12" fill="var(--petroleo)" stroke="var(--borda-forte)" />
   <line x1="9" y1="27" x2="39" y2="17" stroke="var(--creme)" stroke-width="3.2" stroke-linecap="round" />
   <path d="M24 22 L31 36 H17 Z" fill="var(--coral)" />
   <circle cx="39" cy="17" r="3.6" fill="var(--coral)" />
