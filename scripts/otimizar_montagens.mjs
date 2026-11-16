@@ -12,14 +12,20 @@ import { deltaEstrutural } from '../src/lib/catalogo/protocolo.ts';
 import { gradeParaManejo } from '../src/lib/catalogo/gradeManejo.ts';
 import { iniciar, aplicar } from '../src/lib/catalogo/simulacao.ts';
 import { VEREDITO } from '../src/lib/otimizacao/validacao.ts';
+import { resolverArg } from './lib/caminhos.mjs';
+import { fileURLToPath } from 'node:url';
 
 const RAIZ = new URL('../', import.meta.url);
-const ler = (p) => JSON.parse(readFileSync(new URL(p, RAIZ), 'utf8'));
+const daRaiz = (p) => fileURLToPath(new URL(p, RAIZ));
+const ler = (p) => JSON.parse(readFileSync(p, 'utf8'));
 // Sem argumentos, usa a grade e os candles apontados por src/data/laboratorio/fontes.json.
-const FONTES = ler('src/data/laboratorio/fontes.json');
-const [gradeArq = FONTES.grade, candlesArq = FONTES.candles, relArqOpt] = process.argv.slice(2);
+// Argumentos valem a partir da pasta atual; sem eles, os caminhos de fontes.json (relativos à raiz do repositório).
+const FONTES = ler(daRaiz('src/data/laboratorio/fontes.json'));
+const [gradeArg, candlesArg, relArg] = process.argv.slice(2);
+const gradeArq = gradeArg ? resolverArg(gradeArg) : daRaiz(FONTES.grade);
+const candlesArq = candlesArg ? resolverArg(candlesArg) : daRaiz(FONTES.candles);
 const G = ler(gradeArq), C = ler(candlesArq);
-const relArq = relArqOpt ?? `docs/revisao/${G.data}-validacao-estruturas.md`;
+const relArq = relArg ? resolverArg(relArg) : daRaiz(`docs/revisao/${G.data}-validacao-estruturas.md`);
 const E = ler(new URL('src/data/laboratorio/estruturas.json', RAIZ));
 const MANEJO = ler(new URL('src/data/laboratorio/manejo.json', RAIZ));
 const spot = Math.round(G.spot * 100) / 100, data = G.data;
@@ -138,6 +144,6 @@ const md = [
 // A seção "Leitura do operador" é escrita à mão e sobrevive à regeração.
 const MARCA = '## Leitura do operador';
 let leitura = '';
-try { const atual = readFileSync(new URL(relArq, RAIZ), 'utf8'); const i = atual.indexOf(MARCA); if (i >= 0) leitura = atual.slice(i); } catch {}
-writeFileSync(new URL(relArq, RAIZ), md.join('\n') + leitura);
+try { const atual = readFileSync(relArq, 'utf8'); const i = atual.indexOf(MARCA); if (i >= 0) leitura = atual.slice(i); } catch {}
+writeFileSync(relArq, md.join('\n') + leitura);
 console.log(`${E.length} estruturas · σ base ${pct(sigma)} · estresse ${pct(sigmaEstresse)} · montar ${cont('montar')} · ressalva ${cont('montar-com-ressalva')} · não montar ${cont('nao-montar')}`);

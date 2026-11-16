@@ -4,8 +4,8 @@
 //
 // Uso: node scripts/nova_grade.mjs PLANILHA.xlsx OHLCV.json [--plano]
 //   --plano  só imprime os passos, sem executar.
-import { readFileSync, writeFileSync, renameSync, mkdtempSync } from 'node:fs';
-import { spawnSync } from 'node:child_process';
+import { readFileSync, writeFileSync, copyFileSync, rmSync, mkdtempSync } from 'node:fs';
+import { executar } from './lib/executar.mjs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 
@@ -31,8 +31,8 @@ if (plano) { for (const p of passos) console.log(p.nome); process.exit(0); }
 
 const rodar = (nome, [exe, argv]) => {
   console.log(`\n▶ ${nome}`);
-  const r = spawnSync(exe, argv, { cwd: RAIZ, stdio: 'inherit', shell: process.platform === 'win32' });
-  if (r.status !== 0) { console.error(`✖ falhou: ${nome}`); process.exit(r.status ?? 1); }
+  const r = executar(exe, argv, { cwd: RAIZ });
+  if (r.status !== 0) { console.error(`✖ falhou: ${nome} (${r.causa})`); process.exit(r.status || 1); }
 };
 
 // 1. Grade para um arquivo temporário; a data vem do próprio JSON importado.
@@ -41,7 +41,8 @@ rodar(passos[0].nome, [passos[0].cmd[0], passos[0].cmd[1].map((a) => (a === '<tm
 const grade = JSON.parse(readFileSync(tmp, 'utf8'));
 const data = grade.data, ativo = String(grade.ativo).toLowerCase();
 const gradePath = `src/data/grades/${ativo}-${data}.json`, candlesPath = `src/data/candles/${ativo}-${data}.json`;
-renameSync(tmp, new URL(gradePath, RAIZ));
+// Cópia + remoção: rename falha entre discos diferentes (ex.: TEMP em C: e repositório em D:).
+copyFileSync(tmp, new URL(gradePath, RAIZ)); rmSync(tmp, { force: true });
 console.log(`grade ${data} · ${grade.series.length} séries → ${gradePath}`);
 
 // 2. Candles do OHLCV.

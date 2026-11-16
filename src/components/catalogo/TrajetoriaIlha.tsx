@@ -3,15 +3,16 @@
 // Renderizada no build (aparece sem JavaScript) e, hidratada, acompanha o simulador de manejo:
 // depois de um ajuste, recomeça do cenário do ajuste e mostra tracejada a linha "sem o ajuste".
 import { useEffect, useMemo, useState } from 'preact/hooks';
-import { trajetoria, fraseTrajetoria, pontoDePartida, paradoEm } from '../../lib/catalogo/trajetoria.ts';
+import { trajetoria, fraseTrajetoria, pontoDePartida, paradoEm, rs } from '../../lib/catalogo/trajetoria.ts';
 import { segmentosPorSinal, escalas, caminho, area, type Ponto } from '../../lib/catalogo/grafico.ts';
 import type { Cenario, Posicao } from '../../lib/motor/posicao.ts';
 
 interface Props { posicao: Posicao; cenario: Cenario; sigma: number }
 interface Simulacao { posicao: Posicao; ajustes: { nome: string; cenario: Cenario }[] }
 
-const CAIXA = { L: 44, R: 88, T: 12, B: 26, W: 560, H: 220 };
-const br = (v: number) => (v < -0.0049 ? '−' : '') + Math.abs(v).toFixed(2).replace('.', ',');
+const CAIXA = { L: 64, R: 140, T: 12, B: 26, W: 560, H: 220 };
+// Mesmo formato (e o mesmo limiar de sinal) da frase: sem o "R$ " nos rótulos do gráfico.
+const br = (v: number) => rs(v).replace('R$ ', '');
 const dm = (iso: string) => `${iso.slice(8, 10)}/${iso.slice(5, 7)}`;
 const pts = (ys: number[]): Ponto[] => ys.map((y, i) => [i, y]);
 
@@ -47,7 +48,7 @@ export default function TrajetoriaIlha({ posicao, cenario, sigma }: Props) {
   // Rótulos no fim das linhas, afastados para não se sobreporem.
   const fins = [
     { k: 'parado', nome: 'parado', y: t.parado[n] }, { k: 'alta', nome: '+1σ', y: t.alta[n] }, { k: 'baixa', nome: '−1σ', y: t.baixa[n] },
-    ...(semAjuste ? [{ k: 'antes', nome: 'sem ajuste', y: semAjuste[n] }] : []),
+    ...(semAjuste ? [{ k: 'antes', nome: 'antes', y: semAjuste[n] }] : []),
   ].map((f) => ({ ...f, py: Y(f.y) })).sort((a, b) => a.py - b.py);
   for (let i = 1; i < fins.length; i++) if (fins[i].py - fins[i - 1].py < 13) fins[i].py = fins[i - 1].py + 13;
   const frase = fraseTrajetoria(t);
@@ -74,7 +75,7 @@ export default function TrajetoriaIlha({ posicao, cenario, sigma }: Props) {
       </svg>
       <p class="traj-legenda">
         <span><i class="k-parado"></i>preço parado (o tempo sozinho)</span><span><i class="k-alta"></i>preço subindo 1σ</span><span><i class="k-baixa"></i>preço caindo 1σ</span>
-        {semAjuste && <span><i class="k-antes"></i>sem o ajuste, preço parado</span>}
+        {semAjuste && <span><i class="k-antes"></i>antes: sem o ajuste, preço parado</span>}
       </p>
       <p>{frase}{semAjuste && ` Sem o ajuste, com o preço parado, a posição original terminaria esse período em R$ ${br(semAjuste[n])}.`}</p>
       <p class="nota">Resultado por unidade a cada dia útil, com a vol das opções congelada na de entrada. Os caminhos de ±1σ abrem com a raiz do tempo, na vol realizada de {Math.round(sigma * 100)}%: cerca de dois terços dos pregões terminam entre eles. Simule um ajuste na aba Manejo e este gráfico passa a mostrar a posição ajustada.</p>

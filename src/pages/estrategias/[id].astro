@@ -263,9 +263,15 @@ const descricao = `${est.nome}: gráfico de payoff interativo, gregas, procedime
         window.dispatchEvent(new CustomEvent('opcionando:manejo', { detail: { nome: b.getAttribute('data-nome'), ops: JSON.parse(b.getAttribute('data-ops')) } }));
         var g = document.querySelector('.est-esq');
         if (g && window.innerWidth <= 820) g.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        // Depois de simular, o atalho ao lado leva à trajetória no tempo já com o ajuste.
+      });
+    });
+    // O atalho "Ver a dinâmica no tempo" segue o estado do simulador: aparece ao lado dos caminhos que estão
+    // aplicados e some com Desfazer/Recomeçar. Ajuste que falha não emite o evento, então o atalho não aparece.
+    window.addEventListener('opcionando:simulacao', function (ev) {
+      var nomes = (ev.detail.ajustes || []).map(function (a) { return a.nome; });
+      document.querySelectorAll('button.simular').forEach(function (b) {
         var v = b.parentElement.querySelector('button.ver-traj');
-        if (v && document.querySelector('.traj')) v.hidden = false;
+        if (v) v.hidden = nomes.indexOf(b.getAttribute('data-nome')) < 0;
       });
     });
     document.querySelectorAll('button.ver-traj').forEach(function (v) {
