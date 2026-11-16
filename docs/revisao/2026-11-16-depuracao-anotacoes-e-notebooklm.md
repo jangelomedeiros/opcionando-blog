@@ -75,3 +75,9 @@ Fontes cruzadas:
 - Seções vazias das anotações: TLAD coberta, GL TLAD, GL de Módulo Q, Box/p.
 - A notação truncada do booster para PUT vendida ("−R17 → F120 − 2F127 + F17").
 - A oferta de planilha do NotebookLM.
+
+## 7. Decisões do autor (16/11/2026)
+
+1. **Strangle/P coberto:** vale a montagem do catálogo (CALL vendida, CALL longa e PUT vendida). Nada muda.
+2. **TLAD:** passa à proporção **3:4** das anotações (3 longas para 4 curtas em cada lado). As pernas, o texto e o POP foram atualizados, e a estrutura foi remontada na grade de 13/11.
+3. **Regras de entrada das anotações:** aprovadas. Entraram no "Contexto de entrada" dos POPs, com o prefixo "Anotações de aula:".

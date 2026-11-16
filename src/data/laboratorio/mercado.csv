@@ -42,10 +42,10 @@ bear-put-spread;principal;PUT;1;BBASW155W4;15,50;2026-11-27;0,64;0,3764;14;ultim
 bear-put-spread;principal;PUT;-1;BBASW150W4;15,00;2026-11-27;0,34;0,3627;52;ultimo
 thl-call;principal;CALL;1;BBASB159;15,76;2027-02-19;0,91;0,3975;13;ultimo
 thl-call;principal;CALL;-1;BBASA154;15,45;2027-01-15;0,78;0,3945;856;ultimo
-clade;principal;CALL;1;BBASB159;15,76;2027-02-19;0,91;0,3975;13;ultimo
-clade;principal;CALL;-2;BBASA154;15,45;2027-01-15;0,78;0,3945;856;ultimo
-clade;principal;PUT;1;BBASN159;15,76;2027-02-19;1,13;0,2473;44;ultimo
-clade;principal;PUT;-2;BBASM154;15,45;2027-01-15;0,85;0,2756;1010;ultimo
+clade;principal;CALL;3;BBASB159;15,76;2027-02-19;0,91;0,3975;13;ultimo
+clade;principal;CALL;-4;BBASA154;15,45;2027-01-15;0,78;0,3945;856;ultimo
+clade;principal;PUT;3;BBASN159;15,76;2027-02-19;1,13;0,2473;44;ultimo
+clade;principal;PUT;-4;BBASM154;15,45;2027-01-15;0,85;0,2756;1010;ultimo
 straddle-long-put;principal;PUT;1;BBASN159;15,76;2027-02-19;1,13;0,2473;44;ultimo
 straddle-long-put;principal;CALL;-1;BBASK150W4;15,00;2026-11-27;0,53;0,4473;12;ultimo
 straddle-long-put;principal;PUT;-1;BBASW150W4;15,00;2026-11-27;0,34;0,3627;52;ultimo

@@ -740,9 +740,11 @@
   "nome": "TLAD — Trava de Linha Assimétrica Dupla (antiga Clade)",
   "familia": "Tempo / rolagem",
   "pop": "tlad",
-  "racional": "TLAD (o nome correto da antiga \"Clade\"): combina duas razões horizontais 1×2 no mesmo strike: uma em CALL e outra em PUT. A proposta é reciclar a perna que perde valor e manter a perna longa como matéria-prima do ciclo seguinte.",
+  "racional": "TLAD (o nome correto da antiga \"Clade\"): combina duas razões horizontais 3×4 no mesmo strike (3 longas para 4 curtas): uma em CALL e outra em PUT. A proposta é reciclar a perna que perde valor e manter a perna longa como matéria-prima do ciclo seguinte.",
   "esperado": "No vencimento curto, as opções longas continuam vivas. A curva mostra o valor estimado dessas longas após o exercício/expiração das curtas.",
-  "notas": [],
+  "notas": [
+   "Proporção 3:4 conforme as anotações de aula (ex.: PETR4 a 30: 3B30 − 4A30 + 3N30 − 4M30)."
+  ],
   "modo": "mtm",
   "comp_label": null,
   "pernas": [
