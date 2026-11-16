@@ -285,7 +285,7 @@ Os cenários de Gradiente (Linha de Mannerheim, GL short put + booster, Asymmetr
 | calendar-butterfly | vende as asas curtas e compra 2 no miolo longo | compra as asas e vende o miolo na série curta |
 | hyperfly | 1 × −3 × 2 | 2 × −3 × 1 |
 | malha-bw | 2 × −3 × 1 | rede de BWBs 1 × −2 × 1 |
-| fly-modular | tem uma PUT vendida (par binário) | só CALLs (+3 / −4 / +1) |
+| fly-modular | tem uma PUT vendida (par binário) | **sem divergência**: as anotações de aula confirmam que o fly modular se usa sempre com par binário (PUT vendida); o exemplo só-CALL do POP é o cálculo do delta estrutural |
 | modulo-q | só o lado CALL | 4 pernas (CALL e PUT, longas de 3 a 6 meses) |
 
 **Regra de entrada (crédito ≥ delta estrutural):** com os preços atuais, a montagem do catálogo **atende** na BWB e **não atende** na Malha de BWB nem na Hyperfly. A aba Visão mostra o cálculo.

@@ -52,3 +52,8 @@ test('gradiente: regra de ouro, nunca aumentar o lote', () => {
 test('Módulo Q rola com redução de 10%', () => {
   assert.ok(caminhos('modulo-q').some((p) => /10%/.test(p.nome) && p.ops.some((o) => o.op === 'quantidade')));
 });
+
+test('as 62 estruturas têm manejo', () => {
+  const E = JSON.parse(readFileSync(new URL('../src/data/laboratorio/estruturas.json', import.meta.url), 'utf8'));
+  assert.deepEqual(E.filter((e) => !MANEJO[e.id]).map((e) => e.id), []);
+});

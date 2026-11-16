@@ -2714,6 +2714,38 @@
       ]
      }
     ]
+   },
+   {
+    "nome": "O ativo caiu muito abaixo do strike",
+    "sinais": "O preço se afastou bastante da linha dos strikes; a THL pode ter perda total.",
+    "pesa": "Nas anotações de aula: montar um hedge com broken wings. Os 3 pilares: o ajuste precisa melhorar o delta, o theta ou reduzir a exposição.",
+    "caminhos": [
+     {
+      "nome": "Hedge com broken wings",
+      "descricao": "Monta uma borboleta de asa quebrada para aliviar a PUT vendida (delta estrutural de no máximo −1).",
+      "ganha": "Delimita o risco da queda.",
+      "perde": "Exige montar a BWB com crédito.",
+      "quando": "Quando o ativo caiu muito abaixo do strike.",
+      "estrutura": "bwb"
+     },
+     {
+      "nome": "Encerrar a THL",
+      "descricao": "Encerra as duas pernas.",
+      "ganha": "Para a perda.",
+      "perde": "Realiza o resultado.",
+      "quando": "Quando não cabe um hedge.",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p1"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p2"
+       }
+      ]
+     }
+    ]
    }
   ]
  },
@@ -3650,6 +3682,649 @@
        {
         "op": "encerrar",
         "perna": "p3"
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "hedge-inverse": {
+  "revisado": false,
+  "fonte": "Metodologia do Prof. Su (anotações de aula; manejo depurado pelo Claude)",
+  "cenarios": [
+   {
+    "nome": "Depois do hedge aplicado sobre a CALL vendida",
+    "sinais": "A CALL foi recomprada e a PUT vendida no mesmo strike passou a carregar o risco (posição sintética).",
+    "pesa": "Se o ativo estabilizou ou recuou. Os 3 pilares: o ajuste precisa melhorar o delta, o theta ou reduzir a exposição.",
+    "caminhos": [
+     {
+      "nome": "Recomprar a PUT com desconto",
+      "descricao": "Recompra a PUT vendida do hedge.",
+      "ganha": "Realiza o crédito do hedge.",
+      "perde": "Volta a ficar só com o resultado da CALL.",
+      "quando": "Quando o ativo recuou e a PUT perdeu valor.",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p3"
+       }
+      ]
+     },
+     {
+      "nome": "Rolar a PUT com redução de 10%",
+      "descricao": "Reduz em 10% a PUT vendida e rola o restante para a série seguinte.",
+      "ganha": "Mantém o caixa e reduz a exposição.",
+      "perde": "Prolonga a posição.",
+      "quando": "Em rolagem credora.",
+      "ops": [
+       {
+        "op": "quantidade",
+        "perna": "p3",
+        "q": -0.9
+       },
+       {
+        "op": "rolarVencimento",
+        "perna": "p3",
+        "passos": 1
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "hedge-straddle-din": {
+  "revisado": false,
+  "fonte": "Metodologia do Prof. Su (anotações de aula; manejo depurado pelo Claude)",
+  "cenarios": [
+   {
+    "nome": "Depois do hedge aplicado sobre a CALL vendida",
+    "sinais": "A CALL foi recomprada e o straddle foi vendido acima (CALL e PUT 24,54 no exemplo).",
+    "pesa": "No vencimento, uma ponta do straddle vira pó (abordagem dual). Os 3 pilares: o ajuste precisa melhorar o delta, o theta ou reduzir a exposição.",
+    "caminhos": [
+     {
+      "nome": "Zerar a ponta que virou pó e rolar a outra com redução de 10%",
+      "descricao": "Encerra a CALL de cima e rola a PUT do straddle com 10% a menos.",
+      "ganha": "Mantém o caixa da ponta viva e reduz a exposição.",
+      "perde": "Prolonga a posição.",
+      "quando": "No vencimento, se o ativo ficou abaixo do strike do straddle.",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p3"
+       },
+       {
+        "op": "quantidade",
+        "perna": "p4",
+        "q": -0.9
+       },
+       {
+        "op": "rolarVencimento",
+        "perna": "p4",
+        "passos": 1
+       }
+      ]
+     },
+     {
+      "nome": "Encerrar tudo",
+      "descricao": "Encerra as 4 pernas.",
+      "ganha": "Simplifica a custódia.",
+      "perde": "Realiza o resultado atual.",
+      "quando": "Quando o risco passou.",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p1"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p2"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p3"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p4"
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "hedge-booster-h": {
+  "revisado": false,
+  "fonte": "Metodologia do Prof. Su (anotações de aula; manejo depurado pelo Claude)",
+  "cenarios": [
+   {
+    "nome": "Depois do hedge aplicado sobre a CALL vendida",
+    "sinais": "As 2 PUTs curtas e a PUT longa entraram para financiar a CALL vendida.",
+    "pesa": "Rolagem mensal; zerar se o ativo chegar ao miolo. Os 3 pilares: o ajuste precisa melhorar o delta, o theta ou reduzir a exposição.",
+    "caminhos": [
+     {
+      "nome": "Rolar as PUTs curtas",
+      "descricao": "Rola as 2 PUTs curtas para a série seguinte.",
+      "ganha": "Mantém o fluxo para pagar a CALL.",
+      "perde": "Mantém a exposição na queda.",
+      "quando": "A cada ciclo credor.",
+      "ops": [
+       {
+        "op": "rolarVencimento",
+        "perna": "p2",
+        "passos": 1
+       }
+      ]
+     },
+     {
+      "nome": "Zerar no miolo",
+      "descricao": "Encerra as 3 pernas.",
+      "ganha": "Realiza o ganho do miolo.",
+      "perde": "O que restaria.",
+      "quando": "Quando o ativo chega ao miolo.",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p1"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p2"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p3"
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "hedge-calendar-line": {
+  "revisado": false,
+  "fonte": "Metodologia do Prof. Su (anotações de aula; manejo depurado pelo Claude)",
+  "cenarios": [
+   {
+    "nome": "Depois do hedge aplicado sobre a CALL vendida",
+    "sinais": "PUT curta, CALL longa e CALL curta entraram sobre a CALL vendida (THL de CALL + PUT).",
+    "pesa": "Explorar o efeito hole: rolar as curtas entre 12 e 6 du. Os 3 pilares: o ajuste precisa melhorar o delta, o theta ou reduzir a exposição.",
+    "caminhos": [
+     {
+      "nome": "Rolar as curtas",
+      "descricao": "Rola a PUT curta e as CALLs curtas para a série seguinte.",
+      "ganha": "Mantém o theta a favor.",
+      "perde": "Custos de rolagem.",
+      "quando": "Entre 12 e 6 du da curta.",
+      "ops": [
+       {
+        "op": "rolarVencimento",
+        "perna": "p1",
+        "passos": 1
+       },
+       {
+        "op": "rolarVencimento",
+        "perna": "p2",
+        "passos": 1
+       },
+       {
+        "op": "rolarVencimento",
+        "perna": "p4",
+        "passos": 1
+       }
+      ]
+     },
+     {
+      "nome": "Encerrar tudo",
+      "descricao": "Encerra as 4 pernas.",
+      "ganha": "A CALL longa pode cobrir o custo.",
+      "perde": "O fluxo dos próximos ciclos.",
+      "quando": "Quando a CALL vendida deixou de ser ameaça.",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p1"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p2"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p3"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p4"
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "hedge-mannerheim": {
+  "revisado": false,
+  "fonte": "Metodologia do Prof. Su (anotações de aula; manejo depurado pelo Claude)",
+  "cenarios": [
+   {
+    "nome": "Depois do hedge aplicado sobre a CALL vendida",
+    "sinais": "PUT vendida + 3 THLs de CALL entraram sobre a CALL vendida.",
+    "pesa": "O fluxo das THLs paga a neutralização da CALL. Os 3 pilares: o ajuste precisa melhorar o delta, o theta ou reduzir a exposição.",
+    "caminhos": [
+     {
+      "nome": "Rolar as curtas das THLs e a PUT",
+      "descricao": "Rola as CALLs curtas das THLs e a PUT vendida.",
+      "ganha": "Gera caixa semanal ou mensal.",
+      "perde": "Mantém a exposição.",
+      "quando": "A cada ciclo.",
+      "ops": [
+       {
+        "op": "rolarVencimento",
+        "perna": "p2",
+        "passos": 1
+       },
+       {
+        "op": "rolarVencimento",
+        "perna": "p4",
+        "passos": 1
+       }
+      ]
+     },
+     {
+      "nome": "Encerrar o hedge",
+      "descricao": "Encerra a PUT e as THLs, mantendo só a CALL original.",
+      "ganha": "Simplifica.",
+      "perde": "Abre mão do fluxo.",
+      "quando": "Quando o ativo voltou para baixo do strike.",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p2"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p3"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p4"
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "hedge-booster-v": {
+  "revisado": false,
+  "fonte": "Metodologia do Prof. Su (anotações de aula; manejo depurado pelo Claude)",
+  "cenarios": [
+   {
+    "nome": "Depois do hedge aplicado sobre a CALL vendida",
+    "sinais": "Booster vertical de PUT (1 comprada, 2 vendidas) entrou sobre a CALL vendida.",
+    "pesa": "Zerar no miolo; perda travada fora dele. Os 3 pilares: o ajuste precisa melhorar o delta, o theta ou reduzir a exposição.",
+    "caminhos": [
+     {
+      "nome": "Zerar no miolo",
+      "descricao": "Encerra o booster de PUT e a CALL.",
+      "ganha": "Realiza o ganho do miolo.",
+      "perde": "O que restaria.",
+      "quando": "Quando o ativo está entre os strikes do booster.",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p1"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p2"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p3"
+       }
+      ]
+     },
+     {
+      "nome": "Recomprar as PUTs vendidas baratas",
+      "descricao": "Recompra as 2 PUTs vendidas (regra dos R$ 0,20).",
+      "ganha": "Libera margem.",
+      "perde": "Os últimos centavos.",
+      "quando": "Quando valem R$ 0,20 ou menos.",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p3"
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "hedge-assimetrico": {
+  "revisado": false,
+  "fonte": "Metodologia do Prof. Su (anotações de aula; manejo depurado pelo Claude)",
+  "cenarios": [
+   {
+    "nome": "Depois do hedge aplicado sobre a PUT vendida",
+    "sinais": "CALL curta vendida + 2 CALLs longas entraram sobre a PUT vendida.",
+    "pesa": "Rolagem com redução de 10%. Os 3 pilares: o ajuste precisa melhorar o delta, o theta ou reduzir a exposição.",
+    "caminhos": [
+     {
+      "nome": "Rolar as curtas com redução de 10%",
+      "descricao": "Reduz em 10% a PUT e a CALL vendidas e rola o restante.",
+      "ganha": "Encolhe a exposição até normalizar a custódia.",
+      "perde": "Um pouco menos de crédito.",
+      "quando": "Em rolagem credora.",
+      "ops": [
+       {
+        "op": "quantidade",
+        "perna": "p1",
+        "q": -0.9
+       },
+       {
+        "op": "rolarVencimento",
+        "perna": "p1",
+        "passos": 1
+       },
+       {
+        "op": "quantidade",
+        "perna": "p2",
+        "q": -0.9
+       },
+       {
+        "op": "rolarVencimento",
+        "perna": "p2",
+        "passos": 1
+       }
+      ]
+     },
+     {
+      "nome": "Rolar sem redução",
+      "descricao": "Rola as vendidas inteiras.",
+      "ganha": "Mais crédito.",
+      "perde": "Não reduz a exposição.",
+      "quando": "Contra a regra dos 10%.",
+      "ops": [
+       {
+        "op": "rolarVencimento",
+        "perna": "p1",
+        "passos": 1
+       },
+       {
+        "op": "rolarVencimento",
+        "perna": "p2",
+        "passos": 1
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "hedge-straddle-ha": {
+  "revisado": false,
+  "fonte": "Metodologia do Prof. Su (anotações de aula; manejo depurado pelo Claude)",
+  "cenarios": [
+   {
+    "nome": "Depois do hedge aplicado sobre a PUT vendida",
+    "sinais": "CALL curta vendida + 2 CALLs longas entraram sobre a PUT vendida (straddle curto + CALLs longas).",
+    "pesa": "Rolar o straddle curto todo mês com redução de 10%. Os 3 pilares: o ajuste precisa melhorar o delta, o theta ou reduzir a exposição.",
+    "caminhos": [
+     {
+      "nome": "Rolar o straddle com redução de 10%",
+      "descricao": "Reduz em 10% a PUT e a CALL curtas e rola o restante.",
+      "ganha": "Caixa acumulado e exposição menor.",
+      "perde": "Um pouco menos de crédito.",
+      "quando": "Em rolagem credora.",
+      "ops": [
+       {
+        "op": "quantidade",
+        "perna": "p1",
+        "q": -0.9
+       },
+       {
+        "op": "rolarVencimento",
+        "perna": "p1",
+        "passos": 1
+       },
+       {
+        "op": "quantidade",
+        "perna": "p2",
+        "q": -0.9
+       },
+       {
+        "op": "rolarVencimento",
+        "perna": "p2",
+        "passos": 1
+       }
+      ]
+     },
+     {
+      "nome": "Encerrar o straddle curto",
+      "descricao": "Encerra a PUT e a CALL curtas, mantendo as CALLs longas.",
+      "ganha": "Simplifica a custódia.",
+      "perde": "O fluxo dos próximos ciclos.",
+      "quando": "Quando o ativo se recuperou.",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p1"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p2"
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "box-perene": {
+  "revisado": false,
+  "fonte": "Metodologia do Prof. Su (anotações de aula; manejo depurado pelo Claude)",
+  "cenarios": [
+   {
+    "nome": "No vencimento",
+    "sinais": "O box vale a distância entre os strikes (R$ 1,00 no exemplo).",
+    "pesa": "Sem manejo direcional: é taxa (renda fixa sintética). Os 3 pilares: o ajuste precisa melhorar o delta, o theta ou reduzir a exposição.",
+    "caminhos": [
+     {
+      "nome": "Rolar o box para a série seguinte",
+      "descricao": "Rola as 4 pernas para o vencimento seguinte.",
+      "ganha": "Mantém a taxa travada.",
+      "perde": "Custos de rolagem.",
+      "quando": "Quando a taxa do box supera o CDI do período.",
+      "ops": [
+       {
+        "op": "rolarVencimento",
+        "perna": "p1",
+        "passos": 1
+       },
+       {
+        "op": "rolarVencimento",
+        "perna": "p2",
+        "passos": 1
+       },
+       {
+        "op": "rolarVencimento",
+        "perna": "p3",
+        "passos": 1
+       },
+       {
+        "op": "rolarVencimento",
+        "perna": "p4",
+        "passos": 1
+       }
+      ]
+     },
+     {
+      "nome": "Levar ao vencimento",
+      "descricao": "Mantém até o vencimento.",
+      "ganha": "Recebe a taxa travada.",
+      "perde": "Risco de exercício antecipado das opções americanas.",
+      "quando": "Quando não vai remontar."
+     }
+    ]
+   }
+  ]
+ },
+ "box-p": {
+  "revisado": false,
+  "fonte": "Metodologia do Prof. Su (anotações de aula; manejo depurado pelo Claude)",
+  "cenarios": [
+   {
+    "nome": "Todo mês",
+    "sinais": "A trava curta (CALL e PUT vendidas) perdeu valor; as pernas longas seguem.",
+    "pesa": "A trava curta financia a proteção longa. Os 3 pilares: o ajuste precisa melhorar o delta, o theta ou reduzir a exposição.",
+    "caminhos": [
+     {
+      "nome": "Rolar a trava curta",
+      "descricao": "Rola a CALL e a PUT vendidas para a série seguinte.",
+      "ganha": "Mantém a proteção longa financiada.",
+      "perde": "Custos de rolagem.",
+      "quando": "Todo mês.",
+      "ops": [
+       {
+        "op": "rolarVencimento",
+        "perna": "p2",
+        "passos": 1
+       },
+       {
+        "op": "rolarVencimento",
+        "perna": "p4",
+        "passos": 1
+       }
+      ]
+     },
+     {
+      "nome": "Encerrar o box",
+      "descricao": "Encerra as 4 pernas.",
+      "ganha": "Simplifica.",
+      "perde": "Abre mão da proteção.",
+      "quando": "Quando o risco passou.",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p1"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p2"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p3"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p4"
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "booster-horizontal": {
+  "revisado": false,
+  "fonte": "Metodologia do Prof. Su (anotações de aula; manejo depurado pelo Claude)",
+  "cenarios": [
+   {
+    "nome": "Rolagem da PUT curta",
+    "sinais": "A PUT curta (1,5 por PUT longa) perdeu extrínseco.",
+    "pesa": "Reduzir 10% a cada rolagem credora, até chegar a 1×1. Os 3 pilares: o ajuste precisa melhorar o delta, o theta ou reduzir a exposição.",
+    "caminhos": [
+     {
+      "nome": "Rolar com redução de 10%",
+      "descricao": "Reduz a PUT curta de 1,5 para 1,35 e rola para a série seguinte.",
+      "ganha": "Diminui a exposição e acumula PUT longa a custo zero.",
+      "perde": "Um pouco menos de crédito.",
+      "quando": "Em rolagem credora.",
+      "ops": [
+       {
+        "op": "quantidade",
+        "perna": "p1",
+        "q": -1.35
+       },
+       {
+        "op": "rolarVencimento",
+        "perna": "p1",
+        "passos": 1
+       }
+      ]
+     },
+     {
+      "nome": "Rolar sem redução",
+      "descricao": "Rola a PUT curta inteira.",
+      "ganha": "Mais crédito.",
+      "perde": "Mantém 0,5 de exposição líquida vendida.",
+      "quando": "Contra a regra dos 10%.",
+      "ops": [
+       {
+        "op": "rolarVencimento",
+        "perna": "p1",
+        "passos": 1
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "strangle-p": {
+  "revisado": false,
+  "fonte": "Metodologia do Prof. Su (anotações de aula; manejo depurado pelo Claude)",
+  "cenarios": [
+   {
+    "nome": "Rolagem mensal",
+    "sinais": "Uma ponta curta virou pó e a outra segue viva.",
+    "pesa": "Zerar a que virou pó e rolar a viva com redução de 10%. Os 3 pilares: o ajuste precisa melhorar o delta, o theta ou reduzir a exposição.",
+    "caminhos": [
+     {
+      "nome": "Zerar a CALL que virou pó e rolar a PUT com redução",
+      "descricao": "Encerra a CALL curta e rola a PUT curta com 10% a menos.",
+      "ganha": "Reduz a exposição e mantém o caixa.",
+      "perde": "Prolonga a posição na PUT.",
+      "quando": "Quando o ativo ficou abaixo da CALL curta.",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p1"
+       },
+       {
+        "op": "quantidade",
+        "perna": "p3",
+        "q": -0.9
+       },
+       {
+        "op": "rolarVencimento",
+        "perna": "p3",
+        "passos": 1
+       }
+      ]
+     },
+     {
+      "nome": "Rolar as duas curtas",
+      "descricao": "Rola a CALL e a PUT curtas.",
+      "ganha": "Mais crédito.",
+      "perde": "Não reduz a exposição.",
+      "quando": "Quando as duas seguem com prêmio.",
+      "ops": [
+       {
+        "op": "rolarVencimento",
+        "perna": "p1",
+        "passos": 1
+       },
+       {
+        "op": "rolarVencimento",
+        "perna": "p3",
+        "passos": 1
        }
       ]
      }
