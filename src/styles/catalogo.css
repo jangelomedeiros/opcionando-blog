@@ -123,3 +123,20 @@ button.simular { margin-top: 8px; font: 600 0.82rem var(--font-texto); padding: 
 .ge-pilares.ok { border-left-color: var(--lucro); }
 .ge-pilares.nao { border-left-color: var(--prejuizo); }
 .ge-pilares ul { list-style: none; padding: 0; margin: 4px 0; display: grid; gap: 2px; font-family: var(--font-mono); font-size: 0.8rem; }
+
+/* Validação do operador (aba Visão) */
+.validacao { margin: 14px 0; padding: 10px 14px; border-radius: 12px; border: 1px solid var(--borda); border-left: 5px solid var(--borda-forte); background: var(--superficie-2); }
+.validacao.ok { border-left-color: var(--lucro); }
+.validacao.nao { border-left-color: var(--prejuizo); }
+.validacao.meio { border-left-color: var(--hoje); }
+.validacao-data { font-weight: 400; text-transform: none; letter-spacing: 0; color: var(--texto-suave); margin-left: 6px; }
+.validacao-veredito { margin: 0 0 8px; font-size: 1rem; }
+.validacao-veredito small { color: var(--texto-suave); }
+.validacao-grid { margin: 0; display: grid; gap: 8px; }
+.validacao-grid > div { display: grid; grid-template-columns: 7.5rem 1fr; gap: 8px; font-size: 0.88rem; }
+.validacao-grid dt { font-weight: 700; color: var(--marca-texto); }
+.validacao-grid dd { margin: 0; }
+.validacao-grid .pos { color: var(--lucro-texto); }
+.validacao-grid .neg { color: var(--prejuizo-texto); }
+.validacao .nota { margin: 10px 0 0; }
+@media (max-width: 480px) { .validacao-grid > div { grid-template-columns: 1fr; gap: 2px; } }
