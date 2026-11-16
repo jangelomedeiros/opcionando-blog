@@ -26,6 +26,8 @@ Em `dados-brutos/2026-10-26/ohlcv/`, os arquivos `old_*.json` têm os 299 primei
 
 **Estudo dos vencimentos (no dia do vencimento, ou na véspera):** com a planilha do dia, `python -I scripts/importar_grade.py PLANILHA.xlsx src/data/grades/bbas3-AAAA-MM-DD.json` e depois `node scripts/estudo_vencimento.mjs src/data/grades/bbas3-AAAA-MM-DD.json`. O script pega as montagens-base do diário que vencem naquele pregão (ou no seguinte), avalia situação, exercício e cada alternativa (encerrar, seguir, cada manejo) nos preços de tela do dia e grava `src/data/estudo/AAAA-MM-DD.json`, publicado em `/estrategias/estudo/`. Isso não mexe nas montagens do site nem no diário; trocar a grade-base do site é outra decisão (`nova_grade.mjs`).
 
+**Plano por cenário (antes dos vencimentos):** `node scripts/plano_vencimentos.mjs` usa as séries seguintes da grade-base para projetar, em cada montagem do diário, as decisões do 1º vencimento com o ativo parado, a ±1σ e a ±2σ (séries reprecificadas com a vol implícita de cada uma na grade-base). Grava `src/data/plano/AAAA-MM-DD.json`, mostrado em `/estrategias/estudo/`. No dia do vencimento, o estudo com a grade real confere o plano.
+
 Passo a passo, se preferir:
 
 1. `python -I scripts/importar_grade.py PLANILHA.xlsx src/data/grades/bbas3-AAAA-MM-DD.json` — guarda a grade completa do opcoes.net.br por data (histórico).

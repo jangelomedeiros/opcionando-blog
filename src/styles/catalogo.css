@@ -202,3 +202,8 @@ button.ver-traj[hidden] { display: none; }
 .estudo-tab tr.sugerida td { background: color-mix(in srgb, var(--lucro) 10%, transparent); }
 .estudo-tab small { color: var(--lucro-texto); font-weight: 700; margin-left: 4px; }
 .estudo-tab td:nth-child(2), .estudo-tab td:nth-child(3), .estudo-tab td:nth-child(4) { white-space: nowrap; }
+.plano-estrutura { margin: 6px 0; padding: 8px 12px; border-radius: 10px; border: 1px solid var(--borda); background: var(--bg-card); }
+.plano-estrutura summary { cursor: pointer; font-size: 0.9rem; }
+.plano-resumo { display: block; color: var(--texto-suave); font-size: 0.8rem; margin-top: 2px; }
+.plano-estrutura .estudo-tab .pos { color: var(--lucro-texto); } .plano-estrutura .estudo-tab .neg { color: var(--prejuizo-texto); }
+.plano-estrutura .estudo-tab td:nth-child(1), .plano-estrutura .estudo-tab td:nth-child(2), .plano-estrutura .estudo-tab td:nth-child(3), .plano-estrutura .estudo-tab td:nth-child(6), .plano-estrutura .estudo-tab td:nth-child(7), .plano-estrutura .estudo-tab td:nth-child(8) { white-space: nowrap; }

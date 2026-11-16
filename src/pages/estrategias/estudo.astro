@@ -16,6 +16,14 @@ const pendentes = registros.flatMap((r) => apurar(r, CANDLES)).filter((x) => x.s
 const proximos = [...new Set(pendentes.map((x) => x.venc1))].sort().slice(0, 3).map((v) => ({ venc: v, n: pendentes.filter((x) => x.venc1 === v).length }));
 const nome = Object.fromEntries(ESTRUTURAS.map((e) => [e.id, e.nome]));
 const COMPENSA: Record<string, string> = { sim: 'compensa', troca: 'troca risco por retorno', 'não': 'não compensa' };
+// Plano por cenário (projeção com as séries seguintes da grade-base): o mais recente.
+const planos = Object.values(import.meta.glob('../../data/plano/*.json', { eager: true, import: 'default' }) as Record<string, any>).sort((a, b) => b.base.localeCompare(a.base));
+const plano = planos[0] ?? null;
+const jaEstudados = new Set(estudos.flatMap((d) => d.estudos.map((s) => `${s.id}|${s.venc}`)));
+const porVencPlano = plano ? [...new Set(plano.planos.map((p: any) => p.venc))].sort().map((v) => ({ venc: v as string, itens: plano.planos.filter((p: any) => p.venc === v) })) : [];
+const DECISAO_CURTA: Record<string, string> = { 'vira pó': 'pó', exercer: 'exerce', 'vender a mercado': 'vende', 'ser exercido': 'exercida', recomprar: 'recompra' };
+const exercicioCurto = (xs: any[]) => xs.length ? xs.map((x) => `${x.tipo.toUpperCase()} ${String(x.strike.toFixed(2)).replace('.', ',')} ${x.lado === 'vendida' ? 'V' : 'C'}: ${DECISAO_CURTA[x.decisao]}`).join(' · ') : '—';
+const sugerida = (c: any) => c.alternativas.find((a: any) => a.nome === c.sugestao);
 ---
 <Base title="Estudo dos vencimentos | Catálogo de estratégias" description="A cada vencimento, o que fazer com cada estrutura montada: encerrar, exercer, ser exercido ou manejar, com risco, probabilidade de lucro e objetivo de cada alternativa nos preços do dia.">
   <section class="container-larga pagina lab hoje">
@@ -27,6 +35,48 @@ const COMPENSA: Record<string, string> = { sim: 'compensa', troca: 'troca risco 
       <div class="hoje-mercado">
         <p><b>O primeiro estudo sai no próximo vencimento.</b> {proximos.length > 0 && <>Próximos: {proximos.map((p, i) => <>{i > 0 && ', '}{dmyy(p.venc)} ({p.n} {p.n === 1 ? 'estrutura' : 'estruturas'})</>)}.</>} No dia, com a grade de opções do vencimento, cada montagem-base que vence é avaliada aqui.</p>
       </div>
+    )}
+
+    {plano && (
+      <section class="hoje-grupo">
+        <h2>Plano para os próximos vencimentos</h2>
+        <p class="nota">Projeção feita com a grade de {dmyy(plano.base)}: para cada montagem-base, as mesmas decisões do dia do vencimento com o ativo parado, a ±1σ e a ±2σ (vol realizada de {pct(plano.sigma)}). Hipótese: {plano.hipotese}. No dia, o estudo com a grade real confere o plano; a diferença entre os dois mede o quanto a vol e o preço mudaram.</p>
+        {porVencPlano.map((g) => (
+          <>
+            <h3 class="mini">Vencimento de {dmyy(g.venc)} · {g.itens.length} {g.itens.length === 1 ? 'estrutura' : 'estruturas'}</h3>
+            {g.itens.map((p: any) => (
+              <details class="plano-estrutura">
+                <summary><b>{nome[p.id] ?? p.id}</b>{jaEstudados.has(`${p.id}|${p.venc}`) && <span class="validacao-data">já estudado no dia</span>} <span class="plano-resumo">{p.cenarios.map((c: any) => `${c.nome}: ${c.sugestao === 'Encerrar tudo agora' ? 'encerrar' : c.sugestao}`).join(' · ')}</span></summary>
+                <div class="twrap">
+                  <table class="legs estudo-tab">
+                    <thead><tr><th>Cenário</th><th>Ativo</th><th>Resultado</th><th>Pernas que vencem</th><th>Sugestão</th><th>Valor esperado</th><th>Prob. de lucro</th><th>Pior caso</th><th>Outras que compensam</th></tr></thead>
+                    <tbody>
+                      {p.cenarios.map((c: any) => {
+                        const a = sugerida(c);
+                        const outras = c.alternativas.filter((x: any) => x.aplicavel && x.compensa === 'sim' && x.nome !== c.sugestao).map((x: any) => x.nome);
+                        return (
+                          <tr>
+                            <td>{c.nome}</td>
+                            <td>{rs(c.spot)}</td>
+                            <td class={c.resultado > 0 ? 'pos' : 'neg'}>{rs(c.resultado, 2, true)}</td>
+                            <td>{exercicioCurto(c.exercicio)}</td>
+                            <td>{c.sugestao}</td>
+                            <td class={a.ev > 0 ? 'pos' : 'neg'}>{rs(a.ev, 2, true)}</td>
+                            <td>{pct(a.prob)}</td>
+                            <td>{rs(a.piorCaso, 2, true)}</td>
+                            <td>{outras.length ? outras.join('; ') : '—'}</td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+              </details>
+            ))}
+          </>
+        ))}
+        <p class="nota">Pernas que vencem: C = comprada, V = vendida; "exercida" = deixar ser exercida, "pó" = vence sem valor. Resultado por unidade no vencimento, somando o já realizado.</p>
+      </section>
     )}
 
     {estudos.map((dia) => (

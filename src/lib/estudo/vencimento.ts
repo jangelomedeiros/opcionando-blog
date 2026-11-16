@@ -207,7 +207,7 @@ export function avaliarVencimento(
       }) };
       const depois = liquidarVencidas(precificada, dia);
       const m = medir(depois);
-      if (!m) throw new Error('o caminho encerra todas as opções');
+      if (!m) throw new Error('equivale a encerrar tudo (o caminho zera todas as posições)');
       const alt = { ev: m.ev, piorCaso: m.piorCaso };
       alternativas.push({ nome: cam.nome, tipo: 'manejo', aplicavel: true, resultadoAgora: resultado(precificada, c), ...m, ...classificar(ref, alt),
         objetivo: objetivo(obj, depois, c, g0, seguir.aplicavel ? seguirPos : null, m.perdaMax), novas });
