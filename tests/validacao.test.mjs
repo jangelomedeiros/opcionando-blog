@@ -68,3 +68,12 @@ test('página mostra a validação do operador na aba Visão', () => {
   const html = h('covered-call');
   assert.ok(html.indexOf('Validação do operador') < html.indexOf('id="covered-call-pop"'), 'fora da aba Visão');
 });
+
+test('fraseContexto em mercado lateral não fala em a favor ou contra a tendência', () => {
+  const f = fraseContexto({ tendencia: 'lateral', vies: 'altista', aFavorDaTendencia: null, ivAtm: 0.3, volRealizada: 0.33, vendeVol: false, aFavorDaVol: true });
+  assert.match(f, /lateral/i);
+  assert.match(f, /altista/);
+  assert.doesNotMatch(f, /contra a tendência|a favor da tendência/);
+  assert.match(f, /30%.*abaixo.*33%/);
+  for (const v of V.estruturas) if (v.contexto.tendencia === 'lateral') assert.equal(v.contexto.aFavorDaTendencia, null, v.id);
+});

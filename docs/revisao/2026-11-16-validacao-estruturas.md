@@ -5,7 +5,7 @@ Gerado por `scripts/otimizar_montagens.mjs`. Critério em `docs/superpowers/spec
 ## Mercado
 
 - BBAS3 a R$ 15,10; médias de 20, 50 e 200: R$ 19,28, R$ 21,48, R$ 21,91 — tendência **baixa**.
-- Vol realizada: HV20 128%, HV60 84%, HV120 62% (contaminadas pelo gap de −34,7% em 26/10).
+- Vol realizada: HV20 128%, HV60 84%, HV120 62% (com os gaps de −34,7% em 26/10 e 10,4% em 05/10).
 - Sem os 2 maiores gaps: **33%** em 120 pregões (base do valor esperado) e 39% em 60 (estresse).
 - Vol implícita ATM entre 34% e 45% nos vencimentos usados: a implícita está acima da realizada sem gaps, então **a vantagem estatística hoje é de quem vende vol**.
 
@@ -24,7 +24,7 @@ Veredito: 54 para montar, 3 com ressalva e 5 para não montar agora. Preços de 
 | Módulo B3 — versão 2×3 bilateral | Montar | +2 BBASA161 15,70 / -3 BBASA160 15,95 / +2 BBASM160 15,95 / -3 BBASM161 15,70 (39 du) | 1,21 | 0,209 | -0,086 | 63% | -20,09 | neutra | vende (a favor) | 0,021 | vantagem frágil: some com a vol do estresse |
 | Módulo B3 — versão 3×4 bilateral | Montar | +3 BBASA161 15,70 / -4 BBASA160 15,95 / +3 BBASM160 15,95 / -4 BBASM161 15,70 (39 du) | 1,02 | 0,263 | -0,032 | 63% | -20,03 | neutra | vende (a favor) | 0,022 | vantagem frágil: some com a vol do estresse |
 | Broken Wing Butterfly de CALL | Montar | +1 BBASL145 14,45 / -2 BBASL14 14,70 / +1 BBASL153 15,20 (23 du) | 0,36 | 0,242 | 0,243 | 100% | 0,00 | neutra | vende (a favor) | 0,006 |  |
-| Collar — proteção financiada | Não montar agora | +1 ação / -1 BBASL158 15,70 / +1 BBASX151 13,70 (23 du) | 0,31 | -0,029 | -0,077 | 63% | -1,09 | altista (contra) | vende (a favor) | 0,009 | nenhuma montagem tem valor esperado positivo com a vol realizada de hoje |
+| Collar — proteção financiada | Não montar agora | +1 ação / -1 BBASL158 15,70 / +1 BBASX150 14,95 (23 du) | -0,02 | -0,021 | -0,023 | 53% | -0,17 | altista (contra) | vende (a favor) | 0,007 | nenhuma montagem tem valor esperado positivo com a vol realizada de hoje |
 | Trava de alta com CALL | Não montar agora | +1 BBASK155W4 15,50 / -1 BBASK160W4 16,00 (8 du) | -0,14 | -0,013 | 0,003 | 28% | -0,14 | altista (contra) | compra (contra) | -0,006 | nenhuma montagem tem valor esperado positivo com a vol realizada de hoje |
 | Trava de baixa com PUT | Montar | +1 BBASW160W4 16,00 / -1 BBASW155W4 15,50 (8 du) | -0,30 | 0,070 | 0,055 | 72% | -0,30 | baixista (a favor) | vende (a favor) | 0,012 |  |
 | THL de CALL — mesmo strike, vencimentos distintos | Montar | +1 BBASA15 14,70 / -1 BBASL14 14,70 (23 du) | -0,10 | 0,145 | 0,124 | 90% | -0,10 | neutra | compra (contra) | 0,006 |  |
@@ -44,7 +44,7 @@ Veredito: 54 para montar, 3 com ressalva e 5 para não montar agora. Preços de 
 | Seagull — PUT vendida financia trava de alta | Montar | -1 BBASX13 13,95 / +1 BBASL165 16,45 / -1 BBASL180 17,45 (23 du) | 0,12 | 0,127 | 0,088 | 83% | -9,30 | altista (contra) | vende (a favor) | 0,006 |  |
 | Fence — defesa financiada da custódia | Montar | +1 ação / -1 BBASL158 15,70 / +1 BBASX150 14,95 / -1 BBASX14 14,70 (23 du) | 0,43 | 0,092 | -0,014 | 70% | -9,89 | altista (contra) | vende (a favor) | 0,018 | vantagem frágil: some com a vol do estresse |
 | Straddle comprado ATM | Não montar agora | +1 BBASA154 15,45 / +1 BBASM154 15,45 (39 du) | -1,63 | -0,067 | 0,229 | 41% | -1,61 | neutra | compra (contra) | -0,020 | nenhuma montagem tem valor esperado positivo com a vol realizada de hoje |
-| Strangle comprado | Não montar agora | +1 BBASA154 15,45 / +1 BBASM15 14,70 (39 du) | -1,33 | -0,096 | 0,188 | 38% | -1,33 | altista (contra) | compra (contra) | -0,021 | nenhuma montagem tem valor esperado positivo com a vol realizada de hoje |
+| Strangle comprado | Não montar agora | +1 BBASA163 16,20 / +1 BBASM151 13,70 (39 du) | -0,75 | -0,086 | 0,155 | 31% | -0,75 | altista (contra) | compra (contra) | -0,019 | nenhuma montagem tem valor esperado positivo com a vol realizada de hoje |
 | Straddle vendido ATM | Montar | -1 BBASL14 14,70 / -1 BBASX14 14,70 (23 du) | 1,56 | 0,287 | 0,079 | 67% | -21,49 | baixista (a favor) | vende (a favor) | 0,032 |  |
 | Strangle vendido | Montar | -1 BBASL158 15,70 / -1 BBASX14 14,70 (23 du) | 0,96 | 0,189 | -0,028 | 67% | -21,09 | neutra | vende (a favor) | 0,029 | vantagem frágil: some com a vol do estresse |
 | Iron condor | Montar | +1 BBASX2 13,45 / -1 BBASX13 13,95 / -1 BBASL158 15,70 / +1 BBASL165 16,45 (23 du) | 0,36 | 0,069 | 0,028 | 58% | -0,39 | baixista (a favor) | vende (a favor) | 0,006 |  |

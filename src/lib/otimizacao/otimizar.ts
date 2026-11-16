@@ -6,7 +6,7 @@ import { diasUteis } from '../motor/calendario.ts';
 import { precoBS, volImplicita, normalAcumulada, SELIC_PADRAO, DIAS_UTEIS_ANO } from '../motor/bs.ts';
 import { valorPerna, type Perna, type Posicao } from '../motor/posicao.ts';
 import { deltaEstrutural, creditoEntrada } from '../catalogo/protocolo.ts';
-import type { EstruturaJson, PernaJson } from '../catalogo/converter.ts';
+import { remontagemCoerente, type EstruturaJson, type PernaJson } from '../catalogo/converter.ts';
 
 export interface SerieGrade {
   ticker: string; tipo: 'call' | 'put'; strike: number; venc: string; du: number;
@@ -62,8 +62,9 @@ export function seriesDaGrade(g: Grade, spot = r2(g.spot)): Serie[] {
       out.splice(i, 1);
     }
   }
+  if (!out.length) throw new Error(`nenhuma série negociada em ${g.data}: a data da grade tem de ser a do último negócio`);
   const du = (v: string) => diasUteis(g.data, v);
-  const sorriso = (venc: string, tipo: string, k: number): number => {
+  const sorriso =(venc: string, tipo: string, k: number): number => {
     let pts = out.filter((x) => x.venc === venc && x.tipo === tipo);
     if (!pts.length) pts = out.filter((x) => x.venc === venc);
     if (!pts.length) {
@@ -132,14 +133,10 @@ function formaOk(g: number[], h: number[]): boolean {
 /** A montagem preserva o desenho da referência: ordem e igualdade de strikes e vencimentos, e a forma das asas. */
 export function desenhoPreservado(e: EstruturaJson, pos: Posicao): boolean {
   const ref = e.pernas, at = pos.pernas;
-  if (ref.length !== at.length) return false;
+  // A mesma coerência que a página exige (ordem e igualdade de strikes e vencimentos), mais tipo, quantidade e forma das asas.
+  if (!remontagemCoerente(e, pos)) return false;
   for (let i = 0; i < ref.length; i++) {
     if ((ref[i].t === 'S') !== (at[i].tipo === 'acao') || ref[i].q !== at[i].q) return false;
-    for (let j = i + 1; j < ref.length; j++) {
-      if (ref[i].t === 'S' || ref[j].t === 'S') continue;
-      if (sinal((ref[i].k ?? 0) - (ref[j].k ?? 0)) !== sinal((at[i].strike ?? 0) - (at[j].strike ?? 0))) return false;
-      if (Math.sign((ref[i].exp ?? '').localeCompare(ref[j].exp ?? '')) !== Math.sign((at[i].venc ?? '').localeCompare(at[j].venc ?? ''))) return false;
-    }
   }
   const novos = [...new Set(at.filter((p) => p.tipo !== 'acao').map((p) => p.strike as number))].sort((a, b) => a - b);
   return formaOk(gaps(strikesRef(e)), gaps(novos));
@@ -213,7 +210,7 @@ export interface Contexto {
 }
 export interface Resultado {
   id: string; montagem: Montagem; veredito: 'montar' | 'montar-com-ressalva' | 'nao-montar';
-  avisos: string[]; candidatas: number; teorico: boolean;
+  avisos: string[]; candidatas: number;
 }
 
 const tipoDe = (t: PernaJson['t']) => (t === 'C' ? 'call' : 'put');
@@ -241,8 +238,8 @@ function mapasVencimento(e: EstruturaJson, vencs: [string, number][], jan: [numb
 }
 
 /** Gera as montagens que preservam o desenho, com as séries do pool. */
-interface Busca { jan: [number, number]; livre: boolean; banda: number }
-function* gerar(e: EstruturaJson, pool: Serie[], c: Contexto, b: Busca): Generator<{ series: (Serie | null)[]; comparacao: (Serie | null)[] }> {
+interface Busca { pool: Serie[]; jan: [number, number]; livre: boolean; banda: number; teorico: boolean; fora: boolean; adaptado: boolean }
+function* gerar(e: EstruturaJson, pool: Serie[], c: Contexto, b: Pick<Busca, 'jan' | 'livre' | 'banda'>): Generator<{ series: (Serie | null)[]; comparacao: (Serie | null)[] }> {
   const idx = new Map<string, Map<number, Serie>>();
   for (const s of pool) {
     const k = `${s.venc}|${s.tipo}`;
@@ -304,29 +301,28 @@ export function otimizar(e: EstruturaJson & { pop?: string }, series: Serie[], c
     if (debMax !== undefined && creditoOpcoes(p) < -debMax - 1e-9) return false;
     return true;
   };
-  let teorico = false;
   let lista: { m: Omit<Montagem, 'avEstresse'>; pop: boolean }[] = [];
   const neg = series.filter((s) => s.origem === 'ultimo');
-  const B = (jan: [number, number], livre = false, banda = BANDA_MONEYNESS): Busca => ({ jan, livre, banda });
-  const tentativas: [Serie[], Busca, string][] = [
-    [neg, B(janela(e)), ''], [series, B(janela(e)), 'teorico'],
-    [neg, B(JANELA_AMPLA), 'janela'], [series, B(JANELA_AMPLA), 'janela teorico'],
-    [series, B(JANELA_AMPLA, true, 2 * BANDA_MONEYNESS), 'janela teorico adaptado'],
+  // Da busca mais estrita à mais solta: só negociadas na janela do POP → teóricas → janela ampla → desenho adaptado.
+  const B = (pool: Serie[], jan: [number, number], extra: Partial<Busca> = {}): Busca =>
+    ({ pool, jan, livre: false, banda: BANDA_MONEYNESS, teorico: pool !== neg, fora: jan === JANELA_AMPLA, adaptado: false, ...extra });
+  const tentativas: Busca[] = [
+    B(neg, janela(e)), B(series, janela(e)), B(neg, JANELA_AMPLA), B(series, JANELA_AMPLA),
+    B(series, JANELA_AMPLA, { livre: true, banda: 2 * BANDA_MONEYNESS, adaptado: true }),
   ];
-  let fora = false, adaptado = false;
-  for (const [pool, busca, marca] of tentativas) {
+  let busca = tentativas[0];
+  for (busca of tentativas) {
     lista = [];
-    teorico = marca.includes('teorico'); fora = marca.includes('janela'); adaptado = marca.includes('adaptado');
-    for (const g of gerar(e, pool, c, busca)) {
+    for (const g of gerar(e, busca.pool, c, busca)) {
       const posicao = posicaoDe(e, g.series, c.spot);
       lista.push({ m: { posicao, series: g.series, comparacao: g.comparacao, av: avaliar(posicao), credito: creditoOpcoes(posicao) }, pop: regraPop(posicao) });
     }
     if (lista.length) break;
   }
   if (!lista.length) throw new Error(`${e.id}: nenhuma montagem preserva o desenho`);
-  if (adaptado) avisos.push('desenho adaptado à grade: vencimento longo livre e strikes a até 10% da moneyness da referência');
-  if (fora) avisos.push('fora da janela do POP: a grade não tem os strikes do desenho nos vencimentos da janela');
-  if (teorico) avisos.push('sem montagem só com séries negociadas no dia: usa preço teórico em parte das pernas');
+  if (busca.adaptado) avisos.push('desenho adaptado à grade: vencimento longo livre e strikes a até 10% da moneyness da referência');
+  if (busca.fora) avisos.push('fora da janela do POP: a grade não tem os strikes do desenho nos vencimentos da janela');
+  if (busca.teorico) avisos.push('sem montagem só com séries negociadas no dia: usa preço teórico em parte das pernas');
   let base = lista.filter((x) => x.pop);
   if (!base.length) {
     base = lista;
@@ -335,7 +331,7 @@ export function otimizar(e: EstruturaJson & { pop?: string }, series: Serie[], c
   // Operador desconfia de almoço grátis: lucro em todo cenário com os últimos negócios é preço velho, não vantagem.
   // Exceção: na BWB com crédito ≥ |delta estrutural| o lucro em todo cenário é o desenho do POP, não preço velho.
   const regraBwbAtiva = (p: Posicao) => { const de = deltaEstrutural(p); return nStrikes >= 3 && de !== null && de < 0; };
-  const consistentes = base.filter((x) => x.m.av.piso <= PISO_ARBITRAGEM || regraBwbAtiva(x.m.posicao));
+  const consistentes = base.filter((x) => x.m.av.piso <= PISO_ARBITRAGEM || (x.pop && regraBwbAtiva(x.m.posicao)));
   if (consistentes.length) base = consistentes;
   else avisos.push('todas as montagens dão lucro em qualquer cenário com os últimos negócios: preços inconsistentes, conferir no book');
   if (c.aceitar) {
@@ -350,8 +346,11 @@ export function otimizar(e: EstruturaJson & { pop?: string }, series: Serie[], c
   let escolhida: (typeof base)[number], veredito: Resultado['veredito'];
   if (boas.length) { escolhida = melhor(boas); veredito = 'montar'; }
   else if (positivas.length) { escolhida = melhor(positivas); veredito = 'montar-com-ressalva'; avisos.push('valor esperado positivo, mas probabilidade de lucro abaixo de 50%'); }
-  else { escolhida = melhor(base); veredito = 'nao-montar'; avisos.push('nenhuma montagem tem valor esperado positivo com a vol realizada de hoje'); }
+  else {
+    // Sem VE positivo, a razão VE/risco premiaria a montagem mais arriscada: mostra a de maior VE (desempate: menor risco).
+    escolhida = base.reduce((a, b) => (b.m.av.ev > a.m.av.ev + 1e-12 || (Math.abs(b.m.av.ev - a.m.av.ev) <= 1e-12 && b.m.av.risco > a.m.av.risco) ? b : a));
+    veredito = 'nao-montar'; avisos.push('nenhuma montagem tem valor esperado positivo com a vol realizada de hoje'); }
   const avEstresse = estresse(escolhida.m.posicao);
   if (veredito !== 'nao-montar' && avEstresse.ev <= 0) avisos.push('vantagem frágil: some com a vol do estresse');
-  return { id: e.id, montagem: { ...escolhida.m, avEstresse }, veredito, avisos, candidatas: lista.length, teorico };
+  return { id: e.id, montagem: { ...escolhida.m, avEstresse }, veredito, avisos, candidatas: lista.length };
 }

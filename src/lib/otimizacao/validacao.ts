@@ -29,9 +29,11 @@ export function fraseDinamica(g: GregasV): string {
 /** O momento do mercado contra a visão da montagem: tendência × viés e implícita × realizada. */
 export function fraseContexto(c: ContextoV): string {
   const tend = c.tendencia === 'lateral' ? 'mercado lateral' : `tendência de ${c.tendencia} (preço ${c.tendencia === 'baixa' ? 'abaixo' : 'acima'} das médias de 20, 50 e 200)`;
-  const vies = c.aFavorDaTendencia === null
+  const vies = c.vies === 'neutra'
     ? 'a montagem não depende da direção'
-    : `a montagem é ${c.vies} e vai ${c.aFavorDaTendencia ? 'a favor da' : 'contra a'} tendência`;
+    : c.tendencia === 'lateral' || c.aFavorDaTendencia === null
+      ? `a montagem é ${c.vies}, sem tendência a favor nem contra`
+      : `a montagem é ${c.vies} e vai ${c.aFavorDaTendencia ? 'a favor da' : 'contra a'} tendência`;
   const ivHv = `implícita ATM de ${pct(c.ivAtm)}, ${c.ivAtm > c.volRealizada ? 'acima' : 'abaixo'} da realizada de ${pct(c.volRealizada)}`;
   const vol = `a montagem ${c.vendeVol ? 'vende vol' : 'compra vol'}, ${c.aFavorDaVol ? 'a favor' : 'contra'} esse diferencial`;
   return `${tend[0].toUpperCase()}${tend.slice(1)}; ${vies}. Vol ${ivHv}; ${vol}.`;

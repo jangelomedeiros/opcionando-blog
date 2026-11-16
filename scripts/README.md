@@ -21,5 +21,7 @@ Em `dados-brutos/2026-10-26/ohlcv/`, os arquivos `old_*.json` têm os 299 primei
 ## Grade de opções e preços do catálogo (só biblioteca padrão)
 
 1. `python -I scripts/importar_grade.py PLANILHA.xlsx src/data/grades/bbas3-AAAA-MM-DD.json` — guarda a grade completa do opcoes.net.br por data (histórico).
-2. `python -I scripts/atualizar_mercado.py src/data/grades/bbas3-AAAA-MM-DD.json` — remonta as 62 estruturas na grade e regrava `src/data/laboratorio/mercado.csv`.
-3. `npm run build && npm test` — confere que todas as pernas existem na grade e que nada ficou vencido.
+2. `node scripts/otimizar_montagens.mjs src/data/grades/bbas3-AAAA-MM-DD.json src/data/candles/bbas3-AAAA-MM-DD.json` — monta as 62 estruturas na grade da forma otimizada (desenho e regras do POP, maior valor esperado por risco com a vol realizada, manejo aplicável) e regrava `src/data/laboratorio/mercado.csv`, `src/data/laboratorio/validacao.json` (caixa "Validação do operador") e o relatório `docs/revisao/AAAA-MM-DD-validacao-estruturas.md` (a seção "Leitura do operador" é preservada). Critério em `docs/superpowers/specs/2026-11-16-otimizacao-montagens-design.md`.
+3. `npm run build && npm test` — confere que todas as pernas existem na grade, que nada ficou vencido e que `validacao.json` bate com `mercado.csv`.
+
+`scripts/atualizar_mercado.py` (remontagem proporcional, sem otimização) ficou como referência histórica e como fonte das janelas do POP lidas pelos testes; **não** o use para regravar o `mercado.csv`, porque ele não atualiza o `validacao.json` e os testes acusam a divergência.

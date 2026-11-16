@@ -35,7 +35,7 @@ bwb;principal;CALL;-2;BBASL14;14,70;2026-12-18;1,11;0,4339;101;ultimo
 bwb;principal;CALL;1;BBASL153;15,20;2026-12-18;0,71;0,3615;318;ultimo
 collar;principal;AÇÃO;1;BBAS3;;;15,10;;;ultimo
 collar;principal;CALL;-1;BBASL158;15,70;2026-12-18;0,51;0,3724;408;ultimo
-collar;principal;PUT;1;BBASX151;13,70;2026-12-18;0,20;0,4281;76;ultimo
+collar;principal;PUT;1;BBASX150;14,95;2026-12-18;0,53;0,3852;386;ultimo
 bull-spread;principal;CALL;1;BBASK155W4;15,50;2026-11-27;0,28;0,3903;59;ultimo
 bull-spread;principal;CALL;-1;BBASK160W4;16,00;2026-11-27;0,14;0,3927;11;ultimo
 bear-put-spread;principal;PUT;1;BBASW160W4;16,00;2026-11-27;0,94;0,3630;9;ultimo
@@ -95,8 +95,8 @@ fence;principal;PUT;1;BBASX150;14,95;2026-12-18;0,53;0,3852;386;ultimo
 fence;principal;PUT;-1;BBASX14;14,70;2026-12-18;0,45;0,3983;179;ultimo
 straddle-compra;principal;CALL;1;BBASA154;15,45;2027-01-15;0,78;0,3285;856;ultimo
 straddle-compra;principal;PUT;1;BBASM154;15,45;2027-01-15;0,85;0,3600;1010;ultimo
-strangle-compra;principal;CALL;1;BBASA154;15,45;2027-01-15;0,78;0,3285;856;ultimo
-strangle-compra;principal;PUT;1;BBASM15;14,70;2027-01-15;0,55;0,3764;78;ultimo
+strangle-compra;principal;CALL;1;BBASA163;16,20;2027-01-15;0,48;0,3264;23;ultimo
+strangle-compra;principal;PUT;1;BBASM151;13,70;2027-01-15;0,27;0,3909;94;ultimo
 straddle-venda;principal;CALL;-1;BBASL14;14,70;2026-12-18;1,11;0,4339;101;ultimo
 straddle-venda;principal;PUT;-1;BBASX14;14,70;2026-12-18;0,45;0,3983;179;ultimo
 strangle-venda;principal;CALL;-1;BBASL158;15,70;2026-12-18;0,51;0,3724;408;ultimo

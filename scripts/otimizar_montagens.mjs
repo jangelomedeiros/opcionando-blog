@@ -11,6 +11,7 @@ import { diasUteis } from '../src/lib/motor/calendario.ts';
 import { deltaEstrutural } from '../src/lib/catalogo/protocolo.ts';
 import { gradeParaManejo } from '../src/lib/catalogo/gradeManejo.ts';
 import { iniciar, aplicar } from '../src/lib/catalogo/simulacao.ts';
+import { VEREDITO } from '../src/lib/otimizacao/validacao.ts';
 
 const [gradeArq, candlesArq, relArq = 'docs/revisao/2026-11-16-validacao-estruturas.md'] = process.argv.slice(2);
 if (!gradeArq || !candlesArq) {
@@ -72,12 +73,11 @@ for (const e of E) {
   const mt = metricasVencimento(pos);
   const g = gregasPosicao(pos, { data, spot });
   const iv = ivAtm(venc1);
-  const exp = Math.max(Math.abs(g.delta), 1e-9);
   const vies = g.delta > 0.1 ? 'altista' : g.delta < -0.1 ? 'baixista' : 'neutra';
-  const favorTend = tendencia === 'lateral' ? (vies === 'neutra') : (vies === 'neutra' ? null : (vies === 'altista') === (tendencia === 'alta'));
+  // null = não se aplica (montagem neutra ou mercado lateral).
+  const favorTend = tendencia === 'lateral' || vies === 'neutra' ? null : (vies === 'altista') === (tendencia === 'alta');
   const vendeVol = g.vega < 0;
   const favorVol = (iv > sigma) === vendeVol;
-  void exp;
   validacao.push({
     id: e.id, veredito: r.veredito, avisos: r.avisos,
     montagem: {
@@ -106,16 +106,24 @@ writeFileSync(new URL('src/data/laboratorio/validacao.json', RAIZ), JSON.stringi
 
 // Relatório
 const nome = Object.fromEntries(E.map((e) => [e.id, e.nome]));
-const VER = { montar: 'Montar', 'montar-com-ressalva': 'Montar com ressalva', 'nao-montar': 'Não montar agora' };
+const VER = VEREDITO;
 const cont = (v) => validacao.filter((x) => x.veredito === v).length;
+// Conclusão derivada dos números (o relatório é regerado a cada grade).
+const ivMin = Math.min(...validacao.map((v) => v.contexto.ivAtm)), ivMax = Math.max(...validacao.map((v) => v.contexto.ivAtm));
+const conclusaoVol = ivMin > sigma ? 'a implícita está acima da realizada sem gaps, então **a vantagem estatística hoje é de quem vende vol**'
+  : ivMax < sigma ? 'a implícita está abaixo da realizada sem gaps, então **a vantagem estatística hoje é de quem compra vol**'
+  : 'a implícita cruza a realizada sem gaps: **não há vantagem clara para vender nem para comprar vol**';
+const retornos = closes.slice(1).map((c, i) => ({ d: C[i + 1]?.d ?? data, r: Math.log(c / closes[i]) })).slice(-120);
+const gapsDescartados = [...retornos].sort((a, b) => Math.abs(b.r) - Math.abs(a.r)).slice(0, 2)
+  .map((x) => `${(x.r * 100).toFixed(1).replace('.', ',').replace('-', '−')}% em ${x.d.slice(8, 10)}/${x.d.slice(5, 7)}`).join(' e ');
 const md = [
   `# Validação das 62 estruturas — grade de ${data.split('-').reverse().join('/')}`, '',
   `Gerado por \`scripts/otimizar_montagens.mjs\`. Critério em \`docs/superpowers/specs/2026-11-16-otimizacao-montagens-design.md\`.`, '',
   '## Mercado', '',
   `- ${G.ativo} a R$ ${f(spot)}; médias de 20, 50 e 200: R$ ${f(ult.m20)}, R$ ${f(ult.m50)}, R$ ${f(ult.m200)} — tendência **${tendencia}**.`,
-  `- Vol realizada: HV20 ${pct(hv.hv20)}, HV60 ${pct(hv.hv60)}, HV120 ${pct(hv.hv120)} (contaminadas pelo gap de −34,7% em 26/10).`,
+  `- Vol realizada: HV20 ${pct(hv.hv20)}, HV60 ${pct(hv.hv60)}, HV120 ${pct(hv.hv120)} (com os gaps de ${gapsDescartados}).`,
   `- Sem os 2 maiores gaps: **${pct(sigma)}** em 120 pregões (base do valor esperado) e ${pct(sigmaEstresse)} em 60 (estresse).`,
-  `- Vol implícita ATM entre ${pct(Math.min(...validacao.map((v) => v.contexto.ivAtm)))} e ${pct(Math.max(...validacao.map((v) => v.contexto.ivAtm)))} nos vencimentos usados: a implícita está acima da realizada sem gaps, então **a vantagem estatística hoje é de quem vende vol**.`, '',
+  `- Vol implícita ATM entre ${pct(ivMin)} e ${pct(ivMax)} nos vencimentos usados: ${conclusaoVol}.`, '',
   `Veredito: ${cont('montar')} para montar, ${cont('montar-com-ressalva')} com ressalva e ${cont('nao-montar')} para não montar agora. Preços de último negócio: conferir no book antes de executar.`, '',
   '## As 62', '',
   '| Estrutura | Veredito | Montagem | Crédito | VE | VE estresse | Prob. lucro | Pior caso | Viés × tendência | Vol | Θ/du | Avisos |',

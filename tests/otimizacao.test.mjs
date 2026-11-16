@@ -139,7 +139,38 @@ test('avaliador devolve o piso (pior resultado sem truncar) e o otimizador desca
   const ctx = { data: D, spot: S, sigma: 0.332, sigmaEstresse: 0.389 };
   for (const e of ESTRUTURAS) {
     const r = otimizar(e, SERIES, ctx);
-    const de = deltaEstrutural(r.montagem.posicao), bwb = de !== null && de < 0 && new Set(e.pernas.map((l) => l.k)).size >= 3;
+    // Exceção só para a BWB que cumpre a regra do POP (crédito ≥ |delta estrutural|): aí o lucro em todo cenário é o desenho.
+    const de = deltaEstrutural(r.montagem.posicao);
+    const bwb = de !== null && de < 0 && new Set(e.pernas.map((l) => l.k)).size >= 3 && creditoEntrada(r.montagem.posicao) >= Math.abs(de) - 1e-9;
     if (r.montagem.av.piso > 0.02 && !bwb) assert.ok(r.avisos.some((a) => a.includes('inconsistentes')), `${e.id}: piso ${r.montagem.av.piso}`);
   }
+});
+
+test('nao-montar: a montagem mostrada é a de maior valor esperado, não a de maior risco', () => {
+  const ctx = { data: D, spot: S, sigma: 0.332, sigmaEstresse: 0.389 };
+  for (const id of ['collar', 'strangle-compra', 'put-compra']) {
+    const r1 = otimizar(est(id), SERIES, ctx);
+    if (r1.veredito !== 'nao-montar') continue;
+    const chave = (p) => p.pernas.map((x) => `${x.strike}|${x.venc}`).join();
+    const k1 = chave(r1.montagem.posicao);
+    const r2 = otimizar(est(id), SERIES, { ...ctx, aceitar: (p) => chave(p) !== k1 });
+    assert.ok(r1.montagem.av.ev >= r2.montagem.av.ev - 1e-12, `${id}: ${r1.montagem.av.ev} < ${r2.montagem.av.ev}`);
+    assert.ok(r1.montagem.av.risco >= -2, `${id}: risco ${r1.montagem.av.risco} para uma montagem que não se monta`);
+  }
+});
+
+test('seriesDaGrade: grade sem negócio na data dá erro claro, não estouro de pilha', () => {
+  assert.throws(() => seriesDaGrade({ ...GRADE, data: '2026-11-16' }), /nenhuma série negociada em 2026-11-16/);
+});
+
+test('aviso "fora da janela" só quando o 1º vencimento está mesmo fora da janela', () => {
+  const ctx = { data: D, spot: S, sigma: 0.332, sigmaEstresse: 0.389 };
+  const falsos = [];
+  for (const e of ESTRUTURAS) {
+    const r = otimizar(e, SERIES, ctx);
+    const [lo, hi] = janela(e);
+    const du = Math.min(...r.montagem.posicao.pernas.filter((p) => p.tipo !== 'acao').map((p) => diasUteis(D, p.venc)));
+    if (du >= lo && du <= hi && r.avisos.some((a) => a.includes('fora da janela'))) falsos.push(`${e.id}: ${du} du em [${lo}, ${hi}]`);
+  }
+  assert.deepEqual(falsos, []);
 });
