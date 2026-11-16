@@ -161,3 +161,17 @@ button.simular { margin-top: 8px; font: 600 0.82rem var(--font-texto); padding: 
 .hoje-numeros .pos { color: var(--lucro-texto); } .hoje-numeros .neg { color: var(--prejuizo-texto); }
 .hoje-avisos { grid-column: 2; color: var(--texto-suave); font-size: 0.8rem; }
 @media (max-width: 640px) { .hoje-lista li { grid-template-columns: 1fr; } .hoje-montagem, .hoje-numeros, .hoje-avisos { grid-column: 1; } .hoje-mercado .validacao-grid > div { grid-template-columns: 1fr; } }
+
+/* Dinâmica do lucro no tempo (aba Visão) */
+.traj { margin: 14px 0; }
+.traj-svg { width: 100%; height: auto; display: block; }
+.traj-alta, .traj-baixa { fill: none; stroke-width: 1.8; }
+.traj-alta { stroke: var(--hoje); stroke-dasharray: 7 4; }
+.traj-baixa { stroke: var(--texto-suave); stroke-dasharray: 2 4; stroke-linecap: round; }
+.traj-rot-parado { fill: var(--texto); font-weight: 700; }
+.traj-rot-alta { fill: var(--hoje); }
+.traj-legenda { display: flex; flex-wrap: wrap; gap: 4px 16px; margin: 4px 0 8px; font-size: 0.78rem; color: var(--texto-suave); }
+.traj-legenda i { display: inline-block; width: 18px; height: 0; margin-right: 6px; vertical-align: middle; border-top: 3px solid; }
+.traj-legenda .k-parado { border-image: linear-gradient(to right, var(--prejuizo) 50%, var(--lucro) 50%) 1; }
+.traj-legenda .k-alta { border-top: 2px dashed var(--hoje); }
+.traj-legenda .k-baixa { border-top: 2px dotted var(--texto-suave); }
