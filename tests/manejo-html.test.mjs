@@ -22,8 +22,10 @@ test('aba Manejo de covered-call: faixa de rascunho, cenários e botões de simu
   }
 });
 
-test('estrutura sem dados de manejo não tem botão de simular e mantém o POP', () => {
+test('aba Manejo mantém o POP e só caminhos com operações têm botão', () => {
+  // Desde que as 62 estruturas ganharam manejo, não há mais estrutura "sem manejo" para testar.
   const h = pagina('hedge-inverse');
-  assert.doesNotMatch(h, /class="simular"/);
   assert.match(h, /Saída e stop|Risco principal/);
+  const comOps = MANEJO['hedge-inverse'].cenarios.flatMap((c) => c.caminhos).filter((p) => p.ops?.length).length;
+  assert.equal((h.match(/class="simular"/g) ?? []).length, comOps);
 });
