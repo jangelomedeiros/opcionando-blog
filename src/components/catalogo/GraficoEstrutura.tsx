@@ -44,6 +44,11 @@ export default function GraficoEstrutura({ dados }: { dados: DadosGrafico }) {
   const cenRef = useRef(cen);
   cenRef.current = cen;
 
+  // A trajetória no tempo (aba Visão) acompanha a posição simulada.
+  useEffect(() => {
+    window.dispatchEvent(new CustomEvent('opcionando:simulacao', { detail: { posicao: sim.posicao, ajustes: sim.ajustes } }));
+  }, [sim.posicao, sim.ajustes]);
+
   // Caminhos prontos da aba Manejo chegam por evento e são aplicados no cenário dos controles.
   useEffect(() => {
     const ouvir = (ev: Event) => {

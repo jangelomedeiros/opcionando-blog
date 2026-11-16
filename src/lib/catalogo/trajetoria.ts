@@ -43,3 +43,13 @@ export function fraseTrajetoria(t: Trajetoria): string {
   return `Com o preço parado, a estrutura ${verbo(fim)} por unidade até o 1º vencimento, em ${Math.max(n - 1, 0)} du${ritmo}. `
     + `Se o preço subir 1σ (até ${rs(t.precoAlta[n])}), ${verbo(t.alta[n])}; se cair 1σ (até ${rs(t.precoBaixa[n])}), ${verbo(t.baixa[n])}.`;
 }
+
+/** De onde a trajetória parte: o cenário do último ajuste do simulador ou, sem ajustes, o da montagem. */
+export function pontoDePartida(ajustes: { cenario: Cenario }[], inicial: Cenario): Cenario {
+  return ajustes.length ? ajustes[ajustes.length - 1].cenario : inicial;
+}
+
+/** Resultado de uma posição nas datas dadas, com o preço parado no cenário (linha "sem o ajuste" da comparação). */
+export function paradoEm(pos: Posicao, c: Cenario, datas: string[]): number[] {
+  return datas.map((data) => resultado(pos, { ...c, data }));
+}
