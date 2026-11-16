@@ -175,3 +175,13 @@ test('aviso "fora da janela" só quando o 1º vencimento está mesmo fora da jan
   }
   assert.deepEqual(falsos, []);
 });
+
+test('avaliador: o já realizado entra no resultado final (probabilidade e pior caso)', () => {
+  const venc = '2026-12-18', T = diasUteis(D, venc) / 252;
+  const perna = { id: 'p1', tipo: 'call', q: -1, strike: 15.7, venc, entrada: precoBS('call', S, 15.7, T, 0.36), vol: 0.36 };
+  const sem = criarAvaliador(D, S, 0.33)({ realizado: 0, pernas: [perna] });
+  const com = criarAvaliador(D, S, 0.33)({ realizado: 1, pernas: [perna] });
+  assert.ok(Math.abs(com.ev - sem.ev - 1) < 1e-9);
+  assert.ok(com.prob > sem.prob, `${com.prob} > ${sem.prob}`);
+  assert.ok(Math.abs(com.piso - sem.piso - 1) < 1e-9);
+});

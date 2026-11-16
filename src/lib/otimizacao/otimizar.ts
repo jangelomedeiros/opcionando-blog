@@ -185,10 +185,12 @@ export function criarAvaliador(data: string, spot: number, sigma: number, r = SE
     if (!v) { v = xs.map((s) => valorPerna(p, { data: D, spot: s, r })); vetores.set(k, v); }
     return v;
   };
-  return (pos: Posicao): Avaliacao => {
-    const D = pos.pernas.filter((p) => p.tipo !== 'acao').map((p) => p.venc as string).sort()[0];
+  // `horizonte`: data da avaliação quando a posição não tem opções (ex.: só ações); senão, o 1º vencimento.
+  return (pos: Posicao, horizonte?: string): Avaliacao => {
+    const D = pos.pernas.filter((p) => p.tipo !== 'acao').map((p) => p.venc as string).sort()[0] ?? horizonte;
+    if (!D) throw new Error('posição sem opções: informe o horizonte da avaliação');
     const { w, desc } = pesos(D);
-    const pnl = new Float64Array(xs.length);
+    const pnl = new Float64Array(xs.length).fill(pos.realizado); // o já realizado entra no resultado final
     let ev = pos.realizado;
     for (const p of pos.pernas) {
       const v = vetor(p, D);

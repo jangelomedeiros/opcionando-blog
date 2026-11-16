@@ -1,0 +1,72 @@
+---
+// Estudo dos vencimentos: a cada vencimento, as decisões do operador sobre cada montagem-base do diário.
+import '../../styles/laboratorio.css';
+import '../../styles/catalogo.css';
+import Base from '../../layouts/Base.astro';
+import { DISCLAIMER } from '../../consts';
+import { ESTRUTURAS, rs, pct, dmyy } from '../../lib/laboratorio';
+import { CANDLES } from '../../lib/fontes.ts';
+import { apurar, type Registro } from '../../lib/otimizacao/diario.ts';
+import type { EstudoVencimento } from '../../lib/estudo/vencimento.ts';
+
+const estudos = Object.values(import.meta.glob('../../data/estudo/*.json', { eager: true, import: 'default' }) as Record<string, { data: string; spot: number; sigma: number; estudos: EstudoVencimento[] }>)
+  .sort((a, b) => b.data.localeCompare(a.data));
+const registros = Object.values(import.meta.glob('../../data/diario/*.json', { eager: true, import: 'default' }) as Record<string, Registro>);
+const pendentes = registros.flatMap((r) => apurar(r, CANDLES)).filter((x) => x.status === 'pendente');
+const proximos = [...new Set(pendentes.map((x) => x.venc1))].sort().slice(0, 3).map((v) => ({ venc: v, n: pendentes.filter((x) => x.venc1 === v).length }));
+const nome = Object.fromEntries(ESTRUTURAS.map((e) => [e.id, e.nome]));
+const COMPENSA: Record<string, string> = { sim: 'compensa', troca: 'troca risco por retorno', 'não': 'não compensa' };
+---
+<Base title="Estudo dos vencimentos | Catálogo de estratégias" description="A cada vencimento, o que fazer com cada estrutura montada: encerrar, exercer, ser exercido ou manejar, com risco, probabilidade de lucro e objetivo de cada alternativa nos preços do dia.">
+  <section class="container-larga pagina lab hoje">
+    <p class="sobretitulo"><a href="/estrategias/">Catálogo de estratégias</a> · <a href="/estrategias/diario/">Diário do operador</a></p>
+    <h1>Estudo dos vencimentos</h1>
+    <p class="intro">A montagem de cada estrutura com a grade de referência é o parâmetro base. A cada vencimento, com os preços daquele dia, o estudo responde às perguntas do operador: como fica o encerramento, está no lucro ou no prejuízo? As pernas que vencem devem ser exercidas, deixadas para exercício ou zeradas? Compensa manejar? O manejo aumenta ou diminui o risco, aumenta a probabilidade de lucro no fim, atende ao objetivo da estrutura? O risco de cauda já está no desenho de cada estrutura: ele aparece no pior caso de cada alternativa.</p>
+
+    {estudos.length === 0 && (
+      <div class="hoje-mercado">
+        <p><b>O primeiro estudo sai no próximo vencimento.</b> {proximos.length > 0 && <>Próximos: {proximos.map((p, i) => <>{i > 0 && ', '}{dmyy(p.venc)} ({p.n} {p.n === 1 ? 'estrutura' : 'estruturas'})</>)}.</>} No dia, com a grade de opções do vencimento, cada montagem-base que vence é avaliada aqui.</p>
+      </div>
+    )}
+
+    {estudos.map((dia) => (
+      <section class="hoje-grupo">
+        <h2>Vencimento de {dmyy(dia.data)}</h2>
+        <p class="nota">Ativo a {rs(dia.spot)} · vol realizada de referência {pct(dia.sigma)} · {dia.estudos.length} {dia.estudos.length === 1 ? 'estrutura' : 'estruturas'}</p>
+        {dia.estudos.map((s) => (
+          <article class={`estudo ${s.situacao.lucro ? 'ok' : 'nao'}`}>
+            <h3><a href={`/estrategias/${s.id}/`}>{nome[s.id] ?? s.id}</a> <span class="validacao-data">montagem de {dmyy(s.base)}</span></h3>
+            <p><b>Situação:</b> {s.situacao.lucro ? 'no lucro' : 'no prejuízo'}, <b class={s.situacao.resultado > 0 ? 'pos' : 'neg'}>{rs(s.situacao.resultado, 2, true)}</b> por unidade (o valor esperado na montagem era {rs(s.situacao.evEsperado, 3, true)}, com {pct(s.situacao.probEsperada)} de probabilidade de lucro).</p>
+            {s.exercicio.length > 0 && <ul class="estudo-exercicio">{s.exercicio.map((x) => <li><b>{x.decisao}:</b> {x.texto}</li>)}</ul>}
+            <div class="twrap">
+              <table class="legs estudo-tab">
+                <thead><tr><th>Alternativa</th><th>Valor esperado</th><th>Prob. de lucro</th><th>Pior caso</th><th>Risco</th><th>Compensa?</th><th>Objetivo</th></tr></thead>
+                <tbody>
+                  {s.alternativas.map((a) => (
+                    <tr class={a.nome === s.sugestao ? 'sugerida' : ''}>
+                      <td>{a.nome}{a.nome === s.sugestao && <small> sugerida</small>}</td>
+                      {a.aplicavel ? (
+                        <>
+                          <td class={a.ev > 0 ? 'pos' : 'neg'}>{rs(a.ev, 2, true)}</td>
+                          <td>{pct(a.prob)}</td>
+                          <td>{rs(a.piorCaso, 2, true)}</td>
+                          <td>{a.risco ?? '—'}</td>
+                          <td>{a.compensa ? COMPENSA[a.compensa] : '—'}</td>
+                          <td>{a.objetivo.atende ? '✓ ' : '✗ '}{a.objetivo.texto}</td>
+                        </>
+                      ) : <td colspan="6" class="nota">não se aplica: {a.erro}</td>}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <p class="nota"><b>Sugestão:</b> {s.sugestao}, porque {s.motivo}. Uma trilha, não um trilho: a decisão é do operador.</p>
+          </article>
+        ))}
+      </section>
+    ))}
+
+    <p class="nota">Como ler: tudo por unidade e nos preços de tela do dia. "Valor esperado" e "probabilidade de lucro" são até o próximo vencimento da alternativa, com a vol realizada de referência e somando o que já foi realizado. "Pior caso" é o pior resultado nesse vencimento com o ativo entre 0,3× e 2,5× o preço do dia: é onde o risco de cauda de cada desenho aparece. "Risco" e "compensa" comparam cada manejo com deixar seguir (ou com encerrar, quando nada fica aberto). Exercício físico: CALL comprada recebe as ações ao strike, CALL vendida entrega; PUT ao contrário. Custo de zeragem estimado em R$ 0,01 por perna; preços de último negócio, sem book.</p>
+    <p class="aviso-legal">{DISCLAIMER}</p>
+  </section>
+</Base>
