@@ -50,3 +50,25 @@ test('caminhos com ops aplicam no cenário inicial sem erro e sem criar valor', 
 test('rascunhos marcados', () => {
   for (const id of ['covered-call', 'cash-put', 'booster-call']) assert.equal(MANEJO[id]?.revisado, false, id);
 });
+
+const PADRAO = ['booster-put', 'call-compra', 'call-venda', 'put-compra', 'financiamento', 'dividendo-sint', 'bull-spread', 'bear-put-spread',
+  'trava-alta-put', 'trava-baixa-call', 'seagull', 'collar', 'fence', 'straddle-compra', 'strangle-compra', 'straddle-venda', 'strangle-venda',
+  'condor', 'borboleta', 'colar-perene'];
+
+test('estruturas padrão têm rascunho de manejo', () => {
+  for (const id of PADRAO) {
+    assert.ok(MANEJO[id], `${id} sem manejo`);
+    assert.equal(MANEJO[id].revisado, false, id);
+    assert.ok(MANEJO[id].cenarios.flatMap((c) => c.caminhos).some((p) => p.ops?.length), `${id} sem caminho simulável`);
+  }
+});
+
+test('onde o POP diz "Não rolar", nenhum caminho rola', () => {
+  const POPS = JSON.parse(ler('src/data/laboratorio/pops.json'));
+  for (const [id, d] of Object.entries(MANEJO)) {
+    const pop = POPS[ESTRUTURAS.find((e) => e.id === id).pop];
+    if (!/não rolar/i.test(pop?.manejo ?? '')) continue;
+    const rolagens = d.cenarios.flatMap((c) => c.caminhos).flatMap((p) => p.ops ?? []).filter((o) => o.op.startsWith('rolar'));
+    assert.deepEqual(rolagens, [], id);
+  }
+});

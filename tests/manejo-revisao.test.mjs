@@ -54,3 +54,16 @@ test('textos corrigidos', () => {
   assert.match(caminho('booster-call', 'Rolar a trava para baixo').descricao, /^Vende a CALL comprada/);
   assert.match(caminho('cash-put', 'Aceitar o exercício').descricao, /no vencimento/i);
 });
+
+test('todo caminho simulável aplica com a grade que a página usa', () => {
+  const falhas = [];
+  for (const [id, d] of Object.entries(MANEJO)) {
+    const i = cenarioInicial(ESTRUTURAS.find((e) => e.id === id), m);
+    const g = gradeParaManejo(i.posicao, i.cenario, i.fonte === 'mercado' ? GRADE : null);
+    for (const c of d.cenarios) for (const p of c.caminhos.filter((x) => x.ops)) {
+      const e = aplicar(iniciar(i.posicao), p.nome, p.ops, i.cenario, g);
+      if (e.erro) falhas.push(`${id} / ${p.nome}: ${e.erro}`);
+    }
+  }
+  assert.deepEqual(falhas, []);
+});
