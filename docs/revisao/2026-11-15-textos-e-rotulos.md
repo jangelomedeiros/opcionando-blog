@@ -258,3 +258,20 @@ Rascunho do Claude para os filtros do catálogo, a partir da família e do racio
 | hedge-booster-v | Avançado | Ajuste | manejo de opção vendida |
 | hedge-assimetrico | Avançado | Ajuste | manejo de opção vendida |
 | hedge-straddle-ha | Avançado | Ajuste | manejo de opção vendida |
+
+## 3. Conflitos entre os POPs atuais e a metodologia do Prof. Su
+
+Os cenários de manejo seguem a metodologia (pilares, regra dos 10%, regra dos R$ 0,20, sem hedge colateral, calendário do efeito hole). **Os textos dos seus POPs não foram alterados**; estes trechos batem de frente com a metodologia e pedem sua decisão de redação:
+
+| Estrutura | Trecho do POP | Conflito |
+|---|---|---|
+| put-compra | "Seguro: role para frente quando faltarem cerca de 10 dias úteis" | Rolar seguro a seco mês a mês é o hedge colateral que a metodologia rejeita ("sangria"). |
+| trava-alta-put | "role a trava inteira para baixo e para frente a crédito" | A rolagem leva a trava para uma série com mais de 12 du; travas direcionais cabem só entre 12 e 6 du. |
+| trava-baixa-call | "role para cima e para frente a crédito" | Mesmo conflito com a janela de 12 a 6 du. |
+| call-compra / put-compra | compra a seco com prazo de semanas | A metodologia reserva compras a seco para menos de 6 du (pozinhos assimétricos). |
+
+**Rascunhos do Claude ajustados à metodologia:**
+- venda coberta: saiu "Comprar PUT de proteção" (hedge colateral);
+- straddle vendido: a proteção virou PUT longa no vencimento mais longo (como no Straddle com PUT longa).
+
+**Para conferir:** as montagens das Mônadas no catálogo (exemplo de 02/10) nem sempre têm a mesma arquitetura dos exemplos dos POPs do Prof. Su (por exemplo, a quantidade de pontas da Quatermine e da Hexabox). Os cenários usam as pernas que estão no catálogo.

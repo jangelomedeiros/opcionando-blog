@@ -23,7 +23,7 @@ test('aba Manejo de covered-call: faixa de rascunho, cenários e botões de simu
 });
 
 test('estrutura sem dados de manejo não tem botão de simular e mantém o POP', () => {
-  const h = pagina('thl-call');
+  const h = pagina('hedge-inverse');
   assert.doesNotMatch(h, /class="simular"/);
   assert.match(h, /Saída e stop|Risco principal/);
 });

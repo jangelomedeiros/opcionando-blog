@@ -43,12 +43,7 @@ test('rolagens de strike caem em contratos que existem no vencimento', () => {
   assert.ok(Math.abs((k3 - k2) - 0.5) < 0.011, `largura ${k3 - k2}`);
 });
 
-test('PUT de proteção vence junto com a CALL vendida', () => {
-  const { posicao, cenario, grade } = montar('covered-call');
-  const { posicao: nova } = aplicarAjuste(posicao, caminho('covered-call', 'Comprar PUT de proteção').ops, cenario, grade);
-  const put = nova.pernas.find((p) => p.tipo === 'put');
-  assert.equal(put.venc, posicao.pernas.find((p) => p.id === 'p2').venc);
-});
+// 'PUT de proteção' da venda coberta saiu: hedge colateral é rejeitado pela metodologia (ver manejo-metodologia.test.mjs).
 
 test('textos corrigidos', () => {
   assert.match(caminho('booster-call', 'Rolar a trava para baixo').descricao, /^Vende a CALL comprada/);
