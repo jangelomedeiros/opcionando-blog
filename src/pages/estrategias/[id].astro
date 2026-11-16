@@ -203,6 +203,7 @@ const descricao = `${est.nome}: gráfico de payoff interativo, gregas, procedime
                           </dl>
                           {p.estrutura && <p class="manejo-link">Veja também: <a href={`/estrategias/${p.estrutura}/`}>{nomeDe(p.estrutura)}</a></p>}
                           {p.ops?.length > 0 && <button type="button" class="simular" data-nome={p.nome} data-ops={JSON.stringify(p.ops)} hidden>Simular no gráfico</button>}
+                          {p.ops?.length > 0 && <button type="button" class="ver-traj" data-aba={`${est.id}-tab-visao`} hidden>Ver a dinâmica no tempo →</button>}
                         </li>
                       ))}
                     </ul>
@@ -262,6 +263,17 @@ const descricao = `${est.nome}: gráfico de payoff interativo, gregas, procedime
         window.dispatchEvent(new CustomEvent('opcionando:manejo', { detail: { nome: b.getAttribute('data-nome'), ops: JSON.parse(b.getAttribute('data-ops')) } }));
         var g = document.querySelector('.est-esq');
         if (g && window.innerWidth <= 820) g.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        // Depois de simular, o atalho ao lado leva à trajetória no tempo já com o ajuste.
+        var v = b.parentElement.querySelector('button.ver-traj');
+        if (v && document.querySelector('.traj')) v.hidden = false;
+      });
+    });
+    document.querySelectorAll('button.ver-traj').forEach(function (v) {
+      v.addEventListener('click', function () {
+        var aba = document.getElementById(v.getAttribute('data-aba'));
+        if (aba) aba.click();
+        var t = document.querySelector('.traj');
+        if (t) t.scrollIntoView({ behavior: 'smooth', block: 'center' });
       });
     });
   </script>

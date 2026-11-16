@@ -101,3 +101,13 @@ test('simulador avisa a trajetória e a trajetória é uma ilha que ouve', () =>
   assert.ok(ilhas.some((x) => /TrajetoriaIlha/.test(x)), 'ilha da trajetória ausente');
   assert.match(h, /class="traj-svg"/, 'sem JS o gráfico já vem no HTML');
 });
+
+test('aba Manejo: cada botão de simular tem ao lado o atalho para a dinâmica no tempo', () => {
+  const h = readFileSync(new URL('../dist/estrategias/covered-call/index.html', import.meta.url), 'utf8');
+  const simular = (h.match(/<button[^>]*class="simular"/g) ?? []).length;
+  const atalhos = (h.match(/<button[^>]*class="ver-traj"[^>]*hidden/g) ?? []).length;
+  assert.ok(simular > 0 && atalhos === simular, `${atalhos} atalhos para ${simular} botões`);
+  assert.match(h, /Ver a dinâmica no tempo/);
+  assert.match(h, /covered-call-tab-visao/);
+  assert.match(h, /querySelectorAll\('button\.ver-traj'\)/);
+});
