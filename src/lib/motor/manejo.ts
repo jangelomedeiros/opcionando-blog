@@ -142,7 +142,9 @@ export function aplicarAjuste(pos: Posicao, ops: Operacao[], c: Cenario, grade: 
         if (o.tipo === 'acao') { abrir({ id, tipo: 'acao', q: o.q }); break; }
         const futuros = grade.vencimentos.filter((v) => v > c.data);
         // vencDe: mesmo vencimento de outra perna (ex.: PUT de proteção junto com a CALL vendida).
-        const venc = o.vencDe ? pernas[achar(o.vencDe)].venc : futuros[o.vencIndice ?? 0];
+        // vencIndice negativo conta a partir do fim (−1 = o vencimento mais longo da grade).
+        const iv = o.vencIndice ?? 0;
+        const venc = o.vencDe ? pernas[achar(o.vencDe)].venc : futuros[iv < 0 ? futuros.length + iv : iv];
         if (!venc) throw new RangeError(`Rolagem fora da grade: não há vencimento de índice ${o.vencIndice ?? 0} depois de ${c.data}`);
         const lista = strikesDe(grade, venc);
         const atm = indiceStrike(lista, strikeATM(lista, c.spot));
