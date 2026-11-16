@@ -12,10 +12,12 @@ const est = (id) => ESTRUTURAS.find((e) => e.id === id);
 const semTags = (h) => h.replace(/<script[\s\S]*?<\/script>/g, '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ');
 
 test('remontagem que desmancha o desenho volta para a referência', () => {
-  for (const id of ['bwb', 'calendar-butterfly', 'thl-call', 'mannerheim']) {
-    assert.equal(cenarioInicial(est(id), m).fonte, 'referencia', id);
-  }
-  assert.equal(cenarioInicial(est('covered-call'), m).fonte, 'mercado');
+  // Montagem otimizada: as 62 vêm do mercado (desenho preservado por construção).
+  for (const e of ESTRUTURAS) assert.equal(cenarioInicial(e, m).fonte, 'mercado', e.id);
+  // Desmanchando o desenho (borboleta com as duas asas no mesmo strike), a página volta para a referência.
+  const bwb = m.linhas.filter((l) => l.estrutura === 'bwb');
+  const quebrado = { ...m, linhas: m.linhas.map((l) => (l === bwb[0] ? { ...l, strike: bwb[1].strike, ticker: bwb[1].ticker } : l)) };
+  assert.equal(cenarioInicial(est('bwb'), quebrado).fonte, 'referencia');
 });
 
 test('NUMERO_FIXO pega números, percentuais, datas, du e meses', () => {

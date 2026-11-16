@@ -14,8 +14,9 @@ const OPS = ['encerrar', 'rolarStrike', 'rolarVencimento', 'quantidade', 'adicio
 const ids = new Set(ESTRUTURAS.map((e) => e.id));
 
 function gradeSimples(pos) {
-  const ks = pos.pernas.filter((p) => p.strike).map((p) => p.strike);
-  const strikes = [...new Set([...ks, ...ks.flatMap((k) => Array.from({ length: 11 }, (_, i) => +(k + (i - 5) * 0.25).toFixed(2)))])].sort((a, b) => a - b);
+  // Grade sintética larga: ±8 passos de R$ 0,25 em volta de cada strike e do spot (caminhos chegam a 4 passos do ATM).
+  const ks = [...pos.pernas.filter((p) => p.strike).map((p) => p.strike), m.spot];
+  const strikes = [...new Set([...ks, ...ks.flatMap((k) => Array.from({ length: 17 }, (_, i) => +(k + (i - 8) * 0.25).toFixed(2)))])].sort((a, b) => a - b);
   const vencimentos = [...new Set([...Object.keys(GRADE.vencimentos), ...pos.pernas.filter((p) => p.venc).map((p) => p.venc)])].sort();
   return { strikes, vencimentos };
 }
