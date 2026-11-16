@@ -16,6 +16,7 @@ import { diasUteis } from '../../lib/motor/calendario.ts';
 import mercadoCsv from '../../data/laboratorio/mercado.csv?raw';
 import GRADE from '../../data/grades/bbas3-2026-11-13.json';
 import { gradeParaManejo } from '../../lib/catalogo/gradeManejo.ts';
+import { deltaEstrutural, creditoEntrada } from '../../lib/catalogo/protocolo.ts';
 import MANEJO from '../../data/laboratorio/manejo.json';
 
 // Fichas editoriais antigas que viraram parte da aba Visão.
@@ -54,6 +55,9 @@ const visao = usarAtual ? { posicao: inicial.posicao, cenario: inicial.cenario }
 const texto = (t: string) => resolverTexto(t, valores, est.id);
 const racional = texto(est.racional), esperado = texto(est.esperado), notas = est.notas.map(texto);
 const montagem = visao.posicao.pernas;
+// Teoria Modular (Prof. Su): delta estrutural e regra de entrada (crédito ≥ |delta estrutural| quando negativo).
+const dEst = deltaEstrutural(visao.posicao);
+const credito = creditoEntrada(visao.posicao);
 
 // Cenários de manejo (rascunhos aparecem com faixa até o dono revisar).
 const manejo = (MANEJO as Record<string, any>)[est.id] ?? null;
@@ -71,6 +75,7 @@ const abas = [
   ...(youtube ? [{ id: 'video', rotulo: 'Vídeo' }] : []),
   { id: 'hoje', rotulo: 'Hoje' },
 ];
+const br2 = (v: number) => (v < -0.0049 ? '−' : '') + Math.abs(v).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 const descricao = `${est.nome}: gráfico de payoff interativo, gregas, procedimento operacional (POP), manejo e como montar hoje com preços reais de BBAS3.`;
 ---
 <Base title={`${est.nome} | Catálogo de estratégias`} description={descricao}>
@@ -125,6 +130,12 @@ const descricao = `${est.nome}: gráfico de payoff interativo, gregas, procedime
               </table>
             </div>
             <p class="nota">{usarAtual ? `Preços de ${m.ativo} em ${dmyy(visao.cenario.data)} (ativo a ${rs(visao.cenario.spot)}). Os números do texto acompanham esta montagem.` : `Exemplo calibrado com BBAS3 a ${rs(spot0)} em ${dmyy(est.ref.data)}: o texto acima usa estes números. O que vale é a relação entre os strikes e os prazos${inicial.fonte === 'mercado' ? `; o gráfico mostra a montagem com os preços de ${dmyy(inicial.cenario.data)}` : ''}.`}</p>
+            {dEst !== null && (
+              <div class="caixa">
+                <strong>Delta estrutural: R$ {br2(dEst)}</strong> (resultado sem prêmios {visao.posicao.pernas[0].tipo === 'call' ? 'com o preço muito acima dos strikes' : 'com o preço em zero'}). {credito >= 0 ? `Crédito de entrada: R$ ${br2(credito)}.` : `Débito de entrada: R$ ${br2(-credito)}.`}
+                {dEst < 0 && <><br /><small>Regra de entrada (Prof. Su): só montar se o crédito for maior ou igual ao delta estrutural, ou seja, R$ {br2(-dEst)}. Nesta montagem: {credito >= -dEst - 1e-9 ? 'atende' : 'não atende'}.</small></>}
+              </div>
+            )}
             {ficha && (
               <div class="ficha">
                 <dl>

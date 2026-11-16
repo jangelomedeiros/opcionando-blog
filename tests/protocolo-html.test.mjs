@@ -14,3 +14,10 @@ test('página do protocolo de manejo', () => {
 test('aba Manejo leva ao protocolo', () => {
   assert.match(ler('dist/estrategias/covered-call/index.html'), /href="\/estrategias\/protocolo-de-manejo\/"/);
 });
+
+test('Visão mostra o delta estrutural onde ele existe', () => {
+  const bwb = ler('dist/estrategias/bwb/index.html');
+  assert.match(bwb, /Delta estrutural/);
+  assert.match(bwb, /Regra de entrada/);
+  assert.doesNotMatch(ler('dist/estrategias/covered-call/index.html'), /Delta estrutural/);
+});

@@ -2976,5 +2976,685 @@
     ]
    }
   ]
+ },
+ "linha-mannerheim": {
+  "revisado": false,
+  "fonte": "Metodologia do Prof. Su (rascunho do Claude a partir dos POPs passados pelo autor)",
+  "cenarios": [
+   {
+    "nome": "Queda até o pivô inferior",
+    "sinais": "O ativo desceu um degrau da grade de pivôs.",
+    "pesa": "Regra de ouro do gradiente: nunca aumentar o lote total; rebalancear por equivalência, sem aporte (POP). Os 3 pilares: o ajuste precisa melhorar o delta, o theta ou reduzir a exposição.",
+    "caminhos": [
+     {
+      "nome": "Rolar a PUT vendida",
+      "descricao": "Rola a PUT vendida do pivô para a série seguinte.",
+      "ganha": "Mantém o pivô gerando caixa.",
+      "perde": "Mantém a exposição na queda.",
+      "quando": "Quando o degrau abaixo ainda é aceitável (POP).",
+      "ops": [
+       {
+        "op": "rolarVencimento",
+        "perna": "p1",
+        "passos": 1
+       }
+      ]
+     },
+     {
+      "nome": "Recomprar parte e alongar a proteção",
+      "descricao": "Recompra metade da PUT vendida e compra meia PUT no vencimento mais longo.",
+      "ganha": "Reduz a exposição e cria proteção longa.",
+      "perde": "Menos caixa no ciclo.",
+      "quando": "Quando a queda pode continuar (POP).",
+      "ops": [
+       {
+        "op": "quantidade",
+        "perna": "p1",
+        "q": -0.5
+       },
+       {
+        "op": "adicionar",
+        "tipo": "put",
+        "q": 0.5,
+        "strikePassos": 0,
+        "vencIndice": -1
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "nome": "Alta além do pivô",
+    "sinais": "A PUT curta derreteu e virou pó; as CALLs valorizaram.",
+    "pesa": "Desmontar a perna CALL com lucro e subir o degrau (POP). Os 3 pilares: o ajuste precisa melhorar o delta, o theta ou reduzir a exposição.",
+    "caminhos": [
+     {
+      "nome": "Desmontar a perna CALL",
+      "descricao": "Encerra as CALLs do pivô com lucro.",
+      "ganha": "Realiza a alta do degrau.",
+      "perde": "A alta além deste degrau.",
+      "quando": "Quando o ativo chegou ao pivô superior (POP).",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p2"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p3"
+       }
+      ]
+     },
+     {
+      "nome": "Recomprar a PUT que virou pó",
+      "descricao": "Recompra a PUT vendida barata (regra dos R$ 0,20).",
+      "ganha": "Libera margem.",
+      "perde": "Os últimos centavos de prêmio.",
+      "quando": "Quando a PUT vale R$ 0,20 ou menos.",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p1"
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "gl-shortput-booster": {
+  "revisado": false,
+  "fonte": "Metodologia do Prof. Su (rascunho do Claude a partir dos POPs passados pelo autor)",
+  "cenarios": [
+   {
+    "nome": "Queda até o pivô inferior",
+    "sinais": "O ativo desceu um degrau da grade de pivôs.",
+    "pesa": "Regra de ouro do gradiente: nunca aumentar o lote total; rebalancear por equivalência, sem aporte (POP). Os 3 pilares: o ajuste precisa melhorar o delta, o theta ou reduzir a exposição.",
+    "caminhos": [
+     {
+      "nome": "Rolar a PUT vendida",
+      "descricao": "Rola a PUT vendida do pivô para a série seguinte.",
+      "ganha": "Mantém o pivô gerando caixa.",
+      "perde": "Mantém a exposição na queda.",
+      "quando": "Quando o degrau abaixo ainda é aceitável (POP).",
+      "ops": [
+       {
+        "op": "rolarVencimento",
+        "perna": "p2",
+        "passos": 1
+       }
+      ]
+     },
+     {
+      "nome": "Recomprar parte e alongar a proteção",
+      "descricao": "Recompra metade da PUT vendida e compra meia PUT no vencimento mais longo.",
+      "ganha": "Reduz a exposição e cria proteção longa.",
+      "perde": "Menos caixa no ciclo.",
+      "quando": "Quando a queda pode continuar (POP).",
+      "ops": [
+       {
+        "op": "quantidade",
+        "perna": "p2",
+        "q": -0.5
+       },
+       {
+        "op": "adicionar",
+        "tipo": "put",
+        "q": 0.5,
+        "strikePassos": 0,
+        "vencIndice": -1
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "nome": "Alta além do pivô",
+    "sinais": "A PUT curta derreteu e virou pó; as CALLs valorizaram.",
+    "pesa": "Desmontar a perna CALL com lucro e subir o degrau (POP). Os 3 pilares: o ajuste precisa melhorar o delta, o theta ou reduzir a exposição.",
+    "caminhos": [
+     {
+      "nome": "Desmontar a perna CALL",
+      "descricao": "Encerra as CALLs do pivô com lucro.",
+      "ganha": "Realiza a alta do degrau.",
+      "perde": "A alta além deste degrau.",
+      "quando": "Quando o ativo chegou ao pivô superior (POP).",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p3"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p4"
+       }
+      ]
+     },
+     {
+      "nome": "Recomprar a PUT que virou pó",
+      "descricao": "Recompra a PUT vendida barata (regra dos R$ 0,20).",
+      "ganha": "Libera margem.",
+      "perde": "Os últimos centavos de prêmio.",
+      "quando": "Quando a PUT vale R$ 0,20 ou menos.",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p2"
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "asym-wings-diagonal": {
+  "revisado": false,
+  "fonte": "Metodologia do Prof. Su (rascunho do Claude a partir dos POPs passados pelo autor)",
+  "cenarios": [
+   {
+    "nome": "Queda até o miolo",
+    "sinais": "O ativo desceu até as PUTs vendidas.",
+    "pesa": "Regra de ouro do gradiente: nunca aumentar o lote total; rebalancear por equivalência, sem aporte (POP). Os 3 pilares: o ajuste precisa melhorar o delta, o theta ou reduzir a exposição.",
+    "caminhos": [
+     {
+      "nome": "Rolar as PUTs vendidas",
+      "descricao": "Rola as PUTs vendidas para a série seguinte.",
+      "ganha": "Mantém o caixa do pivô.",
+      "perde": "Mantém a exposição.",
+      "quando": "Quando o miolo deve segurar (POP).",
+      "ops": [
+       {
+        "op": "rolarVencimento",
+        "perna": "p2",
+        "passos": 1
+       }
+      ]
+     },
+     {
+      "nome": "Encerrar a estrutura",
+      "descricao": "Encerra as 3 pernas.",
+      "ganha": "Para o risco.",
+      "perde": "Realiza o resultado atual.",
+      "quando": "Quando a queda rompe o pivô.",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p1"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p2"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p3"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "nome": "Alta",
+    "sinais": "As PUTs curtas derreteram.",
+    "pesa": "Recomprar as vendidas baratas e liberar margem (POP). Os 3 pilares: o ajuste precisa melhorar o delta, o theta ou reduzir a exposição.",
+    "caminhos": [
+     {
+      "nome": "Recomprar as vendidas",
+      "descricao": "Recompra as PUTs vendidas (regra dos R$ 0,20).",
+      "ganha": "Libera margem; a asa longa segue.",
+      "perde": "Os últimos centavos.",
+      "quando": "Quando valem R$ 0,20 ou menos.",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p2"
+       }
+      ]
+     },
+     {
+      "nome": "Esperar o vencimento",
+      "descricao": "Mantém.",
+      "ganha": "O prêmio restante.",
+      "perde": "Exposição a uma volta do preço.",
+      "quando": "Quando faltam poucos dias."
+     }
+    ]
+   }
+  ]
+ },
+ "booster-fly": {
+  "revisado": false,
+  "fonte": "Metodologia do Prof. Su (rascunho do Claude a partir dos POPs passados pelo autor)",
+  "cenarios": [
+   {
+    "nome": "O ativo no miolo perto do vencimento",
+    "sinais": "O preço está perto do strike das CALLs vendidas.",
+    "pesa": "O miolo maximiza o ganho (POP). Os 3 pilares: o ajuste precisa melhorar o delta, o theta ou reduzir a exposição.",
+    "caminhos": [
+     {
+      "nome": "Zerar o booster e a asa",
+      "descricao": "Encerra a CALL comprada, as vendidas e a asa.",
+      "ganha": "Realiza o ganho do miolo.",
+      "perde": "O que faltava até o máximo.",
+      "quando": "No miolo, perto do vencimento (POP).",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p2"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p3"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p4"
+       }
+      ]
+     },
+     {
+      "nome": "Carregar com a asa travada",
+      "descricao": "Mantém a estrutura até o vencimento.",
+      "ganha": "O ganho máximo, se ficar no miolo.",
+      "perde": "Sensível a movimentos no fim.",
+      "quando": "Quando o ativo está bem no miolo."
+     }
+    ]
+   },
+   {
+    "nome": "O ativo disparou além da asa",
+    "sinais": "O preço passou da CALL comprada de cauda.",
+    "pesa": "A asa neutraliza o risco de alta e a entrega do papel (POP). Os 3 pilares: o ajuste precisa melhorar o delta, o theta ou reduzir a exposição.",
+    "caminhos": [
+     {
+      "nome": "Manter: a asa cobre",
+      "descricao": "Mantém a estrutura; a CALL de cauda cobre a alta.",
+      "ganha": "Sem chamada de margem nem entrega.",
+      "perde": "O ganho fica limitado.",
+      "quando": "Quando a alta é forte (POP)."
+     },
+     {
+      "nome": "Encerrar o fly",
+      "descricao": "Encerra as 3 opções e fica com a ação.",
+      "ganha": "Simplifica a custódia.",
+      "perde": "O resultado do fly no vencimento.",
+      "quando": "Quando o booster cumpriu o papel.",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p2"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p3"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p4"
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "malha-bw": {
+  "revisado": false,
+  "fonte": "Metodologia do Prof. Su (rascunho do Claude a partir dos POPs passados pelo autor)",
+  "cenarios": [
+   {
+    "nome": "O mercado ficou no miolo",
+    "sinais": "O preço está perto do strike vendido.",
+    "pesa": "A BWB chega ao ganho máximo no miolo (POP). Os 3 pilares: o ajuste precisa melhorar o delta, o theta ou reduzir a exposição.",
+    "caminhos": [
+     {
+      "nome": "Zerar com lucro",
+      "descricao": "Encerra as 3 pernas e põe o caixa no bolso.",
+      "ganha": "O ganho do miolo.",
+      "perde": "O que ainda faltava.",
+      "quando": "No miolo (POP).",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p1"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p2"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p3"
+       }
+      ]
+     },
+     {
+      "nome": "Zerar parcialmente",
+      "descricao": "Reduz à metade todas as pernas, mantendo a proporção.",
+      "ganha": "Desalavanca e realiza parte.",
+      "perde": "Metade do potencial.",
+      "quando": "Com 50% a 70% do lucro máximo (POP).",
+      "ops": [
+       {
+        "op": "quantidade",
+        "perna": "p1",
+        "q": 1
+       },
+       {
+        "op": "quantidade",
+        "perna": "p2",
+        "q": -1.5
+       },
+       {
+        "op": "quantidade",
+        "perna": "p3",
+        "q": 0.5
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "nome": "O mercado disparou",
+    "sinais": "O preço passou da asa comprada.",
+    "pesa": "A perda máxima é o delta estrutural, coberto pelo crédito de entrada (POP). Os 3 pilares: o ajuste precisa melhorar o delta, o theta ou reduzir a exposição.",
+    "caminhos": [
+     {
+      "nome": "Levar ao vencimento",
+      "descricao": "Mantém; o crédito de entrada cobre o delta estrutural.",
+      "ganha": "Resultado nulo ou positivo, se a regra de entrada foi respeitada.",
+      "perde": "Nenhum ganho extra.",
+      "quando": "Quando a entrada teve crédito ≥ delta estrutural (POP)."
+     },
+     {
+      "nome": "Encerrar",
+      "descricao": "Encerra as 3 pernas.",
+      "ganha": "Libera a margem antes.",
+      "perde": "Pode realizar uma pequena perda.",
+      "quando": "Quando precisa da margem.",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p1"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p2"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p3"
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "hyperfly": {
+  "revisado": false,
+  "fonte": "Metodologia do Prof. Su (rascunho do Claude a partir dos POPs passados pelo autor)",
+  "cenarios": [
+   {
+    "nome": "Lucro de 30 a 50 centavos",
+    "sinais": "A estrutura atingiu o pico de sensibilidade.",
+    "pesa": "Encerramento rápido: não carregar até o último dia (POP). Os 3 pilares: o ajuste precisa melhorar o delta, o theta ou reduzir a exposição.",
+    "caminhos": [
+     {
+      "nome": "Zerar a posição inteira",
+      "descricao": "Encerra as 3 pernas.",
+      "ganha": "Realiza o ganho do giro curto.",
+      "perde": "O que restaria até o vencimento.",
+      "quando": "Com 30 a 50 centavos por lote (POP).",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p1"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p2"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p3"
+       }
+      ]
+     },
+     {
+      "nome": "Esperar o alvo",
+      "descricao": "Mantém por mais alguns dias.",
+      "ganha": "A chance de atingir o alvo.",
+      "perde": "O pico passa rápido.",
+      "quando": "Quando o alvo ainda não veio, dentro do giro de 3 a 5 dias."
+     }
+    ]
+   }
+  ]
+ },
+ "fly-modular": {
+  "revisado": false,
+  "fonte": "Metodologia do Prof. Su (rascunho do Claude a partir dos POPs passados pelo autor)",
+  "cenarios": [
+   {
+    "nome": "O papel chegou ao strike central",
+    "sinais": "O delta de transição entrega a rentabilidade máxima.",
+    "pesa": "Zerar para realizar (POP). Os 3 pilares: o ajuste precisa melhorar o delta, o theta ou reduzir a exposição.",
+    "caminhos": [
+     {
+      "nome": "Zerar a estrutura",
+      "descricao": "Encerra as 4 pernas.",
+      "ganha": "Realiza o máximo da transição.",
+      "perde": "O que restaria.",
+      "quando": "No strike central (POP).",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p1"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p2"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p3"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p4"
+       }
+      ]
+     },
+     {
+      "nome": "Acompanhar a transição",
+      "descricao": "Mantém e acompanha o delta de transição.",
+      "ganha": "A chance de mais ganho.",
+      "perde": "O ganho é sensível ao preço.",
+      "quando": "Quando o papel ainda está migrando."
+     }
+    ]
+   }
+  ]
+ },
+ "modulo-q": {
+  "revisado": false,
+  "fonte": "Metodologia do Prof. Su (rascunho do Claude a partir dos POPs passados pelo autor)",
+  "cenarios": [
+   {
+    "nome": "Ciclo mensal de rolagem",
+    "sinais": "As vendidas geraram crédito no ciclo.",
+    "pesa": "Rolagem perene com redução de 10% (POP). Os 3 pilares: o ajuste precisa melhorar o delta, o theta ou reduzir a exposição.",
+    "caminhos": [
+     {
+      "nome": "Rolar com redução de 10% e alongar a comprada",
+      "descricao": "Reduz em 10% as CALLs vendidas, rola o restante e leva a comprada 1 mês à frente.",
+      "ganha": "Expulsa a alavancagem e mantém a cobertura longa.",
+      "perde": "Um pouco menos de crédito.",
+      "quando": "A cada ciclo credor (POP).",
+      "ops": [
+       {
+        "op": "quantidade",
+        "perna": "p2",
+        "q": -1.8
+       },
+       {
+        "op": "rolarVencimento",
+        "perna": "p2",
+        "passos": 1
+       },
+       {
+        "op": "rolarVencimento",
+        "perna": "p1",
+        "passos": 1
+       }
+      ]
+     },
+     {
+      "nome": "Rolar sem redução",
+      "descricao": "Rola as vendidas inteiras.",
+      "ganha": "Mais crédito no ciclo.",
+      "perde": "Não reduz a alavancagem.",
+      "quando": "Contra a regra dos 10% do POP.",
+      "ops": [
+       {
+        "op": "rolarVencimento",
+        "perna": "p2",
+        "passos": 1
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "bwb": {
+  "revisado": false,
+  "fonte": "Metodologia do Prof. Su (rascunho do Claude a partir dos POPs passados pelo autor)",
+  "cenarios": [
+   {
+    "nome": "Estacionado no miolo",
+    "sinais": "O preço está perto do strike vendido no vencimento.",
+    "pesa": "Ganho máximo no miolo (POP). Os 3 pilares: o ajuste precisa melhorar o delta, o theta ou reduzir a exposição.",
+    "caminhos": [
+     {
+      "nome": "Zerar a operação",
+      "descricao": "Encerra as 3 pernas.",
+      "ganha": "Realiza o ganho máximo.",
+      "perde": "Nada relevante.",
+      "quando": "No miolo (POP).",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p1"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p2"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p3"
+       }
+      ]
+     },
+     {
+      "nome": "Levar ao vencimento",
+      "descricao": "Mantém.",
+      "ganha": "O ganho máximo, se ficar no miolo.",
+      "perde": "Sensível a movimentos no fim.",
+      "quando": "Quando o preço está bem no miolo."
+     }
+    ]
+   },
+   {
+    "nome": "Disparou acima da asa",
+    "sinais": "O preço passou da CALL comprada distante.",
+    "pesa": "O crédito de entrada cobre o delta estrutural (POP). Os 3 pilares: o ajuste precisa melhorar o delta, o theta ou reduzir a exposição.",
+    "caminhos": [
+     {
+      "nome": "Manter: resultado nulo ou positivo",
+      "descricao": "Mantém; o crédito cobre o débito do delta estrutural.",
+      "ganha": "Resultado nulo ou positivo.",
+      "perde": "Nenhum ganho extra.",
+      "quando": "Quando a entrada teve crédito ≥ delta estrutural."
+     },
+     {
+      "nome": "Encerrar",
+      "descricao": "Encerra as 3 pernas.",
+      "ganha": "Libera a margem.",
+      "perde": "Pode realizar uma pequena perda.",
+      "quando": "Quando precisa da margem.",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p1"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p2"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p3"
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "calendar-butterfly": {
+  "revisado": false,
+  "fonte": "Metodologia do Prof. Su (rascunho do Claude a partir dos POPs passados pelo autor)",
+  "cenarios": [
+   {
+    "nome": "Faltando de 12 a 6 du para as curtas",
+    "sinais": "As opções curtas entram no efeito hole.",
+    "pesa": "Encerrar ou rolar as curtas nessa janela (POP). Os 3 pilares: o ajuste precisa melhorar o delta, o theta ou reduzir a exposição.",
+    "caminhos": [
+     {
+      "nome": "Rolar as curtas",
+      "descricao": "Rola as CALLs curtas para a série seguinte.",
+      "ganha": "Mantém o efeito hole a favor.",
+      "perde": "Custos de rolagem.",
+      "quando": "Entre 12 e 6 du (POP).",
+      "ops": [
+       {
+        "op": "rolarVencimento",
+        "perna": "p1",
+        "passos": 1
+       },
+       {
+        "op": "rolarVencimento",
+        "perna": "p3",
+        "passos": 1
+       }
+      ]
+     },
+     {
+      "nome": "Encerrar a estrutura",
+      "descricao": "Encerra as pernas curtas e a longa.",
+      "ganha": "A valorização da longa cobre o custo de entrada.",
+      "perde": "O fluxo dos próximos ciclos.",
+      "quando": "Entre 12 e 6 du (POP).",
+      "ops": [
+       {
+        "op": "encerrar",
+        "perna": "p1"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p2"
+       },
+       {
+        "op": "encerrar",
+        "perna": "p3"
+       }
+      ]
+     }
+    ]
+   }
+  ]
  }
 }

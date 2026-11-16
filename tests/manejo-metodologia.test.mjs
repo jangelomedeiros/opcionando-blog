@@ -35,3 +35,20 @@ test('B2 e Straddle com PUT longa têm rolagem com redução de 10%', () => {
     assert.ok(i >= 0 && p.ops.slice(i + 1).some((o) => o.op === 'rolarVencimento' && o.perna === p.ops[i].perna), id);
   }
 });
+
+const AVANCADOS = ['linha-mannerheim', 'gl-shortput-booster', 'asym-wings-diagonal', 'booster-fly', 'malha-bw', 'hyperfly', 'fly-modular', 'modulo-q', 'bwb', 'calendar-butterfly'];
+
+test('estruturas avançadas têm cenários com fonte Prof. Su', () => {
+  for (const id of AVANCADOS) { assert.ok(MANEJO[id], id); assert.match(MANEJO[id].fonte, /Prof\. Su/, id); }
+});
+
+test('gradiente: regra de ouro, nunca aumentar o lote', () => {
+  for (const id of ['linha-mannerheim', 'gl-shortput-booster', 'asym-wings-diagonal']) {
+    const aumentos = caminhos(id).flatMap((p) => p.ops ?? []).filter((o) => o.op === 'quantidade' && Math.abs(o.q) > 1);
+    assert.deepEqual(aumentos, [], id);
+  }
+});
+
+test('Módulo Q rola com redução de 10%', () => {
+  assert.ok(caminhos('modulo-q').some((p) => /10%/.test(p.nome) && p.ops.some((o) => o.op === 'quantidade')));
+});

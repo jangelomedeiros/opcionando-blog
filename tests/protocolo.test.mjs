@@ -47,3 +47,21 @@ test('adicionar com vencIndice −1 usa o vencimento mais longo', () => {
   const { posicao } = aplicarAjuste(venda(), [{ op: 'adicionar', tipo: 'put', q: 1, strikePassos: -2, vencIndice: -1 }], C, grade);
   assert.equal(posicao.pernas.at(-1).venc, '2027-12-17');
 });
+
+import { deltaEstrutural, creditoEntrada } from '../src/lib/catalogo/protocolo.ts';
+const perna = (id, tipo, q, strike, entrada = 0) => ({ id, tipo, q, strike, venc: '2026-12-18', entrada, vol: 0.4 });
+
+test('delta estrutural: exemplos dos POPs do Prof. Su', () => {
+  assert.equal(deltaEstrutural({ realizado: 0, pernas: [perna('a', 'call', 3, 28), perna('b', 'call', -4, 29), perna('c', 'call', 1, 34)] }), -2);
+  assert.equal(deltaEstrutural({ realizado: 0, pernas: [perna('a', 'call', 1, 110), perna('b', 'call', -2, 114), perna('c', 'call', 1, 120)] }), -2);
+});
+
+test('delta estrutural só existe com soma das quantidades zero, um tipo e um vencimento', () => {
+  assert.equal(deltaEstrutural({ realizado: 0, pernas: [perna('a', 'call', 1, 28), perna('b', 'call', -1, 30), perna('c', 'put', -1, 26)] }), null);
+  assert.equal(deltaEstrutural({ realizado: 0, pernas: [perna('a', 'call', 1, 28), perna('b', 'call', -2, 30)] }), null);
+});
+
+test('crédito de entrada: positivo quando recebe', () => {
+  const p = { realizado: 0, pernas: [perna('a', 'call', 1, 110, 6), perna('b', 'call', -2, 114, 4), perna('c', 'call', 1, 120, 0.5)] };
+  assert.ok(Math.abs(creditoEntrada(p) - 1.5) < 1e-12);
+});

@@ -38,3 +38,24 @@ export function janelaHole(du: number) {
   if (du > 6) return { id: 'travas' as const, nome: 'De 12 a 6 du', texto: 'Janela das travas de alta e de baixa.' };
   return { id: 'final' as const, nome: 'Menos de 6 du', texto: 'Só compras a seco de curtíssimo prazo ou encerramento final de rolagens.' };
 }
+
+/**
+ * Delta estrutural (Teoria Modular): o resultado sem prêmios na extremidade, para estruturas de um só tipo
+ * e um só vencimento com soma das quantidades zero. CALL: Σ(−Q·K) (preço muito alto); PUT: Σ(Q·K) (preço zero).
+ * Ex.: +3 A28 / −4 A29 / +1 A34 → −2,00. Fora dessas condições, null.
+ */
+export function deltaEstrutural(p: Posicao): number | null {
+  const ops = p.pernas.filter((x) => x.tipo !== 'acao');
+  if (!ops.length || ops.length !== p.pernas.length) return null;
+  const tipos = new Set(ops.map((x) => x.tipo)), vencs = new Set(ops.map((x) => x.venc));
+  if (tipos.size !== 1 || vencs.size !== 1) return null;
+  if (Math.abs(ops.reduce((s, x) => s + x.q, 0)) > EPS) return null;
+  const soma = ops.reduce((s, x) => s + x.q * (x.strike ?? 0), 0);
+  const d = ops[0].tipo === 'call' ? -soma : soma;
+  return Math.round(d * 100) / 100;
+}
+
+/** Crédito (+) ou débito (−) da montagem: −Σ q·entrada. */
+export function creditoEntrada(p: Posicao): number {
+  return -p.pernas.reduce((s, x) => s + x.q * x.entrada, 0);
+}

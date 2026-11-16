@@ -275,3 +275,19 @@ Os cenários de manejo seguem a metodologia (pilares, regra dos 10%, regra dos R
 - straddle vendido: a proteção virou PUT longa no vencimento mais longo (como no Straddle com PUT longa).
 
 **Para conferir:** as montagens das Mônadas no catálogo (exemplo de 02/10) nem sempre têm a mesma arquitetura dos exemplos dos POPs do Prof. Su (por exemplo, a quantidade de pontas da Quatermine e da Hexabox). Os cenários usam as pernas que estão no catálogo.
+
+## 4. Estruturas avançadas (POPs do Prof. Su): diferenças entre o catálogo e os POPs
+
+Os cenários de Gradiente (Linha de Mannerheim, GL short put + booster, Asymmetric wings), Booster e Fly, Malha de BWB, Hyperfly, Fly modular, Módulo Q, BWB e Calendar butterfly seguem os POPs passados pelo autor e usam as pernas do catálogo. Pontos para conferir:
+
+| Estrutura | Catálogo | POP do Prof. Su |
+|---|---|---|
+| calendar-butterfly | vende as asas curtas e compra 2 no miolo longo | compra as asas e vende o miolo na série curta |
+| hyperfly | 1 × −3 × 2 | 2 × −3 × 1 |
+| malha-bw | 2 × −3 × 1 | rede de BWBs 1 × −2 × 1 |
+| fly-modular | tem uma PUT vendida (par binário) | só CALLs (+3 / −4 / +1) |
+| modulo-q | só o lado CALL | 4 pernas (CALL e PUT, longas de 3 a 6 meses) |
+
+**Regra de entrada (crédito ≥ delta estrutural):** com os preços atuais, a montagem do catálogo **atende** na BWB e **não atende** na Malha de BWB nem na Hyperfly. A aba Visão mostra o cálculo.
+
+**Sem cenários próprios:** Hedge · ajustes (o POP 02 é o protocolo global, já na página do protocolo) e os Box (o POP 10 trata do Hexabox, que já tem cenários).
