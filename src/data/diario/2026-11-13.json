@@ -1,0 +1,1943 @@
+{
+ "data": "2026-11-13",
+ "spot": 15.1,
+ "sigma": 0.3300445670896653,
+ "estruturas": [
+  {
+   "id": "covered-call",
+   "veredito": "montar",
+   "credito": 0.51,
+   "ev": 0.07548583650198176,
+   "prob": 0.6636805627985297,
+   "venc1": "2026-12-18",
+   "pernas": [
+    {
+     "tipo": "acao",
+     "q": 1,
+     "strike": null,
+     "venc": null,
+     "preco": 15.1
+    },
+    {
+     "tipo": "call",
+     "q": -1,
+     "strike": 15.7,
+     "venc": "2026-12-18",
+     "preco": 0.51
+    }
+   ]
+  },
+  {
+   "id": "cash-put",
+   "veredito": "montar",
+   "credito": 0.25,
+   "ev": 0.11378188190819752,
+   "prob": 0.851465968571936,
+   "venc1": "2026-12-18",
+   "pernas": [
+    {
+     "tipo": "put",
+     "q": -1,
+     "strike": 13.95,
+     "venc": "2026-12-18",
+     "preco": 0.25
+    }
+   ]
+  },
+  {
+   "id": "booster-call",
+   "veredito": "montar",
+   "credito": 0.5900000000000001,
+   "ev": 0.11850965710635064,
+   "prob": 0.695370282634809,
+   "venc1": "2026-12-18",
+   "pernas": [
+    {
+     "tipo": "acao",
+     "q": 1,
+     "strike": null,
+     "venc": null,
+     "preco": 15.1
+    },
+    {
+     "tipo": "call",
+     "q": 1,
+     "strike": 14.45,
+     "venc": "2026-12-18",
+     "preco": 1.15
+    },
+    {
+     "tipo": "call",
+     "q": -2,
+     "strike": 14.95,
+     "venc": "2026-12-18",
+     "preco": 0.87
+    }
+   ]
+  },
+  {
+   "id": "booster-put",
+   "veredito": "montar",
+   "credito": -0.1499999999999999,
+   "ev": 0.16692906997199475,
+   "prob": 0.5005208312842102,
+   "venc1": "2027-01-15",
+   "pernas": [
+    {
+     "tipo": "put",
+     "q": 1,
+     "strike": 16.2,
+     "venc": "2027-01-15",
+     "preco": 1.25
+    },
+    {
+     "tipo": "put",
+     "q": -2,
+     "strike": 14.7,
+     "venc": "2027-01-15",
+     "preco": 0.55
+    }
+   ]
+  },
+  {
+   "id": "b1",
+   "veredito": "montar",
+   "credito": 0.8400000000000002,
+   "ev": 0.44518714983541796,
+   "prob": 0.6704660220385145,
+   "venc1": "2026-12-18",
+   "pernas": [
+    {
+     "tipo": "call",
+     "q": 1,
+     "strike": 13.95,
+     "venc": "2026-12-18",
+     "preco": 1.52
+    },
+    {
+     "tipo": "call",
+     "q": -2,
+     "strike": 14.7,
+     "venc": "2026-12-18",
+     "preco": 1.11
+    },
+    {
+     "tipo": "put",
+     "q": 1,
+     "strike": 15.45,
+     "venc": "2026-12-18",
+     "preco": 0.76
+    },
+    {
+     "tipo": "put",
+     "q": -2,
+     "strike": 14.7,
+     "venc": "2026-12-18",
+     "preco": 0.45
+    }
+   ]
+  },
+  {
+   "id": "b2",
+   "veredito": "montar",
+   "credito": -1.02,
+   "ev": 0.1846189279758501,
+   "prob": 0.5436066626224171,
+   "venc1": "2027-01-15",
+   "pernas": [
+    {
+     "tipo": "call",
+     "q": 1,
+     "strike": 13.7,
+     "venc": "2027-01-15",
+     "preco": 1.85
+    },
+    {
+     "tipo": "call",
+     "q": -2,
+     "strike": 15.7,
+     "venc": "2027-01-15",
+     "preco": 0.68
+    },
+    {
+     "tipo": "put",
+     "q": 1,
+     "strike": 16.7,
+     "venc": "2027-01-15",
+     "preco": 1.63
+    },
+    {
+     "tipo": "put",
+     "q": -2,
+     "strike": 14.7,
+     "venc": "2027-01-15",
+     "preco": 0.55
+    }
+   ]
+  },
+  {
+   "id": "b3-2x3",
+   "veredito": "montar",
+   "credito": 1.2099999999999997,
+   "ev": 0.2091164589632145,
+   "prob": 0.6314404798301909,
+   "venc1": "2027-01-15",
+   "pernas": [
+    {
+     "tipo": "call",
+     "q": 2,
+     "strike": 15.7,
+     "venc": "2027-01-15",
+     "preco": 0.68
+    },
+    {
+     "tipo": "call",
+     "q": -3,
+     "strike": 15.95,
+     "venc": "2027-01-15",
+     "preco": 0.59
+    },
+    {
+     "tipo": "put",
+     "q": 2,
+     "strike": 15.95,
+     "venc": "2027-01-15",
+     "preco": 1.1
+    },
+    {
+     "tipo": "put",
+     "q": -3,
+     "strike": 15.7,
+     "venc": "2027-01-15",
+     "preco": 1
+    }
+   ]
+  },
+  {
+   "id": "b3-3x4",
+   "veredito": "montar",
+   "credito": 1.0199999999999996,
+   "ev": 0.26337973216807475,
+   "prob": 0.6314404798301909,
+   "venc1": "2027-01-15",
+   "pernas": [
+    {
+     "tipo": "call",
+     "q": 3,
+     "strike": 15.7,
+     "venc": "2027-01-15",
+     "preco": 0.68
+    },
+    {
+     "tipo": "call",
+     "q": -4,
+     "strike": 15.95,
+     "venc": "2027-01-15",
+     "preco": 0.59
+    },
+    {
+     "tipo": "put",
+     "q": 3,
+     "strike": 15.95,
+     "venc": "2027-01-15",
+     "preco": 1.1
+    },
+    {
+     "tipo": "put",
+     "q": -4,
+     "strike": 15.7,
+     "venc": "2027-01-15",
+     "preco": 1
+    }
+   ]
+  },
+  {
+   "id": "bwb",
+   "veredito": "montar",
+   "credito": 0.3600000000000003,
+   "ev": 0.24187404858732486,
+   "prob": 1,
+   "venc1": "2026-12-18",
+   "pernas": [
+    {
+     "tipo": "call",
+     "q": 1,
+     "strike": 14.45,
+     "venc": "2026-12-18",
+     "preco": 1.15
+    },
+    {
+     "tipo": "call",
+     "q": -2,
+     "strike": 14.7,
+     "venc": "2026-12-18",
+     "preco": 1.11
+    },
+    {
+     "tipo": "call",
+     "q": 1,
+     "strike": 15.2,
+     "venc": "2026-12-18",
+     "preco": 0.71
+    }
+   ]
+  },
+  {
+   "id": "collar",
+   "veredito": "nao-montar",
+   "credito": -0.020000000000000018,
+   "ev": -0.02105548263062479,
+   "prob": 0.5271557540359603,
+   "venc1": "2026-12-18",
+   "pernas": [
+    {
+     "tipo": "acao",
+     "q": 1,
+     "strike": null,
+     "venc": null,
+     "preco": 15.1
+    },
+    {
+     "tipo": "call",
+     "q": -1,
+     "strike": 15.7,
+     "venc": "2026-12-18",
+     "preco": 0.51
+    },
+    {
+     "tipo": "put",
+     "q": 1,
+     "strike": 14.95,
+     "venc": "2026-12-18",
+     "preco": 0.53
+    }
+   ]
+  },
+  {
+   "id": "bull-spread",
+   "veredito": "nao-montar",
+   "credito": -0.14,
+   "ev": -0.012502447360047658,
+   "prob": 0.2802421625562296,
+   "venc1": "2026-11-27",
+   "pernas": [
+    {
+     "tipo": "call",
+     "q": 1,
+     "strike": 15.5,
+     "venc": "2026-11-27",
+     "preco": 0.28
+    },
+    {
+     "tipo": "call",
+     "q": -1,
+     "strike": 16,
+     "venc": "2026-11-27",
+     "preco": 0.14
+    }
+   ]
+  },
+  {
+   "id": "bear-put-spread",
+   "veredito": "montar",
+   "credito": -0.29999999999999993,
+   "ev": 0.0701271549257293,
+   "prob": 0.7197578374437704,
+   "venc1": "2026-11-27",
+   "pernas": [
+    {
+     "tipo": "put",
+     "q": 1,
+     "strike": 16,
+     "venc": "2026-11-27",
+     "preco": 0.94
+    },
+    {
+     "tipo": "put",
+     "q": -1,
+     "strike": 15.5,
+     "venc": "2026-11-27",
+     "preco": 0.64
+    }
+   ]
+  },
+  {
+   "id": "thl-call",
+   "veredito": "montar",
+   "credito": -0.09999999999999987,
+   "ev": 0.14518613093341792,
+   "prob": 0.9046560312320259,
+   "venc1": "2026-12-18",
+   "pernas": [
+    {
+     "tipo": "call",
+     "q": 1,
+     "strike": 14.7,
+     "venc": "2027-01-15",
+     "preco": 1.21
+    },
+    {
+     "tipo": "call",
+     "q": -1,
+     "strike": 14.7,
+     "venc": "2026-12-18",
+     "preco": 1.11
+    }
+   ]
+  },
+  {
+   "id": "clade",
+   "veredito": "montar",
+   "credito": 0.9600000000000004,
+   "ev": 0.8654714021445103,
+   "prob": 0.6558461603840424,
+   "venc1": "2026-12-18",
+   "pernas": [
+    {
+     "tipo": "call",
+     "q": 3,
+     "strike": 14.7,
+     "venc": "2027-01-15",
+     "preco": 1.21
+    },
+    {
+     "tipo": "call",
+     "q": -4,
+     "strike": 14.7,
+     "venc": "2026-12-18",
+     "preco": 1.11
+    },
+    {
+     "tipo": "put",
+     "q": 3,
+     "strike": 14.7,
+     "venc": "2027-01-15",
+     "preco": 0.55
+    },
+    {
+     "tipo": "put",
+     "q": -4,
+     "strike": 14.7,
+     "venc": "2026-12-18",
+     "preco": 0.45
+    }
+   ]
+  },
+  {
+   "id": "straddle-long-put",
+   "veredito": "montar",
+   "credito": 0.19000000000000006,
+   "ev": 0.15343924612703616,
+   "prob": 0.6704194767256074,
+   "venc1": "2026-11-27",
+   "pernas": [
+    {
+     "tipo": "put",
+     "q": 1,
+     "strike": 14.82,
+     "venc": "2027-04-16",
+     "preco": 0.73
+    },
+    {
+     "tipo": "call",
+     "q": -1,
+     "strike": 15.5,
+     "venc": "2026-11-27",
+     "preco": 0.28
+    },
+    {
+     "tipo": "put",
+     "q": -1,
+     "strike": 15.5,
+     "venc": "2026-11-27",
+     "preco": 0.64
+    }
+   ]
+  },
+  {
+   "id": "mannerheim",
+   "veredito": "montar",
+   "credito": 0.8399999999999999,
+   "ev": 0.2866010294259167,
+   "prob": 0.7095567610142607,
+   "venc1": "2026-12-18",
+   "pernas": [
+    {
+     "tipo": "call",
+     "q": -1,
+     "strike": 14.7,
+     "venc": "2026-12-18",
+     "preco": 1.11
+    },
+    {
+     "tipo": "put",
+     "q": -1,
+     "strike": 13.7,
+     "venc": "2026-12-18",
+     "preco": 0.2
+    },
+    {
+     "tipo": "put",
+     "q": 1,
+     "strike": 13.7,
+     "venc": "2027-01-15",
+     "preco": 0.27
+    },
+    {
+     "tipo": "put",
+     "q": -1,
+     "strike": 14.7,
+     "venc": "2026-12-18",
+     "preco": 0.45
+    },
+    {
+     "tipo": "put",
+     "q": 1,
+     "strike": 14.7,
+     "venc": "2027-01-15",
+     "preco": 0.55
+    },
+    {
+     "tipo": "put",
+     "q": -1,
+     "strike": 15.7,
+     "venc": "2026-12-18",
+     "preco": 0.9
+    },
+    {
+     "tipo": "put",
+     "q": 1,
+     "strike": 15.7,
+     "venc": "2027-01-15",
+     "preco": 1
+    }
+   ]
+  },
+  {
+   "id": "quatermine-v1",
+   "veredito": "montar",
+   "credito": 0.08999999999999997,
+   "ev": 0.14486558827025675,
+   "prob": 0.7495241497336785,
+   "venc1": "2026-11-19",
+   "pernas": [
+    {
+     "tipo": "call",
+     "q": -1,
+     "strike": 15.04,
+     "venc": "2026-11-19",
+     "preco": 0.33
+    },
+    {
+     "tipo": "call",
+     "q": 1,
+     "strike": 15.95,
+     "venc": "2026-12-18",
+     "preco": 0.4
+    },
+    {
+     "tipo": "put",
+     "q": -1,
+     "strike": 15.04,
+     "venc": "2026-11-19",
+     "preco": 0.26
+    },
+    {
+     "tipo": "put",
+     "q": 1,
+     "strike": 14.2,
+     "venc": "2026-12-18",
+     "preco": 0.3
+    },
+    {
+     "tipo": "put",
+     "q": -1,
+     "strike": 15.79,
+     "venc": "2026-11-19",
+     "preco": 0.75
+    },
+    {
+     "tipo": "put",
+     "q": 1,
+     "strike": 14.7,
+     "venc": "2027-01-15",
+     "preco": 0.55
+    }
+   ]
+  },
+  {
+   "id": "quatermine-v2",
+   "veredito": "montar",
+   "credito": 1.3280000000000003,
+   "ev": 0.1863873759039881,
+   "prob": 0.5271557540359603,
+   "venc1": "2026-12-18",
+   "pernas": [
+    {
+     "tipo": "call",
+     "q": 1,
+     "strike": 17.7,
+     "venc": "2027-01-15",
+     "preco": 0.22
+    },
+    {
+     "tipo": "put",
+     "q": -1.6,
+     "strike": 16.2,
+     "venc": "2026-12-18",
+     "preco": 1.25
+    },
+    {
+     "tipo": "put",
+     "q": 1,
+     "strike": 16.2,
+     "venc": "2027-01-15",
+     "preco": 1.25
+    },
+    {
+     "tipo": "put",
+     "q": -1.4,
+     "strike": 16.95,
+     "venc": "2026-12-18",
+     "preco": 1.82
+    },
+    {
+     "tipo": "put",
+     "q": 1,
+     "strike": 16.95,
+     "venc": "2027-01-15",
+     "preco": 1.75
+    }
+   ]
+  },
+  {
+   "id": "hexabox",
+   "veredito": "montar",
+   "credito": 0.3600000000000003,
+   "ev": 0.31089064037445235,
+   "prob": 0.835566225056729,
+   "venc1": "2026-12-18",
+   "pernas": [
+    {
+     "tipo": "call",
+     "q": 1,
+     "strike": 14.45,
+     "venc": "2026-12-18",
+     "preco": 1.15
+    },
+    {
+     "tipo": "call",
+     "q": -2,
+     "strike": 14.7,
+     "venc": "2026-12-18",
+     "preco": 1.11
+    },
+    {
+     "tipo": "put",
+     "q": 1,
+     "strike": 15.7,
+     "venc": "2026-12-18",
+     "preco": 0.9
+    },
+    {
+     "tipo": "put",
+     "q": -2,
+     "strike": 15.45,
+     "venc": "2026-12-18",
+     "preco": 0.76
+    },
+    {
+     "tipo": "call",
+     "q": 1,
+     "strike": 15.45,
+     "venc": "2027-01-15",
+     "preco": 0.78
+    },
+    {
+     "tipo": "put",
+     "q": 1,
+     "strike": 14.7,
+     "venc": "2027-01-15",
+     "preco": 0.55
+    }
+   ]
+  },
+  {
+   "id": "monada-basica-call",
+   "veredito": "montar",
+   "credito": 0.21200000000000013,
+   "ev": 0.20253410172429145,
+   "prob": 0.712107138181994,
+   "venc1": "2026-12-18",
+   "pernas": [
+    {
+     "tipo": "call",
+     "q": 1,
+     "strike": 14.7,
+     "venc": "2027-01-15",
+     "preco": 1.21
+    },
+    {
+     "tipo": "call",
+     "q": -1.2,
+     "strike": 14.7,
+     "venc": "2026-12-18",
+     "preco": 1.11
+    },
+    {
+     "tipo": "put",
+     "q": -0.2,
+     "strike": 14.7,
+     "venc": "2026-12-18",
+     "preco": 0.45
+    }
+   ]
+  },
+  {
+   "id": "monada-basica-put",
+   "veredito": "montar",
+   "credito": 0.21200000000000002,
+   "ev": 0.1050723559208365,
+   "prob": 0.6278957485396898,
+   "venc1": "2026-12-18",
+   "pernas": [
+    {
+     "tipo": "put",
+     "q": 1,
+     "strike": 14.7,
+     "venc": "2027-01-15",
+     "preco": 0.55
+    },
+    {
+     "tipo": "put",
+     "q": -1.2,
+     "strike": 14.7,
+     "venc": "2026-12-18",
+     "preco": 0.45
+    },
+    {
+     "tipo": "call",
+     "q": -0.2,
+     "strike": 14.7,
+     "venc": "2026-12-18",
+     "preco": 1.11
+    }
+   ]
+  },
+  {
+   "id": "call-compra",
+   "veredito": "montar-com-ressalva",
+   "credito": -0.78,
+   "ev": 0.003825549498929659,
+   "prob": 0.3280512762646097,
+   "venc1": "2027-01-15",
+   "pernas": [
+    {
+     "tipo": "call",
+     "q": 1,
+     "strike": 15.45,
+     "venc": "2027-01-15",
+     "preco": 0.78
+    }
+   ]
+  },
+  {
+   "id": "call-venda",
+   "veredito": "montar",
+   "credito": 0.51,
+   "ev": 0.07543673177114202,
+   "prob": 0.7391386187265008,
+   "venc1": "2026-12-18",
+   "pernas": [
+    {
+     "tipo": "call",
+     "q": -1,
+     "strike": 15.7,
+     "venc": "2026-12-18",
+     "preco": 0.51
+    }
+   ]
+  },
+  {
+   "id": "put-compra",
+   "veredito": "nao-montar",
+   "credito": -0.85,
+   "ev": -0.07075327117023367,
+   "prob": 0.3552451737582709,
+   "venc1": "2027-01-15",
+   "pernas": [
+    {
+     "tipo": "put",
+     "q": 1,
+     "strike": 15.45,
+     "venc": "2027-01-15",
+     "preco": 0.85
+    }
+   ]
+  },
+  {
+   "id": "trava-alta-put",
+   "veredito": "montar-com-ressalva",
+   "credito": 0.3,
+   "ev": 0.028835624780852942,
+   "prob": 0.44771857889636335,
+   "venc1": "2026-11-27",
+   "pernas": [
+    {
+     "tipo": "put",
+     "q": -1,
+     "strike": 15.5,
+     "venc": "2026-11-27",
+     "preco": 0.64
+    },
+    {
+     "tipo": "put",
+     "q": 1,
+     "strike": 15,
+     "venc": "2026-11-27",
+     "preco": 0.34
+    }
+   ]
+  },
+  {
+   "id": "trava-baixa-call",
+   "veredito": "montar",
+   "credito": 0.25,
+   "ev": 0.023539667653465407,
+   "prob": 0.5522814211036366,
+   "venc1": "2026-11-27",
+   "pernas": [
+    {
+     "tipo": "call",
+     "q": -1,
+     "strike": 15,
+     "venc": "2026-11-27",
+     "preco": 0.53
+    },
+    {
+     "tipo": "call",
+     "q": 1,
+     "strike": 15.5,
+     "venc": "2026-11-27",
+     "preco": 0.28
+    }
+   ]
+  },
+  {
+   "id": "seagull",
+   "veredito": "montar",
+   "credito": 0.12000000000000001,
+   "ev": 0.12729552715013698,
+   "prob": 0.8299935258234721,
+   "venc1": "2026-12-18",
+   "pernas": [
+    {
+     "tipo": "put",
+     "q": -1,
+     "strike": 13.95,
+     "venc": "2026-12-18",
+     "preco": 0.25
+    },
+    {
+     "tipo": "call",
+     "q": 1,
+     "strike": 16.45,
+     "venc": "2026-12-18",
+     "preco": 0.24
+    },
+    {
+     "tipo": "call",
+     "q": -1,
+     "strike": 17.45,
+     "venc": "2026-12-18",
+     "preco": 0.11
+    }
+   ]
+  },
+  {
+   "id": "fence",
+   "veredito": "montar",
+   "credito": 0.43,
+   "ev": 0.0922783272424148,
+   "prob": 0.695370282634809,
+   "venc1": "2026-12-18",
+   "pernas": [
+    {
+     "tipo": "acao",
+     "q": 1,
+     "strike": null,
+     "venc": null,
+     "preco": 15.1
+    },
+    {
+     "tipo": "call",
+     "q": -1,
+     "strike": 15.7,
+     "venc": "2026-12-18",
+     "preco": 0.51
+    },
+    {
+     "tipo": "put",
+     "q": 1,
+     "strike": 14.95,
+     "venc": "2026-12-18",
+     "preco": 0.53
+    },
+    {
+     "tipo": "put",
+     "q": -1,
+     "strike": 14.7,
+     "venc": "2026-12-18",
+     "preco": 0.45
+    }
+   ]
+  },
+  {
+   "id": "straddle-compra",
+   "veredito": "nao-montar",
+   "credito": -1.63,
+   "ev": -0.06692772167130401,
+   "prob": 0.414535585116849,
+   "venc1": "2027-01-15",
+   "pernas": [
+    {
+     "tipo": "call",
+     "q": 1,
+     "strike": 15.45,
+     "venc": "2027-01-15",
+     "preco": 0.78
+    },
+    {
+     "tipo": "put",
+     "q": 1,
+     "strike": 15.45,
+     "venc": "2027-01-15",
+     "preco": 0.85
+    }
+   ]
+  },
+  {
+   "id": "strangle-compra",
+   "veredito": "nao-montar",
+   "credito": -0.75,
+   "ev": -0.08557377917820716,
+   "prob": 0.3088660979423004,
+   "venc1": "2027-01-15",
+   "pernas": [
+    {
+     "tipo": "call",
+     "q": 1,
+     "strike": 16.2,
+     "venc": "2027-01-15",
+     "preco": 0.48
+    },
+    {
+     "tipo": "put",
+     "q": 1,
+     "strike": 13.7,
+     "venc": "2027-01-15",
+     "preco": 0.27
+    }
+   ]
+  },
+  {
+   "id": "straddle-venda",
+   "veredito": "montar",
+   "credito": 1.56,
+   "ev": 0.2867398539543677,
+   "prob": 0.6704660220385145,
+   "venc1": "2026-12-18",
+   "pernas": [
+    {
+     "tipo": "call",
+     "q": -1,
+     "strike": 14.7,
+     "venc": "2026-12-18",
+     "preco": 1.11
+    },
+    {
+     "tipo": "put",
+     "q": -1,
+     "strike": 14.7,
+     "venc": "2026-12-18",
+     "preco": 0.45
+    }
+   ]
+  },
+  {
+   "id": "strangle-venda",
+   "veredito": "montar",
+   "credito": 0.96,
+   "ev": 0.1887705416441816,
+   "prob": 0.6691296400309391,
+   "venc1": "2026-12-18",
+   "pernas": [
+    {
+     "tipo": "call",
+     "q": -1,
+     "strike": 15.7,
+     "venc": "2026-12-18",
+     "preco": 0.51
+    },
+    {
+     "tipo": "put",
+     "q": -1,
+     "strike": 14.7,
+     "venc": "2026-12-18",
+     "preco": 0.45
+    }
+   ]
+  },
+  {
+   "id": "condor",
+   "veredito": "montar",
+   "credito": 0.36,
+   "ev": 0.06851819522553756,
+   "prob": 0.580601426160405,
+   "venc1": "2026-12-18",
+   "pernas": [
+    {
+     "tipo": "put",
+     "q": 1,
+     "strike": 13.45,
+     "venc": "2026-12-18",
+     "preco": 0.16
+    },
+    {
+     "tipo": "put",
+     "q": -1,
+     "strike": 13.95,
+     "venc": "2026-12-18",
+     "preco": 0.25
+    },
+    {
+     "tipo": "call",
+     "q": -1,
+     "strike": 15.7,
+     "venc": "2026-12-18",
+     "preco": 0.51
+    },
+    {
+     "tipo": "call",
+     "q": 1,
+     "strike": 16.45,
+     "venc": "2026-12-18",
+     "preco": 0.24
+    }
+   ]
+  },
+  {
+   "id": "borboleta",
+   "veredito": "montar-com-ressalva",
+   "credito": -0.029999999999999805,
+   "ev": 0.21298812041538467,
+   "prob": 0.4641360543135156,
+   "venc1": "2026-12-18",
+   "pernas": [
+    {
+     "tipo": "call",
+     "q": 1,
+     "strike": 13.7,
+     "venc": "2026-12-18",
+     "preco": 1.74
+    },
+    {
+     "tipo": "call",
+     "q": -2,
+     "strike": 14.7,
+     "venc": "2026-12-18",
+     "preco": 1.11
+    },
+    {
+     "tipo": "call",
+     "q": 1,
+     "strike": 15.7,
+     "venc": "2026-12-18",
+     "preco": 0.51
+    }
+   ]
+  },
+  {
+   "id": "thl-put",
+   "veredito": "montar",
+   "credito": -0.02999999999999997,
+   "ev": 0.03873162177703887,
+   "prob": 0.5990654481031354,
+   "venc1": "2026-12-18",
+   "pernas": [
+    {
+     "tipo": "put",
+     "q": -1,
+     "strike": 14.7,
+     "venc": "2026-12-18",
+     "preco": 0.45
+    },
+    {
+     "tipo": "put",
+     "q": 1,
+     "strike": 14.45,
+     "venc": "2027-01-15",
+     "preco": 0.48
+    }
+   ]
+  },
+  {
+   "id": "thl-perene",
+   "veredito": "montar",
+   "credito": -0.09999999999999987,
+   "ev": 0.14518613093341792,
+   "prob": 0.9046560312320259,
+   "venc1": "2026-12-18",
+   "pernas": [
+    {
+     "tipo": "call",
+     "q": -1,
+     "strike": 14.7,
+     "venc": "2026-12-18",
+     "preco": 1.11
+    },
+    {
+     "tipo": "call",
+     "q": 1,
+     "strike": 14.7,
+     "venc": "2027-01-15",
+     "preco": 1.21
+    }
+   ]
+  },
+  {
+   "id": "calendar-butterfly",
+   "veredito": "montar",
+   "credito": -0.6900000000000001,
+   "ev": 0.10344135572528868,
+   "prob": 0.6811260292025701,
+   "venc1": "2026-11-27",
+   "pernas": [
+    {
+     "tipo": "call",
+     "q": -1,
+     "strike": 15,
+     "venc": "2026-11-27",
+     "preco": 0.53
+    },
+    {
+     "tipo": "call",
+     "q": 2,
+     "strike": 15.7,
+     "venc": "2027-01-15",
+     "preco": 0.68
+    },
+    {
+     "tipo": "call",
+     "q": -1,
+     "strike": 16,
+     "venc": "2026-11-27",
+     "preco": 0.14
+    }
+   ]
+  },
+  {
+   "id": "booster-fly",
+   "veredito": "montar",
+   "credito": -0.03999999999999998,
+   "ev": 0.04984333117738049,
+   "prob": 0.5627278938513935,
+   "venc1": "2026-12-04",
+   "pernas": [
+    {
+     "tipo": "acao",
+     "q": 1,
+     "strike": null,
+     "venc": null,
+     "preco": 15.1
+    },
+    {
+     "tipo": "call",
+     "q": 1,
+     "strike": 15,
+     "venc": "2026-12-04",
+     "preco": 0.61
+    },
+    {
+     "tipo": "call",
+     "q": -2,
+     "strike": 15.5,
+     "venc": "2026-12-04",
+     "preco": 0.38
+    },
+    {
+     "tipo": "call",
+     "q": 1,
+     "strike": 17.45,
+     "venc": "2027-01-15",
+     "preco": 0.19
+    }
+   ]
+  },
+  {
+   "id": "malha-bw",
+   "veredito": "montar",
+   "credito": -0.6799999999999997,
+   "ev": 0.08249430013101627,
+   "prob": 0.6307827994726924,
+   "venc1": "2026-12-18",
+   "pernas": [
+    {
+     "tipo": "call",
+     "q": 2,
+     "strike": 14.45,
+     "venc": "2026-12-18",
+     "preco": 1.15
+    },
+    {
+     "tipo": "call",
+     "q": -3,
+     "strike": 15.45,
+     "venc": "2026-12-18",
+     "preco": 0.61
+    },
+    {
+     "tipo": "call",
+     "q": 1,
+     "strike": 16.7,
+     "venc": "2026-12-18",
+     "preco": 0.21
+    }
+   ]
+  },
+  {
+   "id": "hyperfly",
+   "veredito": "montar",
+   "credito": 0.3900000000000001,
+   "ev": 0.36222596689167497,
+   "prob": 1,
+   "venc1": "2026-12-18",
+   "pernas": [
+    {
+     "tipo": "call",
+     "q": 1,
+     "strike": 13.95,
+     "venc": "2026-12-18",
+     "preco": 1.52
+    },
+    {
+     "tipo": "call",
+     "q": -3,
+     "strike": 14.7,
+     "venc": "2026-12-18",
+     "preco": 1.11
+    },
+    {
+     "tipo": "call",
+     "q": 2,
+     "strike": 15.2,
+     "venc": "2026-12-18",
+     "preco": 0.71
+    }
+   ]
+  },
+  {
+   "id": "fly-modular",
+   "veredito": "montar",
+   "credito": 0.48000000000000015,
+   "ev": 0.35297118085804713,
+   "prob": 0.851465968571936,
+   "venc1": "2026-12-18",
+   "pernas": [
+    {
+     "tipo": "call",
+     "q": 1,
+     "strike": 14.2,
+     "venc": "2026-12-18",
+     "preco": 1.33
+    },
+    {
+     "tipo": "call",
+     "q": -2,
+     "strike": 14.7,
+     "venc": "2026-12-18",
+     "preco": 1.11
+    },
+    {
+     "tipo": "call",
+     "q": 1,
+     "strike": 15.2,
+     "venc": "2026-12-18",
+     "preco": 0.71
+    },
+    {
+     "tipo": "put",
+     "q": -1,
+     "strike": 14.2,
+     "venc": "2026-12-18",
+     "preco": 0.3
+    }
+   ]
+  },
+  {
+   "id": "modulo-q",
+   "veredito": "montar",
+   "credito": -0.29000000000000004,
+   "ev": 0.1548886857353342,
+   "prob": 0.7028409217014373,
+   "venc1": "2026-11-27",
+   "pernas": [
+    {
+     "tipo": "call",
+     "q": 1,
+     "strike": 14.45,
+     "venc": "2027-01-15",
+     "preco": 1.35
+    },
+    {
+     "tipo": "call",
+     "q": -2,
+     "strike": 15,
+     "venc": "2026-11-27",
+     "preco": 0.53
+    }
+   ]
+  },
+  {
+   "id": "booster-horizontal",
+   "veredito": "montar",
+   "credito": 0.125,
+   "ev": 0.10439129006648276,
+   "prob": 0.7814017766441324,
+   "venc1": "2026-12-18",
+   "pernas": [
+    {
+     "tipo": "put",
+     "q": -1.5,
+     "strike": 14.7,
+     "venc": "2026-12-18",
+     "preco": 0.45
+    },
+    {
+     "tipo": "put",
+     "q": 1,
+     "strike": 14.7,
+     "venc": "2027-01-15",
+     "preco": 0.55
+    }
+   ]
+  },
+  {
+   "id": "linha-mannerheim",
+   "veredito": "montar",
+   "credito": 0.15000000000000036,
+   "ev": 0.5488922026732934,
+   "prob": 0.8299935258234721,
+   "venc1": "2026-12-18",
+   "pernas": [
+    {
+     "tipo": "put",
+     "q": -1,
+     "strike": 14.7,
+     "venc": "2026-12-18",
+     "preco": 0.45
+    },
+    {
+     "tipo": "call",
+     "q": 3,
+     "strike": 14.7,
+     "venc": "2027-01-15",
+     "preco": 1.21
+    },
+    {
+     "tipo": "call",
+     "q": -3,
+     "strike": 14.7,
+     "venc": "2026-12-18",
+     "preco": 1.11
+    }
+   ]
+  },
+  {
+   "id": "gl-shortput-booster",
+   "veredito": "montar",
+   "credito": 1.36,
+   "ev": 0.5771612205520433,
+   "prob": 0.8066281898639224,
+   "venc1": "2026-12-18",
+   "pernas": [
+    {
+     "tipo": "acao",
+     "q": 1,
+     "strike": null,
+     "venc": null,
+     "preco": 15.1
+    },
+    {
+     "tipo": "put",
+     "q": -1,
+     "strike": 14.7,
+     "venc": "2026-12-18",
+     "preco": 0.45
+    },
+    {
+     "tipo": "call",
+     "q": 2,
+     "strike": 14.7,
+     "venc": "2027-01-15",
+     "preco": 1.21
+    },
+    {
+     "tipo": "call",
+     "q": -3,
+     "strike": 14.7,
+     "venc": "2026-12-18",
+     "preco": 1.11
+    }
+   ]
+  },
+  {
+   "id": "asym-wings-diagonal",
+   "veredito": "montar",
+   "credito": -0.20999999999999996,
+   "ev": 0.13817227831872358,
+   "prob": 0.6609438905410375,
+   "venc1": "2026-11-27",
+   "pernas": [
+    {
+     "tipo": "put",
+     "q": 1,
+     "strike": 16,
+     "venc": "2026-11-27",
+     "preco": 0.94
+    },
+    {
+     "tipo": "put",
+     "q": -2,
+     "strike": 15.5,
+     "venc": "2026-11-27",
+     "preco": 0.64
+    },
+    {
+     "tipo": "put",
+     "q": 1,
+     "strike": 14.7,
+     "venc": "2027-01-15",
+     "preco": 0.55
+    }
+   ]
+  },
+  {
+   "id": "straddle-perene",
+   "veredito": "montar",
+   "credito": 0.3500000000000001,
+   "ev": 0.2585199408064575,
+   "prob": 0.7814017766441324,
+   "venc1": "2026-12-18",
+   "pernas": [
+    {
+     "tipo": "put",
+     "q": -1,
+     "strike": 14.7,
+     "venc": "2026-12-18",
+     "preco": 0.45
+    },
+    {
+     "tipo": "call",
+     "q": -1,
+     "strike": 14.7,
+     "venc": "2026-12-18",
+     "preco": 1.11
+    },
+    {
+     "tipo": "call",
+     "q": 1,
+     "strike": 14.7,
+     "venc": "2027-01-15",
+     "preco": 1.21
+    }
+   ]
+  },
+  {
+   "id": "strangle-p",
+   "veredito": "montar",
+   "credito": 1.8800000000000001,
+   "ev": 0.2610430112632847,
+   "prob": 0.7543788812560978,
+   "venc1": "2026-12-18",
+   "pernas": [
+    {
+     "tipo": "call",
+     "q": -1,
+     "strike": 14.7,
+     "venc": "2026-12-18",
+     "preco": 1.11
+    },
+    {
+     "tipo": "call",
+     "q": 1,
+     "strike": 16.2,
+     "venc": "2027-01-15",
+     "preco": 0.48
+    },
+    {
+     "tipo": "put",
+     "q": -1,
+     "strike": 16.2,
+     "venc": "2026-12-18",
+     "preco": 1.25
+    }
+   ]
+  },
+  {
+   "id": "box-perene",
+   "veredito": "montar",
+   "credito": -0.73,
+   "ev": 0.009802109129546988,
+   "prob": 1,
+   "venc1": "2026-12-18",
+   "pernas": [
+    {
+     "tipo": "call",
+     "q": 1,
+     "strike": 14.95,
+     "venc": "2026-12-18",
+     "preco": 0.87
+    },
+    {
+     "tipo": "call",
+     "q": -1,
+     "strike": 15.7,
+     "venc": "2026-12-18",
+     "preco": 0.51
+    },
+    {
+     "tipo": "put",
+     "q": 1,
+     "strike": 15.7,
+     "venc": "2026-12-18",
+     "preco": 0.9
+    },
+    {
+     "tipo": "put",
+     "q": -1,
+     "strike": 14.95,
+     "venc": "2026-12-18",
+     "preco": 0.53
+    }
+   ]
+  },
+  {
+   "id": "box-p",
+   "veredito": "montar",
+   "credito": -1.9,
+   "ev": 0.12928807896120914,
+   "prob": 0.8102138272788422,
+   "venc1": "2026-12-18",
+   "pernas": [
+    {
+     "tipo": "call",
+     "q": 1,
+     "strike": 14.45,
+     "venc": "2027-01-15",
+     "preco": 1.35
+    },
+    {
+     "tipo": "call",
+     "q": -1,
+     "strike": 16.2,
+     "venc": "2026-12-18",
+     "preco": 0.34
+    },
+    {
+     "tipo": "put",
+     "q": 1,
+     "strike": 16.2,
+     "venc": "2027-01-15",
+     "preco": 1.25
+    },
+    {
+     "tipo": "put",
+     "q": -1,
+     "strike": 14.45,
+     "venc": "2026-12-18",
+     "preco": 0.36
+    }
+   ]
+  },
+  {
+   "id": "colar-perene",
+   "veredito": "montar",
+   "credito": 0.05999999999999994,
+   "ev": 0.008554574411979154,
+   "prob": 0.695370282634809,
+   "venc1": "2026-12-18",
+   "pernas": [
+    {
+     "tipo": "acao",
+     "q": 1,
+     "strike": null,
+     "venc": null,
+     "preco": 15.1
+    },
+    {
+     "tipo": "put",
+     "q": 1,
+     "strike": 14.7,
+     "venc": "2027-01-15",
+     "preco": 0.55
+    },
+    {
+     "tipo": "call",
+     "q": -1,
+     "strike": 15.45,
+     "venc": "2026-12-18",
+     "preco": 0.61
+    }
+   ]
+  },
+  {
+   "id": "financiamento",
+   "veredito": "montar",
+   "credito": 1.11,
+   "ev": 0.17345514881216784,
+   "prob": 0.8066281898639224,
+   "venc1": "2026-12-18",
+   "pernas": [
+    {
+     "tipo": "acao",
+     "q": 1,
+     "strike": null,
+     "venc": null,
+     "preco": 15.1
+    },
+    {
+     "tipo": "call",
+     "q": -1,
+     "strike": 14.7,
+     "venc": "2026-12-18",
+     "preco": 1.11
+    }
+   ]
+  },
+  {
+   "id": "dividendo-sint",
+   "veredito": "montar",
+   "credito": 0.153,
+   "ev": 0.022680124262182348,
+   "prob": 0.5622687337979644,
+   "venc1": "2026-12-18",
+   "pernas": [
+    {
+     "tipo": "acao",
+     "q": 1,
+     "strike": null,
+     "venc": null,
+     "preco": 15.1
+    },
+    {
+     "tipo": "call",
+     "q": -0.3,
+     "strike": 15.7,
+     "venc": "2026-12-18",
+     "preco": 0.51
+    }
+   ]
+  },
+  {
+   "id": "anakha",
+   "veredito": "montar",
+   "credito": 0.42999999999999994,
+   "ev": 0.11679625337431232,
+   "prob": 0.6697311653964904,
+   "venc1": "2026-11-19",
+   "pernas": [
+    {
+     "tipo": "call",
+     "q": -1,
+     "strike": 14.54,
+     "venc": "2026-11-19",
+     "preco": 0.7
+    },
+    {
+     "tipo": "put",
+     "q": -1,
+     "strike": 14.54,
+     "venc": "2026-11-19",
+     "preco": 0.11
+    },
+    {
+     "tipo": "call",
+     "q": 1,
+     "strike": 15.5,
+     "venc": "2026-12-04",
+     "preco": 0.38
+    }
+   ]
+  },
+  {
+   "id": "hedge-inverse",
+   "veredito": "montar",
+   "credito": 0.64,
+   "ev": 0.09505063597372188,
+   "prob": 0.6252380967934154,
+   "venc1": "2026-11-27",
+   "pernas": [
+    {
+     "tipo": "call",
+     "q": -1,
+     "strike": 15.5,
+     "venc": "2026-11-27",
+     "preco": 0.28
+    },
+    {
+     "tipo": "call",
+     "q": 1,
+     "strike": 15.5,
+     "venc": "2026-11-27",
+     "preco": 0.28
+    },
+    {
+     "tipo": "put",
+     "q": -1,
+     "strike": 15.5,
+     "venc": "2026-11-27",
+     "preco": 0.64
+    }
+   ]
+  },
+  {
+   "id": "hedge-straddle-din",
+   "veredito": "montar",
+   "credito": 0.92,
+   "ev": 0.1564181017527325,
+   "prob": 0.6410624695750397,
+   "venc1": "2026-11-27",
+   "pernas": [
+    {
+     "tipo": "call",
+     "q": -1,
+     "strike": 15,
+     "venc": "2026-11-27",
+     "preco": 0.53
+    },
+    {
+     "tipo": "call",
+     "q": 1,
+     "strike": 15,
+     "venc": "2026-11-27",
+     "preco": 0.53
+    },
+    {
+     "tipo": "call",
+     "q": -1,
+     "strike": 15.5,
+     "venc": "2026-11-27",
+     "preco": 0.28
+    },
+    {
+     "tipo": "put",
+     "q": -1,
+     "strike": 15.5,
+     "venc": "2026-11-27",
+     "preco": 0.64
+    }
+   ]
+  },
+  {
+   "id": "hedge-booster-h",
+   "veredito": "montar",
+   "credito": 1.4600000000000002,
+   "ev": 0.33446423908433065,
+   "prob": 0.6579541570201374,
+   "venc1": "2026-12-18",
+   "pernas": [
+    {
+     "tipo": "call",
+     "q": -1,
+     "strike": 14.7,
+     "venc": "2026-12-18",
+     "preco": 1.11
+    },
+    {
+     "tipo": "put",
+     "q": -2,
+     "strike": 14.7,
+     "venc": "2026-12-18",
+     "preco": 0.45
+    },
+    {
+     "tipo": "put",
+     "q": 1,
+     "strike": 14.7,
+     "venc": "2027-01-15",
+     "preco": 0.55
+    }
+   ]
+  },
+  {
+   "id": "hedge-calendar-line",
+   "veredito": "montar",
+   "credito": 1.4600000000000002,
+   "ev": 0.4319259848877856,
+   "prob": 0.6984164338828671,
+   "venc1": "2026-12-18",
+   "pernas": [
+    {
+     "tipo": "call",
+     "q": -1,
+     "strike": 14.7,
+     "venc": "2026-12-18",
+     "preco": 1.11
+    },
+    {
+     "tipo": "put",
+     "q": -1,
+     "strike": 14.7,
+     "venc": "2026-12-18",
+     "preco": 0.45
+    },
+    {
+     "tipo": "call",
+     "q": 1,
+     "strike": 14.7,
+     "venc": "2027-01-15",
+     "preco": 1.21
+    },
+    {
+     "tipo": "call",
+     "q": -1,
+     "strike": 14.7,
+     "venc": "2026-12-18",
+     "preco": 1.11
+    }
+   ]
+  },
+  {
+   "id": "hedge-mannerheim",
+   "veredito": "montar",
+   "credito": 1.2600000000000002,
+   "ev": 0.7222982467546215,
+   "prob": 0.712107138181994,
+   "venc1": "2026-12-18",
+   "pernas": [
+    {
+     "tipo": "call",
+     "q": -1,
+     "strike": 14.7,
+     "venc": "2026-12-18",
+     "preco": 1.11
+    },
+    {
+     "tipo": "put",
+     "q": -1,
+     "strike": 14.7,
+     "venc": "2026-12-18",
+     "preco": 0.45
+    },
+    {
+     "tipo": "call",
+     "q": 3,
+     "strike": 14.7,
+     "venc": "2027-01-15",
+     "preco": 1.21
+    },
+    {
+     "tipo": "call",
+     "q": -3,
+     "strike": 14.7,
+     "venc": "2026-12-18",
+     "preco": 1.11
+    }
+   ]
+  },
+  {
+   "id": "hedge-booster-v",
+   "veredito": "montar",
+   "credito": 0.6200000000000001,
+   "ev": 0.2265452566784618,
+   "prob": 0.6704194767256074,
+   "venc1": "2026-11-27",
+   "pernas": [
+    {
+     "tipo": "call",
+     "q": -1,
+     "strike": 15.5,
+     "venc": "2026-11-27",
+     "preco": 0.28
+    },
+    {
+     "tipo": "put",
+     "q": 1,
+     "strike": 16,
+     "venc": "2026-11-27",
+     "preco": 0.94
+    },
+    {
+     "tipo": "put",
+     "q": -2,
+     "strike": 15.5,
+     "venc": "2026-11-27",
+     "preco": 0.64
+    }
+   ]
+  },
+  {
+   "id": "hedge-assimetrico",
+   "veredito": "montar",
+   "credito": -0.08999999999999986,
+   "ev": 0.12963312163453983,
+   "prob": 0.7322823927194589,
+   "venc1": "2026-11-27",
+   "pernas": [
+    {
+     "tipo": "put",
+     "q": -1,
+     "strike": 15,
+     "venc": "2026-11-27",
+     "preco": 0.34
+    },
+    {
+     "tipo": "call",
+     "q": -1,
+     "strike": 15,
+     "venc": "2026-11-27",
+     "preco": 0.53
+    },
+    {
+     "tipo": "call",
+     "q": 2,
+     "strike": 16.2,
+     "venc": "2027-01-15",
+     "preco": 0.48
+    }
+   ]
+  },
+  {
+   "id": "hedge-straddle-ha",
+   "veredito": "montar",
+   "credito": -0.08999999999999986,
+   "ev": 0.12963312163453983,
+   "prob": 0.7322823927194589,
+   "venc1": "2026-11-27",
+   "pernas": [
+    {
+     "tipo": "put",
+     "q": -1,
+     "strike": 15,
+     "venc": "2026-11-27",
+     "preco": 0.34
+    },
+    {
+     "tipo": "call",
+     "q": -1,
+     "strike": 15,
+     "venc": "2026-11-27",
+     "preco": 0.53
+    },
+    {
+     "tipo": "call",
+     "q": 2,
+     "strike": 16.2,
+     "venc": "2027-01-15",
+     "preco": 0.48
+    }
+   ]
+  }
+ ]
+}

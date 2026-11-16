@@ -184,3 +184,9 @@ button.ver-traj:hover { border-color: var(--marca); }
 button.ver-traj[hidden] { display: none; }
 /* No celular o SVG encolhe ~40%: rótulos maiores em unidades do viewBox para continuarem legíveis. */
 @media (max-width: 640px) { .traj-svg .g-rot { font-size: 17px; } }
+
+/* Diário do operador */
+.hoje-lista li.diario-ok { border-left-color: var(--lucro); }
+.hoje-lista li.diario-erro { border-left-color: var(--prejuizo); }
+.hoje-lista li.diario-pendente { border-left-color: var(--borda-forte); }
+.hoje-grupo h3.mini { margin: 1.2rem 0 0; }

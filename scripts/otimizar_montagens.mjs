@@ -3,7 +3,8 @@
 // e grava src/data/laboratorio/mercado.csv, src/data/laboratorio/validacao.json e o relatório de validação.
 //
 // Uso: node scripts/otimizar_montagens.mjs src/data/grades/bbas3-AAAA-MM-DD.json src/data/candles/bbas3-AAAA-MM-DD.json [relatorio.md]
-import { readFileSync, writeFileSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
+import { registroDe } from '../src/lib/otimizacao/diario.ts';
 import { volRealizada, seriesDaGrade, otimizar, janela } from '../src/lib/otimizacao/otimizar.ts';
 import { metricasVencimento } from '../src/lib/motor/metricas.ts';
 import { gregasPosicao } from '../src/lib/motor/posicao.ts';
@@ -109,6 +110,9 @@ writeFileSync(new URL('src/data/laboratorio/mercado.csv', RAIZ), '﻿' + [...cab
 const ivs = validacao.map((v) => v.contexto.ivAtm);
 const mercadoInfo = { data, ativo: G.ativo, spot, sigma, sigmaEstresse, ...hv, tendencia, m20: ult.m20, m50: ult.m50, m200: ult.m200, ivMin: Math.min(...ivs), ivMax: Math.max(...ivs) };
 writeFileSync(new URL('src/data/laboratorio/validacao.json', RAIZ), JSON.stringify({ mercado: mercadoInfo, estruturas: validacao }, null, 1) + '\n');
+// Diário do operador: um registro por grade, para conferir os vereditos no vencimento (/estrategias/diario/).
+mkdirSync(new URL('src/data/diario/', RAIZ), { recursive: true });
+writeFileSync(new URL(`src/data/diario/${data}.json`, RAIZ), JSON.stringify(registroDe({ mercado: mercadoInfo, estruturas: validacao }), null, 1) + '\n');
 
 // Relatório
 const nome = Object.fromEntries(E.map((e) => [e.id, e.nome]));
