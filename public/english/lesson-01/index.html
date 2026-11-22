@@ -21,10 +21,10 @@
 <li>Confirme a prévia e conclua a importação.</li></ol>
 <p class="small">O CSV completo mantém todos os cartões de leitura e interpretação. O CSV TTS contém apenas conteúdo pronunciável em inglês na frente, com a tradução em português no verso.</p>
 <h3>Ativar pronúncia automática uma única vez</h3>
-<ol><li>Importe o <strong>CSV TTS</strong> num tipo de nota <strong>Basic (Básico)</strong> próprio para o curso; recomendamos duplicar o tipo de nota Basic e dar o nome <strong>Opcionando English TTS</strong>.</li>
+<ol><li>Antes de importar, duplique o tipo de nota <strong>Basic (Básico)</strong> e dê a ele o nome exato <strong>Opcionando English TTS</strong>. A importação TTS seleciona esse tipo de nota.</li>
 <li>No Anki Desktop, abra <strong>Ferramentas → Gerenciar Tipos de Nota → Opcionando English TTS → Cartões</strong>.</li>
 <li>No modelo da frente, mantenha <code>{{Front}}</code> e acrescente abaixo <code>{{tts en_US:Front}}</code>.</li>
-<li>Salve. A frente será lida em inglês durante a revisão; a tradução permanece no verso. Para repetir, use o botão de áudio do Anki.</li></ol>
+<li>Salve e importe o CSV TTS em <strong>Arquivo → Importar</strong>. Confira a seleção do tipo de nota Opcionando English TTS e dos campos Front, Back e Tags. A frente será lida em inglês durante a revisão; a tradução permanece no verso. Para repetir, use o botão de áudio do Anki.</li></ol>
 <p class="small">A disponibilidade e a qualidade da voz dependem do Anki e das vozes instaladas no sistema. Este recurso não exige MP3 nem API paga. Para evitar pronúncia de prefixos ou português, use o arquivo específico “Anki TTS”.</p></details>
 </section>
 <section class="card wide reading" id="practice"><p class="eyebrow">Comprehension + Application</p><h2>Check your understanding</h2><div class="question"><p><strong>1. What does GDP mean?</strong></p><label><input type="radio" name="q1" value="a"> Gross Domestic Product</label><label><input type="radio" name="q1" value="b"> Global Daily Price</label></div><div class="question"><p><strong>2. Growth falls from 4% to 1%. Is the economy contracting?</strong></p><label><input type="radio" name="q2" value="a"> Yes. The economy is contracting.</label><label><input type="radio" name="q2" value="b"> No. The economy is growing more slowly.</label></div><button class="primary" id="check">Check answers</button><p class="result" id="result" role="status"></p><h2>Speaking challenge</h2><p>Read aloud: <strong>“GDP measures economic activity. Positive growth means the economy is expanding, even when growth slows down.”</strong></p><p class="note">Dica: ouça, pause e repita sem olhar a tradução. Depois explique a diferença entre “slowdown” e “contraction”.</p></section>
@@ -60,7 +60,7 @@ function makeAnkiTtsCsv(){
  data.forEach((d,i)=>add(d.text,d.pt,'sentences'));
  ankiVocabulary.forEach(([en,pt])=>add(en,pt,'vocabulary'));
  add('GDP measures the value of goods and services produced in a country during a period.','O PIB mede o valor dos bens e serviços produzidos em um país durante um período.','concept');
- const head=['#separator:Comma','#html:false','#notetype:Basic','#deck:Opcionando English::Lesson 01 TTS','#columns:Front,Back,Tags','#tags column:3'];
+ const head=['#separator:Comma','#html:false','#notetype:Opcionando English TTS','#deck:Opcionando English::Lesson 01 TTS','#columns:Front,Back,Tags','#tags column:3'];
  return {content:head.join('\r\n')+'\r\n'+cards.map(row=>row.map(csvQuote).join(',')).join('\r\n')+'\r\n',count:cards.length};
 }
 function makeAnkiCsv(){
