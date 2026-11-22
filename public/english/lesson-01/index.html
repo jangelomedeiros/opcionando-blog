@@ -61,7 +61,7 @@ function makeAnkiTtsCsv(){
  ankiVocabulary.forEach(([en,pt])=>add(en,pt,'vocabulary'));
  add('GDP measures the value of goods and services produced in a country during a period.','O PIB mede o valor dos bens e serviços produzidos em um país durante um período.','concept');
  const head=['#separator:Comma','#html:false','#notetype:Basic','#deck:Opcionando English::Lesson 01 TTS','#columns:Front,Back,Tags','#tags column:3'];
- return {content:head.join('\\r\\n')+'\\r\\n'+cards.map(row=>row.map(csvQuote).join(',')).join('\\r\\n')+'\\r\\n',count:cards.length};
+ return {content:head.join('\r\n')+'\r\n'+cards.map(row=>row.map(csvQuote).join(',')).join('\r\n')+'\r\n',count:cards.length};
 }
 function makeAnkiCsv(){
  const cards=[];
@@ -78,7 +78,7 @@ function makeAnkiCsv(){
 $('anki-tts-export').onclick=()=>{
  try {
   const file=makeAnkiTtsCsv();
-  const blob=new Blob(['\\uFEFF'+file.content],{type:'text/csv;charset=utf-8'});
+  const blob=new Blob(['\uFEFF'+file.content],{type:'text/csv;charset=utf-8'});
   const href=URL.createObjectURL(blob);const a=document.createElement('a');
   a.href=href;a.download='opcionando-english-lesson-01-anki-tts.csv';document.body.append(a);a.click();a.remove();
   setTimeout(()=>URL.revokeObjectURL(href),10000);
