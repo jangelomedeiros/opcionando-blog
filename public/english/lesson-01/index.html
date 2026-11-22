@@ -12,14 +12,20 @@
 <section class="card wide" id="anki" aria-labelledby="anki-title">
 <p class="eyebrow">Spaced repetition · Anki</p><h2 id="anki-title">Review this lesson in Anki</h2>
 <p>Exporte o conteúdo da lição para revisar com repetição espaçada: texto completo, 9 frases com tradução, vocabulário financeiro, interpretação e aplicação.</p>
-<div class="controls"><button id="anki-export" class="primary" type="button">↓ Baixar cartões para Anki (.csv)</button><span class="tag">25+ cartões · UTF-8</span></div>
+<div class="controls"><button id="anki-export" class="primary" type="button">↓ Exportar lição completa (.csv)</button><button id="anki-tts-export" type="button">🔊 Exportar frases para Anki TTS (.csv)</button><span class="tag">31 cartões completos + 22 cartões de pronúncia</span></div>
 <p id="anki-status" class="status" role="status" aria-live="polite"></p>
 <details><summary>Como importar no Anki (Windows)</summary><ol>
 <li>Baixe o arquivo CSV acima.</li><li>No Anki, abra <strong>Arquivo → Importar</strong> e selecione o CSV.</li>
 <li>Selecione o tipo de nota <strong>Basic (Básico)</strong> e o baralho <strong>Opcionando English::Lesson 01</strong> (crie-o se necessário).</li>
 <li>Confira os campos: <strong>Front → Frente</strong>, <strong>Back → Verso</strong> e <strong>Tags → Etiquetas</strong>.</li>
 <li>Confirme a prévia e conclua a importação.</li></ol>
-<p class="small">O arquivo contém texto e respostas comentadas. A voz do navegador não é exportada como MP3; para áudio no Anki, será preciso configurar TTS no modelo de cartão ou adicionar arquivos de áudio separadamente.</p></details>
+<p class="small">O CSV completo mantém todos os cartões de leitura e interpretação. O CSV TTS contém apenas conteúdo pronunciável em inglês na frente, com a tradução em português no verso.</p>
+<h3>Ativar pronúncia automática uma única vez</h3>
+<ol><li>Importe o <strong>CSV TTS</strong> num tipo de nota <strong>Basic (Básico)</strong> próprio para o curso; recomendamos duplicar o tipo de nota Basic e dar o nome <strong>Opcionando English TTS</strong>.</li>
+<li>No Anki Desktop, abra <strong>Ferramentas → Gerenciar Tipos de Nota → Opcionando English TTS → Cartões</strong>.</li>
+<li>No modelo da frente, mantenha <code>{{Front}}</code> e acrescente abaixo <code>{{tts en_US:Front}}</code>.</li>
+<li>Salve. A frente será lida em inglês durante a revisão; a tradução permanece no verso. Para repetir, use o botão de áudio do Anki.</li></ol>
+<p class="small">A disponibilidade e a qualidade da voz dependem do Anki e das vozes instaladas no sistema. Este recurso não exige MP3 nem API paga. Para evitar pronúncia de prefixos ou português, use o arquivo específico “Anki TTS”.</p></details>
 </section>
 <section class="card wide reading" id="practice"><p class="eyebrow">Comprehension + Application</p><h2>Check your understanding</h2><div class="question"><p><strong>1. What does GDP mean?</strong></p><label><input type="radio" name="q1" value="a"> Gross Domestic Product</label><label><input type="radio" name="q1" value="b"> Global Daily Price</label></div><div class="question"><p><strong>2. Growth falls from 4% to 1%. Is the economy contracting?</strong></p><label><input type="radio" name="q2" value="a"> Yes. The economy is contracting.</label><label><input type="radio" name="q2" value="b"> No. The economy is growing more slowly.</label></div><button class="primary" id="check">Check answers</button><p class="result" id="result" role="status"></p><h2>Speaking challenge</h2><p>Read aloud: <strong>“GDP measures economic activity. Positive growth means the economy is expanding, even when growth slows down.”</strong></p><p class="note">Dica: ouça, pause e repita sem olhar a tradução. Depois explique a diferença entre “slowdown” e “contraction”.</p></section>
 </main><footer>Opcionando English Edition · Aula educativa gratuita · Não constitui recomendação de investimento.</footer>
@@ -48,6 +54,15 @@ const ankiQuestions=[
 ["Why do investors pay attention to new information?","Because new information can change expectations about future economic growth."]
 ];
 function csvQuote(value){return '"'+String(value).replace(/"/g,'""').replace(/\r?\n/g,' ')+'"';}
+function makeAnkiTtsCsv(){
+ const cards=[];
+ const add=(front,back,tags)=>cards.push([front,back,'opcionando english lesson01 tts '+tags]);
+ data.forEach((d,i)=>add(d.text,d.pt,'sentences'));
+ ankiVocabulary.forEach(([en,pt])=>add(en,pt,'vocabulary'));
+ add('GDP measures the value of goods and services produced in a country during a period.','O PIB mede o valor dos bens e serviços produzidos em um país durante um período.','concept');
+ const head=['#separator:Comma','#html:false','#notetype:Basic','#deck:Opcionando English::Lesson 01 TTS','#columns:Front,Back,Tags','#tags column:3'];
+ return {content:head.join('\\r\\n')+'\\r\\n'+cards.map(row=>row.map(csvQuote).join(',')).join('\\r\\n')+'\\r\\n',count:cards.length};
+}
 function makeAnkiCsv(){
  const cards=[];
  const add=(front,back,tags)=>cards.push([front,back,'opcionando english lesson01 '+tags]);
@@ -60,6 +75,16 @@ function makeAnkiCsv(){
  const head=['#separator:Comma','#html:false','#notetype:Basic','#deck:Opcionando English::Lesson 01','#columns:Front,Back,Tags','#tags column:3'];
  return {content:head.join('\r\n')+'\r\n'+cards.map(row=>row.map(csvQuote).join(',')).join('\r\n')+'\r\n',count:cards.length};
 }
+$('anki-tts-export').onclick=()=>{
+ try {
+  const file=makeAnkiTtsCsv();
+  const blob=new Blob(['\\uFEFF'+file.content],{type:'text/csv;charset=utf-8'});
+  const href=URL.createObjectURL(blob);const a=document.createElement('a');
+  a.href=href;a.download='opcionando-english-lesson-01-anki-tts.csv';document.body.append(a);a.click();a.remove();
+  setTimeout(()=>URL.revokeObjectURL(href),10000);
+  $('anki-status').textContent=file.count+' cartões de pronúncia preparados. Importe no Anki e configure o TTS no modelo uma vez.';
+ } catch(err){$('anki-status').textContent='Falha na exportação TTS. Atualize a página e tente novamente.';}
+};
 $('anki-export').onclick=()=>{
  try{
   const file=makeAnkiCsv();
